@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--=============== CSS ===============-->
+
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>Onshore Technical Supplies</title>
+
+</head>
+
+<body>
+    <header>
+
+        <nav>
+            <div class="wrapper container">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
+                    </a>
+                </div>
+
+                <input type="radio" name="slide" id="menu-btn">
+                <input type="radio" name="slide" id="cancel-btn">
+                <ul class="nav-links">
+                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
+
+                    <li><a href="index.html">Home</a></li>
+
+
+
+
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="industries.html">Industries</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="blog.html">News & Blogs</a></li>
+
+
+
+
+
+
+
+
+                </ul>
+
+                <div>
+                    <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
+                </div>
+
+                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <div class="page_banner">
+            <div class="container">
+                <div class="page_banner_content">
+                    <h6>Products</h6>
+                    <ul>
+                        <li class="home"><a href="index.html">Home</a></li> /
+                        <li>Products</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <section class="products section">
+            <div class="container">
+                <!-- <div class="row mb-5">
+                    <div class="col-md-3 col-12">
+                        <select class="form-select filter_select" aria-label="Default select example">
+                            <option selected>All Products</option>
+                            <option value="1">Welding</option>
+                            <option value="2">Safety</option>
+                            <option value="3">Lifting</option>
+                            <option value="4">Abrasive</option>
+                        </select>
+                    </div>
+                </div> -->
+
+
+                <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-p1-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-p1" type="button" role="tab" aria-controls="pills-p1"
+                            aria-selected="true">Welding</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-p2-tab" data-bs-toggle="pill" data-bs-target="#pills-p2"
+                            type="button" role="tab" aria-controls="pills-p2" aria-selected="false">Safety</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-p3-tab" data-bs-toggle="pill" data-bs-target="#pills-p3"
+                            type="button" role="tab" aria-controls="pills-p3" aria-selected="false">Lifting</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-p4-tab" data-bs-toggle="pill" data-bs-target="#pills-p4"
+                            type="button" role="tab" aria-controls="pills-p4" aria-selected="false">Abrasive</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-p1" role="tabpanel" aria-labelledby="pills-p1-tab">
+
+                        <div class="product_grid">
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p1.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Safety Helmet</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p2.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Safety Glasses</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p8.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Welding Hand Shield</h6>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-p2" role="tabpanel" aria-labelledby="pills-p2-tab">
+                        <div class="product_grid">
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p1.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Safety Helmet</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p2.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Safety Glasses</h6>
+                            </div>
+
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p4.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Safety Gloves</h6>
+                            </div>
+
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p8.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Welding Hand Shield</h6>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-p3" role="tabpanel" aria-labelledby="pills-p3-tab">
+                        <div class="product_grid">
+
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p3.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Chain Sling</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p6.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Locking Carabiner</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-p4" role="tabpanel" aria-labelledby="pills-p4-tab">
+                        <div class="product_grid">
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p9.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Wire Cup Brush</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p10.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Cutting Wheel / Disc</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p11.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Circular Saw Blade</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p12.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Flap Disc</h6>
+                            </div>
+                            <div class="product">
+                                <div class="product_image">
+                                    <img src="assets/img/products/p13.webp" class="img-fluid" alt="">
+                                </div>
+                                <h6 class="product_name">Fiber Sanding Disc</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+<footer>
+        <div class="container">
+
+            <div class="footer_container">
+                <div class="footer_column">
+                    <div class="footer_logo">
+                        <img src="assets/img/logo.png" class="img-fluid" alt="">
+                    </div>
+
+                    <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower industries with quality and trust</p>
+
+                    <ul class="social_links">
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"><i class="ri-facebook-circle-line"></i></a></li>
+                        
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/"><i class="ri-instagram-line"></i></a></li>
+                        
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"><i class="ri-youtube-fill"></i></a></li>
+                        
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"><i class="ri-linkedin-box-fill"></i></a></li>
+                        
+                        <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US" target="_blank"><i class="ri-snapchat-line"></i></a></li>
+                        
+                        <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1" target="_blank"><i class="fa-brands fa-tiktok"></i></a></li>
+                        
+                        
+                        
+                    </ul>
+                </div>
+
+
+
+
+
+                <div class="footer_column">
+                    <h6 class="footer_title">More Links</h6>
+
+                    <ul>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="index.html"> Home</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
+                    </ul>
+
+
+                </div>
+
+                <div class="footer_column contact-details">
+                    <h6 class="footer_title">Get In Touch</h6>
+
+                    <p>Location</p>
+                    <span>PO BOX 6341, 10th Street
+                        Dammam 31442, Kingdom of Saudi Arabia</span>
+
+                    <p>Mobile</p>
+                    <a href="#">+966 5650 524 46</a>
+
+
+                    <p>E-Mail Address</p>
+                    <a href="#">info@onshoretechnical.com</a>
+                </div>
+
+            </div>
+            
+            <div class="copyright text-center">
+                <p>© 2025 <span style="color:#0177c6;">Onshore</span> All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <script>
+        $(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 0) {
+                    $(".logo img").attr("src", "assets/img/logo.png");
+                }
+                else {
+                    $(".logo img").attr("src", "assets/img/white-logo.png");
+                }
+            })
+        })
+
+        // Page Banner
+
+        ScrollReveal().reveal('.page_banner_content h6', {
+            origin: 'top',
+            distance: '40px',
+            duration: 900,
+            delay: 200,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.page_banner_content ul li', {
+            origin: 'bottom',
+            distance: '20px',
+            duration: 800,
+            delay: 400,
+            opacity: 0,
+            interval: 150,
+            easing: 'ease-in-out'
+        });
+
+
+
+        ScrollReveal().reveal('.nav-pills', {
+            origin: 'bottom',
+            distance: '20px',
+            duration: 800,
+            delay: 400,
+            opacity: 0,
+            interval: 150,
+            easing: 'ease-in-out'
+        });
+        ScrollReveal().reveal('.tab-content', {
+            origin: 'top',
+            distance: '20px',
+            duration: 800,
+            delay: 400,
+            opacity: 0,
+            interval: 150,
+            easing: 'ease-in-out'
+        });
+
+
+       
+
+
+
+
+
+
+        // Contact Section
+
+        ScrollReveal().reveal('.contact .main_heading', {
+            origin: 'left',
+            distance: '80px',
+            duration: 1000,
+            delay: 200,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.contact .contact_number', {
+            origin: 'right',
+            distance: '80px',
+            duration: 1000,
+            delay: 400,
+            scale: 0.9,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.contact .contact_number .icon', {
+            scale: 0.8,
+            duration: 800,
+            delay: 600,
+            easing: 'ease-out'
+        });
+
+
+        // brands
+
+        ScrollReveal().reveal('.brands .section-title', {
+            origin: 'top',
+            distance: '30px',
+            duration: 800,
+            delay: 100,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.brands .item', {
+            origin: 'bottom',
+            distance: '40px',
+            duration: 900,
+            delay: 200,
+            opacity: 0,
+            easing: 'ease-in-out',
+            interval: 150
+        });
+
+
+
+        // Footer
+
+        ScrollReveal().reveal('.footer_logo, .footer_desc', {
+            origin: 'left',
+            distance: '40px',
+            duration: 900,
+            delay: 100,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.social_links li', {
+            origin: 'bottom',
+            distance: '20px',
+            duration: 800,
+            delay: 200,
+            opacity: 0,
+            easing: 'ease-in-out',
+            interval: 120
+        });
+
+        ScrollReveal().reveal('.footer_column', {
+            origin: 'bottom',
+            distance: '50px',
+            duration: 1000,
+            delay: 300,
+            opacity: 0,
+            easing: 'ease-in-out',
+            interval: 200
+        });
+
+    </script>
+
+</body>
+
+
+</html>
