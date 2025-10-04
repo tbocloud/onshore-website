@@ -1,0 +1,38 @@
+name: Deploy TeamBackOffice Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync ./ s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*" --exclude ".DS_Store"
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          echo '{"Paths":{"Quantity":1,"Items":["/*"]},"CallerReference":"'$(date +%s)'"}' > invalidation.json
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} --invalidation-batch file://invalidation.json
+
+      - name: Deployment Status
+        run: |
+          echo "🚀 Deployment completed successfully!"
+          echo "📁 S3 Bucket: ${{ secrets.S3_BUCKET }}"
+          echo "🌐 CloudFront Distribution: ${{ secrets.CLOUDFRONT_DIST_ID }}"
+          echo "🔗 Your website is live!"
+          echo "✅ CloudFront cache invalidated - changes should be visible immediately"
