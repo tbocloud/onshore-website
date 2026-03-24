@@ -537,6 +537,24 @@ var QuoteCart = (function ($) {
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="quoteStatusModal" tabindex="-1" aria-labelledby="quoteStatusModalLabel" aria-hidden="true" style="z-index: 100001;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 0;">
+                        <div class="modal-header" style="background-color: #f8f8f8; border-bottom: 1px solid #ddd;">
+                            <h5 class="modal-title" id="quoteStatusModalLabel" style="font-weight: 700; color: #333;">Request Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 30px; text-align: center;">
+                            <div id="quote-status-icon" style="font-size: 40px; margin-bottom: 15px; line-height: 1;"></div>
+                            <h6 id="quote-status-title" style="font-weight: 700; margin-bottom: 10px; color: #333;"></h6>
+                            <p id="quote-status-message" style="margin: 0; color: #666;"></p>
+                        </div>
+                        <div class="modal-footer" style="border-top: 1px solid #ddd;">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="background-color: #0275c6; border-color: #0275c6;">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         `;
 
         $('body').append(sidebarHtml);
@@ -664,6 +682,22 @@ var QuoteCart = (function ($) {
         $('.cart-overlay').removeClass('active');
     }
 
+    function showStatusPopup(type, message) {
+        var modalElement = document.getElementById('quoteStatusModal');
+        var modalInstance;
+        var title = type === 'success' ? 'Request Submitted' : 'Request Failed';
+        var icon = type === 'success'
+            ? '<i class="ri-checkbox-circle-line" style="color: #198754;"></i>'
+            : '<i class="ri-error-warning-line" style="color: #dc3545;"></i>';
+
+        $('#quote-status-title').text(title);
+        $('#quote-status-message').text(message);
+        $('#quote-status-icon').html(icon);
+
+        modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modalInstance.show();
+    }
+
     function bindEvents() {
         $(document).on('click', '.add-to-cart-btn', function (e) {
             e.preventDefault();
@@ -754,9 +788,10 @@ var QuoteCart = (function ($) {
             var $form = $(this);
             var $btn = $form.find('button[type="submit"]');
             var payload;
+            var quoteModalInstance;
 
             if (cart.length === 0) {
-                alert('Your quote basket is empty.');
+                showStatusPopup('error', 'Your quote basket is empty.');
                 return;
             }
 
@@ -789,9 +824,12 @@ var QuoteCart = (function ($) {
                 },
                 data: JSON.stringify(payload),
                 success: function (response) {
-                    alert('Thank you! Your quote request has been submitted successfully.');
-                    var modal = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
-                    modal.hide();
+                    quoteModalInstance = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
+                    if (quoteModalInstance) {
+                        quoteModalInstance.hide();
+                    }
+
+                    showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
 
                     // Clear cart
                     cart = [];
@@ -799,7 +837,8 @@ var QuoteCart = (function ($) {
                     QuoteCart.init(); // Refresh UI
                 },
                 error: function (err) {
-                    alert('Oops! Something went wrong while sending your request. Please try again or contact us directly.');
+                    console.error('Quote request failed:', err);
+                    showStatusPopup('error', 'Oops! Something went wrong while sending your request. Please try again or contact us directly.');
                 },
                 complete: function () {
                     $btn.text('Submit Request').prop('disabled', false);
