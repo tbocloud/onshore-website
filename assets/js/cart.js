@@ -7,9 +7,11 @@ var QuoteCart = (function ($) {
     "use strict";
 
     var STORAGE_KEY = 'onshore_quote_cart';
+    var REQUEST_QUOTE_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.create_request_quote';
+    var REQUEST_QUOTE_AUTH = 'token9897e6ee3838b6c:06d7193075244d6';
     var cart = [];
-
     function init() {
+
         injectCartSidebar();
         loadCart();
         updateCartCount();
@@ -71,15 +73,11 @@ var QuoteCart = (function ($) {
                                 </div>
                             </div>
                             <!-- Form Section -->
-                            <form id="quote-form-modal" action="https://api.web3forms.com/submit" method="POST">
-                                <input type="hidden" name="access_key" value="12c3159a-b572-4a93-86fd-769ead133dd6">
-                                <input type="hidden" id="modal_quote_items_data" name="items">
-                                <input type="hidden" name="from_name" value="Onshore Technical Supplies - Quote Request">
-                                <input type="hidden" name="subject" value="New Quote Request from onshoretechnical.com.sa">
+                            <form id="quote-form-modal">
                                 <div class="row">
                                     <div class="col-md-6" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Full Name *</label>
-                                        <input type="text" name="name" required class="form-control">
+                                        <input type="text" name="full_name" required class="form-control">
                                     </div>
                                     <div class="col-md-6" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Email *</label>
@@ -87,7 +85,7 @@ var QuoteCart = (function ($) {
                                     </div>
                                     <div class="col-md-6" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Company Name</label>
-                                        <input type="text" name="company" class="form-control">
+                                        <input type="text" name="company_name" class="form-control">
                                     </div>
                                     <div class="col-md-6" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Country *</label>
@@ -755,17 +753,41 @@ var QuoteCart = (function ($) {
             e.preventDefault();
             var $form = $(this);
             var $btn = $form.find('button[type="submit"]');
+            var payload;
 
-            // Sync cart data to the hidden input before sending
-            $('#modal_quote_items_data').val(JSON.stringify(cart));
+            if (cart.length === 0) {
+                alert('Your quote basket is empty.');
+                return;
+            }
 
-            var formData = $form.serialize();
+            payload = {
+                full_name: ($form.find('[name="full_name"]').val() || '').trim(),
+                email: ($form.find('[name="email"]').val() || '').trim(),
+                mobile_number: ($form.find('[name="phone"]').val() || '').trim(),
+                mobile_country_code: $form.find('[name="country_code"] option:selected').text().trim(),
+                country: ($form.find('[name="country"]').val() || '').trim(),
+                company_name: ($form.find('[name="company_name"]').val() || '').trim(),
+                district: ($form.find('[name="district"]').val() || '').trim(),
+                message: ($form.find('[name="message"]').val() || '').trim(),
+                items: cart.map(function (item) {
+                    return {
+                        item_code: item.id,
+                        item_name: item.name,
+                        qty: item.qty
+                    };
+                })
+            };
+
             $btn.text('Sending...').prop('disabled', true);
 
             $.ajax({
-                url: 'https://api.web3forms.com/submit',
+                url: REQUEST_QUOTE_URL,
                 method: 'POST',
-                data: formData,
+                contentType: 'application/json',
+                headers: {
+                    Authorization: REQUEST_QUOTE_AUTH
+                },
+                data: JSON.stringify(payload),
                 success: function (response) {
                     alert('Thank you! Your quote request has been submitted successfully.');
                     var modal = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
@@ -789,7 +811,6 @@ var QuoteCart = (function ($) {
         if (modalEl) {
             modalEl.addEventListener('show.bs.modal', function () {
                 closeSidebar();
-                $('#modal_quote_items_data').val(JSON.stringify(cart));
                 renderModalCartSpace();
             });
         }
