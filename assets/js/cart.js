@@ -14,6 +14,10 @@ var QuoteCart = (function ($) {
 
         injectCartSidebar();
         loadCart();
+        // Cleanup legacy 'undefined' strings from previous cache
+        cart.forEach(function (item) {
+            if (item.brand === 'undefined') item.brand = '';
+        });
         updateCartCount();
         bindEvents();
     }
@@ -586,10 +590,15 @@ var QuoteCart = (function ($) {
         var existing = cart.find(function (item) { return item.id === product.id; });
         if (existing) {
             existing.qty += product.qty || 1;
+            // Update brand if it was missing or undefined
+            if (!existing.brand || existing.brand === 'undefined') {
+                existing.brand = product.brand || '';
+            }
         } else {
             cart.push({
                 id: product.id,
                 name: product.name,
+                brand: product.brand || '',
                 image: product.image,
                 url: product.url || '#',
                 qty: product.qty || 1
@@ -626,6 +635,7 @@ var QuoteCart = (function ($) {
                     <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
                     <div class="cart-item-details" style="flex-grow: 1;">
                         <h5 style="margin: 0 0 5px; font-size: 14px;">${item.name}</h5>
+                        <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">${item.brand || ''}</div>
                         <div class="cart-item-qty" style="font-size: 12px; color: #999;">Qty: ${item.qty}</div>
                     </div>
                     <span class="remove-from-cart-btn" data-id="${item.id}" style="cursor: pointer; color: #ff0000; padding: 0 5px;"><i class="ri-close-line"></i></span>
@@ -652,7 +662,10 @@ var QuoteCart = (function ($) {
                     <td class="text-start" style="padding: 15px 10px;">
                         <div class="d-flex align-items-center">
                             <img src="${item.image}" alt="${item.name}" style="width: 60px; margin-right: 15px;">
-                            <h4 style="font-size: 14px; margin: 0;">${item.name}</h4>
+                            <div>
+                                <h4 style="font-size: 14px; margin: 0;">${item.name}</h4>
+                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase;">${item.brand || ''}</small>
+                            </div>
                         </div>
                     </td>
                     <td class="text-center" style="vertical-align: middle; padding: 15px 10px;">
@@ -703,12 +716,15 @@ var QuoteCart = (function ($) {
             e.preventDefault();
             var $btn = $(this);
             var $product = $btn.closest('.product');
+            var $brandGroup = $btn.closest('.brand_group');
             var name = $product.find('.product_name').text().trim();
             var img = $product.find('img').attr('src');
+            var brand = $brandGroup.attr('data-brand') || '';
 
             addToCart({
                 id: name,
                 name: name,
+                brand: brand,
                 image: img
             });
         });
@@ -717,12 +733,15 @@ var QuoteCart = (function ($) {
             e.preventDefault();
             var $btn = $(this);
             var $product = $btn.closest('.product');
+            var $brandGroup = $btn.closest('.brand_group');
             var name = $product.find('.product_name').text().trim();
             var img = $product.find('img').attr('src');
+            var brand = $brandGroup.attr('data-brand') || '';
 
             addToCart({
                 id: name,
                 name: name,
+                brand: brand,
                 image: img
             });
             $('#quoteRequestModal').modal('show');
@@ -808,6 +827,7 @@ var QuoteCart = (function ($) {
                     return {
                         item_code: item.id,
                         item_name: item.name,
+                        brand: item.brand,
                         qty: item.qty
                     };
                 })

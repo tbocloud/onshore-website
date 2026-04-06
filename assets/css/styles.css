@@ -1005,6 +1005,66 @@ footer .copyright p {
   font-weight: 500;
 }
 
+/* Inline Links Styling */
+.blog_box .blog_data p a {
+    color: var(--second-color);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(1, 119, 198, 0.2);
+    transition: all 0.3s ease;
+    padding: 0 2px;
+}
+
+.blog_box .blog_data p a:hover {
+    color: var(--orange-color);
+    border-bottom-color: var(--orange-color);
+    background-color: rgba(250, 162, 0, 0.05);
+}
+
+/* Inline "Read Also" Box */
+.inline_link_box {
+    background: #f8f9fa;
+    border-left: 5px solid var(--second-color);
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 0 8px 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.inline_link_box i {
+    font-size: 24px;
+    color: var(--second-color);
+}
+
+.inline_link_box .link_content {
+    display: flex;
+    flex-direction: column;
+}
+
+.inline_link_box .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.inline_link_box a {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.inline_link_box a:hover {
+    color: var(--second-color);
+}
+
 /* ==============================================
    CART SIDEBAR & OVERLAY
    ============================================== */
@@ -1164,4 +1224,124 @@ footer .copyright p {
 
 nav.header-scrolled .cart-trigger {
   color: #333;
+}
+
+/* Products Brand Groups */
+.brand_group {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+}
+
+.brand_group:last-child {
+    margin-bottom: 0;
+}
+
+.brand_title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.brand_title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 100%;
+    background: #0177c6;
+    border-radius: 3px;
+}
+
+.premium_badge {
+    background: linear-gradient(135deg, #0177c6 0%, #004e82 100%);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(1, 119, 198, 0.2);
+}
+
+.product_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .brand_group {
+        padding: 20px;
+        margin-bottom: 35px;
+    }
+    
+    .brand_title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+}
+/* Brand Filter System */
+.brand_filter_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.brand_filter_btn {
+    padding: 10px 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.brand_filter_btn:hover {
+    border-color: var(--second-color);
+    color: var(--second-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.brand_filter_btn.active {
+    background: var(--second-color);
+    border-color: var(--second-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(1, 119, 198, 0.2);
+}
+
+@media (max-width: 768px) {
+    .brand_filter_container {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .brand_filter_btn {
+        flex: 0 0 auto;
+    }
 }
