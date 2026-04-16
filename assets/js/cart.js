@@ -78,6 +78,11 @@ var QuoteCart = (function ($) {
                             </div>
                             <!-- Form Section -->
                             <form id="quote-form-modal">
+                                <!-- Honeypot field (hidden from humans) -->
+                                <div style="display:none;">
+                                    <label>Leave this field blank</label>
+                                    <input type="text" name="hp_field" value="">
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Full Name *</label>
@@ -531,6 +536,10 @@ var QuoteCart = (function ($) {
                                         <textarea name="message" rows="4" class="form-control" placeholder="Additional details..."></textarea>
                                     </div>
 
+                                    <!-- Cloudflare Turnstile -->
+                                    <div class="col-md-12" style="margin-bottom: 20px;">
+                                        <div id="turnstile-container"></div>
+                                    </div>
                                 </div>
                                 <div class="text-end" style="margin-top: 20px;">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 10px;">Cancel</button>
@@ -814,6 +823,20 @@ var QuoteCart = (function ($) {
                 return;
             }
 
+            // Anti-Spam: Honeypot Check
+            var hpValue = $form.find('[name="hp_field"]').val();
+            if (hpValue && hpValue.length > 0) {
+                console.warn('Bot detected (Honeypot filled)');
+                return; // Silent abort for bots
+            }
+
+            // Anti-Spam: Turnstile Check
+            var turnstileResponse = $form.find('[name="cf-turnstile-response"]').val();
+            if (!turnstileResponse) {
+                showStatusPopup('error', 'Please complete the human verification (CAPTCHA).');
+                return;
+            }
+
             payload = {
                 full_name: ($form.find('[name="full_name"]').val() || '').trim(),
                 email: ($form.find('[name="email"]').val() || '').trim(),
@@ -823,6 +846,7 @@ var QuoteCart = (function ($) {
                 company_name: ($form.find('[name="company_name"]').val() || '').trim(),
                 district: ($form.find('[name="district"]').val() || '').trim(),
                 message: ($form.find('[name="message"]').val() || '').trim(),
+                turnstile_token: turnstileResponse, // Added for backend verification
                 items: cart.map(function (item) {
                     return {
                         item_code: item.id,
@@ -868,9 +892,27 @@ var QuoteCart = (function ($) {
 
         var modalEl = document.getElementById('quoteRequestModal');
         if (modalEl) {
-            modalEl.addEventListener('show.bs.modal', function () {
+            modalEl.addEventListener('shown.bs.modal', function () {
                 closeSidebar();
                 renderModalCartSpace();
+                // Explicitly render Turnstile after modal is fully visible
+                if (window.turnstile) {
+                    try {
+                        $('#turnstile-container').empty();
+                        turnstile.render('#turnstile-container', {
+                            sitekey: '1x00000000000000000000AA',
+                            appearance: 'interaction-only',
+                            callback: function(token) {
+                                console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
+                            },
+                            'error-callback': function() {
+                                console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;');
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Turnstile render failed:', e);
+                    }
+                }
             });
         }
     }

@@ -1,0 +1,121 @@
+/* FAQ Section Styles */
+.faq_section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.faq_container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq_item {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.faq_item:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-color: var(--second-color);
+}
+
+.faq_header {
+    padding: 24px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s ease;
+}
+
+.faq_header h5 {
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.5;
+    padding-right: 20px;
+    transition: color 0.3s ease;
+}
+
+.faq_icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+}
+
+.faq_icon::before,
+.faq_icon::after {
+    content: '';
+    position: absolute;
+    background-color: var(--second-color);
+    transition: all 0.4s ease;
+}
+
+/* Horizontal line */
+.faq_icon::before {
+    top: 11px;
+    left: 4px;
+    width: 16px;
+    height: 2px;
+}
+
+/* Vertical line */
+.faq_icon::after {
+    top: 4px;
+    left: 11px;
+    width: 2px;
+    height: 16px;
+}
+
+.faq_item.active {
+    border-color: var(--second-color);
+    background-color: #fff;
+}
+
+.faq_item.active .faq_header h5 {
+    color: var(--second-color);
+}
+
+.faq_item.active .faq_icon {
+    transform: rotate(45deg);
+}
+
+.faq_body {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #fff;
+}
+
+.faq_content {
+    padding: 0 30px 30px;
+    color: #666;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .faq_section {
+        padding: 60px 0;
+    }
+    .faq_header {
+        padding: 20px 25px;
+    }
+    .faq_header h5 {
+        font-size: 16px;
+    }
+    .faq_content {
+        padding: 0 25px 25px;
+        font-size: 15px;
+    }
+}
