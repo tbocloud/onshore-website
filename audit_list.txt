@@ -1,0 +1,180 @@
+                                    <h6 class="product_name">Argon Regulator <span class="arabic_name">منظم أرجون</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">CO2 Regulator 220V <span class="arabic_name">منظم غاز ثاني أكسيد الكربون</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">MMA Welding Machine TA400 <span class="arabic_name">مكينة لحام MMA TA400</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">TIG Rod 3.2mm <span class="arabic_name">سياخ لحام تيج 3.2 ملم</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Cable Connector USA3550F <span class="arabic_name">موصل كبل لحام</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Cable Connector USA5070M <span class="arabic_name">موصل كبل لحام</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Earth Clamp STD60 <span class="arabic_name">مشبك أرضي (كلبسة)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Gas Equipment KIT1 KSA <span class="arabic_name">طقم معدات غاز</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">ER70S6 Welding Wire 1.2M <span class="arabic_name">سلك لحام ميك 1.2 ملم</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">SS E308L-16 Electrode <span class="arabic_name">سلك لحام ستانلس ستيل</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrode E6013 3.2mm <span class="arabic_name">سلك لحام (إلكترود) E6013</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrode E7018 3.2mm <span class="arabic_name">سلك لحام (إلكترود) E7018</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Weldman Welding Helmet <span class="arabic_name">خوذة لحام ويلدمان</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Safety Helmet <span class="arabic_name">خوذة سلامة</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Safety Glasses <span class="arabic_name">نظارات حماية</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Safety Gloves <span class="arabic_name">قفازات سلامة</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Welding Hand Shield <span class="arabic_name">درع لحام يدوي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Safety Harness SSR40 <span class="arabic_name">حزام أمان (براشوت) SSR40</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Safety Harness SSR41 <span class="arabic_name">حزام أمان (براشوت) SSR41</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Safety Harness SSR44 <span class="arabic_name">حزام أمان (براشوت) SSR44</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">FRT Orange Coverall <span class="arabic_name">أفرول برتقالي مقاوم للحريق</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Geotex Safety Glasses <span class="arabic_name">نظارات سلامة جيوتكس</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Manual Chain Hoist <span class="arabic_name">رافعة جنزير يدوية</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Manual Lever Hoist <span class="arabic_name">رافعة جنزير يدوية (ليفر بلوك)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrical Chain Hoist <span class="arabic_name">رافعة جنزير كهربائية</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrical Chain Hoist + Trolley <span class="arabic_name">رافعة جنزير كهربائية مع ترولي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Hand Pallet Truck <span class="arabic_name">رافعة طبلية يدوية (هاند باليت)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Alloy Steel Chain <span class="arabic_name">جنزير صلب (سبائك ستيل)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Beam Clamp <span class="arabic_name">مشبك كمرة (بيم كلامب)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Bow Shackle EP209 <span class="arabic_name">شكل قوسي (أوميجا) EP209</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Bow Shackle EP2130 <span class="arabic_name">شكل قوسي (أوميجا) EP2130</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">D Shackle EP210 <span class="arabic_name">شكل حرف D</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Drum Lifter <span class="arabic_name">رافعة براميل</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrical Trolley <span class="arabic_name">ترولي كهربائي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electrical Winch <span class="arabic_name">ونش كهربائي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Horizontal Pipe Lifting Clamp <span class="arabic_name">مشبك رفع أنابيب أفقي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Horizontal Plate Lifting Clamp <span class="arabic_name">مشبك رفع صفائح أفقي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Low Head Room Manual Hoist <span class="arabic_name">رافعة يدوية منخفضة الارتفاع</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Manual Gear Trolley <span class="arabic_name">ترولي يدوي بتروس</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Manual Push Trolley <span class="arabic_name">ترولي يدوي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Marine Anti Corrosion Chain Hoist <span class="arabic_name">رافعة جنزير بحرية مقاومة للصدأ</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Rack Jack</h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Snatch Block <span class="arabic_name">بكرة سحب (سناتش بلوك)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Spark Proof Chain Hoist <span class="arabic_name">رافعة جنزير مقاومة للشرر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Spark Proof Lever Hoist <span class="arabic_name">رافعة يدوية مقاومة للشرر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Stainless Steel Chain Hoist <span class="arabic_name">رافعة جنزير ستانلس ستيل</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Universal Beam Clamp <span class="arabic_name">مشبك كمرة شامل</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Vertical Lifting Clamp <span class="arabic_name">مشبك رفع رأسي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Wire Rope Clip U Bolt Type <span class="arabic_name">قفلة واير (كلبس واير)</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Wire Rope Winch <span class="arabic_name">ونش سحب واير</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 1.5T x 3M <span class="arabic_name">بكارة جنزير 1.5 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 1T x 3M <span class="arabic_name">بكارة جنزير 1 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 2T x 3M <span class="arabic_name">بكارة جنزير 2 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 5T x 3M <span class="arabic_name">بكارة جنزير 5 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 10T x 3M <span class="arabic_name">بكارة جنزير 10 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Lever Block 1.5T x 1.5M <span class="arabic_name">رتش يدوي 1.5 طن × 1.5 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Lever Block 3T x 1.5M <span class="arabic_name">رتش يدوي 3 طن × 1.5 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Lever Block 6T x 1.5M <span class="arabic_name">رتش يدوي 6 طن × 1.5 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 1.5T x 6M <span class="arabic_name">بكارة جنزير 1.5 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 1T x 6M <span class="arabic_name">بكارة جنزير 1 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 2T x 6M <span class="arabic_name">بكارة جنزير 2 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 5T x 6M <span class="arabic_name">بكارة جنزير 5 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 10T x 6M <span class="arabic_name">بكارة جنزير 10 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 15T x 6M <span class="arabic_name">بكارة جنزير 15 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Lever Block 9T x 3M <span class="arabic_name">رتش يدوي 9 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 3T x 3M <span class="arabic_name">بكارة جنزير 3 طن × 3 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Chain Block 3T x 6M <span class="arabic_name">بكارة جنزير 3 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Load Chain 6T <span class="arabic_name">جنزير حمولة 6 طن</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Load Chain 8T <span class="arabic_name">جنزير حمولة 8 طن</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Load Chain 10T <span class="arabic_name">جنزير حمولة 10 طن</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 5T x 8M <span class="arabic_name">واير قماش ليفتك 5 طن × 8 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 8T x 8M <span class="arabic_name">واير قماش ليفتك 8 طن × 8 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 10T x 12M <span class="arabic_name">واير قماش ليفتك 10 طن × 12 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 6T x 6M <span class="arabic_name">واير قماش ليفتك 6 طن × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Liftek Full Body Safety Harness <span class="arabic_name">حزام أمان كامل للجسم من ليفتك</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Hand Pallet Truck 2.5T <span class="arabic_name">رافعة طبلية 2.5 طن</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Load Chain 10mm x 6M <span class="arabic_name">جنزير حمولة 10 ملم × 6 متر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electric Chain Hoist <span class="arabic_name">رافعة جنزير كهربائية</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Electric Chain Hoist Winch <span class="arabic_name">ونش جنزير كهربائي</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Hand Pallet Truck 3.5T <span class="arabic_name">رافعة طبلية 3.5 طن</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Wire Cup Brush <span class="arabic_name">فرشة سلك كوبية</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Cutting Wheel / Disc <span class="arabic_name">حجر قص / أسطوانة قطع</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Circular Saw Blade <span class="arabic_name">نصل منشار دائري</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Flap Disc <span class="arabic_name">ديسك صنفرة قلاب</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Fiber Sanding Disc <span class="arabic_name">ديسك صنفرة فيبر</span></h6>
+                                    <div class="product_actions"><a href="javascript:void(0);"
+                                    <h6 class="product_name">Cutting Disc 4.5" (Orkon) <span class="arabic_name">حجر قص 4.5 بوصة (أوركون)</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Cutting Disc 5" (Orkon) <span class="arabic_name">حجر قص 5 بوصة (أوركون)</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Cutting Disc 7" (Orkon) <span class="arabic_name">حجر قص 7 بوصة (أوركون)</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Cutting Disc 9" (Orkon) <span class="arabic_name">حجر قص 9 بوصة (أوركون)</span></h6>
+                                    <div class="product_actions">
+                                    <h6 class="product_name">Turbo Wheel (Orkon) <span class="arabic_name">أسطوانة توربو (أوركون)</span></h6>
+                                    <div class="product_actions">

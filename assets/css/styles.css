@@ -873,6 +873,16 @@ footer .copyright p {
   text-align: left;
 }
 
+.products .arabic_name {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  font-weight: 500;
+  direction: rtl;
+  text-align: left; /* Keep it left-aligned like the English name for visual consistency in the grid */
+}
+
 .products .product_desc {
   font-size: 13px;
   color: #666;
