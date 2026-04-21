@@ -409,6 +409,10 @@
   gap: 30px;
 }
 
+.blog_wrapper .grid_row.featured_2col {
+  grid-template-columns: 1fr 1fr;
+}
+
 .single_blog .blog_item {
   position: relative;
   height: 450px;
@@ -545,6 +549,10 @@
 @media screen and (max-width:991px) {
   .blog_wrapper .grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .blog_wrapper .grid_row,
+  .blog_wrapper .grid_row.featured_2col {
+    grid-template-columns: 1fr;
   }
 }
 
