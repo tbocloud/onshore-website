@@ -825,6 +825,8 @@ footer .copyright p {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   border: .3px solid #6f6f6f4d;
+  display: flex;
+  flex-direction: column;
 }
 
 .products .product:hover {
@@ -1252,7 +1254,7 @@ footer .copyright p {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: auto;
 }
 
 .add-to-cart-btn,
