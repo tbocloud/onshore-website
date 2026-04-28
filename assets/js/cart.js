@@ -298,8 +298,8 @@ var QuoteCart = (function ($) {
                                         </select>
                                     </div>
                                     <div class="col-md-5" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">District</label>
-                                        <input type="text" name="district" class="form-control">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">City</label>
+                                        <input type="text" name="city" class="form-control">
                                     </div>
                                     <div class="col-md-7" style="margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Mobile Number *</label>
@@ -645,7 +645,11 @@ var QuoteCart = (function ($) {
                     <div class="cart-item-details" style="flex-grow: 1;">
                         <h5 style="margin: 0 0 5px; font-size: 14px;">${item.name}</h5>
                         <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">${item.brand || ''}</div>
-                        <div class="cart-item-qty" style="font-size: 12px; color: #999;">Qty: ${item.qty}</div>
+                        <div class="qty-control mt-2">
+                            <button type="button" class="update-qty" data-id="${item.id}" data-action="decrease">-</button>
+                            <input type="text" value="${item.qty}" readonly>
+                            <button type="button" class="update-qty" data-id="${item.id}" data-action="increase">+</button>
+                        </div>
                     </div>
                     <span class="remove-from-cart-btn" data-id="${item.id}" style="cursor: pointer; color: #ff0000; padding: 0 5px;"><i class="ri-close-line"></i></span>
                 </div>
@@ -773,7 +777,10 @@ var QuoteCart = (function ($) {
                 if (action === 'increase') item.qty++;
                 else if (action === 'decrease' && item.qty > 1) item.qty--;
                 saveCart();
-                renderModalCartSpace();
+                renderCartSidebar(); // Ensure sidebar is updated
+                if ($('#quoteRequestModal').hasClass('show')) {
+                    renderModalCartSpace();
+                }
             }
         });
 
@@ -844,7 +851,7 @@ var QuoteCart = (function ($) {
                 mobile_country_code: ($form.find('[name="country_code"]').val() || '').trim(),
                 country: ($form.find('[name="country"]').val() || '').trim(),
                 company_name: ($form.find('[name="company_name"]').val() || '').trim(),
-                district: ($form.find('[name="district"]').val() || '').trim(),
+                city: ($form.find('[name="city"]').val() || '').trim(),
                 message: ($form.find('[name="message"]').val() || '').trim(),
                 turnstile_token: turnstileResponse, // Added for backend verification
                 items: cart.map(function (item) {
