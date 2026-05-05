@@ -1773,7 +1773,8 @@ footer .copyright p {
 }
 
 .add-to-cart-btn,
-.request-quote-btn {
+.request-quote-btn,
+.view-details-btn {
   display: block;
   width: 100%;
   padding: 8px 10px;
@@ -1797,16 +1798,28 @@ footer .copyright p {
   color: #0275c6;
 }
 
-.request-quote-btn {
+.request-quote-btn,
+.view-details-btn {
   background-color: transparent;
   color: #333;
   border: 1px solid #ddd;
 }
 
-.request-quote-btn:hover {
+.request-quote-btn:hover,
+.view-details-btn:hover {
   background-color: #f8f8f8;
   border-color: #333;
   color: #333;
+}
+
+.product_link_wrapper {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+.product_link_wrapper:hover {
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 .quote-basket-count {

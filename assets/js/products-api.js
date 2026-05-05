@@ -86,10 +86,10 @@ $(document).ready(function () {
             `);
 
             // 2. Create Tab Pane
-            const brandsInGroup = [...new Set(groups[group].map(p => p.brand || 'General'))];
+            const brandsInGroup = [...new Set(groups[group].map(p => p.custom_brand_name || 'General'))];
             
             let brandFilterHtml = '';
-            if (brandsInGroup.length > 1) {
+            if (brandsInGroup.length >= 1) {
                 brandFilterHtml = `
                     <div class="brand_filter_container mb-4">
                         <button class="brand_filter_btn active" data-brand="all">All Brands</button>
@@ -101,7 +101,7 @@ $(document).ready(function () {
             let productsHtml = '';
             const itemsByBrand = {};
             groups[group].forEach(p => {
-                const brand = p.brand || 'General';
+                const brand = p.custom_brand_name || 'General';
                 if (!itemsByBrand[brand]) itemsByBrand[brand] = [];
                 itemsByBrand[brand].push(p);
             });
@@ -117,6 +117,7 @@ $(document).ready(function () {
                     </div>
                 `;
             }
+
 
             tabContent.append(`
                 <div class="tab-pane fade ${showActive}" id="${tabId}" role="tabpanel" aria-labelledby="${tabId}-tab">
@@ -143,7 +144,8 @@ $(document).ready(function () {
         const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : 'assets/img/logo.png';
         
         const name = p.item_name || p.name || 'Product';
-        const arabicName = p.custom_commercial_description_in_arabic || '';
+        const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
+        const specsUrl = `./product-specifications.html#item_code=${encodeURIComponent(p.name || '')}`;
 
         if (!p.name) {
             console.warn("Product missing 'name' field:", p);
@@ -151,16 +153,22 @@ $(document).ready(function () {
 
         return `
             <div class="product">
-                <div class="product_image">
-                    <img src="${fullImgUrl}" class="img-fluid" alt="${name}" onerror="this.src='assets/img/logo.png'">
-                </div>
-                <h6 class="product_name">${name} ${arabicName ? `<span class="arabic_name">${arabicName}</span>` : ''}</h6>
+                <a href="${specsUrl}" class="product_link_wrapper">
+                    <div class="product_image">
+                        <img src="${fullImgUrl}" class="img-fluid" alt="${name}" onerror="this.src='assets/img/logo.png'">
+                    </div>
+                    <h6 class="product_name">${name} ${arabicName ? `<span class="arabic_name">${arabicName}</span>` : ''}</h6>
+                </a>
                 <div class="product_actions">
-                    <a href="./product-specifications.html#item_code=${encodeURIComponent(p.name || '')}" class="view-details-btn">View Details</a>
                     <a href="javascript:void(0);" class="add-to-cart-btn" 
-                       data-id="${p.name}" data-name="${name}" data-image="${fullImgUrl}" data-brand="${p.brand || ''}">Add to Cart</a>
-                    <a href="javascript:void(0);" class="request-quote-btn"
-                       data-id="${p.name}" data-name="${name}" data-image="${fullImgUrl}" data-brand="${p.brand || ''}">Request a Quote</a>
+                       data-id="${p.name}" 
+                       data-name="${name}" 
+                       data-name-ar="${arabicName}"
+                       data-desc-en="${(p.custom_commercial_description || '').replace(/"/g, '&quot;')}"
+                       data-desc-ar="${(p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;')}"
+                       data-image="${fullImgUrl}" 
+                       data-brand="${p.custom_brand_name || ''}">Add to Basket</a>
+                    <a href="${specsUrl}" class="view-details-btn">View Details</a>
                 </div>
             </div>
         `;

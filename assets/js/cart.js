@@ -603,10 +603,16 @@ var QuoteCart = (function ($) {
             if (!existing.brand || existing.brand === 'undefined') {
                 existing.brand = product.brand || '';
             }
+            existing.name_ar = product.name_ar || existing.name_ar || '';
+            existing.desc_en = product.desc_en || existing.desc_en || '';
+            existing.desc_ar = product.desc_ar || existing.desc_ar || '';
         } else {
             cart.push({
                 id: product.id,
                 name: product.name,
+                name_ar: product.name_ar || '',
+                desc_en: product.desc_en || '',
+                desc_ar: product.desc_ar || '',
                 brand: product.brand || '',
                 image: product.image,
                 url: product.url || '#',
@@ -643,8 +649,16 @@ var QuoteCart = (function ($) {
                 <div class="cart-item" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #f9f9f9; padding-bottom: 15px;">
                     <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
                     <div class="cart-item-details" style="flex-grow: 1;">
-                        <h5 style="margin: 0 0 5px; font-size: 14px;">${item.name}</h5>
+                        <h5 style="margin: 0 0 5px; font-size: 14px; font-weight: 700;">
+                            ${item.name}
+                            ${item.name_ar ? `<span style="display: block; font-size: 12px; color: #555; font-weight: 600; text-align: right; margin-top: 2px;" dir="rtl">${item.name_ar}</span>` : ''}
+                        </h5>
+                        
+                        ${item.desc_en ? `<div class="cart-item-desc" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
+                        ${item.desc_ar ? `<div class="cart-item-desc-ar" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
+                        
                         <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">${item.brand || ''}</div>
+                        
                         <div class="qty-control mt-2">
                             <button type="button" class="update-qty" data-id="${item.id}" data-action="decrease">-</button>
                             <input type="text" value="${item.qty}" readonly>
@@ -675,9 +689,16 @@ var QuoteCart = (function ($) {
                     <td class="text-start" style="padding: 15px 10px;">
                         <div class="d-flex align-items-center">
                             <img src="${item.image}" alt="${item.name}" style="width: 60px; margin-right: 15px;">
-                            <div>
-                                <h4 style="font-size: 14px; margin: 0;">${item.name}</h4>
-                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase;">${item.brand || ''}</small>
+                            <div style="flex-grow: 1;">
+                                <h4 style="font-size: 14px; margin: 0; font-weight: 700;">
+                                    ${item.name}
+                                    ${item.name_ar ? `<span style="display: block; font-size: 12px; color: #555; font-weight: 600; text-align: right; margin-top: 2px;" dir="rtl">${item.name_ar}</span>` : ''}
+                                </h4>
+                                
+                                ${item.desc_en ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
+                                ${item.desc_ar ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
+                                
+                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase; display: block; margin-top: 5px;">${item.brand || ''}</small>
                             </div>
                         </div>
                     </td>
@@ -725,35 +746,45 @@ var QuoteCart = (function ($) {
     }
 
     function bindEvents() {
-        $(document).on('click', '.add-to-cart-btn', function (e) {
+        $(document).on('click', '.add-to-cart-btn, #spec-add-cart', function (e) {
             e.preventDefault();
             var $btn = $(this);
-            var $product = $btn.closest('.product');
-            var $brandGroup = $btn.closest('.brand_group');
-            var name = $product.find('.product_name').text().trim();
-            var img = $product.find('img').attr('src');
-            var brand = $brandGroup.attr('data-brand') || '';
+            var id = $btn.attr('data-id') || $btn.data('id');
+            var name = $btn.attr('data-name') || $btn.data('name') || id;
+            var nameAr = $btn.attr('data-name-ar') || $btn.data('name-ar') || '';
+            var descEn = $btn.attr('data-desc-en') || $btn.data('desc-en') || '';
+            var descAr = $btn.attr('data-desc-ar') || $btn.data('desc-ar') || '';
+            var img = $btn.attr('data-image') || $btn.data('image');
+            var brand = $btn.attr('data-brand') || $btn.data('brand') || '';
 
             addToCart({
-                id: name,
+                id: id,
                 name: name,
+                name_ar: nameAr,
+                desc_en: descEn,
+                desc_ar: descAr,
                 brand: brand,
                 image: img
             });
         });
 
-        $(document).on('click', '.request-quote-btn', function (e) {
+        $(document).on('click', '.request-quote-btn, #spec-req-quote', function (e) {
             e.preventDefault();
             var $btn = $(this);
-            var $product = $btn.closest('.product');
-            var $brandGroup = $btn.closest('.brand_group');
-            var name = $product.find('.product_name').text().trim();
-            var img = $product.find('img').attr('src');
-            var brand = $brandGroup.attr('data-brand') || '';
+            var id = $btn.attr('data-id') || $btn.data('id');
+            var name = $btn.attr('data-name') || $btn.data('name') || id;
+            var nameAr = $btn.attr('data-name-ar') || $btn.data('name-ar') || '';
+            var descEn = $btn.attr('data-desc-en') || $btn.data('desc-en') || '';
+            var descAr = $btn.attr('data-desc-ar') || $btn.data('desc-ar') || '';
+            var img = $btn.attr('data-image') || $btn.data('image');
+            var brand = $btn.attr('data-brand') || $btn.data('brand') || '';
 
             addToCart({
-                id: name,
+                id: id,
                 name: name,
+                name_ar: nameAr,
+                desc_en: descEn,
+                desc_ar: descAr,
                 brand: brand,
                 image: img
             });
@@ -858,6 +889,9 @@ var QuoteCart = (function ($) {
                     return {
                         item_code: item.id,
                         item_name: item.name,
+                        custom_item_name_in_arabic: item.name_ar || '',
+                        custom_commercial_description: item.desc_en || '',
+                        custom_commercial_description_in_arabic: item.desc_ar || '',
                         brand: item.brand,
                         qty: item.qty
                     };

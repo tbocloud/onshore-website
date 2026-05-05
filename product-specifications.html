@@ -12,14 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Product Specifications | Onshore Technical Supplies</title>
     <style>
-        .spec_hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/img/hero-ecommerce.png');
-            background-size: cover;
-            background-position: center;
-            padding: 80px 0;
-            color: #fff;
-            text-align: center;
-        }
+
 
         .product_main_display {
             padding: 80px 0;
@@ -142,19 +135,61 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* Tabs styling */
+        .spec_tabs {
+            border-bottom: 2px solid #eee;
+        }
+
+        .spec_tabs .nav-link {
+            border: none;
+            color: #555;
+            font-weight: 700;
+            padding: 12px 24px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+            background: transparent;
+        }
+
+        .spec_tabs .nav-link:hover {
+            color: #0275c6;
+            border-bottom-color: #ddd;
+        }
+
+        .spec_tabs .nav-link.active {
+            color: #0275c6 !important;
+            background: transparent !important;
+            border-bottom-color: #0275c6 !important;
+        }
+
+        .arabic_title_name {
+            display: block;
+            font-size: 20px;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 600;
+            text-align: right;
+            font-family: inherit;
+        }
     </style>
 </head>
 
 <body>
     <header>
-        <nav class="nav-dark-links">
+        <nav>
             <div class="wrapper container">
                 <div class="logo">
                     <a href="./">
-                        <img src="assets/img/logo.png" class="img-fluid logo-img" alt="">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
                     </a>
                 </div>
+                <input type="radio" name="slide" id="menu-btn">
+                <input type="radio" name="slide" id="cancel-btn">
                 <ul class="nav-links">
+                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
                     <li><a href="./">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="industries.html">Industries</a></li>
@@ -171,23 +206,25 @@
                         <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
                     </div>
                 </div>
+                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="spec_hero">
+        <div class="page_banner" style="background: url('assets/img/banner2.webp'); background-size: cover; background-position: center;">
             <div class="container">
-                <h2 id="hero-product-name">Product Specifications</h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center" style="background: transparent;">
-                        <li class="breadcrumb-item"><a href="./" style="color: #ccc;">Home</a></li>
-                        <li class="breadcrumb-item"><a href="product-details.html" style="color: #ccc;">Products</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page" id="breadcrumb-current">Details</li>
-                    </ol>
-                </nav>
+                <div class="page_banner_content">
+                    <h1 class="main_heading" id="hero-product-name" style="color: #fff;">Product Specifications</h1>
+                    <ul>
+                        <li class="home"><a href="./">Home</a></li> /
+                        <li><a href="product-details.html">Products</a></li> /
+                        <li id="breadcrumb-current">Details</li>
+                    </ul>
+                </div>
             </div>
-        </section>
+        </div>
+
 
         <section class="product_main_display">
             <div class="container">
@@ -241,15 +278,48 @@
                     <div class="desc_section">
                         <div class="row">
                             <div class="col-lg-8">
-                                <h4>Product Description</h4>
-                                <div id="spec-desc-en">
-                                    <!-- English Description -->
-                                </div>
-
-                                <div class="arabic_content mt-5" id="spec-desc-ar-wrapper" style="display: none;">
-                                    <div class="text-end" dir="rtl">
-                                        <h4 style="font-family: inherit;">وصف المنتج</h4>
-                                        <div id="spec-desc-ar"></div>
+                                <ul class="nav nav-tabs spec_tabs mb-4" id="specTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="commercial-tab" data-bs-toggle="tab" data-bs-target="#commercial-pane" type="button" role="tab">Commercial Info</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation" id="detailed-tab-li" style="display: none;">
+                                        <button class="nav-link" id="detailed-tab" data-bs-toggle="tab" data-bs-target="#detailed-pane" type="button" role="tab">Detailed Specs</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation" id="more-info-tab-li" style="display: none;">
+                                        <button class="nav-link" id="more-info-tab" data-bs-toggle="tab" data-bs-target="#more-info-pane" type="button" role="tab">More Info</button>
+                                    </li>
+                                </ul>
+                                
+                                <div class="tab-content spec_tab_content" id="specTabsContent">
+                                    <!-- Commercial Info Pane -->
+                                    <div class="tab-pane fade show active" id="commercial-pane" role="tabpanel">
+                                        <div id="spec-desc-en">
+                                            <!-- Commercial Description English -->
+                                        </div>
+                                        <div class="arabic_content mt-4" id="spec-desc-ar-wrapper" style="display: none;">
+                                            <div class="text-end" dir="rtl">
+                                                <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">الوصف التجاري</h5>
+                                                <div id="spec-desc-ar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Detailed Specs Pane -->
+                                    <div class="tab-pane fade" id="detailed-pane" role="tabpanel">
+                                        <div id="spec-detailed-en">
+                                            <!-- Detailed Description English -->
+                                        </div>
+                                        <div class="arabic_content mt-4" id="spec-detailed-ar-wrapper" style="display: none;">
+                                            <div class="text-end" dir="rtl">
+                                                <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">المواصفات التفصيلية</h5>
+                                                <div id="spec-detailed-ar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- More Info Pane -->
+                                    <div class="tab-pane fade" id="more-info-pane" role="tabpanel">
+                                        <div id="spec-more-info">
+                                            <!-- Product More Info English -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>

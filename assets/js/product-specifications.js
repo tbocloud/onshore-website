@@ -63,9 +63,25 @@ $(document).ready(function () {
         const name = p.item_name || p.name || 'Product';
         $('#hero-product-name').text(name);
         $('#breadcrumb-current').text(name);
-        $('#spec-title').text(name);
-        $('#spec-brand').text(p.brand || 'General');
+        
+        // Render Title & Arabic Item Title
+        const nameAr = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
+        if (nameAr) {
+            $('#spec-title').html(`${name} <span class="arabic_title_name" dir="rtl">${nameAr}</span>`);
+        } else {
+            $('#spec-title').text(name);
+        }
+
+        const brandName = p.custom_brand_name || p.brand || 'General';
+        $('#spec-brand').text(brandName);
         $('#spec-subtitle').text(`Item Code: #${p.name}`);
+
+        // Dynamic summary description underneath the code
+        if (p.description) {
+            // Remove existing description if already rendered on hot-reload/multiple loads
+            $('#spec-info-desc').remove();
+            $('<p class="lead mt-3 text-secondary" id="spec-info-desc"></p>').text(p.description).insertAfter('#spec-subtitle');
+        }
 
         // 2. Images & Gallery
         const allImages = [];
@@ -95,12 +111,14 @@ $(document).ready(function () {
             }
         }
 
-        // Fallback to attachments
-        if (allImages.length === 0 && p.attachments) {
+        // Add attachments to the gallery
+        if (p.attachments && Array.isArray(p.attachments)) {
             p.attachments.forEach(att => {
-                const processed = processImg(att.file_url);
-                if (processed && !allImages.includes(processed)) {
-                    allImages.push(processed);
+                if (att.file_url) {
+                    const processed = processImg(att.file_url);
+                    if (processed && !allImages.includes(processed)) {
+                        allImages.push(processed);
+                    }
                 }
             });
         }
@@ -130,7 +148,7 @@ $(document).ready(function () {
         // 3. Specifications Table
         const specs = [
             { label: 'Category', value: p.item_group },
-            { label: 'Brand', value: p.brand },
+            { label: 'Brand', value: brandName },
             { label: 'SKU', value: p.custom_sku },
             { label: 'Model Number', value: p.custom_model_number },
             { label: 'Stock Status', value: p.stock > 0 ? 'In Stock' : 'Contact for Availability' },
@@ -148,14 +166,60 @@ $(document).ready(function () {
                 `;
             }
         });
+
+        // DYNAMIC CUSTOM SPECIFICATIONS ATTRIBUTES
+        if (p.custom_product_specification && Array.isArray(p.custom_product_specification)) {
+            p.custom_product_specification.forEach(spec => {
+                if (spec.title && spec.value) {
+                    specsHtml += `
+                        <tr>
+                            <th>${spec.title}</th>
+                            <td>${spec.value}</td>
+                        </tr>
+                    `;
+                }
+            });
+        }
+
         $('#spec-table-body').html(specsHtml);
 
-        // 4. Descriptions
-        $('#spec-desc-en').html(p.custom_commercial_description || 'Detailed specifications for this product are currently being updated. Please contact our support team for immediate assistance.');
+        // 4. Descriptions Mapping with Tab show/hide toggles
         
-        if (p.custom_commercial_description_in_arabic) {
+        // Tab 1: Commercial Description
+        const commEn = p.custom_commercial_description || '';
+        const commAr = p.custom_commercial_description_in_arabic || '';
+        $('#spec-desc-en').html(commEn || 'Detailed specifications for this product are currently being updated. Please contact our support team for immediate assistance.');
+        
+        if (commAr) {
             $('#spec-desc-ar-wrapper').show();
-            $('#spec-desc-ar').html(p.custom_commercial_description_in_arabic);
+            $('#spec-desc-ar').html(commAr);
+        } else {
+            $('#spec-desc-ar-wrapper').hide();
+        }
+
+        // Tab 2: Detailed Specs Description
+        const detEn = p.custom_detailed_description || '';
+        const detAr = p.custom_detailed_description_in_arabic || '';
+        if (detEn || detAr) {
+            $('#detailed-tab-li').show();
+            $('#spec-detailed-en').html(detEn || '');
+            if (detAr) {
+                $('#spec-detailed-ar-wrapper').show();
+                $('#spec-detailed-ar').html(detAr);
+            } else {
+                $('#spec-detailed-ar-wrapper').hide();
+            }
+        } else {
+            $('#detailed-tab-li').hide();
+        }
+
+        // Tab 3: More Info Description
+        const moreInfo = p.custom_product_more_information || '';
+        if (moreInfo) {
+            $('#more-info-tab-li').show();
+            $('#spec-more-info').html(moreInfo);
+        } else {
+            $('#more-info-tab-li').hide();
         }
 
         // 5. Button Actions
@@ -163,13 +227,19 @@ $(document).ready(function () {
         
         $('#spec-add-cart').attr('data-id', p.name)
             .attr('data-name', name)
+            .attr('data-name-ar', nameAr)
+            .attr('data-desc-en', commEn)
+            .attr('data-desc-ar', commAr)
             .attr('data-image', fullMainImg)
-            .attr('data-brand', p.brand || '');
+            .attr('data-brand', brandName);
 
         $('#spec-req-quote').attr('data-id', p.name)
             .attr('data-name', name)
+            .attr('data-name-ar', nameAr)
+            .attr('data-desc-en', commEn)
+            .attr('data-desc-ar', commAr)
             .attr('data-image', fullMainImg)
-            .attr('data-brand', p.brand || '');
+            .attr('data-brand', brandName);
 
         // Show Content
         $('#spec-loader').hide();
