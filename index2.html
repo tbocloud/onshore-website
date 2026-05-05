@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.png"> -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
     <!--=============== REMIXICONS ===============-->
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -43,11 +43,11 @@
     <!-- End Google Tag Manager (noscript) -->
     <header>
 
-        <nav class="nav-dark-links">
+        <nav>
             <div class="wrapper container">
                 <div class="logo">
                     <a href="./">
-                        <img src="assets/img/logo.png" class="img-fluid logo-img" alt="">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
                     </a>
                 </div>
 
@@ -76,14 +76,8 @@
 
                 </ul>
 
-                <div class="nav-right-icons">
-                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
-                        <i class="ri-shopping-basket-fill"></i>
-                        <span class="quote-basket-count">0</span>
-                    </div>
-                    <div>
-                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
-                    </div>
+                <div>
+                    <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
                 </div>
 
                 <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
@@ -93,83 +87,46 @@
 
     <main>
 
-        <section class="hero_banner_ecommerce">
+        <section class="hero_banner">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <div class="hero_text_content">
-                            <span class="badge_text"><i class="ri-flashlight-fill"></i> Trending: Safety Gear & Lifting
-                                Tools</span>
-                            <h1 class="main_heading">Best Industrial Equipment Supplier <br>in <span>Saudi Arabia</span>
-                            </h1>
-                            <p class="hero_desc">
-                                <strong>Explore our curated collection of certified industrial equipment. Built for reliability, designed for performance.</strong><br><br>
-                                <span style="font-size: 15px; opacity: 0.9;">Onshore Technical Supplies Est is known as the best industrial equipment supplier in Saudi Arabia, delivering certified products and customized industrial solutions across KSA and the GCC. With over 10 years of experience, we support industries such as construction, manufacturing, and marine, earning the trust of professionals who prioritize quality, reliability, and performance.</span>
-                            </p>
+                <div class="row hero_content">
+                    <div class="col-lg-7 col-md-12">
+                        <h1 class="main_heading hero_title">Best Industrial Equipment Supplier in Saudi Arabia</h1>
 
-                            <div class="hero_search_bar">
-                                <input type="text" id="hero-search-input"
-                                    placeholder="Search for products (e.g. Welding Machine, PPE)...">
-                                <button id="hero-search-btn"><i class="ri-search-line"></i></button>
-                            </div>
+                        <p class="hero_desc">Onshore Technical Supplies Est is known as the best industrial equipment
+                            supplier in Saudi Arabia, delivering certified products and customized industrial solutions
+                            across KSA and the GCC. With over 10 years of experience, we support industries such as
+                            construction, manufacturing, and marine, earning the trust of professionals who prioritize
+                            quality, reliability, and performance.</p>
 
-                            <script>
-                                document.getElementById('hero-search-btn').addEventListener('click', function () {
-                                    const query = document.getElementById('hero-search-input').value.trim();
-                                    if (query) {
-                                        window.location.href = 'products.html?search=' + encodeURIComponent(query);
-                                    }
-                                });
-                                document.getElementById('hero-search-input').addEventListener('keypress', function (e) {
-                                    if (e.key === 'Enter') {
-                                        const query = this.value.trim();
-                                        if (query) {
-                                            window.location.href = 'products.html?search=' + encodeURIComponent(query);
-                                        }
-                                    }
-                                });
-                            </script>
-
-                            <div class="hero_cta_group">
-                                <a href="products.html" class="main-btn">SHOP COLLECTION <i
-                                        class="ri-arrow-right-line"></i></a>
-                                <a href="industries.html" class="secondary-btn">Browse Industries</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="hero_image_container">
-                            <img src="assets/img/hero-ecommerce.png" class="img-fluid hero_main_img"
-                                alt="Industrial Equipment Showcase">
-
-                            <!-- Additional Floating Badges -->
-                            <div class="floating_badge top_badge">
-                                <i class="ri-star-fill"></i>
-                                <span>Top Rated 2026</span>
-                            </div>
-
-                            <div class="floating_product_card card1">
-                                <img src="assets/img/products/p1.webp" alt="">
-                                <div>
-                                    <h6>PPE Solutions</h6>
-                                    <span>Premium Safety</span>
-                                </div>
-                            </div>
-                            <div class="floating_product_card card2">
-                                <img src="assets/img/products/p3.webp" alt="">
-                                <div>
-                                    <h6>Lifting Equipment</h6>
-                                    <span>Certified Gear</span>
-                                </div>
-                            </div>
-
-                            <div class="experience_floating">
-                                <h3>10+</h3>
-                                <span>YEARS OF TRUST</span>
-                            </div>
+                        <div class="hero_btn">
+                            <a href="contact.html" class="main-btn">Get a Quote <i class="ri-arrow-right-line"></i></a>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="banner_boxes">
+                    <div class="box bbox_1">
+                        <div class="icon">
+                            <img src="assets/img/hero-boxes/electrician.png" class="img-fluid" alt="">
+                        </div>
+                        <h6>Skilled Manpower</h6>
+                    </div>
+                    <div class="box bbox_2">
+                        <div class="icon">
+                            <img src="assets/img/hero-boxes/tools.png" class="img-fluid" alt="">
+                        </div>
+                        <h6>Equipment & Tools</h6>
+                    </div>
+                    <div class="box bbox_3">
+                        <div class="icon">
+                            <img src="assets/img/hero-boxes/maintenance.png" class="img-fluid" alt="">
+                        </div>
+                        <h6>Project Support</h6>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -302,10 +259,6 @@
                         <h6 class="product_name">Safety Helmet</h6>
                         <p class="product_desc">ANSI Z89.1 certified high-impact protection for industrial environments.
                         </p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <span class="product_badge">New</span>
@@ -319,10 +272,6 @@
                         <h6 class="product_name">Safety Glasses</h6>
                         <p class="product_desc">Anti-fog, scratch-resistant polycarbonate lenses for full eye
                             protection.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <div class="product_image">
@@ -334,10 +283,6 @@
                         <span class="product_cat">Welding</span>
                         <h6 class="product_name">Welding Hand Shield</h6>
                         <p class="product_desc">Lightweight fiberglass shield with premium UV/IR protection.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <span class="product_badge premium">Heavy Duty</span>
@@ -350,10 +295,6 @@
                         <span class="product_cat">Lifting</span>
                         <h6 class="product_name">Chain Sling</h6>
                         <p class="product_desc">Grade 80 alloy steel chain for heavy-duty lifting up to 10 tons.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <div class="product_image">
@@ -365,10 +306,6 @@
                         <span class="product_cat">Lifting</span>
                         <h6 class="product_name">Locking Carabiner</h6>
                         <p class="product_desc">Auto-locking industrial carabiner rated for 25kN.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <div class="product_image">
@@ -381,10 +318,6 @@
                         <h6 class="product_name">Wire Cup Brush</h6>
                         <p class="product_desc">Crimped steel wire for aggressive surface preparation and rust removal.
                         </p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <span class="product_badge">Top Seller</span>
@@ -397,10 +330,6 @@
                         <span class="product_cat">Abrasives</span>
                         <h6 class="product_name">Cutting Wheel / Disc</h6>
                         <p class="product_desc">Resin-bonded grinding discs for fast, clean cuts on metal and steel.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <div class="product_image">
@@ -413,10 +342,6 @@
                         <h6 class="product_name">Circular Saw Blade</h6>
                         <p class="product_desc">TCT blades tailored for precision wood and metal cutting applications.
                         </p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <span class="product_badge premium">Premium</span>
@@ -429,10 +354,6 @@
                         <span class="product_cat">Abrasives</span>
                         <h6 class="product_name">Flap Disc</h6>
                         <p class="product_desc">Zirconia alumina flap discs for combined grinding and finishing.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                     <div class="product">
                         <div class="product_image">
@@ -444,10 +365,6 @@
                         <span class="product_cat">Abrasives</span>
                         <h6 class="product_name">Fiber Sanding Disc</h6>
                         <p class="product_desc">Resin fiber discs ideal for material removal and surface blending.</p>
-                        <div class="product_actions">
-                            <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
-                            <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
-                        </div>
                     </div>
                 </div>
 
@@ -880,7 +797,6 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/cart.js"></script>
     <script src="assets/js/faq.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -893,10 +809,44 @@
                     $(".logo img").attr("src", "assets/img/logo.png");
                 }
                 else {
-                    $(".logo img").attr("src", "assets/img/logo.png");
+                    $(".logo img").attr("src", "assets/img/white-logo.png");
                 }
             })
         })
+
+
+        // Basic setup
+        ScrollReveal({
+            reset: true,        // animations run only once
+            distance: '60px',    // how far elements move
+            duration: 500,      // animation speed
+            easing: 'ease-in-out',
+            delay: 200           // delay before animation starts
+        });
+
+        ScrollReveal().reveal('.hero_title', {
+            origin: 'bottom'
+        });
+        ScrollReveal().reveal('.hero_desc', {
+            origin: 'bottom',
+            duration: 800
+        });
+        ScrollReveal().reveal('.hero_btn', {
+            origin: 'bottom',
+            duration: 1000
+        });
+        ScrollReveal().reveal('.bbox_1', {
+            scale: 0.85,
+            duration: 600
+        });
+        ScrollReveal().reveal('.bbox_2', {
+            scale: 0.85,
+            duration: 800
+        });
+        ScrollReveal().reveal('.bbox_3', {
+            scale: 0.85,
+            duration: 1000
+        });
 
 
         // Industries Section
@@ -1162,71 +1112,6 @@
         });
 
 
-
-        // Ecommerce Hero Animations
-        ScrollReveal().reveal('.badge_text', {
-            origin: 'top',
-            distance: '20px',
-            duration: 800,
-            delay: 200,
-            opacity: 0,
-            easing: 'ease-out'
-        });
-
-        ScrollReveal().reveal('.hero_text_content h1', {
-            origin: 'left',
-            distance: '50px',
-            duration: 1000,
-            delay: 400,
-            opacity: 0,
-            easing: 'ease-out'
-        });
-
-        ScrollReveal().reveal('.hero_text_content .hero_desc', {
-            origin: 'left',
-            distance: '30px',
-            duration: 1000,
-            delay: 600,
-            opacity: 0,
-            easing: 'ease-out'
-        });
-
-        ScrollReveal().reveal('.hero_cta_group', {
-            origin: 'bottom',
-            distance: '30px',
-            duration: 1000,
-            delay: 800,
-            opacity: 0,
-            easing: 'ease-out'
-        });
-
-        ScrollReveal().reveal('.trust_item', {
-            origin: 'bottom',
-            distance: '20px',
-            duration: 800,
-            delay: 1000,
-            opacity: 0,
-            easing: 'ease-out',
-            interval: 150
-        });
-
-        ScrollReveal().reveal('.hero_main_img', {
-            origin: 'right',
-            distance: '100px',
-            duration: 1200,
-            delay: 400,
-            opacity: 0,
-            easing: 'ease-out'
-        });
-
-        ScrollReveal().reveal('.floating_product_card', {
-            scale: 0.8,
-            duration: 1000,
-            delay: 1200,
-            opacity: 0,
-            easing: 'ease-out',
-            interval: 300
-        });
 
     </script>
 

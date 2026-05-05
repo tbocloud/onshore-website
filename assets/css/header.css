@@ -230,6 +230,23 @@ nav {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+nav.nav-dark-links .nav-links li a {
+  color: #1a1a1a !important;
+}
+
+nav.nav-dark-links .nav-links li a:hover {
+  color: var(--second-color) !important;
+}
+
+nav.nav-dark-links .cart-trigger {
+  color: #1a1a1a !important;
+}
+
+nav.nav-dark-links .btn.menu-btn i {
+  color: #1a1a1a !important;
+}
+
+
 nav .wrapper {
   position: relative;
 

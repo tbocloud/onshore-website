@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>Product Specifications | Onshore Technical Supplies</title>
+    <style>
+        .spec_hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/img/hero-ecommerce.png');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .product_main_display {
+            padding: 80px 0;
+        }
+
+        .gallery_container {
+            position: sticky;
+            top: 100px;
+        }
+
+        .main_image_box {
+            border: 1px solid #eee;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 450px;
+        }
+
+        .main_image_box img {
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .thumb_grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .thumb_item {
+            border: 1px solid #eee;
+            cursor: pointer;
+            padding: 5px;
+            transition: 0.3s;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb_item:hover,
+        .thumb_item.active {
+            border-color: var(--main-color);
+        }
+
+        .thumb_item img {
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .spec_info h1 {
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        .brand_label {
+            display: inline-block;
+            background: #f0f7ff;
+            color: var(--main-color);
+            padding: 5px 15px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .spec_table_wrapper {
+            margin-top: 30px;
+        }
+
+        .spec_table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec_table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec_table th {
+            padding: 15px 10px;
+            text-align: left;
+            color: #555;
+            width: 35%;
+            font-weight: 600;
+        }
+
+        .spec_table td {
+            padding: 15px 10px;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .desc_section {
+            margin-top: 50px;
+            padding-top: 50px;
+            border-top: 1px solid #eee;
+        }
+
+        .desc_section h4 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .arabic_content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        #spec-loader {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="nav-dark-links">
+            <div class="wrapper container">
+                <div class="logo">
+                    <a href="./">
+                        <img src="assets/img/logo.png" class="img-fluid logo-img" alt="">
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="./">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="industries.html">Industries</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="brands.html">Brands</a></li>
+                    <li><a href="blog.html">News & Blogs</a></li>
+                </ul>
+                <div class="nav-right-icons">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
+                        <i class="ri-shopping-basket-fill"></i>
+                        <span class="quote-basket-count">0</span>
+                    </div>
+                    <div>
+                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="spec_hero">
+            <div class="container">
+                <h2 id="hero-product-name">Product Specifications</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center" style="background: transparent;">
+                        <li class="breadcrumb-item"><a href="./" style="color: #ccc;">Home</a></li>
+                        <li class="breadcrumb-item"><a href="product-details.html" style="color: #ccc;">Products</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page" id="breadcrumb-current">Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </section>
+
+        <section class="product_main_display">
+            <div class="container">
+                <div id="spec-loader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Loading detailed specifications...</p>
+                </div>
+
+                <div id="spec-error" style="display: none;" class="alert alert-danger text-center">
+                    <h5>Unable to load product details</h5>
+                    <p>The requested product could not be found or there was a server error.</p>
+                    <a href="product-details.html" class="main-btn mt-3">Back to Products</a>
+                </div>
+
+                <div id="spec-content" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="gallery_container">
+                                <div class="main_image_box" id="main-image-display">
+                                    <!-- Main Image -->
+                                </div>
+                                <div class="thumb_grid" id="thumbnail-grid">
+                                    <!-- Thumbnails -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="spec_info">
+                                <div class="brand_label" id="spec-brand">Brand Name</div>
+                                <h1 id="spec-title">Product Title</h1>
+                                <p class="text-muted" id="spec-subtitle">Item Code: #0000</p>
+                                
+                                <div class="spec_table_wrapper">
+                                    <table class="spec_table">
+                                        <tbody id="spec-table-body">
+                                            <!-- Key Value Pairs -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="cta_group mt-5">
+                                    <button class="main-btn w-100 mb-3 add-to-cart-btn" id="spec-add-cart">ADD TO QUOTE BASKET <i class="ri-shopping-basket-line"></i></button>
+                                    <button class="secondary-btn w-100 request-quote-btn" id="spec-req-quote">REQUEST A QUOTE <i class="ri-mail-send-line"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="desc_section">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h4>Product Description</h4>
+                                <div id="spec-desc-en">
+                                    <!-- English Description -->
+                                </div>
+
+                                <div class="arabic_content mt-5" id="spec-desc-ar-wrapper" style="display: none;">
+                                    <div class="text-end" dir="rtl">
+                                        <h4 style="font-family: inherit;">وصف المنتج</h4>
+                                        <div id="spec-desc-ar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="related_info p-4" style="background: #f8f8f8; border-radius: 8px;">
+                                    <h5 class="mb-4" style="font-weight: 700;">Need Assistance?</h5>
+                                    <p class="small text-muted">Our technical team is ready to help you with specific requirements or bulk orders.</p>
+                                    <hr>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="ri-phone-fill me-3" style="color: var(--main-color); font-size: 20px;"></i>
+                                        <div>
+                                            <div class="small text-muted">Call Us</div>
+                                            <a href="tel:+966545480607" style="font-weight: 700; color: #222;">+966 54 548 0607</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="ri-mail-fill me-3" style="color: var(--main-color); font-size: 20px;"></i>
+                                        <div>
+                                            <div class="small text-muted">Email Us</div>
+                                            <a href="mailto:enquiry@onshoretechnical.com.sa" style="font-weight: 700; color: #222;">enquiry@onshoretechnical.com.sa</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-placeholder">
+        <!-- Footer will be loaded here or hardcoded -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/product-specifications.js"></script>
+</body>
+
+</html>
