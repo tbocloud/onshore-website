@@ -182,14 +182,14 @@
         <nav>
             <div class="wrapper container">
                 <div class="logo">
-                    <a href="./">
-                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
+                    <a href="./" aria-label="Onshore Technical Supplies Homepage">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="Onshore Technical Supplies Logo" width="180" height="42">
                     </a>
                 </div>
                 <input type="radio" name="slide" id="menu-btn">
                 <input type="radio" name="slide" id="cancel-btn">
                 <ul class="nav-links">
-                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
+                    <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i class="ri-close-line"></i></label>
                     <li><a href="./">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="industries.html">Industries</a></li>
@@ -198,7 +198,7 @@
                     <li><a href="blog.html">News & Blogs</a></li>
                 </ul>
                 <div class="nav-right-icons">
-                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()" role="button" aria-label="Open Quote Basket" tabindex="0">
                         <i class="ri-shopping-basket-fill"></i>
                         <span class="quote-basket-count">0</span>
                     </div>
@@ -206,7 +206,7 @@
                         <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
                     </div>
                 </div>
-                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
+                <label for="menu-btn" class="btn menu-btn" aria-label="Open Mobile Menu"><i class="ri-menu-line"></i></label>
             </div>
         </nav>
     </header>
@@ -351,8 +351,85 @@
         </section>
     </main>
 
-    <footer id="footer-placeholder">
-        <!-- Footer will be loaded here or hardcoded -->
+    <footer>
+        <div class="container">
+
+            <div class="footer_container">
+                <div class="footer_column">
+                    <div class="footer_logo">
+                        <a href="./" aria-label="Onshore Technical Supplies Homepage">
+                            <img src="assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo" width="180" height="42">
+                        </a>
+                    </div>
+
+                    <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower
+                        industries with quality and trust</p>
+
+                    <ul class="social_links">
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank" aria-label="Visit Onshore Technical Supplies on Facebook"><i
+                                    class="ri-facebook-circle-line"></i></a></li>
+
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/" target="_blank" aria-label="Visit Onshore Technical Supplies on Instagram"><i
+                                    class="ri-instagram-line"></i></a></li>
+
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank" aria-label="Visit Onshore Technical Supplies on YouTube"><i
+                                    class="ri-youtube-fill"></i></a></li>
+
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank" aria-label="Visit Onshore Technical Supplies on LinkedIn"><i
+                                    class="ri-linkedin-box-fill"></i></a></li>
+
+                        <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on Snapchat"><i class="ri-snapchat-line"></i></a></li>
+
+                        <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
+
+
+
+                    </ul>
+                </div>
+
+
+
+
+
+                <div class="footer_column">
+                    <h6 class="footer_title">More Links</h6>
+
+                    <ul>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="./"> Home</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="brands.html"> Brands</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
+                    </ul>
+
+
+                </div>
+
+                <div class="footer_column contact-details">
+                    <h6 class="footer_title">Get In Touch</h6>
+
+                    <p>Location</p>
+                    <span>PO BOX 6341, 10th Street
+                        Dammam 31442, Kingdom of Saudi Arabia</span>
+
+                    <p>Mobile</p>
+                    <a href="tel:+966545480607">+966 54 548 0607</a> / <a href="tel:+966543469776">+966 54 346 9776</a>
+
+
+                    <p>E-Mail Address</p>
+                    <a href="mailto:enquiry@onshoretechnical.com.sa">enquiry@onshoretechnical.com.sa</a>
+                </div>
+
+            </div>
+
+            <div class="copyright text-center">
+                <p>© 2026 <span style="color:#0177c6;">Onshore</span> All rights reserved</p>
+            </div>
+        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

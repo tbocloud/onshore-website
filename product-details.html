@@ -46,15 +46,15 @@
         <nav>
             <div class="wrapper container">
                 <div class="logo">
-                    <a href="./">
-                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
+                    <a href="./" aria-label="Onshore Technical Supplies Homepage">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="Onshore Technical Supplies Logo" width="180" height="42">
                     </a>
                 </div>
 
                 <input type="radio" name="slide" id="menu-btn">
                 <input type="radio" name="slide" id="cancel-btn">
                 <ul class="nav-links">
-                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
+                    <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i class="ri-close-line"></i></label>
 
                     <li><a href="./">Home</a></li>
 
@@ -77,7 +77,7 @@
                 </ul>
 
                 <div class="nav-right-icons">
-                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()" role="button" aria-label="Open Quote Basket" tabindex="0">
                         <i class="ri-shopping-basket-fill"></i>
                         <span class="quote-basket-count">0</span>
                     </div>
@@ -87,7 +87,7 @@
                 </div>
 
 
-                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
+                <label for="menu-btn" class="btn menu-btn" aria-label="Open Mobile Menu"><i class="ri-menu-line"></i></label>
             </div>
         </nav>
     </header>
@@ -165,30 +165,32 @@
             <div class="footer_container">
                 <div class="footer_column">
                     <div class="footer_logo">
-                        <img src="assets/img/logo.png" class="img-fluid" alt="">
+                        <a href="./" aria-label="Onshore Technical Supplies Homepage">
+                            <img src="assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo" width="180" height="42">
+                        </a>
                     </div>
 
                     <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower
                         industries with quality and trust</p>
 
                     <ul class="social_links">
-                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"><i
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank" aria-label="Visit Onshore Technical Supplies on Facebook"><i
                                     class="ri-facebook-circle-line"></i></a></li>
 
-                        <li><a href="https://www.instagram.com/onshore_technical_supply/"><i
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/" target="_blank" aria-label="Visit Onshore Technical Supplies on Instagram"><i
                                     class="ri-instagram-line"></i></a></li>
 
-                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"><i
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank" aria-label="Visit Onshore Technical Supplies on YouTube"><i
                                     class="ri-youtube-fill"></i></a></li>
 
-                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"><i
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank" aria-label="Visit Onshore Technical Supplies on LinkedIn"><i
                                     class="ri-linkedin-box-fill"></i></a></li>
 
                         <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
-                                target="_blank"><i class="ri-snapchat-line"></i></a></li>
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on Snapchat"><i class="ri-snapchat-line"></i></a></li>
 
                         <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
-                                target="_blank"><i class="fa-brands fa-tiktok"></i></a></li>
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
 
 
 
@@ -227,7 +229,7 @@
 
 
                     <p>E-Mail Address</p>
-                    <a href="#">enquiry@onshoretechnical.com.sa</a>
+                    <a href="mailto:enquiry@onshoretechnical.com.sa">enquiry@onshoretechnical.com.sa</a>
                 </div>
 
             </div>
