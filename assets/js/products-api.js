@@ -62,14 +62,36 @@ $(document).ready(function () {
         tabContent.empty();
 
         // Group products by Item Group (Industry)
+        const categoryMap = {
+            'LIFTING': 'Rigging & Lifting tools',
+            'WELDING': 'Welding Equipment & Accessories',
+            'SAFETY': 'Personal Protective Equipment',
+            'MARINE': 'Marine & Project Supplies'
+        };
+
         const groups = {};
         products.forEach(p => {
-            const group = p.item_group || 'Other Products';
+            const rawGroup = p.item_group || 'Other Products';
+            const group = categoryMap[rawGroup] || rawGroup;
             if (!groups[group]) groups[group] = [];
             groups[group].push(p);
         });
 
-        const groupKeys = Object.keys(groups);
+        const categoryOrder = [
+            'Rigging & Lifting tools',
+            'Welding Equipment & Accessories',
+            'Personal Protective Equipment',
+            'Marine & Project Supplies'
+        ];
+
+        const groupKeys = Object.keys(groups).sort((a, b) => {
+            const idxA = categoryOrder.indexOf(a);
+            const idxB = categoryOrder.indexOf(b);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            return a.localeCompare(b);
+        });
         
         groupKeys.forEach((group, index) => {
             const tabId = `tab-${index}`;
@@ -108,9 +130,10 @@ $(document).ready(function () {
 
             for (const brand in itemsByBrand) {
                 const brandClass = brand.toLowerCase().replace(/\s+/g, '-');
+                const brandDisplay = brand.toLowerCase() === 'europull' ? `${brand} <span class="premium_badge" style="font-size: 10px; padding: 2px 8px; border-radius: 50px; background: #0177c6; color: #fff; vertical-align: middle; margin-left: 8px;">Euro Series</span>` : brand;
                 productsHtml += `
                     <div class="brand_group mb-5" data-brand="${brandClass}">
-                        <h3 class="brand_title">${brand}</h3>
+                        <h3 class="brand_title">${brandDisplay}</h3>
                         <div class="product_grid">
                             ${itemsByBrand[brand].map(p => renderProductCard(p)).join('')}
                         </div>
