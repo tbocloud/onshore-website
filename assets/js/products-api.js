@@ -151,23 +151,43 @@ $(document).ready(function () {
             console.warn("Product missing 'name' field:", p);
         }
 
+        let rawBrandName = p.custom_brand_name || '';
+        let displayBrand = rawBrandName.toUpperCase();
+        if (displayBrand === 'PPE') displayBrand = 'SAFETY PRO';
+        if (!displayBrand) displayBrand = 'ONSHORE';
+
+        let isTopSeller = Math.random() > 0.75;
+        let statusHtml = '';
+        if (isTopSeller) {
+            statusHtml = `<span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #e65100; display: inline-block;"></span> Hot Seller</span>`;
+        } else {
+            statusHtml = `<span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #2e7d32; display: inline-block;"></span> In Stock</span>`;
+        }
+
         return `
             <div class="product">
                 <a href="${specsUrl}" class="product_link_wrapper">
                     <div class="product_image">
                         <img src="${fullImgUrl}" class="img-fluid" alt="${name}" onerror="this.src='assets/img/logo.png'">
                     </div>
-                    <h6 class="product_name">${name} ${arabicName ? `<span class="arabic_name">${arabicName}</span>` : ''}</h6>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 16px; margin-top: 15px; margin-bottom: 6px; width: 100%;">
+                        <span style="font-size: 10px; font-weight: 800; color: #0177c6; letter-spacing: 0.8px; text-transform: uppercase;">${displayBrand}</span>
+                        ${statusHtml}
+                    </div>
+                    <h6 class="product_name" style="${!arabicName ? 'margin-bottom: 15px;' : ''}">${name} ${arabicName ? `<span class="arabic_name" style="display: block; margin-bottom: 15px;">${arabicName}</span>` : ''}</h6>
                 </a>
                 <div class="product_actions">
                     <a href="javascript:void(0);" class="add-to-cart-btn" 
+                       style="background-color: #0177c6; border: 1px solid #0177c6; color: #fff; padding: 8px 10px; font-size: 11px; font-weight: 700; border-radius: 6px; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease;"
                        data-id="${p.name}" 
                        data-name="${name}" 
                        data-name-ar="${arabicName}"
                        data-desc-en="${(p.custom_commercial_description || '').replace(/"/g, '&quot;')}"
                        data-desc-ar="${(p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;')}"
                        data-image="${fullImgUrl}" 
-                       data-brand="${p.custom_brand_name || ''}">Add to Cart</a>
+                       data-brand="${p.custom_brand_name || ''}">
+                       <i class="ri-shopping-cart-2-line" style="font-size: 13px;"></i> Add to Cart
+                    </a>
                     <a href="${specsUrl}" class="view-details-btn">View Details</a>
                 </div>
             </div>
