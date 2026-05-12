@@ -64,6 +64,15 @@ $(document).ready(function () {
         $('#hero-product-name').text(name);
         $('#breadcrumb-current').text(name);
         
+        // Update Document Title and Meta Description dynamically
+        document.title = `${name} | Onshore Technical Supplies`;
+        if (p.description) {
+            const plainDescForMeta = $('<div>').html(p.description).text().trim();
+            if (plainDescForMeta) {
+                $('meta[name="description"]').attr('content', plainDescForMeta);
+            }
+        }
+        
         // Render Title & Arabic Item Title
         const nameAr = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
         if (nameAr) {
@@ -155,6 +164,7 @@ $(document).ready(function () {
             { label: 'SKU', value: p.custom_sku },
             { label: 'Model Number', value: p.custom_model_number },
             { label: 'Stock Status', value: p.stock > 0 ? 'In Stock' : 'Contact for Availability' },
+            { label: 'Delivery', value: 'Delivery will be done within 3-4 working days' },
             { label: 'Price', value: p.price > 0 ? `Contact for Price` : 'Request a Quote' }
         ];
 
