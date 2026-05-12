@@ -78,9 +78,12 @@ $(document).ready(function () {
 
         // Dynamic summary description underneath the code
         if (p.description) {
-            // Remove existing description if already rendered on hot-reload/multiple loads
-            $('#spec-info-desc').remove();
-            $('<div class="lead mt-3 text-secondary" id="spec-info-desc" style="margin-bottom: 20px; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;"></div>').html(p.description).insertAfter('#spec-subtitle');
+            // Strip HTML to compare plain text, avoid rendering if it's identical to the product name
+            const plainDesc = $('<div>').html(p.description).text().trim();
+            if (plainDesc && plainDesc.toLowerCase() !== name.toLowerCase()) {
+                $('#spec-info-desc').remove();
+                $('<div class="lead mt-3 text-secondary" id="spec-info-desc" style="margin-bottom: 20px; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;"></div>').html(p.description).insertAfter('#spec-subtitle');
+            }
         }
 
         // 2. Images & Gallery
@@ -156,6 +159,8 @@ $(document).ready(function () {
         ];
 
         let specsHtml = '';
+        const renderedLabels = new Set();
+
         specs.forEach(s => {
             if (s.value) {
                 specsHtml += `
@@ -164,19 +169,21 @@ $(document).ready(function () {
                         <td>${s.value}</td>
                     </tr>
                 `;
+                renderedLabels.add(s.label.toLowerCase());
             }
         });
 
         // DYNAMIC CUSTOM SPECIFICATIONS ATTRIBUTES
         if (p.custom_product_specification && Array.isArray(p.custom_product_specification)) {
             p.custom_product_specification.forEach(spec => {
-                if (spec.title && spec.value) {
+                if (spec.title && spec.value && !renderedLabels.has(spec.title.toLowerCase())) {
                     specsHtml += `
                         <tr>
                             <th>${spec.title}</th>
                             <td>${spec.value}</td>
                         </tr>
                     `;
+                    renderedLabels.add(spec.title.toLowerCase());
                 }
             });
         }
@@ -185,9 +192,19 @@ $(document).ready(function () {
 
         // 4. Descriptions Mapping with Tab show/hide toggles
         
+        const formatText = (text) => {
+            if (!text) return '';
+            // If it contains HTML block tags, assume it's already formatted
+            if (/<(p|div|br|ul|li|h[1-6])[^>]*>/i.test(text)) {
+                return text;
+            }
+            // Otherwise replace newlines with <br>
+            return text.replace(/\n/g, '<br>');
+        };
+
         // Tab 1: Commercial Description
-        const commEn = p.custom_commercial_description || '';
-        const commAr = p.custom_commercial_description_in_arabic || '';
+        const commEn = formatText(p.custom_commercial_description) || '';
+        const commAr = formatText(p.custom_commercial_description_in_arabic) || '';
         $('#spec-desc-en').html(commEn || 'Detailed specifications for this product are currently being updated. Please contact our support team for immediate assistance.');
         
         if (commAr) {
@@ -198,8 +215,8 @@ $(document).ready(function () {
         }
 
         // Tab 2: Detailed Specs Description
-        const detEn = p.custom_detailed_description || '';
-        const detAr = p.custom_detailed_description_in_arabic || '';
+        const detEn = formatText(p.custom_detailed_description) || '';
+        const detAr = formatText(p.custom_detailed_description_in_arabic) || '';
         if (detEn || detAr) {
             $('#detailed-tab-li').show();
             $('#spec-detailed-en').html(detEn || '');
@@ -214,7 +231,7 @@ $(document).ready(function () {
         }
 
         // Tab 3: More Info Description
-        const moreInfo = p.custom_product_more_information || '';
+        const moreInfo = formatText(p.custom_product_more_information) || '';
         if (moreInfo) {
             $('#more-info-tab-li').show();
             $('#spec-more-info').html(moreInfo);
