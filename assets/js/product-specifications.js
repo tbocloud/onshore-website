@@ -80,7 +80,7 @@ $(document).ready(function () {
         if (p.description) {
             // Remove existing description if already rendered on hot-reload/multiple loads
             $('#spec-info-desc').remove();
-            $('<p class="lead mt-3 text-secondary" id="spec-info-desc"></p>').text(p.description).insertAfter('#spec-subtitle');
+            $('<div class="lead mt-3 text-secondary" id="spec-info-desc" style="padding-right: 15px; margin-bottom: 20px;"></div>').html(p.description).insertAfter('#spec-subtitle');
         }
 
         // 2. Images & Gallery
