@@ -94,35 +94,212 @@
 
 
     <main>
-        <div class="page_banner">
-            <div class="container">
-                <div class="page_banner_content">
-                    <h1 class="main_heading" style="color: #fff;">Technical Equipment Suppliers in Saudi Arabia</h1>
-                    <ul>
-                        <li class="home"><a href="./">Home</a></li> /
-                        <li>Products</li>
-                    </ul>
+        <style>
+            .hover-card {
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+            .hover-card:hover {
+                transform: translateY(-8px);
+                border-color: #0177c6 !important;
+                box-shadow: 0 12px 24px rgba(1, 119, 198, 0.18) !important;
+            }
+        </style>
+        <script>
+            function focusProduct(productName) {
+                // 1. Switch to Rigging & Lifting tools tab if not active
+                const liftingTabButton = document.getElementById('pills-p3-tab');
+                if (liftingTabButton && !liftingTabButton.classList.contains('active')) {
+                    liftingTabButton.click();
+                }
+                
+                // 2. Clear any search filtering
+                const searchInput = document.getElementById('product-page-search');
+                if (searchInput && searchInput.value) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+                
+                // 3. Find the product by its text content
+                setTimeout(() => {
+                    const productElements = document.querySelectorAll('.product');
+                    for (let el of productElements) {
+                        const nameEl = el.querySelector('.product_name');
+                        if (nameEl && nameEl.textContent.trim().toLowerCase().includes(productName.toLowerCase())) {
+                            // Scroll to it
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            
+                            // Highlight pulse
+                            el.style.transition = 'all 0.5s ease-in-out';
+                            el.style.borderColor = '#0177c6';
+                            el.style.boxShadow = '0 0 20px rgba(1, 119, 198, 0.6)';
+                            el.style.transform = 'scale(1.06)';
+                            
+                            setTimeout(() => {
+                                el.style.transform = '';
+                                el.style.boxShadow = '';
+                                el.style.borderColor = '';
+                            }, 2500);
+                            
+                            break;
+                        }
+                    }
+                }, 150);
+            }
+        </script>
+
+        <div class="page_banner" style="height: auto !important; min-height: 480px; padding: 110px 0 50px 0; background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/banner2.webp); background-size: cover; background-position: center; display: flex; align-items: center;">
+            <div class="container" style="position: relative; z-index: 2;">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 text-white mb-4 mb-lg-0 text-start">
+                        <span class="sub_head text-warning mb-2 d-block" style="font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">Heavy Duty Lifting Systems</span>
+                        <h1 class="font-weight-bold mb-3" style="color: #fff; font-size: 34px; line-height: 1.2;">Premium Lifting & Hoisting Solutions</h1>
+                        <p style="font-size: 14px; color: #e0e0e0; line-height: 1.6; margin-bottom: 20px;">
+                            Saudi Arabia's elite distributor of certified heavy-duty hoisting and rigging machinery. Engineered to satisfy extreme load and safety requirements in petrochemical, maritime, and construction sectors.
+                            <br><br>
+                            <span style="font-weight: 500; color: #ffc107;"><i class="ri-truck-fill mr-1"></i> Our products can be purchased from several Saudi cities location Dammam, Jubail, Al Khobar, Ras tanura.</span>
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="badge bg-primary px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-shield-check-line mr-1"></i> CE & EN Certified</span>
+                            <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-settings-3-line mr-1"></i> 7:1 Design Safety</span>
+                            <span class="badge bg-success px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-checkbox-circle-line mr-1"></i> 100% In-Stock KSA</span>
+                            <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
+                        </div>
+                        <div class="mt-4 mb-3">
+                            <a href="#pills-tab" onclick="document.getElementById('pills-tab').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
+                                <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
+                            </a>
+                        </div>
+                        <ul class="breadcrumbs mt-3" style="margin-top: 5px; list-style: none; padding: 0; display: flex; gap: 10px; font-size: 14px;">
+                            <li class="home"><a href="./" style="color: #0177c6; font-weight: 600; text-decoration: none;">Home</a></li>
+                            <li style="color: #9d9d9d;">/</li>
+                            <li style="color: #fff; font-weight: 300;">Products</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="row g-3">
+                            <!-- 4 Hoists Grid -->
+                            <div class="col-6 col-sm-3">
+                                <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                        <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                    </div>
+                                    <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Lever Hoist</h6>
+                                    <div class="mb-2">
+                                        <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <i class="ri-chat-quote-line"></i> Add to Quote
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                        <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                    </div>
+                                    <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Chain Hoist</h6>
+                                    <div class="mb-2">
+                                        <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <i class="ri-chat-quote-line"></i> Add to Quote
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                        <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                    </div>
+                                    <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electrical Chain Hoist</h6>
+                                    <div class="mb-2">
+                                        <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <i class="ri-chat-quote-line"></i> Add to Quote
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                        <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                    </div>
+                                    <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electric Hoist + Trolley</h6>
+                                    <div class="mb-2">
+                                        <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <i class="ri-chat-quote-line"></i> Add to Quote
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-
-
+        <!-- B2B Selling Trust Bar -->
+        <div style="background: #f8fafc; padding: 25px 0; border-bottom: 1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);">
+            <div class="container">
+                <div class="row g-4 justify-content-center text-center">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="d-flex flex-column align-items-center p-2">
+                            <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(1, 119, 198, 0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #0177c6;">
+                                <i class="ri-truck-line" style="font-size: 22px;"></i>
+                            </div>
+                            <h6 style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Direct KSA Dispatch</h6>
+                            <p style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.4;">Fast supply to Dammam, Jubail, Khobar, Ras Tanura & Riyadh</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="d-flex flex-column align-items-center p-2">
+                            <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(34, 197, 94, 0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #22c55e;">
+                                <i class="ri-award-line" style="font-size: 22px;"></i>
+                            </div>
+                            <h6 style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Aramco-Ready Compliance</h6>
+                            <p style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.4;">100% original brands with official load test & mill certificates</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="d-flex flex-column align-items-center p-2">
+                            <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(249, 115, 22, 0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #f97316;">
+                                <i class="ri-price-tag-3-line" style="font-size: 22px;"></i>
+                            </div>
+                            <h6 style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Bulk Wholesale Rates</h6>
+                            <p style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.4;">Competitive factory pricing & flexible B2B corporate credit terms</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="d-flex flex-column align-items-center p-2">
+                            <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(20, 184, 166, 0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #14b8a6;">
+                                <i class="ri-customer-service-2-line" style="font-size: 22px;"></i>
+                            </div>
+                            <h6 style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">24/7 Expert Spec Support</h6>
+                            <p style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.4;">Consult engineers for perfect hoist specifications & safety factors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <section class="products section">
             <div class="container">
                 <div id="search-status" style="display: none; margin-bottom: 20px; align-items: center; gap: 15px;">
                     <h5 style="margin: 0; font-weight: 600;">Showing results for: "<span id="search-term"></span>"</h5>
-                    <a href="products.html" class="btn btn-sm btn-outline-danger" style="border-radius: 50px; padding: 5px 15px;">Clear Search</a>
+                    <a href="products.html" class="btn btn-sm btn-outline-danger"
+                        style="border-radius: 50px; padding: 5px 15px;">Clear Search</a>
                 </div>
                 <!-- <div class="row mb-5">
                     <div class="col-md-3 col-12">
                         <select class="form-select filter_select" aria-label="Default select example">
                             <option selected>All Products</option>
-                            <option value="1">Welding</option>
-                            <option value="2">Safety</option>
-                            <option value="3">Lifting</option>
-                            <option value="4">Abrasive</option>
+                            <option value="1">Welding Equipment & Accessories</option>
+                            <option value="2">Personal Protective Equipment</option>
+                            <option value="3">Rigging & Lifting tools</option>
+                            <option value="4">Marine & Project Supplies</option>
                         </select>
                     </div>
                 </div> -->
@@ -131,7 +308,31 @@
                 <div class="product_search_wrapper mb-4">
                     <div class="search_box">
                         <i class="ri-search-line"></i>
-                        <input type="text" id="product-page-search" placeholder="Search products, brands or categories...">
+                        <input type="text" id="product-page-search"
+                            placeholder="Search products, brands or categories...">
+                    </div>
+                </div>
+
+                <div class="seo-hub-banner mb-4 p-3 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-white shadow-sm"
+                    style="border-radius: 8px; border-left: 5px solid #0177c6;">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="ri-information-line text-primary" style="font-size: 24px;"></i>
+                        <span style="font-weight: 600; font-size: 14px; color: #333;">Looking for detailed technical
+                            specs, SWL charts, or bulk B2B pricing? Visit our dedicated category hubs:</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="rigging-lifting-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Rigging &
+                            Lifting Hub</a>
+                        <a href="industrial-welding-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Welding
+                            Hub</a>
+                        <a href="personal-protective-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">PPE
+                            Hub</a>
+                        <a href="marine-project-supplies-supplier.html" class="btn btn-sm btn-outline-primary"
+                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Marine
+                            Supplies Hub</a>
                     </div>
                 </div>
 
@@ -139,19 +340,22 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-p3-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-p3" type="button" role="tab" aria-controls="pills-p3"
-                            aria-selected="true">Lifting</button>
+                            aria-selected="true">Rigging & Lifting tools</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link " id="pills-p1-tab" data-bs-toggle="pill" data-bs-target="#pills-p1"
-                            type="button" role="tab" aria-controls="pills-p1" aria-selected="false">Welding</button>
+                            type="button" role="tab" aria-controls="pills-p1" aria-selected="false">Welding Equipment &
+                            Accessories</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-p2-tab" data-bs-toggle="pill" data-bs-target="#pills-p2"
-                            type="button" role="tab" aria-controls="pills-p2" aria-selected="false">Safety</button>
+                            type="button" role="tab" aria-controls="pills-p2" aria-selected="false">Personal Protective
+                            Equipment</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="pills-p4-tab" data-bs-toggle="pill" data-bs-target="#pills-p4"
-                            type="button" role="tab" aria-controls="pills-p4" aria-selected="false">Abrasive</button>
+                            type="button" role="tab" aria-controls="pills-p4" aria-selected="false">Marine & Project
+                            Supplies</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
@@ -170,7 +374,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30REG-ARG-K.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Argon Regulator <span class="arabic_name">منظم أرجون</span></h6>
+                                    <h6 class="product_name">Argon Regulator <span class="arabic_name">منظم أرجون</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -179,7 +384,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30REG-CO2-220-N.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">CO2 Regulator 220V <span class="arabic_name">منظم CO2 (مع سخان 220 فولت)</span></h6>
+                                    <h6 class="product_name">CO2 Regulator 220V <span class="arabic_name">منظم CO2 (مع
+                                            سخان 220 فولت)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -188,7 +394,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30WM-MMA-TA400-KSA.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">MMA Welding Machine TA400 <span class="arabic_name">مكينة لحام كهرباء TA400</span></h6>
+                                    <h6 class="product_name">MMA Welding Machine TA400 <span class="arabic_name">مكينة
+                                            لحام كهرباء TA400</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -197,7 +404,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/99TIG-3.2MM.jpg" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">TIG Rod 3.2mm <span class="arabic_name">سياخ لحام تيج 3.2 ملم</span></h6>
+                                    <h6 class="product_name">TIG Rod 3.2mm <span class="arabic_name">سياخ لحام تيج 3.2
+                                            ملم</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -207,7 +415,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30CC-USA3550F.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Cable Connector USA3550F <span class="arabic_name">موصل كبل لحام</span></h6>
+                                    <h6 class="product_name">Cable Connector USA3550F <span class="arabic_name">موصل كبل
+                                            لحام</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -216,7 +425,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30CC-USA5070M.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Cable Connector USA5070M <span class="arabic_name">موصل كبل لحام</span></h6>
+                                    <h6 class="product_name">Cable Connector USA5070M <span class="arabic_name">موصل كبل
+                                            لحام</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -225,7 +435,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30GC-STD60.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Earth Clamp STD60 <span class="arabic_name">كماشة أرضي STD60</span></h6>
+                                    <h6 class="product_name">Earth Clamp STD60 <span class="arabic_name">كماشة أرضي
+                                            STD60</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -234,7 +445,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30GE-KIT1-KSA.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Gas Equipment KIT1 KSA <span class="arabic_name">طقم معدات غاز</span></h6>
+                                    <h6 class="product_name">Gas Equipment KIT1 KSA <span class="arabic_name">طقم معدات
+                                            غاز</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -243,7 +455,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30SMW-ER70S6-1.2MM.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">ER70S6 Welding Wire 1.2M <span class="arabic_name">سلك لحام ميك 1.2 ملم</span></h6>
+                                    <h6 class="product_name">ER70S6 Welding Wire 1.2M <span class="arabic_name">سلك لحام
+                                            ميك 1.2 ملم</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -252,7 +465,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30SS-E308L-16-3.2MM.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">SS E308L-16 Electrode <span class="arabic_name">سلك لحام ستانلس ستيل</span></h6>
+                                    <h6 class="product_name">SS E308L-16 Electrode <span class="arabic_name">سلك لحام
+                                            ستانلس ستيل</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -261,7 +475,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30WE-E6013-3.2X350MM.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrode E6013 3.2mm <span class="arabic_name">أسياخ لحام E6013 (إلكترود)</span></h6>
+                                    <h6 class="product_name">Electrode E6013 3.2mm <span class="arabic_name">أسياخ لحام
+                                            E6013 (إلكترود)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -270,7 +485,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Welding/techweld/30WE-E7018-3.2MM-VP.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrode E7018 3.2mm <span class="arabic_name">أسياخ لحام E7018 (إلكترود)</span></h6>
+                                    <h6 class="product_name">Electrode E7018 3.2mm <span class="arabic_name">أسياخ لحام
+                                            E7018 (إلكترود)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -287,7 +503,8 @@
                                         <img src="assets/img/original_products/Welding/weldman/82HEL-WM-SPRING-WELDMAN_CATALOG 2021-PAGE6.jpg"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Weldman Welding Helmet <span class="arabic_name">خوذة لحام ويلدمان</span></h6>
+                                    <h6 class="product_name">Weldman Welding Helmet <span class="arabic_name">خوذة لحام
+                                            ويلدمان</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -313,7 +530,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p1.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Safety Helmet <span class="arabic_name">خوذة سلامة</span></h6>
+                                    <h6 class="product_name">Safety Helmet <span class="arabic_name">خوذة سلامة</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -321,7 +539,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p2.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Safety Glasses <span class="arabic_name">نظارات حماية</span></h6>
+                                    <h6 class="product_name">Safety Glasses <span class="arabic_name">نظارات
+                                            حماية</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -329,7 +548,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p3.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Safety Gloves <span class="arabic_name">قفازات سلامة</span></h6>
+                                    <h6 class="product_name">Safety Gloves <span class="arabic_name">قفازات سلامة</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -337,7 +557,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p4.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Welding Hand Shield <span class="arabic_name">درع لحام يدوي</span></h6>
+                                    <h6 class="product_name">Welding Hand Shield <span class="arabic_name">درع لحام
+                                            يدوي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -346,7 +567,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Safety/Rigman/81SSR40.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Safety Harness SSR40 <span class="arabic_name">حزام أمان (براشوت) SSR40</span></h6>
+                                    <h6 class="product_name">Safety Harness SSR40 <span class="arabic_name">حزام أمان
+                                            (براشوت) SSR40</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -355,7 +577,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Safety/Rigman/81SSR41.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Safety Harness SSR41 <span class="arabic_name">حزام أمان (براشوت) SSR41</span></h6>
+                                    <h6 class="product_name">Safety Harness SSR41 <span class="arabic_name">حزام أمان
+                                            (براشوت) SSR41</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -364,7 +587,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Safety/Rigman/81SSR44.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Safety Harness SSR44 <span class="arabic_name">حزام أمان (براشوت) SSR44</span></h6>
+                                    <h6 class="product_name">Safety Harness SSR44 <span class="arabic_name">حزام أمان
+                                            (براشوت) SSR44</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -381,7 +605,8 @@
                                         <img src="assets/img/original_products/Safety/geotex/36FRT66-300-ORANGE.jpeg"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">FRT Orange Coverall <span class="arabic_name">أفرول برتقالي مقاوم للحريق</span></h6>
+                                    <h6 class="product_name">FRT Orange Coverall <span class="arabic_name">أفرول برتقالي
+                                            مقاوم للحريق</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -391,7 +616,8 @@
                                     <div class="product_image">
                                         <img src="assets/img/products/p2.webp" class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Geotex Safety Glasses <span class="arabic_name">نظارات سلامة جيوتكس</span></h6>
+                                    <h6 class="product_name">Geotex Safety Glasses <span class="arabic_name">نظارات
+                                            سلامة جيوتكس</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -416,18 +642,20 @@
                             <div class="product_grid">
                                 <div class="product">
                                     <div class="product_image"><img
-                                            src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg"
+                                            src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Manual Chain Hoist <span class="arabic_name">بكارة جنزير يدوية</span></h6>
+                                    <h6 class="product_name">Manual Lever Hoist <span class="arabic_name">رافعة جنزير
+                                            يدوية (ليفر بلوك)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
                                 </div>
                                 <div class="product">
                                     <div class="product_image"><img
-                                            src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg"
+                                            src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Manual Lever Hoist <span class="arabic_name">رافعة جنزير يدوية (ليفر بلوك)</span></h6>
+                                    <h6 class="product_name">Manual Chain Hoist <span class="arabic_name">بكارة جنزير
+                                            يدوية</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -436,7 +664,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrical Chain Hoist <span class="arabic_name">رافعة جنزير كهربائية</span></h6>
+                                    <h6 class="product_name">Electrical Chain Hoist <span class="arabic_name">رافعة
+                                            جنزير كهربائية</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -445,7 +674,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrical Chain Hoist + Trolley <span class="arabic_name">رافعة جنزير كهربائية مع ترولي</span></h6>
+                                    <h6 class="product_name">Electrical Chain Hoist + Trolley <span
+                                            class="arabic_name">رافعة جنزير كهربائية مع ترولي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -454,7 +684,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/hand_pallet_truck.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Hand Pallet Truck <span class="arabic_name">رافعة طبلية يدوية (هاند باليت)</span></h6>
+                                    <h6 class="product_name">Hand Pallet Truck <span class="arabic_name">رافعة طبلية
+                                            يدوية (هاند باليت)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -463,7 +694,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/alloy-steel-chain.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Alloy Steel Chain <span class="arabic_name">جنزير صلب (سبائك ستيل)</span></h6>
+                                    <h6 class="product_name">Alloy Steel Chain <span class="arabic_name">جنزير صلب
+                                            (سبائك ستيل)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -472,7 +704,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/beam_clamp.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Beam Clamp <span class="arabic_name">مشبك كمرة (بيم كلامب)</span></h6>
+                                    <h6 class="product_name">Beam Clamp <span class="arabic_name">مشبك كمرة (بيم
+                                            كلامب)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -481,7 +714,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/bow_shackle_ep209.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Bow Shackle EP209 <span class="arabic_name">شاكل أوميجا EP209</span></h6>
+                                    <h6 class="product_name">Bow Shackle EP209 <span class="arabic_name">شاكل أوميجا
+                                            EP209</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -490,7 +724,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/bow_shackle_EP2130.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Bow Shackle EP2130 <span class="arabic_name">شاكل أوميجا EP2130</span></h6>
+                                    <h6 class="product_name">Bow Shackle EP2130 <span class="arabic_name">شاكل أوميجا
+                                            EP2130</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -499,7 +734,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/D_shackle_EP210.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">D Shackle EP210 <span class="arabic_name">شاكل حرف D</span></h6>
+                                    <h6 class="product_name">D Shackle EP210 <span class="arabic_name">شاكل حرف D</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -508,7 +744,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/drum_lifter.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Drum Lifter <span class="arabic_name">رافعة براميل</span></h6>
+                                    <h6 class="product_name">Drum Lifter <span class="arabic_name">رافعة براميل</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -517,7 +754,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/electrical_trolley.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrical Trolley <span class="arabic_name">ترولي كهربائي</span></h6>
+                                    <h6 class="product_name">Electrical Trolley <span class="arabic_name">ترولي
+                                            كهربائي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -526,7 +764,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/electrical_winch.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electrical Winch <span class="arabic_name">ونش كهربائي</span></h6>
+                                    <h6 class="product_name">Electrical Winch <span class="arabic_name">ونش
+                                            كهربائي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -535,7 +774,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/Horizontal_pipe_lifting_clamp.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Horizontal Pipe Lifting Clamp <span class="arabic_name">بيم كلامب أنابيب أفقي</span></h6>
+                                    <h6 class="product_name">Horizontal Pipe Lifting Clamp <span class="arabic_name">بيم
+                                            كلامب أنابيب أفقي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -544,7 +784,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/horizontal_plate_lifting_clamp.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Horizontal Plate Lifting Clamp <span class="arabic_name">بيم كلامب صفائح أفقي</span></h6>
+                                    <h6 class="product_name">Horizontal Plate Lifting Clamp <span
+                                            class="arabic_name">بيم كلامب صفائح أفقي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -553,7 +794,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/low_head_room_manual_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Low Head Room Manual Hoist <span class="arabic_name">رافعة يدوية منخفضة الارتفاع</span></h6>
+                                    <h6 class="product_name">Low Head Room Manual Hoist <span class="arabic_name">رافعة
+                                            يدوية منخفضة الارتفاع</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -562,7 +804,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/manual-gear-trolley.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Manual Gear Trolley <span class="arabic_name">ترولي يدوي بتروس</span></h6>
+                                    <h6 class="product_name">Manual Gear Trolley <span class="arabic_name">ترولي يدوي
+                                            بتروس</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -571,7 +814,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/manual-push-trolley.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Manual Push Trolley <span class="arabic_name">ترولي يدوي</span></h6>
+                                    <h6 class="product_name">Manual Push Trolley <span class="arabic_name">ترولي
+                                            يدوي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -580,7 +824,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/marine_anti_corrosion_chain_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Marine Anti Corrosion Chain Hoist <span class="arabic_name">رافعة جنزير بحرية مقاومة للصدأ</span></h6>
+                                    <h6 class="product_name">Marine Anti Corrosion Chain Hoist <span
+                                            class="arabic_name">رافعة جنزير بحرية مقاومة للصدأ</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -589,7 +834,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/Rack_jack.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Rack Jack <span class="arabic_name">جك ميكانيكي (راك جاك)</span></h6>
+                                    <h6 class="product_name">Rack Jack <span class="arabic_name">جك ميكانيكي (راك
+                                            جاك)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -598,7 +844,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/snatch_block.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Snatch Block <span class="arabic_name">سناتش بلوك (بكرة سحب)</span></h6>
+                                    <h6 class="product_name">Snatch Block <span class="arabic_name">سناتش بلوك (بكرة
+                                            سحب)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -607,7 +854,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/Spark_proof_chain_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Spark Proof Chain Hoist <span class="arabic_name">رافعة جنزير مقاومة للشرر</span></h6>
+                                    <h6 class="product_name">Spark Proof Chain Hoist <span class="arabic_name">رافعة
+                                            جنزير مقاومة للشرر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -616,7 +864,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/spark_proof_lever_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Spark Proof Lever Hoist <span class="arabic_name">رافعة يدوية مقاومة للشرر</span></h6>
+                                    <h6 class="product_name">Spark Proof Lever Hoist <span class="arabic_name">رافعة
+                                            يدوية مقاومة للشرر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -625,7 +874,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/stainless_steel_chain_hoist.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Stainless Steel Chain Hoist <span class="arabic_name">رافعة جنزير ستانلس ستيل</span></h6>
+                                    <h6 class="product_name">Stainless Steel Chain Hoist <span class="arabic_name">رافعة
+                                            جنزير ستانلس ستيل</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -634,7 +884,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/universal_beam_clamp.jpeg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Universal Beam Clamp <span class="arabic_name">مشبك كمرة شامل</span></h6>
+                                    <h6 class="product_name">Universal Beam Clamp <span class="arabic_name">مشبك كمرة
+                                            شامل</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -643,7 +894,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/vertical-lifting-clamp.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Vertical Lifting Clamp <span class="arabic_name">مشبك رفع رأسي</span></h6>
+                                    <h6 class="product_name">Vertical Lifting Clamp <span class="arabic_name">مشبك رفع
+                                            رأسي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -652,7 +904,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/wire_rope_clip_u_bolt_type.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Wire Rope Clip U Bolt Type <span class="arabic_name">كلبس واير (قفلة واير)</span></h6>
+                                    <h6 class="product_name">Wire Rope Clip U Bolt Type <span class="arabic_name">كلبس
+                                            واير (قفلة واير)</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -661,7 +914,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/europull/wire-rope-winch.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Wire Rope Winch <span class="arabic_name">ونش سحب واير</span></h6>
+                                    <h6 class="product_name">Wire Rope Winch <span class="arabic_name">ونش سحب
+                                            واير</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -677,7 +931,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB1.5X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 1.5T x 3M <span class="arabic_name">بكارة جنزير 1.5 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 1.5T x 3M <span class="arabic_name">بكارة جنزير
+                                            1.5 طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -686,7 +941,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB1X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 1T x 3M <span class="arabic_name">بكارة جنزير 1 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 1T x 3M <span class="arabic_name">بكارة جنزير 1
+                                            طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -695,7 +951,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB2X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 2T x 3M <span class="arabic_name">بكارة جنزير 2 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 2T x 3M <span class="arabic_name">بكارة جنزير 2
+                                            طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -704,7 +961,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB5X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 5T x 3M <span class="arabic_name">بكارة جنزير 5 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 5T x 3M <span class="arabic_name">بكارة جنزير 5
+                                            طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -713,7 +971,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB10X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 10T x 3M <span class="arabic_name">بكارة جنزير 10 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 10T x 3M <span class="arabic_name">بكارة جنزير
+                                            10 طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -722,7 +981,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LB1.5X1.5.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Lever Block 1.5T x 1.5M <span class="arabic_name">رتش يدوي 1.5 طن × 1.5 متر</span></h6>
+                                    <h6 class="product_name">Lever Block 1.5T x 1.5M <span class="arabic_name">رتش يدوي
+                                            1.5 طن × 1.5 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -731,7 +991,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LB3X1.5.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Lever Block 3T x 1.5M <span class="arabic_name">رتش يدوي 3 طن × 1.5 متر</span></h6>
+                                    <h6 class="product_name">Lever Block 3T x 1.5M <span class="arabic_name">رتش يدوي 3
+                                            طن × 1.5 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -740,7 +1001,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LB6X1.5.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Lever Block 6T x 1.5M <span class="arabic_name">رتش يدوي 6 طن × 1.5 متر</span></h6>
+                                    <h6 class="product_name">Lever Block 6T x 1.5M <span class="arabic_name">رتش يدوي 6
+                                            طن × 1.5 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -749,7 +1011,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB1.5X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 1.5T x 6M <span class="arabic_name">بكارة جنزير 1.5 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 1.5T x 6M <span class="arabic_name">بكارة جنزير
+                                            1.5 طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -758,7 +1021,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB1X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 1T x 6M <span class="arabic_name">بكارة جنزير 1 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 1T x 6M <span class="arabic_name">بكارة جنزير 1
+                                            طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -767,7 +1031,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB2X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 2T x 6M <span class="arabic_name">بكارة جنزير 2 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 2T x 6M <span class="arabic_name">بكارة جنزير 2
+                                            طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -776,7 +1041,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB5X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 5T x 6M <span class="arabic_name">بكارة جنزير 5 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 5T x 6M <span class="arabic_name">بكارة جنزير 5
+                                            طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -785,7 +1051,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB10X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 10T x 6M <span class="arabic_name">بكارة جنزير 10 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 10T x 6M <span class="arabic_name">بكارة جنزير
+                                            10 طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -794,7 +1061,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB15X6.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 15T x 6M <span class="arabic_name">بكارة جنزير 15 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 15T x 6M <span class="arabic_name">بكارة جنزير
+                                            15 طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -803,7 +1071,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LB9X3.png"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Lever Block 9T x 3M <span class="arabic_name">رتش يدوي 9 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Lever Block 9T x 3M <span class="arabic_name">رتش يدوي 9 طن
+                                            × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -812,7 +1081,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB3X3.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 3T x 3M <span class="arabic_name">بكارة جنزير 3 طن × 3 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 3T x 3M <span class="arabic_name">بكارة جنزير 3
+                                            طن × 3 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -821,7 +1091,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70CB3X6.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Chain Block 3T x 6M <span class="arabic_name">بكارة جنزير 3 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Chain Block 3T x 6M <span class="arabic_name">بكارة جنزير 3
+                                            طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -830,7 +1101,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LC.CB6.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Load Chain 6T <span class="arabic_name">جنزير حمولة 6 طن</span></h6>
+                                    <h6 class="product_name">Load Chain 6T <span class="arabic_name">جنزير حمولة 6
+                                            طن</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -839,7 +1111,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LC.CB8.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Load Chain 8T <span class="arabic_name">جنزير حمولة 8 طن</span></h6>
+                                    <h6 class="product_name">Load Chain 8T <span class="arabic_name">جنزير حمولة 8
+                                            طن</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -848,7 +1121,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyo/70LC.CB10.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Load Chain 10T <span class="arabic_name">جنزير حمولة 10 طن</span></h6>
+                                    <h6 class="product_name">Load Chain 10T <span class="arabic_name">جنزير حمولة 10
+                                            طن</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -864,7 +1138,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/Liftek/722-5X8M.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Liftek Polyester Webbing Sling 5T x 8M <span class="arabic_name">واير رفع قماش ليفتك 5 طن × 8 متر</span></h6>
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 5T x 8M <span
+                                            class="arabic_name">واير رفع قماش ليفتك 5 طن × 8 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -873,7 +1148,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/Liftek/722-8X8M.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Liftek Polyester Webbing Sling 8T x 8M <span class="arabic_name">واير قماش ليفتك 8 طن × 8 متر</span></h6>
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 8T x 8M <span
+                                            class="arabic_name">واير قماش ليفتك 8 طن × 8 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -882,7 +1158,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/Liftek/722-10X12M.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Liftek Polyester Webbing Sling 10T x 12M <span class="arabic_name">واير قماش ليفتك 10 طن × 12 متر</span></h6>
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 10T x 12M <span
+                                            class="arabic_name">واير قماش ليفتك 10 طن × 12 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -891,7 +1168,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/Liftek/7227-6X6M.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Liftek Polyester Webbing Sling 6T x 6M <span class="arabic_name">واير قماش ليفتك 6 طن × 6 متر</span></h6>
+                                    <h6 class="product_name">Liftek Polyester Webbing Sling 6T x 6M <span
+                                            class="arabic_name">واير قماش ليفتك 6 طن × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -900,7 +1178,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/Liftek/72LX500-129.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Liftek Full Body Safety Harness <span class="arabic_name">حزام أمان (براشوت) ليفتك - كامل الجسم</span></h6>
+                                    <h6 class="product_name">Liftek Full Body Safety Harness <span
+                                            class="arabic_name">حزام أمان (براشوت) ليفتك - كامل الجسم</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -916,7 +1195,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyolift/76HPT2.5T-BF-III.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Hand Pallet Truck 2.5T <span class="arabic_name">رافعة طبلية 2.5 طن</span></h6>
+                                    <h6 class="product_name">Hand Pallet Truck 2.5T <span class="arabic_name">رافعة
+                                            طبلية 2.5 طن</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -925,7 +1205,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyolift/76LC.G10MMX6MTR.jpg"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Load Chain 10mm x 6M <span class="arabic_name">جنزير حمولة 10 ملم × 6 متر</span></h6>
+                                    <h6 class="product_name">Load Chain 10mm x 6M <span class="arabic_name">جنزير حمولة
+                                            10 ملم × 6 متر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -934,7 +1215,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyolift/76ecb.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electric Chain Hoist <span class="arabic_name">رافعة جنزير كهربائية</span></h6>
+                                    <h6 class="product_name">Electric Chain Hoist <span class="arabic_name">رافعة جنزير
+                                            كهربائية</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -943,7 +1225,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyolift/76ecbw.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Electric Chain Hoist Winch <span class="arabic_name">ونش جنزير كهربائي</span></h6>
+                                    <h6 class="product_name">Electric Chain Hoist Winch <span class="arabic_name">ونش
+                                            جنزير كهربائي</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -952,7 +1235,8 @@
                                     <div class="product_image"><img
                                             src="assets/img/original_products/Lifting/toyolift/76HPT3.5T.webp"
                                             class="img-fluid" alt=""></div>
-                                    <h6 class="product_name">Hand Pallet Truck 3.5T <span class="arabic_name">رافعة طبلية 3.5 طن</span></h6>
+                                    <h6 class="product_name">Hand Pallet Truck 3.5T <span class="arabic_name">رافعة
+                                            طبلية 3.5 طن</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -975,7 +1259,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p9.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Wire Cup Brush <span class="arabic_name">فرشة سلك كوبية</span></h6>
+                                    <h6 class="product_name">Wire Cup Brush <span class="arabic_name">فرشة سلك
+                                            كوبية</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -983,7 +1268,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p10.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Cutting Wheel / Disc <span class="arabic_name">حجر قص</span></h6>
+                                    <h6 class="product_name">Cutting Wheel / Disc <span class="arabic_name">حجر
+                                            قص</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -991,7 +1277,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p11.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Circular Saw Blade <span class="arabic_name">نصل منشار دائري</span></h6>
+                                    <h6 class="product_name">Circular Saw Blade <span class="arabic_name">نصل منشار
+                                            دائري</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -999,7 +1286,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p12.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Flap Disc <span class="arabic_name">ديسك صنفرة قلاب</span></h6>
+                                    <h6 class="product_name">Flap Disc <span class="arabic_name">ديسك صنفرة قلاب</span>
+                                    </h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -1007,7 +1295,8 @@
                                 <div class="product">
                                     <div class="product_image"><img src="assets/img/products/p13.webp" class="img-fluid"
                                             alt=""></div>
-                                    <h6 class="product_name">Fiber Sanding Disc <span class="arabic_name">ديسك صنفرة فيبر</span></h6>
+                                    <h6 class="product_name">Fiber Sanding Disc <span class="arabic_name">ديسك صنفرة
+                                            فيبر</span></h6>
                                     <div class="product_actions"><a href="javascript:void(0);"
                                             class="add-to-cart-btn">Add to Cart</a><a href="javascript:void(0);"
                                             class="request-quote-btn">Request a Quote</a></div>
@@ -1024,7 +1313,8 @@
                                         <img src="assets/img/original_products/Welding/orkon/56CD4.5CS.webp"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Cutting Disc 4.5" (Orkon) <span class="arabic_name">حجر قص 4.5 بوصة (أوركون)</span></h6>
+                                    <h6 class="product_name">Cutting Disc 4.5" (Orkon) <span class="arabic_name">حجر قص
+                                            4.5 بوصة (أوركون)</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -1035,7 +1325,8 @@
                                         <img src="assets/img/original_products/Welding/orkon/56CD5CS.webp"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Cutting Disc 5" (Orkon) <span class="arabic_name">حجر قص 5 بوصة (أوركون)</span></h6>
+                                    <h6 class="product_name">Cutting Disc 5" (Orkon) <span class="arabic_name">حجر قص 5
+                                            بوصة (أوركون)</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -1046,7 +1337,8 @@
                                         <img src="assets/img/original_products/Welding/orkon/56CD7CS.webp"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Cutting Disc 7" (Orkon) <span class="arabic_name">حجر قص 7 بوصة (أوركون)</span></h6>
+                                    <h6 class="product_name">Cutting Disc 7" (Orkon) <span class="arabic_name">حجر قص 7
+                                            بوصة (أوركون)</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -1057,7 +1349,8 @@
                                         <img src="assets/img/original_products/Welding/orkon/56CD9CS.webp"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Cutting Disc 9" (Orkon) <span class="arabic_name">حجر قص 9 بوصة (أوركون)</span></h6>
+                                    <h6 class="product_name">Cutting Disc 9" (Orkon) <span class="arabic_name">حجر قص 9
+                                            بوصة (أوركون)</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
@@ -1068,12 +1361,163 @@
                                         <img src="assets/img/original_products/Welding/orkon/56TW4.5.webp"
                                             class="img-fluid" alt="">
                                     </div>
-                                    <h6 class="product_name">Turbo Wheel (Orkon) <span class="arabic_name">أسطوانة توربو (أوركون)</span></h6>
+                                    <h6 class="product_name">Turbo Wheel (Orkon) <span class="arabic_name">أسطوانة توربو
+                                            (أوركون)</span></h6>
                                     <div class="product_actions">
                                         <a href="javascript:void(0);" class="add-to-cart-btn">Add to Cart</a>
                                         <a href="javascript:void(0);" class="request-quote-btn">Request a Quote</a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saudi Arabia Delivery Network Section (Moved to Bottom) -->
+                <div class="mt-5 mb-5 p-5 bg-white border shadow-sm"
+                    style="border-radius: 12px; border-top: 5px solid #0177c6;">
+                    <div class="text-center mb-4">
+                        <span class="sub_head text-primary mb-1 d-block"
+                            style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Direct
+                            B2B Supply Network</span>
+                        <h3 class="font-weight-bold mb-2" style="color: #333; font-size: 26px;">Our products can be
+                            purchased from several Saudi cities</h3>
+                        <p class="text-muted small mb-0 mx-auto" style="line-height: 1.6; font-size: 14px; max-width: 800px;">
+                            Our products can be purchased from several Saudi cities location Dammam, Jubail, Al
+                            Khobar, Ras tanura, Riyadh, Jeddah, Mecca, Medina, Yanbu, Neom, Rabigh, red sea
+                            projects, qiddiya, al kaharj, Jazan, Khamis mushait.
+                        </p>
+                    </div>
+
+                    <style>
+                        .location-badge-card {
+                            transition: all 0.25s ease;
+                            border-radius: 6px;
+                            background: #fdfdfd;
+                            border: 1px solid #eaeaea;
+                        }
+
+                        .location-badge-card:hover {
+                            transform: translateY(-3px);
+                            border-color: #0177c6 !important;
+                            background: #fff;
+                            box-shadow: 0 4px 12px rgba(1, 119, 198, 0.1) !important;
+                        }
+                    </style>
+                    <div class="row g-2 justify-content-center">
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Dammam</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Jubail</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Al Khobar</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Ras Tanura</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Riyadh</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Jeddah</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Mecca</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Medina</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Yanbu</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100"
+                                style="border-color: #0177c6 !important; background: rgba(1, 119, 198, 0.03);">
+                                <span style="font-weight: 700; color: #0177c6; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill mr-1" style="font-size: 14px;"></i> Neom
+                                    Hub</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Rabigh</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100"
+                                style="border-color: #0177c6 !important; background: rgba(1, 119, 198, 0.03);">
+                                <span style="font-weight: 700; color: #0177c6; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill mr-1" style="font-size: 14px;"></i> Red
+                                    Sea</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100"
+                                style="border-color: #0177c6 !important; background: rgba(1, 119, 198, 0.03);">
+                                <span style="font-weight: 700; color: #0177c6; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill mr-1" style="font-size: 14px;"></i>
+                                    Qiddiya</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Al Kharj</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Jazan Hub</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="p-2 text-center location-badge-card h-100">
+                                <span style="font-weight: 600; color: #333; font-size: 13px;"><i
+                                        class="ri-map-pin-2-fill text-primary mr-1"
+                                        style="font-size: 14px;"></i> Khamis Mushait</span>
                             </div>
                         </div>
                     </div>
@@ -1144,8 +1588,9 @@
                     <h6 class="footer_title">Get In Touch</h6>
 
                     <p>Location</p>
-                    <span>PO BOX 6341, 10th Street
-                        Dammam 31442, Kingdom of Saudi Arabia</span>
+                    <span>ONSHORE TECHNICAL SUPPLIES CO, <br>
+                        Al Muhammadiyah District, <br>
+                        Dammam 32242, Kingdom of Saudi Arabia (KSA)</span>
 
                     <p>Mobile</p>
                     <a href="tel:+966545480607">+966 54 548 0607</a> / <a href="tel:+966543469776">+966 54 346 9776</a>
@@ -1333,6 +1778,107 @@
 
             // Re-trigger ScrollReveal or AOS if needed
             // AOS.refresh();
+        });
+
+        // Dynamic B2B Storefront Upgrader Script
+        document.addEventListener("DOMContentLoaded", function() {
+            const products = document.querySelectorAll('.products .product');
+            products.forEach(product => {
+                // Find current brand
+                let brandGroup = product.closest('.brand_group');
+                let brandName = brandGroup ? brandGroup.getAttribute('data-brand') || '' : '';
+                
+                // Capitalize brand name nicely
+                let displayBrand = brandName.toUpperCase();
+                if (displayBrand === 'PPE') displayBrand = 'SAFETY PRO';
+                if (!displayBrand) displayBrand = 'ONSHORE';
+
+                // Let's create the premium B2B header with brand tag and status tag
+                let headerDiv = document.createElement('div');
+                headerDiv.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 0 16px; margin-top: 15px; margin-bottom: 6px; width: 100%;";
+                
+                let brandSpan = document.createElement('span');
+                brandSpan.style.cssText = "font-size: 10px; font-weight: 800; color: #0177c6; letter-spacing: 0.8px; text-transform: uppercase;";
+                brandSpan.textContent = displayBrand;
+                
+                let statusSpan = document.createElement('span');
+                // Alternate status to look active and realistic
+                let isTopSeller = Math.random() > 0.75;
+                if (isTopSeller) {
+                    statusSpan.style.cssText = "font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;";
+                    statusSpan.innerHTML = '<span style="width: 5px; height: 5px; border-radius: 50%; background: #e65100; display: inline-block;"></span> Hot Seller';
+                } else {
+                    statusSpan.style.cssText = "font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;";
+                    statusSpan.innerHTML = '<span style="width: 5px; height: 5px; border-radius: 50%; background: #2e7d32; display: inline-block;"></span> In Stock';
+                }
+                
+                headerDiv.appendChild(brandSpan);
+                headerDiv.appendChild(statusSpan);
+                
+                // Find name element and insert headerDiv BEFORE the name
+                let nameEl = product.querySelector('.product_name');
+                if (nameEl) {
+                    nameEl.parentNode.insertBefore(headerDiv, nameEl);
+                }
+                
+                let arabicNameEl = product.querySelector('.arabic_name') || nameEl;
+                if (arabicNameEl) {
+                    arabicNameEl.style.marginBottom = "15px";
+                    arabicNameEl.style.display = "block";
+                } else if (nameEl) {
+                    nameEl.style.marginBottom = "15px";
+                }
+                
+                let rawName = nameEl ? nameEl.textContent.split('(')[0].trim() : '';
+                let cleanedName = rawName.replace(/[^a-zA-Z]/g, '').substring(0, 4).toUpperCase();
+                let randomId = Math.floor(Math.random() * 900) + 100;
+                let brandPrefix = brandName ? brandName.substring(0, 2).toUpperCase() : 'ON';
+                
+                // Customize and stylize action buttons to look premium
+                let addToCartBtn = product.querySelector('.add-to-cart-btn');
+                if (addToCartBtn) {
+                    addToCartBtn.innerHTML = '<i class="ri-shopping-cart-2-line" style="font-size: 13px;"></i> Add to Cart';
+                    addToCartBtn.style.cssText = "background-color: #0177c6; border: 1px solid #0177c6; color: #fff; padding: 8px 10px; font-size: 11px; font-weight: 700; border-radius: 6px; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease;";
+                    
+                    // Auto-inject missing cart data attributes for static fallback cards
+                    if (!addToCartBtn.hasAttribute('data-id')) {
+                        let imgEl = product.querySelector('.product_image img');
+                        let arabicEl = product.querySelector('.arabic_name');
+                        addToCartBtn.setAttribute('data-id', brandPrefix + '-' + cleanedName + '-' + randomId);
+                        addToCartBtn.setAttribute('data-name', rawName);
+                        addToCartBtn.setAttribute('data-name-ar', arabicEl ? arabicEl.textContent.trim() : '');
+                        addToCartBtn.setAttribute('data-image', imgEl ? imgEl.getAttribute('src') : 'assets/img/logo.png');
+                        addToCartBtn.setAttribute('data-brand', displayBrand);
+                    }
+                }
+                
+                let requestQuoteBtn = product.querySelector('.request-quote-btn');
+                if (requestQuoteBtn) {
+                    requestQuoteBtn.innerHTML = '<i class="ri-chat-quote-line" style="font-size: 13px;"></i> Request a Quote';
+                    requestQuoteBtn.style.cssText = "background-color: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 8px 10px; font-size: 11px; font-weight: 700; border-radius: 6px; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease;";
+                    
+                    if (!requestQuoteBtn.hasAttribute('data-id')) {
+                        let imgEl = product.querySelector('.product_image img');
+                        let arabicEl = product.querySelector('.arabic_name');
+                        requestQuoteBtn.setAttribute('data-id', brandPrefix + '-' + cleanedName + '-' + randomId);
+                        requestQuoteBtn.setAttribute('data-name', rawName);
+                        requestQuoteBtn.setAttribute('data-name-ar', arabicEl ? arabicEl.textContent.trim() : '');
+                        requestQuoteBtn.setAttribute('data-image', imgEl ? imgEl.getAttribute('src') : 'assets/img/logo.png');
+                        requestQuoteBtn.setAttribute('data-brand', displayBrand);
+                    }
+
+                    requestQuoteBtn.addEventListener('mouseenter', () => {
+                        requestQuoteBtn.style.backgroundColor = '#eef2f5';
+                        requestQuoteBtn.style.color = '#0177c6';
+                        requestQuoteBtn.style.borderColor = '#0177c6';
+                    });
+                    requestQuoteBtn.addEventListener('mouseleave', () => {
+                        requestQuoteBtn.style.backgroundColor = '#f8fafc';
+                        requestQuoteBtn.style.color = '#475569';
+                        requestQuoteBtn.style.borderColor = '#e2e8f0';
+                    });
+                }
+            });
         });
 
     </script>

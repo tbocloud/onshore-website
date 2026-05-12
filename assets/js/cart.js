@@ -595,8 +595,20 @@ var QuoteCart = (function ($) {
         }
     }
 
-    function addToCart(product) {
-        var existing = cart.find(function (item) { return item.id === product.id; });
+    function updateCartItemQty(id, action) {
+        var existing = cart.find(function (item) { return String(item.id) === String(id); });
+        if (existing) {
+            if (action === 'increase') {
+                existing.qty++;
+            } else if (action === 'decrease') {
+                existing.qty = Math.max(1, existing.qty - 1);
+            }
+            saveCart();
+        }
+    }
+
+    function addToCart(product, skipSidebar) {
+        var existing = cart.find(function (item) { return String(item.id) === String(product.id); });
         if (existing) {
             existing.qty += product.qty || 1;
             // Update brand if it was missing or undefined
@@ -620,11 +632,13 @@ var QuoteCart = (function ($) {
             });
         }
         saveCart();
-        openSidebar();
+        if (!skipSidebar) {
+            openSidebar();
+        }
     }
 
     function removeFromCart(id) {
-        cart = cart.filter(function (item) { return item.id !== id; });
+        cart = cart.filter(function (item) { return String(item.id) !== String(id); });
         saveCart();
     }
 
@@ -746,7 +760,7 @@ var QuoteCart = (function ($) {
     }
 
     function bindEvents() {
-        $(document).on('click', '.add-to-cart-btn, #spec-add-cart', function (e) {
+        $(document).off('click', '.add-to-cart-btn, #spec-add-cart').on('click', '.add-to-cart-btn, #spec-add-cart', function (e) {
             e.preventDefault();
             var $btn = $(this);
             var id = $btn.attr('data-id') || $btn.data('id');
@@ -768,7 +782,7 @@ var QuoteCart = (function ($) {
             });
         });
 
-        $(document).on('click', '.request-quote-btn, #spec-req-quote', function (e) {
+        $(document).off('click', '.request-quote-btn, #spec-req-quote').on('click', '.request-quote-btn, #spec-req-quote', function (e) {
             e.preventDefault();
             var $btn = $(this);
             var id = $btn.attr('data-id') || $btn.data('id');
@@ -787,20 +801,20 @@ var QuoteCart = (function ($) {
                 desc_ar: descAr,
                 brand: brand,
                 image: img
-            });
+            }, true); // pass true to skip opening sidebar
             $('#quoteRequestModal').modal('show');
         });
 
-        $(document).on('click', '.close-cart, .cart-overlay', function () {
+        $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {
             closeSidebar();
         });
 
-        $(document).on('click', '.remove-from-cart-btn, .remove-item', function (e) {
+        $(document).off('click', '.remove-from-cart-btn, .remove-item').on('click', '.remove-from-cart-btn, .remove-item', function (e) {
             e.preventDefault();
             removeFromCart($(this).data('id'));
         });
 
-        $(document).on('click', '.update-qty', function () {
+        $(document).off('click', '.update-qty').on('click', '.update-qty', function () {
             var id = $(this).data('id');
             var action = $(this).data('action');
             var item = cart.find(function (i) { return i.id === id; });

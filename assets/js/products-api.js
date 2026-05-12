@@ -167,7 +167,7 @@ $(document).ready(function () {
                        data-desc-en="${(p.custom_commercial_description || '').replace(/"/g, '&quot;')}"
                        data-desc-ar="${(p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;')}"
                        data-image="${fullImgUrl}" 
-                       data-brand="${p.custom_brand_name || ''}">Add to Basket</a>
+                       data-brand="${p.custom_brand_name || ''}">Add to Cart</a>
                     <a href="${specsUrl}" class="view-details-btn">View Details</a>
                 </div>
             </div>

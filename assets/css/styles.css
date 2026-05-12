@@ -1160,29 +1160,45 @@ footer .copyright p {
   text-align: center;
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-  border: .3px solid #6f6f6f4d;
+  border: 1px solid #eef2f6;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .products .product:hover {
-  transform: translateY(-5px);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+  transform: translateY(-6px);
+  border-color: #0177c6;
+  box-shadow: 0 12px 30px rgba(1, 119, 198, 0.12);
 }
 
 .products .product_image {
-  width: 100%;
-  height: 250px;
+  width: calc(100% - 24px);
+  height: 190px;
   position: relative;
+  background-color: #fafbfd;
+  border-radius: 8px;
+  margin: 0 12px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .products .product_image img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.products .product:hover .product_image img {
+  transform: scale(1.05);
 }
 
 .products .product_badge {
