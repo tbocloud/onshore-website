@@ -267,7 +267,50 @@
             text-align: right;
             font-family: inherit;
         }
+
+        .hover-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #0177c6 !important;
+            box-shadow: 0 12px 24px rgba(1, 119, 198, 0.18) !important;
+        }
     </style>
+    <script>
+        function focusProduct(productName) {
+            window.location.href = `product-details.html?focus=${encodeURIComponent(productName)}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Banner slideshow logic
+            let slideIndex = 0;
+            const $slides = $('.banner_slide');
+            const $dots = $('.banner_dot');
+            if ($slides.length > 1) {
+                setInterval(() => {
+                    let nextIndex = (slideIndex + 1) % $slides.length;
+                    switchSlide(nextIndex);
+                }, 6500);
+
+                $dots.on('click', function() {
+                    const index = parseInt($(this).data('index'));
+                    switchSlide(index);
+                });
+            }
+
+            function switchSlide(index) {
+                if (index === slideIndex) return;
+                $slides.eq(slideIndex).fadeOut(600, function() {
+                    $(this).removeClass('active-slide');
+                    $slides.eq(index).fadeIn(600).addClass('active-slide');
+                    $dots.eq(slideIndex).css({ background: 'rgba(255,255,255,0.4)', borderColor: 'transparent' });
+                    $dots.eq(index).css({ background: 'rgba(255,255,255,0.4)', borderColor: '#fff' });
+                    slideIndex = index;
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -305,16 +348,225 @@
     </header>
 
     <main>
-        <div class="page_banner" style="background: url('assets/img/banner2.webp'); background-size: cover; background-position: center;">
-            <div class="container">
-                <div class="page_banner_content">
-                    <h1 class="main_heading" id="hero-product-name" style="color: #fff;">Product Specifications</h1>
-                    <ul>
-                        <li class="home"><a href="./">Home</a></li> /
-                        <li><a href="product-details.html">Products</a></li> /
-                        <li id="breadcrumb-current">Details</li>
-                    </ul>
+        <div class="page_banner_container" style="background: #000; position: relative;">
+            <!-- Slide 1: Multi-Sector Industrial Supplies -->
+            <div class="banner_slide active-slide" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/banner2.webp); background-size: cover; background-position: center; padding: 110px 0 50px 0; display: block;">
+                <div class="container" style="position: relative; z-index: 2;">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5 text-white mb-4 mb-lg-0 text-start">
+                            <span class="sub_head text-warning mb-2 d-block" style="font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">
+                                INDUSTRIAL SUPPLIES / المستلزمات الصناعية
+                            </span>
+                            <h1 class="font-weight-bold mb-3" style="color: #fff; font-size: 25px; line-height: 1.3;">
+                                Multi-Sector Industrial Equipment Dealer
+                                <span class="d-block mt-1" style="font-size: 18px; font-weight: 700; color: #f5f5f5;" dir="rtl">موزع معتمد للمعدات الصناعية لكافة القطاعات</span>
+                            </h1>
+                            <div style="font-size: 13px; color: #e0e0e0; line-height: 1.5; margin-bottom: 15px;">
+                                <p class="mb-2">
+                                    Saudi Arabia's premier distributor of certified machinery, industrial safety gear, welding systems, and technical equipment.
+                                </p>
+                                <p class="mb-3 text-start" dir="rtl" style="color: #d0d0d0;">
+                                    الموزع الرائد في المملكة للآلات المعتمدة، معدات السلامة، أنظمة اللحام، والأجهزة التقنية.
+                                </p>
+                                <span style="font-weight: 500; color: #ffc107; font-size: 12px;">
+                                    <i class="ri-truck-fill mr-1"></i> Dammam, Jubail, Al Khobar, Ras Tanura | الدمام، الجبيل، الخبر، رأس تنورة
+                                </span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-primary px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-shield-check-line mr-1"></i> CE & EN Certified</span>
+                                <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-settings-3-line mr-1"></i> 7:1 Design Safety</span>
+                                <span class="badge bg-success px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-checkbox-circle-line mr-1"></i> 100% In-Stock KSA</span>
+                                <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
+                            </div>
+                            <div class="mt-4 mb-3">
+                                <a href="product-details.html" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
+                                    <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
+                                </a>
+                            </div>
+                            <ul class="breadcrumbs mt-3" style="margin-top: 5px; list-style: none; padding: 0; display: flex; gap: 10px; font-size: 14px;">
+                                <li class="home"><a href="./" style="color: #0177c6; font-weight: 600; text-decoration: none;">Home</a></li>
+                                <li style="color: #9d9d9d;">/</li>
+                                <li><a href="product-details.html" style="color: #0177c6; font-weight: 600; text-decoration: none;">Products</a></li>
+                                <li style="color: #9d9d9d;">/</li>
+                                <li style="color: #fff; font-weight: 300;" id="breadcrumb-current">Specifications</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="row g-3">
+                                <!-- 4 Hoists Grid -->
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Lever Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Chain Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electrical Chain Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electric Hoist + Trolley</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Slide 2: Premium Lifting & Hoisting Solutions -->
+            <div class="banner_slide" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/banner2.webp); background-size: cover; background-position: center; padding: 110px 0 50px 0; display: none;">
+                <div class="container" style="position: relative; z-index: 2;">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5 text-white mb-4 mb-lg-0 text-start">
+                            <span class="sub_head text-warning mb-2 d-block" style="font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">
+                                HEAVY DUTY LIFTING SYSTEMS / أنظمة الرفع الثقيلة
+                            </span>
+                            <h1 class="font-weight-bold mb-3" style="color: #fff; font-size: 25px; line-height: 1.3;">
+                                Premium Lifting & Hoisting Solutions
+                                <span class="d-block mt-1" style="font-size: 18px; font-weight: 700; color: #f5f5f5;" dir="rtl">حلول ومعدات الرفع والرافعة المتميزة</span>
+                            </h1>
+                            <div style="font-size: 13px; color: #e0e0e0; line-height: 1.5; margin-bottom: 15px;">
+                                <p class="mb-2">
+                                    Saudi Arabia's elite distributor of certified heavy-duty hoisting and rigging machinery engineered for extreme loads.
+                                </p>
+                                <p class="mb-3 text-start" dir="rtl" style="color: #d0d0d0;">
+                                    موزع نخبة الآلات والمعدات المعتمدة لأعمال الرفع الشاق في المملكة العربية السعودية.
+                                </p>
+                                <span style="font-weight: 500; color: #ffc107; font-size: 12px;">
+                                    <i class="ri-truck-fill mr-1"></i> Dammam, Jubail, Al Khobar, Ras Tanura | الدمام، الجبيل، الخبر، رأس تنورة
+                                </span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-primary px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-shield-check-line mr-1"></i> CE & EN Certified</span>
+                                <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-settings-3-line mr-1"></i> 7:1 Design Safety</span>
+                                <span class="badge bg-success px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-checkbox-circle-line mr-1"></i> 100% In-Stock KSA</span>
+                                <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
+                            </div>
+                            <div class="mt-4 mb-3">
+                                <a href="product-details.html" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
+                                    <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
+                                </a>
+                            </div>
+                            <ul class="breadcrumbs mt-3" style="margin-top: 5px; list-style: none; padding: 0; display: flex; gap: 10px; font-size: 14px;">
+                                <li class="home"><a href="./" style="color: #0177c6; font-weight: 600; text-decoration: none;">Home</a></li>
+                                <li style="color: #9d9d9d;">/</li>
+                                <li><a href="product-details.html" style="color: #0177c6; font-weight: 600; text-decoration: none;">Products</a></li>
+                                <li style="color: #9d9d9d;">/</li>
+                                <li style="color: #fff; font-weight: 300;" id="breadcrumb-current">Specifications</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="row g-3">
+                                <!-- 4 Hoists Grid -->
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Lever Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Chain Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electrical Chain Hoist</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
+                                            <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
+                                        </div>
+                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electric Hoist + Trolley</h6>
+                                        <div class="mb-2">
+                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
+                                        </div>
+                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                            <i class="ri-chat-quote-line"></i> Add to Quote
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide navigation dots -->
+            <div class="banner_dots" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 5;">
+                <span class="banner_dot active" data-index="0" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 2px solid #fff; cursor: pointer; transition: all 0.3s ease; display: inline-block;"></span>
+                <span class="banner_dot" data-index="1" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 2px solid transparent; cursor: pointer; transition: all 0.3s ease; display: inline-block;"></span>
             </div>
         </div>
 
