@@ -10,6 +10,7 @@ var QuoteCart = (function ($) {
     var REQUEST_QUOTE_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.create_request_quote';
     var REQUEST_QUOTE_AUTH = 'token9897e6ee3838b6c:06d7193075244d6';
     var cart = [];
+    var eventsBound = false;
     function init() {
 
         injectCartSidebar();
@@ -760,6 +761,9 @@ var QuoteCart = (function ($) {
     }
 
     function bindEvents() {
+        if (eventsBound) return;
+        eventsBound = true;
+
         $(document).off('click', '.add-to-cart-btn, #spec-add-cart').on('click', '.add-to-cart-btn, #spec-add-cart', function (e) {
             e.preventDefault();
             var $btn = $(this);
@@ -829,7 +833,7 @@ var QuoteCart = (function ($) {
             }
         });
 
-        $(document).on('change', 'select[name="country"]', function () {
+        $(document).off('change', 'select[name="country"]').on('change', 'select[name="country"]', function () {
             var selectedCountry = $(this).val();
             if (!selectedCountry) return;
 
@@ -863,7 +867,7 @@ var QuoteCart = (function ($) {
             }
         });
 
-        $('#quote-form-modal').on('submit', function (e) {
+        $(document).off('submit', '#quote-form-modal').on('submit', '#quote-form-modal', function (e) {
             e.preventDefault();
             var $form = $(this);
             var $btn = $form.find('button[type="submit"]');
@@ -945,31 +949,28 @@ var QuoteCart = (function ($) {
             });
         });
 
-        var modalEl = document.getElementById('quoteRequestModal');
-        if (modalEl) {
-            modalEl.addEventListener('shown.bs.modal', function () {
-                closeSidebar();
-                renderModalCartSpace();
-                // Explicitly render Turnstile after modal is fully visible
-                if (window.turnstile) {
-                    try {
-                        $('#turnstile-container').empty();
-                        turnstile.render('#turnstile-container', {
-                            sitekey: '1x00000000000000000000AA',
-                            appearance: 'interaction-only',
-                            callback: function(token) {
-                                console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
-                            },
-                            'error-callback': function() {
-                                console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;');
-                            }
-                        });
-                    } catch (e) {
-                        console.error('Turnstile render failed:', e);
-                    }
+        $(document).off('shown.bs.modal', '#quoteRequestModal').on('shown.bs.modal', '#quoteRequestModal', function () {
+            closeSidebar();
+            renderModalCartSpace();
+            // Explicitly render Turnstile after modal is fully visible
+            if (window.turnstile) {
+                try {
+                    $('#turnstile-container').empty();
+                    turnstile.render('#turnstile-container', {
+                        sitekey: '1x00000000000000000000AA',
+                        appearance: 'interaction-only',
+                        callback: function(token) {
+                            console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
+                        },
+                        'error-callback': function() {
+                            console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;');
+                        }
+                    });
+                } catch (e) {
+                    console.error('Turnstile render failed:', e);
                 }
-            });
-        }
+            }
+        });
     }
 
     return {
