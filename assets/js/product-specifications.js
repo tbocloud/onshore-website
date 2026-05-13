@@ -240,14 +240,7 @@ $(document).ready(function () {
             $('#detailed-tab-li').hide();
         }
 
-        // Tab 3: More Info Description
-        const moreInfo = formatText(p.custom_product_more_information) || '';
-        if (moreInfo) {
-            $('#more-info-tab-li').show();
-            $('#spec-more-info').html(moreInfo);
-        } else {
-            $('#more-info-tab-li').hide();
-        }
+
 
         // 5. Button Actions
         const fullMainImg = allImages.length > 0 ? (allImages[0].startsWith('http') ? allImages[0] : `${BASE_URL}${allImages[0]}`) : 'assets/img/logo.png';

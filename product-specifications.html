@@ -19,6 +19,7 @@
 
         .product_main_display {
             padding: 80px 0;
+            background-color: #fcfdfe;
         }
 
         .gallery_container {
@@ -27,33 +28,43 @@
         }
 
         .main_image_box {
-            border: 1px solid #eee;
-            padding: 20px;
+            border: 1px solid #f1f1f1;
+            padding: 24px;
             margin-bottom: 20px;
             background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 450px;
+            height: 480px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: 0.3s;
+        }
+
+        .main_image_box:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
         }
 
         .main_image_box img {
             max-height: 100%;
             object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
         .thumb_grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .thumb_item {
             border: 1px solid #eee;
             cursor: pointer;
-            padding: 5px;
-            transition: 0.3s;
+            padding: 8px;
+            transition: all 0.3s ease;
             height: 80px;
+            border-radius: 8px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -61,7 +72,9 @@
 
         .thumb_item:hover,
         .thumb_item.active {
-            border-color: var(--main-color);
+            border-color: #0177c6;
+            box-shadow: 0 4px 10px rgba(1, 119, 198, 0.1);
+            transform: translateY(-2px);
         }
 
         .thumb_item img {
@@ -69,10 +82,16 @@
             object-fit: contain;
         }
 
+        .spec_info {
+            padding-left: 20px;
+        }
+
         .spec_info h1 {
             font-weight: 800;
-            color: #222;
-            margin-bottom: 15px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 36px;
+            letter-spacing: -0.5px;
         }
 
         #spec-info-desc * {
@@ -85,16 +104,75 @@
         .brand_label {
             display: inline-block;
             background: #f0f7ff;
-            color: var(--main-color);
-            padding: 5px 15px;
+            color: #0177c6;
+            padding: 6px 16px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
+            border-radius: 50px;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(1, 119, 198, 0.1);
+        }
+
+        .cta_group {
+            margin-top: 25px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .cta_group .main-btn {
+            background-color: #0177c6 !important;
+            border: 1px solid #0177c6 !important;
+            color: #fff !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            padding: 14px 24px !important;
+            border-radius: 6px !important;
+            transition: all 0.3s ease !important;
+            letter-spacing: 0.5px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            text-decoration: none !important;
+            box-shadow: 0 4px 15px rgba(1, 119, 198, 0.15) !important;
+        }
+
+        .cta_group .main-btn:hover {
+            background-color: #015fa1 !important;
+            border-color: #015fa1 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(1, 119, 198, 0.25) !important;
+        }
+
+        .cta_group .secondary-btn {
+            background-color: #fff !important;
+            border: 2px solid #0177c6 !important;
+            color: #0177c6 !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            padding: 14px 24px !important;
+            border-radius: 6px !important;
+            transition: all 0.3s ease !important;
+            letter-spacing: 0.5px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            text-decoration: none !important;
+        }
+
+        .cta_group .secondary-btn:hover {
+            background-color: #0177c6 !important;
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(1, 119, 198, 0.15) !important;
         }
 
         .spec_table_wrapper {
-            margin-top: 30px;
+            margin-top: 15px;
         }
 
         .spec_table {
@@ -103,26 +181,33 @@
         }
 
         .spec_table tr {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.2s;
+        }
+
+        .spec_table tr:hover {
+            background: #fafbfc;
         }
 
         .spec_table th {
-            padding: 15px 10px;
+            padding: 12px 10px;
             text-align: left;
-            color: #555;
+            color: #666;
             width: 35%;
             font-weight: 600;
+            font-size: 14px;
         }
 
         .spec_table td {
-            padding: 15px 10px;
+            padding: 12px 10px;
             color: #222;
             font-weight: 500;
+            font-size: 14px;
         }
 
         .desc_section {
-            margin-top: 50px;
-            padding-top: 50px;
+            margin-top: 60px;
+            padding-top: 40px;
             border-top: 1px solid #eee;
         }
 
@@ -132,10 +217,11 @@
         }
 
         .arabic_content {
-            background: #f9f9f9;
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 30px;
+            background: #fafbfc;
+            padding: 24px;
+            border-radius: 10px;
+            margin-top: 25px;
+            border: 1px solid #f1f1f1;
         }
 
         #spec-loader {
@@ -149,30 +235,32 @@
         /* Tabs styling */
         .spec_tabs {
             border-bottom: 2px solid #eee;
+            gap: 10px;
         }
 
         .spec_tabs .nav-link {
             border: none;
-            color: #555;
+            color: #666;
             font-weight: 700;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border-bottom: 3px solid transparent;
-            transition: 0.3s;
+            transition: all 0.3s;
             background: transparent;
+            border-radius: 0;
         }
 
         .spec_tabs .nav-link:hover {
-            color: #0275c6;
+            color: #0177c6;
             border-bottom-color: #ddd;
         }
 
         .spec_tabs .nav-link.active {
-            color: #0275c6 !important;
+            color: #0177c6 !important;
             background: transparent !important;
-            border-bottom-color: #0275c6 !important;
+            border-bottom-color: #0177c6 !important;
         }
 
         .arabic_title_name {
@@ -268,6 +356,17 @@
                                 <div class="brand_label" id="spec-brand">Brand Name</div>
                                 <h1 id="spec-title">Product Title</h1>
                                 <p class="text-muted" id="spec-subtitle">Item Code: #0000</p>
+
+                                <div class="cta_group mt-4 mb-4">
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <button class="main-btn add-to-cart-btn flex-grow-1" id="spec-add-cart">
+                                            ADD TO QUOTE BASKET <i class="ri-shopping-basket-line"></i>
+                                        </button>
+                                        <button class="secondary-btn request-quote-btn flex-grow-1" id="spec-req-quote">
+                                            REQUEST A QUOTE <i class="ri-mail-send-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 
                                 <div class="spec_table_wrapper">
                                     <table class="spec_table">
@@ -275,11 +374,6 @@
                                             <!-- Key Value Pairs -->
                                         </tbody>
                                     </table>
-                                </div>
-
-                                <div class="cta_group mt-5">
-                                    <button class="main-btn w-100 mb-3 add-to-cart-btn" id="spec-add-cart">ADD TO QUOTE BASKET <i class="ri-shopping-basket-line"></i></button>
-                                    <button class="secondary-btn w-100 request-quote-btn" id="spec-req-quote">REQUEST A QUOTE <i class="ri-mail-send-line"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -290,13 +384,10 @@
                             <div class="col-lg-8">
                                 <ul class="nav nav-tabs spec_tabs mb-4" id="specTabs" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="commercial-tab" data-bs-toggle="tab" data-bs-target="#commercial-pane" type="button" role="tab">Commercial Info</button>
+                                        <button class="nav-link active" id="commercial-tab" data-bs-toggle="tab" data-bs-target="#commercial-pane" type="button" role="tab">Commercial Info / الوصف التجاري</button>
                                     </li>
                                     <li class="nav-item" role="presentation" id="detailed-tab-li" style="display: none;">
-                                        <button class="nav-link" id="detailed-tab" data-bs-toggle="tab" data-bs-target="#detailed-pane" type="button" role="tab">Detailed Specs</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation" id="more-info-tab-li" style="display: none;">
-                                        <button class="nav-link" id="more-info-tab" data-bs-toggle="tab" data-bs-target="#more-info-pane" type="button" role="tab">More Info</button>
+                                        <button class="nav-link" id="detailed-tab" data-bs-toggle="tab" data-bs-target="#detailed-pane" type="button" role="tab">Detailed Specification / المواصفات التفصيلية</button>
                                     </li>
                                 </ul>
                                 
@@ -323,12 +414,6 @@
                                                 <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">المواصفات التفصيلية</h5>
                                                 <div id="spec-detailed-ar"></div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <!-- More Info Pane -->
-                                    <div class="tab-pane fade" id="more-info-pane" role="tabpanel">
-                                        <div id="spec-more-info">
-                                            <!-- Product More Info English -->
                                         </div>
                                     </div>
                                 </div>
