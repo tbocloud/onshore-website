@@ -115,20 +115,14 @@
             border: 1px solid rgba(1, 119, 198, 0.1);
         }
 
-        .cta_group {
-            margin-top: 25px;
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #f1f1f1;
-        }
 
-        .cta_group .main-btn {
+        .add-to-cart-btn {
             background-color: #0177c6 !important;
             border: 1px solid #0177c6 !important;
             color: #fff !important;
             font-weight: 700 !important;
             font-size: 13px !important;
-            padding: 14px 24px !important;
+            padding: 10px 18px !important;
             border-radius: 6px !important;
             transition: all 0.3s ease !important;
             letter-spacing: 0.5px !important;
@@ -140,20 +134,20 @@
             box-shadow: 0 4px 15px rgba(1, 119, 198, 0.15) !important;
         }
 
-        .cta_group .main-btn:hover {
+        .add-to-cart-btn:hover {
             background-color: #015fa1 !important;
             border-color: #015fa1 !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(1, 119, 198, 0.25) !important;
         }
 
-        .cta_group .secondary-btn {
+        .request-quote-btn {
             background-color: #fff !important;
             border: 2px solid #0177c6 !important;
             color: #0177c6 !important;
             font-weight: 700 !important;
             font-size: 13px !important;
-            padding: 14px 24px !important;
+            padding: 10px 18px !important;
             border-radius: 6px !important;
             transition: all 0.3s ease !important;
             letter-spacing: 0.5px !important;
@@ -164,7 +158,7 @@
             text-decoration: none !important;
         }
 
-        .cta_group .secondary-btn:hover {
+        .request-quote-btn:hover {
             background-color: #0177c6 !important;
             color: #fff !important;
             transform: translateY(-2px);
@@ -353,20 +347,20 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="spec_info">
-                                <div class="brand_label" id="spec-brand">Brand Name</div>
-                                <h1 id="spec-title">Product Title</h1>
-                                <p class="text-muted" id="spec-subtitle">Item Code: #0000</p>
-
-                                <div class="cta_group mt-4 mb-4">
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <button class="main-btn add-to-cart-btn flex-grow-1" id="spec-add-cart">
-                                            ADD TO QUOTE BASKET <i class="ri-shopping-basket-line"></i>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4" style="border-bottom: 1px solid #f1f1f1; padding-bottom: 15px;">
+                                    <div class="brand_label" id="spec-brand" style="margin-bottom: 0;">Brand Name</div>
+                                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                                        <button class="main-btn add-to-cart-btn" id="spec-add-cart" style="font-size: 13px; font-weight: 700; padding: 10px 18px !important; border-radius: 6px !important; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;">
+                                            ADD TO QUOTE / أضف إلى السلة <i class="ri-shopping-basket-line"></i>
                                         </button>
-                                        <button class="secondary-btn request-quote-btn flex-grow-1" id="spec-req-quote">
-                                            REQUEST A QUOTE <i class="ri-mail-send-line"></i>
+                                        <button class="secondary-btn request-quote-btn" id="spec-req-quote" style="font-size: 13px; font-weight: 700; padding: 10px 18px !important; border-radius: 6px !important; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;">
+                                            REQUEST A QUOTE / طلب عرض سعر <i class="ri-mail-send-line"></i>
                                         </button>
                                     </div>
                                 </div>
+
+                                <h1 id="spec-title">Product Title</h1>
+                                <p class="text-muted" id="spec-subtitle">Item Code: #0000</p>
                                 
                                 <div class="spec_table_wrapper">
                                     <table class="spec_table">
