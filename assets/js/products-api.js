@@ -69,19 +69,25 @@ $(document).ready(function () {
             'MARINE': 'Marine & Project Supplies'
         };
 
-        const hierarchy = {}; // { ParentName: { ChildName: [products] } }
+        const hierarchy = { 'All Products': {} }; // Initialize with 'All Products'
         
         products.forEach(p => {
             const rawParent = (p.parent_item_group || 'Other Products').trim();
             const parent = categoryMap[rawParent] || rawParent;
             const child = (p.item_group || 'General').trim();
             
+            // Add to specific industry
             if (!hierarchy[parent]) hierarchy[parent] = {};
             if (!hierarchy[parent][child]) hierarchy[parent][child] = [];
             hierarchy[parent][child].push(p);
+
+            // Add to 'All Products' master view
+            if (!hierarchy['All Products'][child]) hierarchy['All Products'][child] = [];
+            hierarchy['All Products'][child].push(p);
         });
 
         const categoryOrder = [
+            'All Products', // Make it first
             'Rigging & Lifting tools',
             'Welding Equipment & Accessories',
             'Personal Protective Equipment',
