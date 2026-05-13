@@ -61,7 +61,7 @@ $(document).ready(function () {
         tabs.empty();
         tabContent.empty();
 
-        // Group products by Item Group (Industry)
+        // Group products by Parent Item Group (Industry)
         const categoryMap = {
             'LIFTING': 'Rigging & Lifting tools',
             'WELDING': 'Welding Equipment & Accessories',
@@ -69,12 +69,16 @@ $(document).ready(function () {
             'MARINE': 'Marine & Project Supplies'
         };
 
-        const groups = {};
+        const hierarchy = {}; // { ParentName: { ChildName: [products] } }
+        
         products.forEach(p => {
-            const rawGroup = p.item_group || 'Other Products';
-            const group = categoryMap[rawGroup] || rawGroup;
-            if (!groups[group]) groups[group] = [];
-            groups[group].push(p);
+            const rawParent = p.parent_item_group || 'Other Products';
+            const parent = categoryMap[rawParent] || rawParent;
+            const child = p.item_group || 'General';
+            
+            if (!hierarchy[parent]) hierarchy[parent] = {};
+            if (!hierarchy[parent][child]) hierarchy[parent][child] = [];
+            hierarchy[parent][child].push(p);
         });
 
         const categoryOrder = [
@@ -84,7 +88,7 @@ $(document).ready(function () {
             'Marine & Project Supplies'
         ];
 
-        const groupKeys = Object.keys(groups).sort((a, b) => {
+        const parentKeys = Object.keys(hierarchy).sort((a, b) => {
             const idxA = categoryOrder.indexOf(a);
             const idxB = categoryOrder.indexOf(b);
             if (idxA !== -1 && idxB !== -1) return idxA - idxB;
@@ -93,7 +97,7 @@ $(document).ready(function () {
             return a.localeCompare(b);
         });
         
-        groupKeys.forEach((group, index) => {
+        parentKeys.forEach((parent, index) => {
             const tabId = `tab-${index}`;
             const activeClass = index === 0 ? 'active' : '';
             const showActive = index === 0 ? 'show active' : '';
@@ -103,26 +107,41 @@ $(document).ready(function () {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link ${activeClass}" id="${tabId}-tab" data-bs-toggle="pill"
                         data-bs-target="#${tabId}" type="button" role="tab" aria-controls="${tabId}"
-                        aria-selected="${index === 0}">${group}</button>
+                        aria-selected="${index === 0}">${parent}</button>
                 </li>
             `);
 
-            // 2. Create Tab Pane
-            const brandsInGroup = [...new Set(groups[group].map(p => p.custom_brand_name || 'General'))];
-            
-            let brandFilterHtml = '';
-            if (brandsInGroup.length >= 1) {
-                brandFilterHtml = `
-                    <div class="brand_filter_container mb-4">
-                        <button class="brand_filter_btn active" data-brand="all">All Brands</button>
-                        ${brandsInGroup.map(b => `<button class="brand_filter_btn" data-brand="${b.toLowerCase().replace(/\s+/g, '-')}">${b}</button>`).join('')}
+            // 2. Prepare Filters and Products
+            const childrenInParent = Object.keys(hierarchy[parent]).sort();
+            const allProductsInParent = [].concat(...Object.values(hierarchy[parent]));
+            const brandsInParent = [...new Set(allProductsInParent.map(p => p.custom_brand_name || 'General'))].sort();
+
+            // Sub-category Filters
+            let subCatFilterHtml = '';
+            if (childrenInParent.length > 1) {
+                subCatFilterHtml = `
+                    <div class="sub_category_filter_container mb-3 d-flex flex-wrap gap-2">
+                        <button class="sub_cat_btn active" data-subcat="all">All Categories</button>
+                        ${childrenInParent.map(c => `<button class="sub_cat_btn" data-subcat="${c.toLowerCase().replace(/\s+/g, '-')}">${c}</button>`).join('')}
                     </div>
                 `;
             }
 
+            // Brand Filters
+            let brandFilterHtml = '';
+            if (brandsInParent.length >= 1) {
+                brandFilterHtml = `
+                    <div class="brand_filter_container mb-4 d-flex flex-wrap gap-2">
+                        <button class="brand_filter_btn active" data-brand="all">All Brands</button>
+                        ${brandsInParent.map(b => `<button class="brand_filter_btn" data-brand="${b.toLowerCase().replace(/\s+/g, '-')}">${b}</button>`).join('')}
+                    </div>
+                `;
+            }
+
+            // Product Grid Rendering
             let productsHtml = '';
             const itemsByBrand = {};
-            groups[group].forEach(p => {
+            allProductsInParent.forEach(p => {
                 const brand = p.custom_brand_name || 'General';
                 if (!itemsByBrand[brand]) itemsByBrand[brand] = [];
                 itemsByBrand[brand].push(p);
@@ -131,19 +150,23 @@ $(document).ready(function () {
             for (const brand in itemsByBrand) {
                 const brandClass = brand.toLowerCase().replace(/\s+/g, '-');
                 const brandDisplay = brand.toLowerCase() === 'europull' ? `${brand} <span class="premium_badge" style="font-size: 10px; padding: 2px 8px; border-radius: 50px; background: #0177c6; color: #fff; vertical-align: middle; margin-left: 8px;">Euro Series</span>` : brand;
+                
                 productsHtml += `
                     <div class="brand_group mb-5" data-brand="${brandClass}">
                         <h3 class="brand_title">${brandDisplay}</h3>
                         <div class="product_grid">
-                            ${itemsByBrand[brand].map(p => renderProductCard(p)).join('')}
+                            ${itemsByBrand[brand].map(p => {
+                                const subCatClass = (p.item_group || 'General').toLowerCase().replace(/\s+/g, '-');
+                                return renderProductCard(p, subCatClass);
+                            }).join('')}
                         </div>
                     </div>
                 `;
             }
 
-
             tabContent.append(`
                 <div class="tab-pane fade ${showActive}" id="${tabId}" role="tabpanel" aria-labelledby="${tabId}-tab">
+                    ${subCatFilterHtml}
                     ${brandFilterHtml}
                     ${productsHtml}
                 </div>
@@ -154,7 +177,7 @@ $(document).ready(function () {
         bindFilterEvents();
     }
 
-    function renderProductCard(p) {
+    function renderProductCard(p, subCatClass) {
         // Handle Image URL
         let imgPath = p.image || '';
         
@@ -188,7 +211,7 @@ $(document).ready(function () {
         }
 
         return `
-            <div class="product">
+            <div class="product" data-subcat="${subCatClass}">
                 <a href="${specsUrl}" class="product_link_wrapper">
                     <div class="product_image">
                         <img src="${fullImgUrl}" class="img-fluid" alt="${name}" onerror="this.src='assets/img/logo.png'">
@@ -218,39 +241,64 @@ $(document).ready(function () {
     }
 
     function bindFilterEvents() {
-        // Brand Filter
-        $('.brand_filter_btn').on('click', function () {
-            const brand = $(this).data('brand');
-            const parentPane = $(this).closest('.tab-pane');
+        // Universal Filter Function
+        function applyFilters(pane) {
+            const activeSubCat = pane.find('.sub_cat_btn.active').data('subcat');
+            const activeBrand = pane.find('.brand_filter_btn.active').data('brand');
+            const searchValue = $('#product-page-search').val().toLowerCase();
 
-            parentPane.find('.brand_filter_btn').removeClass('active');
+            pane.find('.product').each(function() {
+                const product = $(this);
+                const subcat = product.data('subcat');
+                const brandGroup = product.closest('.brand_group');
+                const brand = brandGroup.data('brand');
+                const name = product.find('.product_name').text().toLowerCase();
+
+                const subCatMatch = (activeSubCat === 'all' || subcat === activeSubCat);
+                const brandMatch = (activeBrand === 'all' || brand === activeBrand);
+                const searchMatch = (searchValue === '' || name.indexOf(searchValue) > -1);
+
+                if (subCatMatch && brandMatch && searchMatch) {
+                    product.show();
+                } else {
+                    product.hide();
+                }
+            });
+
+            // Hide brand groups if all products inside are hidden
+            pane.find('.brand_group').each(function() {
+                const visibleProducts = $(this).find('.product:visible').length;
+                $(this).toggle(visibleProducts > 0);
+            });
+        }
+
+        // Sub-Category Filter Click
+        $('.sub_cat_btn').on('click', function () {
+            const pane = $(this).closest('.tab-pane');
+            pane.find('.sub_cat_btn').removeClass('active');
             $(this).addClass('active');
+            applyFilters(pane);
+        });
 
-            if (brand === 'all') {
-                parentPane.find('.brand_group').stop().fadeIn(400);
-            } else {
-                parentPane.find('.brand_group').hide();
-                parentPane.find('.brand_group[data-brand="' + brand + '"]').stop().fadeIn(400);
-            }
+        // Brand Filter Click
+        $('.brand_filter_btn').on('click', function () {
+            const pane = $(this).closest('.tab-pane');
+            pane.find('.brand_filter_btn').removeClass('active');
+            $(this).addClass('active');
+            applyFilters(pane);
         });
 
         // Product Search
         $('#product-page-search').on('keyup', function() {
-            const value = $(this).val().toLowerCase();
+            const activePane = $('.tab-pane.active');
+            applyFilters(activePane);
             
-            $('.product').each(function() {
-                const name = $(this).find('.product_name').text().toLowerCase();
-                const isMatch = name.indexOf(value) > -1;
-                $(this).toggle(isMatch);
+            // For other panes, we might want to update them too if user switches tabs
+            $('.tab-pane').not('.active').each(function() {
+                applyFilters($(this));
             });
 
-            // Hide brand groups if all products inside are hidden
-            $('.brand_group').each(function() {
-                const visibleProducts = $(this).find('.product:visible').length;
-                $(this).toggle(visibleProducts > 0);
-            });
-            
-            // Hide tabs if no products match
+            // Hide tabs if no products match in them
             $('.tab-pane').each(function() {
                 const visibleGroups = $(this).find('.brand_group:visible').length;
                 const tabId = $(this).attr('id');
