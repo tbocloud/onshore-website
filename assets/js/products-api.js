@@ -249,8 +249,8 @@ $(document).ready(function () {
     function bindFilterEvents() {
         // Universal Filter Function
         function applyFilters(pane) {
-            const activeSubCat = pane.find('.sub_cat_btn.active').attr('data-subcat');
-            const activeBrand = pane.find('.brand_filter_btn.active').attr('data-brand');
+            const activeSubCat = pane.find('.sub_cat_btn.active').attr('data-subcat') || 'all';
+            const activeBrand = pane.find('.brand_filter_btn.active').attr('data-brand') || 'all';
             const searchValue = $('#product-page-search').val().toLowerCase();
 
             pane.find('.product').each(function() {
