@@ -266,14 +266,17 @@ $(document).ready(function () {
             });
 
             // Hide brand groups if all products inside are hidden
+            // Fixed: use .filter() to check individual product display instead of global :visible
             pane.find('.brand_group').each(function() {
-                const visibleProducts = $(this).find('.product:visible').length;
-                $(this).toggle(visibleProducts > 0);
+                const visibleInGroup = $(this).find('.product').filter(function() {
+                    return $(this).css('display') !== 'none';
+                }).length;
+                $(this).toggle(visibleInGroup > 0);
             });
         }
 
         // Sub-Category Filter Click
-        $('.sub_cat_btn').on('click', function () {
+        $('.sub_cat_btn').off('click').on('click', function () {
             const pane = $(this).closest('.tab-pane');
             pane.find('.sub_cat_btn').removeClass('active');
             $(this).addClass('active');
@@ -281,7 +284,7 @@ $(document).ready(function () {
         });
 
         // Brand Filter Click
-        $('.brand_filter_btn').on('click', function () {
+        $('.brand_filter_btn').off('click').on('click', function () {
             const pane = $(this).closest('.tab-pane');
             pane.find('.brand_filter_btn').removeClass('active');
             $(this).addClass('active');
@@ -289,7 +292,7 @@ $(document).ready(function () {
         });
 
         // Product Search
-        $('#product-page-search').on('keyup', function() {
+        $('#product-page-search').off('keyup').on('keyup', function() {
             const activePane = $('.tab-pane.active');
             applyFilters(activePane);
             
@@ -300,9 +303,11 @@ $(document).ready(function () {
 
             // Hide tabs if no products match in them
             $('.tab-pane').each(function() {
-                const visibleGroups = $(this).find('.brand_group:visible').length;
+                const visibleInTab = $(this).find('.product').filter(function() {
+                    return $(this).css('display') !== 'none';
+                }).length;
                 const tabId = $(this).attr('id');
-                $(`button[data-bs-target="#${tabId}"]`).parent().toggle(visibleGroups > 0);
+                $(`button[data-bs-target="#${tabId}"]`).parent().toggle(visibleInTab > 0);
             });
         });
     }
