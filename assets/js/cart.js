@@ -671,7 +671,7 @@ var QuoteCart = (function ($) {
                         ${item.desc_en ? `<div class="cart-item-desc" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
                         ${item.desc_ar ? `<div class="cart-item-desc-ar" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
                         
-                        <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">${item.brand || ''}</div>
+                        <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">Quantity / الكمية</div>
                         
                         <div class="qty-control mt-2">
                             <button type="button" class="update-qty" data-id="${item.id}" data-action="decrease">-</button>
@@ -712,7 +712,7 @@ var QuoteCart = (function ($) {
                                 ${item.desc_en ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
                                 ${item.desc_ar ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
                                 
-                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase; display: block; margin-top: 5px;">${item.brand || ''}</small>
+                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase; display: block; margin-top: 5px;">Quantity / الكمية</small>
                             </div>
                         </div>
                     </td>
