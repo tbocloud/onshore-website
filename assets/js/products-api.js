@@ -72,9 +72,9 @@ $(document).ready(function () {
         const hierarchy = {}; // { ParentName: { ChildName: [products] } }
         
         products.forEach(p => {
-            const rawParent = p.parent_item_group || 'Other Products';
+            const rawParent = (p.parent_item_group || 'Other Products').trim();
             const parent = categoryMap[rawParent] || rawParent;
-            const child = p.item_group || 'General';
+            const child = (p.item_group || 'General').trim();
             
             if (!hierarchy[parent]) hierarchy[parent] = {};
             if (!hierarchy[parent][child]) hierarchy[parent][child] = [];
@@ -98,7 +98,7 @@ $(document).ready(function () {
         });
         
         parentKeys.forEach((parent, index) => {
-            const tabId = `tab-${index}`;
+            const tabId = `industry-tab-${index}`;
             const activeClass = index === 0 ? 'active' : '';
             const showActive = index === 0 ? 'show active' : '';
 
@@ -114,7 +114,7 @@ $(document).ready(function () {
             // 2. Prepare Filters and Products
             const childrenInParent = Object.keys(hierarchy[parent]).sort();
             const allProductsInParent = [].concat(...Object.values(hierarchy[parent]));
-            const brandsInParent = [...new Set(allProductsInParent.map(p => p.custom_brand_name || 'General'))].sort();
+            const brandsInParent = [...new Set(allProductsInParent.map(p => (p.custom_brand_name || 'General').trim()))].sort();
 
             // Sub-category Filters
             let subCatFilterHtml = '';
@@ -122,7 +122,10 @@ $(document).ready(function () {
                 subCatFilterHtml = `
                     <div class="sub_category_filter_container mb-3 d-flex flex-wrap gap-2">
                         <button class="sub_cat_btn active" data-subcat="all">All Categories</button>
-                        ${childrenInParent.map(c => `<button class="sub_cat_btn" data-subcat="${c.toLowerCase().replace(/\s+/g, '-')}">${c}</button>`).join('')}
+                        ${childrenInParent.map(c => {
+                            const scClass = c.trim().toLowerCase().replace(/\s+/g, '-');
+                            return `<button class="sub_cat_btn" data-subcat="${scClass}">${c}</button>`;
+                        }).join('')}
                     </div>
                 `;
             }
@@ -133,7 +136,10 @@ $(document).ready(function () {
                 brandFilterHtml = `
                     <div class="brand_filter_container mb-4 d-flex flex-wrap gap-2">
                         <button class="brand_filter_btn active" data-brand="all">All Brands</button>
-                        ${brandsInParent.map(b => `<button class="brand_filter_btn" data-brand="${b.toLowerCase().replace(/\s+/g, '-')}">${b}</button>`).join('')}
+                        ${brandsInParent.map(b => {
+                            const bClass = b.trim().toLowerCase().replace(/\s+/g, '-');
+                            return `<button class="brand_filter_btn" data-brand="${bClass}">${b}</button>`;
+                        }).join('')}
                     </div>
                 `;
             }
@@ -142,7 +148,7 @@ $(document).ready(function () {
             let productsHtml = '';
             const itemsByBrand = {};
             allProductsInParent.forEach(p => {
-                const brand = p.custom_brand_name || 'General';
+                const brand = (p.custom_brand_name || 'General').trim();
                 if (!itemsByBrand[brand]) itemsByBrand[brand] = [];
                 itemsByBrand[brand].push(p);
             });
@@ -156,7 +162,7 @@ $(document).ready(function () {
                         <h3 class="brand_title">${brandDisplay}</h3>
                         <div class="product_grid">
                             ${itemsByBrand[brand].map(p => {
-                                const subCatClass = (p.item_group || 'General').toLowerCase().replace(/\s+/g, '-');
+                                const subCatClass = (p.item_group || 'General').trim().toLowerCase().replace(/\s+/g, '-');
                                 return renderProductCard(p, subCatClass);
                             }).join('')}
                         </div>
@@ -243,15 +249,15 @@ $(document).ready(function () {
     function bindFilterEvents() {
         // Universal Filter Function
         function applyFilters(pane) {
-            const activeSubCat = pane.find('.sub_cat_btn.active').data('subcat');
-            const activeBrand = pane.find('.brand_filter_btn.active').data('brand');
+            const activeSubCat = pane.find('.sub_cat_btn.active').attr('data-subcat');
+            const activeBrand = pane.find('.brand_filter_btn.active').attr('data-brand');
             const searchValue = $('#product-page-search').val().toLowerCase();
 
             pane.find('.product').each(function() {
                 const product = $(this);
-                const subcat = product.data('subcat');
+                const subcat = product.attr('data-subcat');
                 const brandGroup = product.closest('.brand_group');
-                const brand = brandGroup.data('brand');
+                const brand = brandGroup.attr('data-brand');
                 const name = product.find('.product_name').text().toLowerCase();
 
                 const subCatMatch = (activeSubCat === 'all' || subcat === activeSubCat);
@@ -266,7 +272,6 @@ $(document).ready(function () {
             });
 
             // Hide brand groups if all products inside are hidden
-            // Fixed: use .filter() to check individual product display instead of global :visible
             pane.find('.brand_group').each(function() {
                 const visibleInGroup = $(this).find('.product').filter(function() {
                     return $(this).css('display') !== 'none';
