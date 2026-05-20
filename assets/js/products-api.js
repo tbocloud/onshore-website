@@ -268,9 +268,6 @@ $(document).ready(function () {
         // ─── Update visible count ───
         $('#visible-count').text(totalProducts);
 
-        // ─── Bind add-to-cart buttons ───
-        bindCartEvents();
-
         // ─── Check Hash for Active Category / Subcategory on Load ───
         if (window.location.hash) {
             const hashVal = window.location.hash.substring(1).toLowerCase();
@@ -386,32 +383,6 @@ $(document).ready(function () {
         `;
     }
 
-    /**
-     * Bind click events for add-to-cart buttons (delegated)
-     */
-    function bindCartEvents() {
-        $(document).off('click.apiCart', '.add-to-cart-btn').on('click.apiCart', '.add-to-cart-btn', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const $btn = $(this);
-            const item = {
-                id: $btn.data('id'),
-                name: $btn.data('name'),
-                name_ar: $btn.data('name-ar') || '',
-                desc_en: $btn.data('desc-en') || '',
-                desc_ar: $btn.data('desc-ar') || '',
-                image: $btn.data('image'),
-                brand: $btn.data('brand') || ''
-            };
-
-            if (typeof QuoteCart !== 'undefined' && typeof QuoteCart.addToCart === 'function') {
-                QuoteCart.addToCart(item);
-            } else {
-                console.warn('QuoteCart not available');
-            }
-        });
-    }
 
     init();
 });
