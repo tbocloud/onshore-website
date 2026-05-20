@@ -12,10 +12,11 @@
 
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/products-redesign.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="canonical" href="https://www.onshoretechnical.com/products.html" />
+    <link rel="canonical" href="https://www.onshoretechnical.com/product-details.html" />
     <title>Technical Equipment Suppliers in Saudi Arabia | Onshore Technical Supplies</title>
     <meta name="description"
         content="Onshore Technical Supplies provides welding equipment, lifting solutions, safety PPE, and abrasive tools for industrial applications across Saudi Arabia. Reliable quality products.">
@@ -57,23 +58,11 @@
                     <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i class="ri-close-line"></i></label>
 
                     <li><a href="./">Home</a></li>
-
-
-
-
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="industries.html">Industries</a></li>
                     <li><a href="products.html">Products</a></li>
                     <li><a href="brands.html">Brands</a></li>
                     <li><a href="blog.html">News & Blogs</a></li>
-
-
-
-
-
-
-
-
                 </ul>
 
                 <div class="nav-right-icons">
@@ -105,85 +94,6 @@
                 box-shadow: 0 12px 24px rgba(1, 119, 198, 0.18) !important;
             }
         </style>
-        <script>
-            function focusProduct(productName) {
-                // 1. Switch to Rigging & Lifting tools tab if not active
-                const liftingTabButton = document.getElementById('pills-p3-tab');
-                if (liftingTabButton && !liftingTabButton.classList.contains('active')) {
-                    liftingTabButton.click();
-                }
-                
-                // 2. Clear any search filtering
-                const searchInput = document.getElementById('product-page-search');
-                if (searchInput && searchInput.value) {
-                    searchInput.value = '';
-                    searchInput.dispatchEvent(new Event('input'));
-                }
-                
-                // 3. Find the product by its text content
-                setTimeout(() => {
-                    const productElements = document.querySelectorAll('.product');
-                    for (let el of productElements) {
-                        const nameEl = el.querySelector('.product_name');
-                        if (nameEl && nameEl.textContent.trim().toLowerCase().includes(productName.toLowerCase())) {
-                            // Scroll to it
-                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            
-                            // Highlight pulse
-                            el.style.transition = 'all 0.5s ease-in-out';
-                            el.style.borderColor = '#0177c6';
-                            el.style.boxShadow = '0 0 20px rgba(1, 119, 198, 0.6)';
-                            el.style.transform = 'scale(1.06)';
-                            
-                            setTimeout(() => {
-                                el.style.transform = '';
-                                el.style.boxShadow = '';
-                                el.style.borderColor = '';
-                            }, 2500);
-                            
-                            break;
-                        }
-                    }
-                }, 150);
-            }
-
-            window.addEventListener('DOMContentLoaded', () => {
-                const params = new URLSearchParams(window.location.search);
-                const focus = params.get('focus');
-                if (focus) {
-                    setTimeout(() => {
-                        focusProduct(focus);
-                    }, 800);
-                }
-
-                // Banner slideshow logic
-                let slideIndex = 0;
-                const $slides = $('.banner_slide');
-                const $dots = $('.banner_dot');
-                if ($slides.length > 1) {
-                    setInterval(() => {
-                        let nextIndex = (slideIndex + 1) % $slides.length;
-                        switchSlide(nextIndex);
-                    }, 6500);
-
-                    $dots.on('click', function() {
-                        const index = parseInt($(this).data('index'));
-                        switchSlide(index);
-                    });
-                }
-
-                function switchSlide(index) {
-                    if (index === slideIndex) return;
-                    $slides.eq(slideIndex).fadeOut(600, function() {
-                        $(this).removeClass('active-slide');
-                        $slides.eq(index).fadeIn(600).addClass('active-slide');
-                        $dots.eq(slideIndex).css({ background: 'rgba(255,255,255,0.4)', borderColor: 'transparent' });
-                        $dots.eq(index).css({ background: 'rgba(255,255,255,0.4)', borderColor: '#fff' });
-                        slideIndex = index;
-                    });
-                }
-            });
-        </script>
 
         <div class="page_banner_container" style="background: #000; position: relative;">
             <!-- Slide 1: Multi-Sector Industrial Supplies -->
@@ -216,7 +126,7 @@
                                 <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
                             </div>
                             <div class="mt-4 mb-3">
-                                <a href="#pills-tab" onclick="document.getElementById('pills-tab').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
+                                <a href="#catalog-main" onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
                                     <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
                                 </a>
                             </div>
@@ -230,7 +140,7 @@
                             <div class="row g-3">
                                 <!-- 4 Hoists Grid -->
                                 <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
                                         <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
                                             <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
                                         </div>
@@ -238,13 +148,13 @@
                                         <div class="mb-2">
                                             <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
                                         </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <div onclick="QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease; cursor:pointer;">
                                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
                                         <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
                                             <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
                                         </div>
@@ -252,13 +162,13 @@
                                         <div class="mb-2">
                                             <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
                                         </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <div onclick="QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease; cursor:pointer;">
                                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
                                         <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
                                             <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
                                         </div>
@@ -266,13 +176,13 @@
                                         <div class="mb-2">
                                             <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
                                         </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <div onclick="QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease; cursor:pointer;">
                                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
+                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
                                         <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
                                             <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
                                         </div>
@@ -280,7 +190,7 @@
                                         <div class="mb-2">
                                             <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
                                         </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
+                                        <div onclick="QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease; cursor:pointer;">
                                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                                         </div>
                                     </div>
@@ -290,8 +200,6 @@
                     </div>
                 </div>
             </div>
-
-            
         </div>
 
         <!-- B2B Selling Trust Bar -->
@@ -338,77 +246,156 @@
             </div>
         </div>
 
-        <section class="products section">
+        <!-- Mobile sidebar backdrop -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+        <section id="catalog-main" style="background:#f4f6f9; padding: 0;">
             <div class="container">
-                <div id="search-status" style="display: none; margin-bottom: 20px; align-items: center; gap: 15px;">
-                    <h5 style="margin: 0; font-weight: 600;">Showing results for: "<span id="search-term"></span>"</h5>
-                    <a href="products.html" class="btn btn-sm btn-outline-danger"
-                        style="border-radius: 50px; padding: 5px 15px;">Clear Search</a>
-                </div>
-                <!-- <div class="row mb-5">
-                    <div class="col-md-3 col-12">
-                        <select class="form-select filter_select" aria-label="Default select example">
-                            <option selected>All Products</option>
-                            <option value="1">Welding Equipment & Accessories</option>
-                            <option value="2">Personal Protective Equipment</option>
-                            <option value="3">Rigging & Lifting tools</option>
-                            <option value="4">Marine & Project Supplies</option>
-                        </select>
-                    </div>
-                </div> -->
+                <div class="catalog-layout">
 
-
-                <div class="product_search_wrapper mb-4">
-                    <div class="search_box">
-                        <i class="ri-search-line"></i>
-                        <input type="text" id="product-page-search"
-                            placeholder="Search products, brands or categories...">
-                    </div>
-                </div>
-
-                <div class="seo-hub-banner mb-4 p-3 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-white shadow-sm"
-                    style="border-radius: 8px; border-left: 5px solid #0177c6;">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="ri-information-line text-primary" style="font-size: 24px;"></i>
-                        <span style="font-weight: 600; font-size: 14px; color: #333;">Looking for detailed technical
-                            specs, SWL charts, or bulk B2B pricing? Visit our dedicated category hubs:</span>
-                    </div>
-                    <div class="d-flex flex-wrap gap-2">
-                        <a href="rigging-lifting-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
-                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Rigging &
-                            Lifting Hub</a>
-                        <a href="industrial-welding-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
-                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Welding
-                            Hub</a>
-                        <a href="personal-protective-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
-                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">PPE
-                            Hub</a>
-                        <a href="marine-project-supplies-supplier.html" class="btn btn-sm btn-outline-primary"
-                            style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Marine
-                            Supplies Hub</a>
-                    </div>
-                </div>
-
-                <div id="dynamic-products-container">
-                    <div class="text-center py-5" id="products-loader">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                    <!-- ═══ LEFT SIDEBAR ═══ -->
+                    <aside class="cat-sidebar" id="cat-sidebar">
+                        <!-- Search -->
+                        <div class="sidebar-search" style="margin-top:14px;">
+                            <i class="ri-search-line"></i>
+                            <input type="text" id="sidebar-search-input" placeholder="Search products...">
                         </div>
-                        <p class="mt-3">Fetching products...</p>
-                    </div>
 
-                    <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
-                        <!-- Dynamic Tabs will be injected here -->
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-                        <!-- Dynamic Content will be injected here -->
-                    </div>
+                        <!-- Categories -->
+                        <div class="sidebar-widget">
+                            <div class="sidebar-widget-title" data-toggle="widget-categories">
+                                <span>CATEGORIES</span>
+                                <i class="ri-arrow-up-s-line"></i>
+                            </div>
+                            <ul class="sidebar-cat-list" id="widget-categories">
+                                <li class="active" data-cat="all"><a href="#"><span>All Products</span><span class="cat-count" id="count-all">0</span></a></li>
+                                <li data-cat="lifting"><a href="#"><span>Rigging &amp; Lifting</span><span class="cat-count" id="count-lifting">0</span></a></li>
+                                <li data-cat="welding"><a href="#"><span>Welding Equipment</span><span class="cat-count" id="count-welding">0</span></a></li>
+                                <li data-cat="ppe"><a href="#"><span>Personal Protective Equipment</span><span class="cat-count" id="count-ppe">0</span></a></li>
+                                <li data-cat="marine"><a href="#"><span>Marine &amp; Project Supplies</span><span class="cat-count" id="count-marine">0</span></a></li>
+                            </ul>
+                        </div>
 
-                    <div id="api-error-message" style="display: none;" class="alert alert-warning text-center mt-4">
-                        <i class="ri-error-warning-line" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
-                        <p class="mb-0">Unable to load products at the moment. We are performing database maintenance. Please try again later.</p>
-                    </div>
+                        <!-- Brand — dynamically populated by products-api.js -->
+                        <div class="sidebar-widget">
+                            <div class="sidebar-widget-title" data-toggle="widget-brands">
+                                <span>BRAND</span>
+                                <i class="ri-arrow-up-s-line"></i>
+                            </div>
+                            <div class="sidebar-checkbox-group" id="widget-brands">
+                                <!-- dynamic brand checkboxes injected here -->
+                                <div id="brands-loader" style="padding: 8px 0; color: #94a3b8; font-size: 12px;">
+                                    <i class="ri-loader-4-line"></i> Loading brands...
+                                </div>
+                            </div>
+                            <span class="sidebar-clear-link" id="clear-brand-filters">Clear brand filters</span>
+                        </div>
+
+                        <!-- Certification -->
+                        <div class="sidebar-widget">
+                            <div class="sidebar-widget-title" data-toggle="widget-certs">
+                                <span>CERTIFICATION</span>
+                                <i class="ri-arrow-up-s-line"></i>
+                            </div>
+                            <div class="sidebar-checkbox-group" id="widget-certs">
+                                <label class="sid-check"><input type="checkbox" checked> CE Certified</label>
+                                <label class="sid-check"><input type="checkbox" checked> Mill Test Certificate</label>
+                                <label class="sid-check"><input type="checkbox" checked> Third-Party Inspected</label>
+                                <label class="sid-check"><input type="checkbox" checked> ARAMCO Compliant</label>
+                            </div>
+                        </div>
+
+                        <!-- Availability -->
+                        <div class="sidebar-widget">
+                            <div class="sidebar-widget-title" data-toggle="widget-avail">
+                                <span>AVAILABILITY</span>
+                                <i class="ri-arrow-up-s-line"></i>
+                            </div>
+                            <div class="sidebar-checkbox-group" id="widget-avail">
+                                <label class="sid-check"><input type="checkbox" id="avail-instock" checked> In Stock</label>
+                                <label class="sid-check"><input type="checkbox" id="avail-order"> Made to Order</label>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- ═══ MAIN CATALOG ═══ -->
+                    <main class="cat-main">
+                        <!-- Mobile filter trigger -->
+                        <button class="mobile-filter-trigger" id="mobile-filter-trigger">
+                            <i class="ri-equalizer-line"></i> Filters &amp; Categories
+                        </button>
+
+                        <!-- SEO Hub Banner -->
+                        <div class="seo-hub-banner mb-4 p-3 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-white shadow-sm"
+                            style="border-radius: 8px; border-left: 5px solid #0177c6;">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="ri-information-line text-primary" style="font-size: 24px;"></i>
+                                <span style="font-weight: 600; font-size: 14px; color: #333;">Looking for detailed technical specs, SWL charts, or bulk B2B pricing? Visit our dedicated category hubs:</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="rigging-lifting-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                                    style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Rigging &amp; Lifting Hub</a>
+                                <a href="industrial-welding-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                                    style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Welding Hub</a>
+                                <a href="personal-protective-equipment-supplier.html" class="btn btn-sm btn-outline-primary"
+                                    style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">PPE Hub</a>
+                                <a href="marine-project-supplies-supplier.html" class="btn btn-sm btn-outline-primary"
+                                    style="border-radius: 50px; padding: 5px 15px; font-size: 13px; font-weight: 500;">Marine Supplies Hub</a>
+                            </div>
+                        </div>
+
+                        <!-- Catalog header -->
+                        <div class="cat-header">
+                            <div class="cat-header-left">
+                                <h2 id="catalog-title">All Products</h2>
+                                <p id="catalog-count">Showing <span id="visible-count">0</span> results</p>
+                            </div>
+                            <select class="cat-sort-select" id="cat-sort">
+                                <option value="default">Sort by: Featured</option>
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                            </select>
+                        </div>
+
+                        <!-- Active filter pills -->
+                        <div class="active-filter-pills" id="active-pills" style="display:none;"></div>
+
+                        <!-- Search status bar -->
+                        <div id="search-status" style="display:none; margin-bottom:16px;">
+                            <div class="filter-pill">
+                                Searching: "<span id="search-term"></span>"
+                                <a href="product-details.html" class="pill-remove"><i class="ri-close-line"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- No results -->
+                        <div class="no-results-msg" id="no-results-msg">
+                            <i class="ri-search-line"></i>
+                            <h5>No Products Found</h5>
+                            <p>Try adjusting your filters or search term.</p>
+                        </div>
+
+                        <!-- API Loading State -->
+                        <div class="text-center py-5" id="products-loader">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-3" style="font-family: 'Outfit', sans-serif; color: #64748b;">Fetching products from catalog...</p>
+                        </div>
+
+                        <!-- Dynamic catalog sections injected here -->
+                        <div id="dynamic-products-container">
+                            <!-- products-api.js will inject .cat-section elements here -->
+                        </div>
+
+                        <div id="api-error-message" style="display: none;" class="alert alert-warning text-center mt-4">
+                            <i class="ri-error-warning-line" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+                            <p class="mb-0">Unable to load products at the moment. We are performing database maintenance. Please try again later.</p>
+                        </div>
+                    </main>
+
                 </div>
+            </div>
         </section>
 
     </main>
@@ -446,14 +433,8 @@
                         <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
                                 target="_blank" aria-label="Visit Onshore Technical Supplies on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
 
-
-
                     </ul>
                 </div>
-
-
-
-
 
                 <div class="footer_column">
                     <h6 class="footer_title">More Links</h6>
@@ -516,89 +497,6 @@
             })
         })
 
-        // Page Banner
-
-        ScrollReveal().reveal('.page_banner_content h1', {
-            duration: 1500,
-            delay: 200,
-            opacity: 0,
-            easing: 'ease-in-out'
-        });
-
-        ScrollReveal().reveal('.page_banner_content ul li', {
-            origin: 'bottom',
-            distance: '20px',
-            duration: 800,
-            delay: 400,
-            opacity: 0,
-            interval: 150,
-            easing: 'ease-in-out'
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Contact Section
-
-        ScrollReveal().reveal('.contact .main_heading', {
-            origin: 'left',
-            distance: '80px',
-            duration: 1000,
-            delay: 200,
-            easing: 'ease-in-out'
-        });
-
-        ScrollReveal().reveal('.contact .contact_number', {
-            origin: 'right',
-            distance: '80px',
-            duration: 1000,
-            delay: 400,
-            scale: 0.9,
-            opacity: 0,
-            easing: 'ease-in-out'
-        });
-
-        ScrollReveal().reveal('.contact .contact_number .icon', {
-            scale: 0.8,
-            duration: 800,
-            delay: 600,
-            easing: 'ease-out'
-        });
-
-
-        // brands
-
-        ScrollReveal().reveal('.brands .section-title', {
-            origin: 'top',
-            distance: '30px',
-            duration: 800,
-            delay: 100,
-            easing: 'ease-in-out'
-        });
-
-        ScrollReveal().reveal('.brands .item', {
-            origin: 'bottom',
-            distance: '40px',
-            duration: 900,
-            delay: 200,
-            opacity: 0,
-            easing: 'ease-in-out',
-            interval: 150
-        });
-
-
-
-        // Footer
-
         ScrollReveal().reveal('.footer_logo, .footer_desc', {
             origin: 'left',
             distance: '40px',
@@ -628,7 +526,196 @@
             interval: 200
         });
 
+        // Sidebar filtering logic (mirrors products.html)
+        $(document).ready(function () {
+            const $searchVal = $('#sidebar-search-input');
+            const $catItems = $('#widget-categories li');
+            const $clearBrands = $('#clear-brand-filters');
+            const $sortSelect = $('#cat-sort');
+            const $visibleCount = $('#visible-count');
+            const $noResults = $('#no-results-msg');
+            const $activePills = $('#active-pills');
+            const $searchStatus = $('#search-status');
+            const $searchTerm = $('#search-term');
 
+            const $mobileTrigger = $('#mobile-filter-trigger');
+            const $sidebar = $('#cat-sidebar');
+            const $backdrop = $('#sidebar-backdrop');
+
+            // Toggle Mobile Sidebar
+            function toggleMobileSidebar(open) {
+                if (open) {
+                    $sidebar.addClass('open');
+                    $backdrop.addClass('show');
+                } else {
+                    $sidebar.removeClass('open');
+                    $backdrop.removeClass('show');
+                }
+            }
+
+            if ($mobileTrigger.length) {
+                $mobileTrigger.on('click', function () { toggleMobileSidebar(true); });
+            }
+            if ($backdrop.length) {
+                $backdrop.on('click', function () { toggleMobileSidebar(false); });
+            }
+
+            // Main Filter function — called by products-api.js after render too
+            window.filterApiCatalog = function () {
+                const query = $searchVal.val() ? $searchVal.val().toLowerCase().trim() : '';
+                const activeCat = $catItems.filter('.active').attr('data-cat') || 'all';
+                const $brandCbs = $('.api-brand-cb');
+
+                const checkedBrands = [];
+                $brandCbs.each(function () {
+                    if ($(this).is(':checked')) {
+                        checkedBrands.push($(this).val());
+                    }
+                });
+
+                let totalVisible = 0;
+
+                $('.pc').each(function () {
+                    const $card = $(this);
+                    const name = $card.find('.pc-name').text().toLowerCase();
+                    const arabicName = $card.find('.pc-arabic').text().toLowerCase();
+                    const brand = ($card.attr('data-brand') || '').toLowerCase();
+                    const cat = $card.attr('data-cat') || '';
+
+                    let isVisible = true;
+
+                    if (query !== '') {
+                        if (!name.includes(query) && !arabicName.includes(query) && !brand.includes(query)) {
+                            isVisible = false;
+                        }
+                    }
+
+                    if (activeCat !== 'all' && cat !== activeCat) {
+                        isVisible = false;
+                    }
+
+                    if (checkedBrands.length > 0 && !checkedBrands.includes(brand)) {
+                        isVisible = false;
+                    }
+
+                    if (isVisible) {
+                        $card.removeClass('hidden').show();
+                        totalVisible++;
+                    } else {
+                        $card.addClass('hidden').hide();
+                    }
+                });
+
+                // Show/hide brand sub-headers
+                $('.brand-subheader').each(function () {
+                    const brandVal = $(this).attr('data-brand-group');
+                    const $grid = $('.cat-product-grid[data-brand-grid="' + brandVal + '"]');
+                    const visible = $grid.children('.pc:not(.hidden)').length;
+                    $(this).toggle(visible > 0);
+                    $grid.toggle(visible > 0);
+                });
+
+                // Show/hide category sections
+                $('.cat-section').each(function () {
+                    const visibleInSec = $(this).find('.pc:not(.hidden)').length;
+                    $(this).toggle(visibleInSec > 0);
+                });
+
+                $visibleCount.text(totalVisible);
+
+                if (totalVisible === 0) {
+                    $noResults.fadeIn(300);
+                } else {
+                    $noResults.hide();
+                }
+
+                // Search status
+                if (query !== '') {
+                    $searchTerm.text(query);
+                    $searchStatus.fadeIn(200);
+                } else {
+                    $searchStatus.hide();
+                }
+
+                // Active pills
+                let pillsHtml = '';
+                if (activeCat !== 'all') {
+                    const catLabel = $catItems.filter('.active').find('span:first-child').text();
+                    pillsHtml += `<div class="filter-pill">Category: ${catLabel}<button class="pill-remove" data-remove-type="cat"><i class="ri-close-line"></i></button></div>`;
+                }
+                if (pillsHtml !== '') {
+                    $activePills.html(pillsHtml).fadeIn(200);
+                } else {
+                    $activePills.hide().html('');
+                }
+            };
+
+            // Bind Events
+            if ($searchVal.length) {
+                $searchVal.on('input', function () { window.filterApiCatalog(); });
+            }
+
+            $catItems.on('click', function (e) {
+                e.preventDefault();
+                $catItems.removeClass('active');
+                $(this).addClass('active');
+                const catLabel = $(this).find('span:first-child').text();
+                $('#catalog-title').text(catLabel);
+                window.filterApiCatalog();
+                toggleMobileSidebar(false);
+                $('html, body').animate({ scrollTop: $(".cat-main").offset().top - 120 }, 500);
+            });
+
+            if ($clearBrands.length) {
+                $clearBrands.on('click', function () {
+                    $('.api-brand-cb').prop('checked', true);
+                    window.filterApiCatalog();
+                });
+            }
+
+            $(document).on('change', '.api-brand-cb', function () {
+                window.filterApiCatalog();
+            });
+
+            if ($sortSelect.length) {
+                $sortSelect.on('change', function () {
+                    const sortVal = $sortSelect.val();
+                    $('.cat-product-grid').each(function () {
+                        const $grid = $(this);
+                        const $cards = $grid.children('.pc').toArray();
+                        $cards.sort(function (a, b) {
+                            const nameA = $(a).find('.pc-name').text().toLowerCase();
+                            const nameB = $(b).find('.pc-name').text().toLowerCase();
+                            if (sortVal === 'name-asc') return nameA.localeCompare(nameB);
+                            if (sortVal === 'name-desc') return nameB.localeCompare(nameA);
+                            return 0;
+                        });
+                        $grid.append($cards);
+                    });
+                });
+            }
+
+            // Collapsible Sidebar Widgets
+            $('.sidebar-widget-title').on('click', function () {
+                const targetId = $(this).data('toggle');
+                const $target = $('#' + targetId);
+                $(this).toggleClass('collapsed');
+                if ($(this).hasClass('collapsed')) {
+                    $target.slideUp(250);
+                } else {
+                    $target.slideDown(250);
+                }
+            });
+
+            // Handle pill removal
+            $(document).on('click', '.pill-remove', function (e) {
+                e.preventDefault();
+                const type = $(this).data('remove-type');
+                if (type === 'cat') {
+                    $catItems.filter('[data-cat="all"]').trigger('click');
+                }
+            });
+        });
     </script>
 
 </body>
