@@ -145,7 +145,7 @@ $(document).ready(function () {
                 let thumbsHtml = '';
                 allImages.forEach((fullUrl, idx) => {
                     thumbsHtml += `
-                        <div class="thumb_item ${idx === 0 ? 'active' : ''}" data-url="${fullUrl}">
+                        <div class="pd-thumb ${idx === 0 ? 'active' : ''}" data-url="${fullUrl}">
                             <img src="${fullUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'">
                         </div>
                     `;
@@ -175,7 +175,7 @@ $(document).ready(function () {
             if (s.value) {
                 specsHtml += `
                     <tr>
-                        <th>${s.label}</th>
+                        <td>${s.label}</td>
                         <td>${s.value}</td>
                     </tr>
                 `;
@@ -189,7 +189,7 @@ $(document).ready(function () {
                 if (spec.title && spec.value && !renderedLabels.has(spec.title.toLowerCase())) {
                     specsHtml += `
                         <tr>
-                            <th>${spec.title}</th>
+                            <td>${spec.title}</td>
                             <td>${spec.value}</td>
                         </tr>
                     `;
@@ -267,9 +267,9 @@ $(document).ready(function () {
     }
 
     function bindGalleryEvents() {
-        $('.thumb_item').on('click', function() {
+        $('.pd-thumb').on('click', function() {
             const url = $(this).data('url');
-            $('.thumb_item').removeClass('active');
+            $('.pd-thumb').removeClass('active');
             $(this).addClass('active');
             $('#current-main-img').attr('src', url);
         });

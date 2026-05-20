@@ -246,7 +246,12 @@ $(document).ready(function () {
                        data-brand="${p.custom_brand_name || ''}">
                        <i class="ri-shopping-cart-2-line" style="font-size: 13px;"></i> Add to Cart
                     </a>
-                    <a href="${specsUrl}" class="view-details-btn">View Details</a>
+                    <a href="${specsUrl}" class="view-details-btn" 
+                       style="background-color: transparent; border: 1px solid #ddd; color: #333; padding: 8px 10px; font-size: 11px; font-weight: 700; border-radius: 6px; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; text-decoration: none;"
+                       onmouseover="this.style.backgroundColor='#f8f8f8'; this.style.borderColor='#333';"
+                       onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#ddd';">
+                       <i class="ri-eye-line" style="font-size: 13px;"></i> View Details
+                    </a>
                 </div>
             </div>
         `;
