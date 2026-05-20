@@ -71,12 +71,33 @@ $(document).ready(function () {
      * 2. Sidebar brand checkboxes with counts
      * 3. Sidebar category counts
      */
+    const PARENT_INFO = {
+        'LIFTING': { label: 'Rigging & Lifting Tools', icon: 'ri-tools-line', key: 'lifting' },
+        'WELDING': { label: 'Welding Equipment & Accessories', icon: 'ri-fire-line', key: 'welding' },
+        'SAFETY':  { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'PPE':     { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'MARINE':  { label: 'Marine & Project Supplies', icon: 'ri-ship-line', key: 'marine' }
+    };
+
+    /**
+     * Main render function — builds:
+     * 1. Category sections with brand sub-headers and .pc card grids
+     * 2. Sidebar dynamic categories list with counts
+     * 3. Sidebar brand checkboxes with counts
+     */
     function renderCatalog(products) {
         const container = $('#dynamic-products-container');
+        function toTitleCase(str) {
+            if (!str) return '';
+            return str.toLowerCase().split(' ').map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+
         container.empty();
 
-        // ─── Organize products by category → brand ───
-        const categoryData = {}; // { key: { label, icon, brands: { brandName: [products] } } }
+        // ─── Organize products by category → subcategory → brand ───
+        const categoryData = {}; // { key: { label, icon, subcategories: { subcatKey: { label, count } }, brands: { brandName: [products] } } }
         const allBrands = {};    // { brandNameLower: { display: 'Brand', count: 0 } }
         const categoryOrder = [];
         const dynamicCategoryMap = {};
@@ -87,13 +108,13 @@ $(document).ready(function () {
             if (!rawParent) return;
 
             if (!dynamicCategoryMap[rawParent]) {
-                const key = rawParent.toLowerCase().replace(/\s+/g, '-');
-                dynamicCategoryMap[rawParent] = {
-                    key: key,
-                    label: rawParent.replace(/_/g, ' '),
+                const info = PARENT_INFO[rawParent] || {
+                    key: rawParent.toLowerCase().replace(/\s+/g, '-'),
+                    label: rawParent.charAt(0) + rawParent.slice(1).toLowerCase().replace(/_/g, ' '),
                     icon: defaultIcon
                 };
-                categoryOrder.push(key);
+                dynamicCategoryMap[rawParent] = info;
+                categoryOrder.push(info.key);
             }
 
             const catInfo = dynamicCategoryMap[rawParent];
@@ -103,8 +124,22 @@ $(document).ready(function () {
                 categoryData[catKey] = {
                     label: catInfo.label,
                     icon: catInfo.icon,
+                    subcategories: {},
                     brands: {}
                 };
+            }
+
+            // Track subcategory count
+            const subcatRaw = (p.item_group || '').trim();
+            if (subcatRaw) {
+                const subcatKey = subcatRaw.toLowerCase().replace(/\s+/g, '-');
+                if (!categoryData[catKey].subcategories[subcatKey]) {
+                    categoryData[catKey].subcategories[subcatKey] = {
+                        label: toTitleCase(subcatRaw),
+                        count: 0
+                    };
+                }
+                categoryData[catKey].subcategories[subcatKey].count++;
             }
 
             const brandRaw = (p.custom_brand_name || 'General').trim();
@@ -168,21 +203,51 @@ $(document).ready(function () {
             container.append(sectionHtml);
         });
 
-        // ─── Populate sidebar category counts ───
-        const catCounts = { lifting: 0, welding: 0, ppe: 0, marine: 0 };
+        // ─── Populate sidebar categories dynamically ───
+        const catListContainer = $('#widget-categories');
+        catListContainer.empty();
+        
+        // Add "All Products" item
+        catListContainer.append(`
+            <li class="active" data-cat="all">
+                <a href="#"><span>All Products</span><span class="cat-count" id="count-all">${totalProducts}</span></a>
+            </li>
+        `);
+
         categoryOrder.forEach(catKey => {
-            if (categoryData[catKey]) {
-                Object.values(categoryData[catKey].brands).forEach(b => {
-                    catCounts[catKey] += b.items.length;
+            const cat = categoryData[catKey];
+            let catCount = 0;
+            if (cat && cat.brands) {
+                Object.values(cat.brands).forEach(b => {
+                    catCount += b.items.length;
                 });
             }
-        });
 
-        $('#count-all').text(totalProducts);
-        $('#count-lifting').text(catCounts.lifting);
-        $('#count-welding').text(catCounts.welding);
-        $('#count-ppe').text(catCounts.ppe);
-        $('#count-marine').text(catCounts.marine);
+            let subcatsHtml = '';
+            const sortedSubcatKeys = Object.keys(cat.subcategories || {}).sort();
+            if (sortedSubcatKeys.length > 0) {
+                subcatsHtml += `<ul class="sidebar-subcat-list" style="display: none; list-style: none; padding-left: 16px; margin: 4px 0 0; flex-direction: column; gap: 4px;">`;
+                sortedSubcatKeys.forEach(subKey => {
+                    const subcat = cat.subcategories[subKey];
+                    subcatsHtml += `
+                        <li data-subcat="${subKey}">
+                            <a href="#" style="display: flex; align-items: center; justify-content: space-between; padding: 4px 8px; font-size: 12px; font-weight: 400; color: #64748b; border-radius: 6px; text-decoration: none; transition: all 0.2s ease;">
+                                <span>${subcat.label}</span>
+                                <span class="cat-count" style="font-size: 9.5px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 1px 5px; border-radius: 50px;">${subcat.count}</span>
+                            </a>
+                        </li>
+                    `;
+                });
+                subcatsHtml += `</ul>`;
+            }
+
+            catListContainer.append(`
+                <li data-cat="${catKey}">
+                    <a href="#"><span>${cat.label}</span><span class="cat-count" id="count-${catKey}">${catCount}</span></a>
+                    ${subcatsHtml}
+                </li>
+            `);
+        });
 
         // ─── Populate sidebar brand checkboxes ───
         const brandsContainer = $('#widget-brands');
@@ -205,6 +270,37 @@ $(document).ready(function () {
 
         // ─── Bind add-to-cart buttons ───
         bindCartEvents();
+
+        // ─── Check Hash for Active Category / Subcategory on Load ───
+        if (window.location.hash) {
+            const hashVal = window.location.hash.substring(1).toLowerCase();
+            const parts = hashVal.split(':');
+            const catHash = parts[0];
+            const subcatHash = parts[1] || '';
+
+            const matchingLi = catListContainer.find(`li[data-cat="${catHash}"]`);
+            if (matchingLi.length) {
+                catListContainer.find('li').removeClass('active');
+                matchingLi.addClass('active');
+                
+                // Show nested subcategories for active parent
+                matchingLi.find('.sidebar-subcat-list').show();
+
+                if (subcatHash) {
+                    const matchingSubLi = matchingLi.find(`li[data-subcat="${subcatHash}"]`);
+                    if (matchingSubLi.length) {
+                        matchingSubLi.addClass('active');
+                        window.activeSubcat = subcatHash;
+                        const parentLabel = matchingLi.find('> a > span:first-child').text();
+                        const subLabel = matchingSubLi.find('a > span:first-child').text();
+                        $('#catalog-title').text(`${parentLabel} / ${subLabel}`);
+                    }
+                } else {
+                    const catLabel = matchingLi.find('> a > span:first-child').text();
+                    $('#catalog-title').text(catLabel);
+                }
+            }
+        }
 
         // ─── Run initial filter ───
         if (typeof window.filterApiCatalog === 'function') {
@@ -242,7 +338,7 @@ $(document).ready(function () {
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
 
         return `
-            <div class="pc" data-brand="${brandKey}" data-cat="${catKey}">
+            <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
                 <div class="pc-img">
                     <img src="${fullImgUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'">
                     <div class="pc-img-actions">
@@ -267,7 +363,8 @@ $(document).ready(function () {
                         <span class="pc-brand">${displayBrand}</span>
                         <span class="pc-badge ${badgeClass}">${badgeText}</span>
                     </div>
-                    <p class="pc-name">${name}</p>
+                    ${p.item_group ? `<span class="pc-subcat" style="font-size: 11px; font-weight: 700; color: #0177c6; display: block; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Outfit', sans-serif;"><i class="ri-folder-open-line" style="vertical-align: middle; margin-right: 3px;"></i>${p.parent_item_group ? `${p.parent_item_group.trim().toUpperCase()} / ` : ''}${p.item_group.trim().toUpperCase()}</span>` : ''}
+                    <p class="pc-name" style="margin-top: 4px; font-weight: 600; line-height: 1.4;">${name}</p>
                     ${arabicName ? `<span class="pc-arabic">${arabicName}</span>` : ''}
                     <div class="pc-actions">
                         <button class="pc-btn-primary add-to-cart-btn"

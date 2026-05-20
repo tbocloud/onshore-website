@@ -480,32 +480,6 @@
                             <span class="sidebar-clear-link" id="clear-brand-filters">Clear brand filters</span>
                         </div>
 
-                        <!-- Certification -->
-                        <div class="sidebar-widget">
-                            <div class="sidebar-widget-title" data-toggle="widget-certs">
-                                <span>CERTIFICATION</span>
-                                <i class="ri-arrow-up-s-line"></i>
-                            </div>
-                            <div class="sidebar-checkbox-group" id="widget-certs">
-                                <label class="sid-check"><input type="checkbox" checked> CE Certified</label>
-                                <label class="sid-check"><input type="checkbox" checked> Mill Test Certificate</label>
-                                <label class="sid-check"><input type="checkbox" checked> Third-Party Inspected</label>
-                                <label class="sid-check"><input type="checkbox" checked> ARAMCO Compliant</label>
-                            </div>
-                        </div>
-
-                        <!-- Availability -->
-                        <div class="sidebar-widget">
-                            <div class="sidebar-widget-title" data-toggle="widget-avail">
-                                <span>AVAILABILITY</span>
-                                <i class="ri-arrow-up-s-line"></i>
-                            </div>
-                            <div class="sidebar-checkbox-group" id="widget-avail">
-                                <label class="sid-check"><input type="checkbox" id="avail-instock" checked> In
-                                    Stock</label>
-                                <label class="sid-check"><input type="checkbox" id="avail-order"> Made to Order</label>
-                            </div>
-                        </div>
                     </aside>
 
                     <!-- ═══ MAIN CATALOG ═══ -->
@@ -2756,10 +2730,6 @@
                     }
                 });
 
-                // Availability checkbox filters
-                const filterInStock = $('#avail-instock').is(':checked');
-                const filterOrder = $('#avail-order').is(':checked');
-
                 let totalVisible = 0;
 
                 // Loop through each product card
@@ -2769,7 +2739,6 @@
                     const arabicName = $card.find('.pc-arabic').text().toLowerCase();
                     const brand = $card.attr('data-brand') || '';
                     const cat = $card.attr('data-cat') || '';
-                    const isInStock = $card.find('.pc-badge.stock').length > 0;
 
                     let isVisible = true;
 
@@ -2788,14 +2757,6 @@
                     // 3. Brand Filter
                     if (checkedBrands.length > 0 && !checkedBrands.includes(brand)) {
                         isVisible = false;
-                    }
-
-                    // 4. Availability Filter
-                    if (filterInStock || filterOrder) {
-                        let matchesAvail = false;
-                        if (filterInStock && isInStock) matchesAvail = true;
-                        if (filterOrder && !isInStock) matchesAvail = true;
-                        if (!matchesAvail) isVisible = false;
                     }
 
                     // Apply visibility
@@ -2975,10 +2936,6 @@
                 });
             }
 
-            // Custom Availability checkboxes
-            $('#avail-instock, #avail-order').on('change', function () {
-                filterCatalog();
-            });
 
             // Collapsible Sidebar Widgets (Title Toggle)
             $('.sidebar-widget-title').on('click', function () {

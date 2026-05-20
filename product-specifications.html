@@ -13,11 +13,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Product Specifications | Onshore Technical Supplies</title>
-    <meta name="description" content="View detailed product specifications for industrial equipment, welding, lifting, and safety supplies at Onshore Technical Supplies in Saudi Arabia.">
-    <meta name="keywords" content="Industrial equipment specifications, Onshore Technical Supplies products, technical data sheet, equipment details, Saudi Arabia industrial tools">
+    <meta name="description"
+        content="View detailed product specifications for industrial equipment, welding, lifting, and safety supplies at Onshore Technical Supplies in Saudi Arabia.">
+    <meta name="keywords"
+        content="Industrial equipment specifications, Onshore Technical Supplies products, technical data sheet, equipment details, Saudi Arabia industrial tools">
     <style>
-
-
         .product_main_display {
             padding: 80px 0;
             background-color: #fcfdfe;
@@ -272,46 +272,14 @@
         .hover-card {
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
         }
+
         .hover-card:hover {
             transform: translateY(-5px) scale(1.02);
             border-color: #0177c6 !important;
             box-shadow: 0 12px 24px rgba(1, 119, 198, 0.18) !important;
         }
     </style>
-    <script>
-        function focusProduct(productName) {
-            window.location.href = `product-details.html?focus=${encodeURIComponent(productName)}`;
-        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Banner slideshow logic
-            let slideIndex = 0;
-            const $slides = $('.banner_slide');
-            const $dots = $('.banner_dot');
-            if ($slides.length > 1) {
-                setInterval(() => {
-                    let nextIndex = (slideIndex + 1) % $slides.length;
-                    switchSlide(nextIndex);
-                }, 6500);
-
-                $dots.on('click', function() {
-                    const index = parseInt($(this).data('index'));
-                    switchSlide(index);
-                });
-            }
-
-            function switchSlide(index) {
-                if (index === slideIndex) return;
-                $slides.eq(slideIndex).fadeOut(600, function() {
-                    $(this).removeClass('active-slide');
-                    $slides.eq(index).fadeIn(600).addClass('active-slide');
-                    $dots.eq(slideIndex).css({ background: 'rgba(255,255,255,0.4)', borderColor: 'transparent' });
-                    $dots.eq(index).css({ background: 'rgba(255,255,255,0.4)', borderColor: '#fff' });
-                    slideIndex = index;
-                });
-            }
-        });
-    </script>
 </head>
 
 <body>
@@ -320,13 +288,15 @@
             <div class="wrapper container">
                 <div class="logo">
                     <a href="./" aria-label="Onshore Technical Supplies Homepage">
-                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="Onshore Technical Supplies Logo" width="180" height="42">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img"
+                            alt="Onshore Technical Supplies Logo" width="180" height="42">
                     </a>
                 </div>
                 <input type="radio" name="slide" id="menu-btn">
                 <input type="radio" name="slide" id="cancel-btn">
                 <ul class="nav-links">
-                    <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i class="ri-close-line"></i></label>
+                    <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i
+                            class="ri-close-line"></i></label>
                     <li><a href="./">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="industries.html">Industries</a></li>
@@ -335,7 +305,8 @@
                     <li><a href="blog.html">News & Blogs</a></li>
                 </ul>
                 <div class="nav-right-icons">
-                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()" role="button" aria-label="Open Quote Basket" tabindex="0">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()" role="button"
+                        aria-label="Open Quote Basket" tabindex="0">
                         <i class="ri-shopping-basket-fill"></i>
                         <span class="quote-basket-count">0</span>
                     </div>
@@ -343,231 +314,29 @@
                         <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
                     </div>
                 </div>
-                <label for="menu-btn" class="btn menu-btn" aria-label="Open Mobile Menu"><i class="ri-menu-line"></i></label>
+                <label for="menu-btn" class="btn menu-btn" aria-label="Open Mobile Menu"><i
+                        class="ri-menu-line"></i></label>
             </div>
         </nav>
     </header>
 
     <main>
-        <div class="page_banner_container" style="background: #000; position: relative;">
-            <!-- Slide 1: Multi-Sector Industrial Supplies -->
-            <div class="banner_slide active-slide" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/banner2.webp); background-size: cover; background-position: center; padding: 110px 0 50px 0; display: block;">
-                <div class="container" style="position: relative; z-index: 2;">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5 text-white mb-4 mb-lg-0 text-start">
-                            <span class="sub_head text-warning mb-2 d-block" style="font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">
-                                INDUSTRIAL SUPPLIES / المستلزمات الصناعية
-                            </span>
-                            <h1 class="font-weight-bold mb-3" style="color: #fff; font-size: 25px; line-height: 1.3;">
-                                Multi-Sector Industrial Equipment Dealer
-                                <span class="d-block mt-1" style="font-size: 18px; font-weight: 700; color: #f5f5f5;" dir="rtl">موزع معتمد للمعدات الصناعية لكافة القطاعات</span>
-                            </h1>
-                            <div style="font-size: 13px; color: #e0e0e0; line-height: 1.5; margin-bottom: 15px;">
-                                <p class="mb-2">
-                                    Saudi Arabia's premier distributor of certified machinery, industrial safety gear, welding systems, and technical equipment.
-                                </p>
-                                <p class="mb-3 text-start" dir="rtl" style="color: #d0d0d0;">
-                                    الموزع الرائد في المملكة للآلات المعتمدة، معدات السلامة، أنظمة اللحام، والأجهزة التقنية.
-                                </p>
-                                <span style="font-weight: 500; color: #ffc107; font-size: 12px;">
-                                    <i class="ri-truck-fill mr-1"></i> Dammam, Jubail, Al Khobar, Ras Tanura | الدمام، الجبيل، الخبر، رأس تنورة
-                                </span>
-                            </div>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge bg-primary px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-shield-check-line mr-1"></i> CE & EN Certified</span>
-                                <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-settings-3-line mr-1"></i> 7:1 Design Safety</span>
-                                <span class="badge bg-success px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-checkbox-circle-line mr-1"></i> 100% In-Stock KSA</span>
-                                <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
-                            </div>
-                            <div class="mt-4 mb-3">
-                                <a href="product-details.html" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
-                                    <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
-                                </a>
-                            </div>
-                            <ul class="breadcrumbs mt-3" style="margin-top: 5px; list-style: none; padding: 0; display: flex; gap: 10px; font-size: 14px;">
-                                <li class="home"><a href="./" style="color: #0177c6; font-weight: 600; text-decoration: none;">Home</a></li>
-                                <li style="color: #9d9d9d;">/</li>
-                                <li><a href="product-details.html" style="color: #0177c6; font-weight: 600; text-decoration: none;">Products</a></li>
-                                <li style="color: #9d9d9d;">/</li>
-                                <li style="color: #fff; font-weight: 300;" id="breadcrumb-current">Specifications</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="row g-3">
-                                <!-- 4 Hoists Grid -->
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Lever Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Chain Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electrical Chain Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electric Hoist + Trolley</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Page Banner Section (Same style as About Page) -->
+        <div class="page_banner">
+            <div class="container">
+                <div class="page_banner_content">
+                    <h6 id="hero-product-name" style="font-family: 'Outfit', sans-serif;">Product Specifications</h6>
+                    <ul class="breadcrumbs"
+                        style="margin: 0; list-style: none; padding: 0; display: flex; gap: 8px; font-size: 14px; font-family: 'Outfit', sans-serif; flex-wrap: wrap; align-items: center;">
+                        <li class="home"><a href="./"
+                                style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
+                        <li style="color: rgba(255,255,255,0.4);">/</li>
+                        <li><a href="product-details.html"
+                                style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
+                        <li style="color: rgba(255,255,255,0.4);">/</li>
+                        <li style="color: #ffffff; font-weight: 400;" id="breadcrumb-current">Loading Product...</li>
+                    </ul>
                 </div>
-            </div>
-
-            <!-- Slide 2: Premium Lifting & Hoisting Solutions -->
-            <div class="banner_slide" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/banner2.webp); background-size: cover; background-position: center; padding: 110px 0 50px 0; display: none;">
-                <div class="container" style="position: relative; z-index: 2;">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5 text-white mb-4 mb-lg-0 text-start">
-                            <span class="sub_head text-warning mb-2 d-block" style="font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">
-                                HEAVY DUTY LIFTING SYSTEMS / أنظمة الرفع الثقيلة
-                            </span>
-                            <h1 class="font-weight-bold mb-3" style="color: #fff; font-size: 25px; line-height: 1.3;">
-                                Premium Lifting & Hoisting Solutions
-                                <span class="d-block mt-1" style="font-size: 18px; font-weight: 700; color: #f5f5f5;" dir="rtl">حلول ومعدات الرفع والرافعة المتميزة</span>
-                            </h1>
-                            <div style="font-size: 13px; color: #e0e0e0; line-height: 1.5; margin-bottom: 15px;">
-                                <p class="mb-2">
-                                    Saudi Arabia's elite distributor of certified heavy-duty hoisting and rigging machinery engineered for extreme loads.
-                                </p>
-                                <p class="mb-3 text-start" dir="rtl" style="color: #d0d0d0;">
-                                    موزع نخبة الآلات والمعدات المعتمدة لأعمال الرفع الشاق في المملكة العربية السعودية.
-                                </p>
-                                <span style="font-weight: 500; color: #ffc107; font-size: 12px;">
-                                    <i class="ri-truck-fill mr-1"></i> Dammam, Jubail, Al Khobar, Ras Tanura | الدمام، الجبيل، الخبر، رأس تنورة
-                                </span>
-                            </div>
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="badge bg-primary px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-shield-check-line mr-1"></i> CE & EN Certified</span>
-                                <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-settings-3-line mr-1"></i> 7:1 Design Safety</span>
-                                <span class="badge bg-success px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-checkbox-circle-line mr-1"></i> 100% In-Stock KSA</span>
-                                <span class="badge bg-info text-dark px-3 py-2" style="font-size: 11px; font-weight: 500; border-radius: 50px;"><i class="ri-time-line mr-1"></i> Quote in 15 Min</span>
-                            </div>
-                            <div class="mt-4 mb-3">
-                                <a href="product-details.html" class="btn text-white px-4 py-2" style="background-color: #0177c6; border: 1px solid #0177c6; font-size: 13px; font-weight: 700; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(1, 119, 198, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#015ca0'; this.style.borderColor='#015ca0'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#0177c6'; this.style.borderColor='#0177c6'; this.style.transform='none';">
-                                    <i class="ri-search-line" style="font-size: 16px;"></i> Browse & Shop Products
-                                </a>
-                            </div>
-                            <ul class="breadcrumbs mt-3" style="margin-top: 5px; list-style: none; padding: 0; display: flex; gap: 10px; font-size: 14px;">
-                                <li class="home"><a href="./" style="color: #0177c6; font-weight: 600; text-decoration: none;">Home</a></li>
-                                <li style="color: #9d9d9d;">/</li>
-                                <li><a href="product-details.html" style="color: #0177c6; font-weight: 600; text-decoration: none;">Products</a></li>
-                                <li style="color: #9d9d9d;">/</li>
-                                <li style="color: #fff; font-weight: 300;" id="breadcrumb-current">Specifications</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="row g-3">
-                                <!-- 4 Hoists Grid -->
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Lever Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg" alt="Manual Lever Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Lever Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-lever-hoist', name: 'Manual Lever Hoist', name_ar: 'رافعة جنزير يدوية (ليفر بلوك)', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-chain-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Manual Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg" alt="Manual Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Manual Chain Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'manual-chain-hoist', name: 'Manual Chain Hoist', name_ar: 'بكارة جنزير يدوية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/manual-lever-hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg" alt="Electrical Chain Hoist" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electrical Chain Hoist</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #e65100; background: rgba(230, 81, 0, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🔥 Hot Seller</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'electrical-chain-hoist', name: 'Electrical Chain Hoist', name_ar: 'رافعة جنزير كهربائية', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/electrical_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="card p-2 text-center h-100 bg-white shadow-sm hover-card" onclick="focusProduct('Electrical Chain Hoist + Trolley')" style="border-radius: 12px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer;">
-                                        <div class="d-flex align-items-center justify-content-center bg-light mb-2" style="height: 100px; border-radius: 8px; overflow: hidden; padding: 5px;">
-                                            <img src="assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg" alt="Electrical Chain Hoist + Trolley" class="img-fluid" style="max-height: 90px; object-fit: contain;">
-                                        </div>
-                                        <h6 style="font-size: 12px; font-weight: 700; color: #333; margin-bottom: 4px; line-height: 1.3;">Electric Hoist + Trolley</h6>
-                                        <div class="mb-2">
-                                            <span style="font-size: 9px; font-weight: 700; color: #2e7d32; background: rgba(46, 125, 50, 0.08); padding: 2px 6px; border-radius: 4px; display: inline-block;">🟢 In Stock</span>
-                                        </div>
-                                        <div onclick="event.stopPropagation(); QuoteCart.addToCart({ id: 'low-head-room-electric-chain-hoist', name: 'Electrical Chain Hoist + Trolley', name_ar: 'رافعة جنزير كهربائية مع ترولي', brand: 'Europull', image: 'assets/img/original_products/Lifting/europull/low_head_room_electric_chain_hoist.jpg' });" style="margin-top: auto; font-size: 11px; font-weight: 700; color: #fff; background: #0177c6; border-radius: 6px; padding: 5px 0; transition: all 0.2s ease;">
-                                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide navigation dots -->
-            <div class="banner_dots" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 5;">
-                <span class="banner_dot active" data-index="0" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 2px solid #fff; cursor: pointer; transition: all 0.3s ease; display: inline-block;"></span>
-                <span class="banner_dot" data-index="1" style="width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 2px solid transparent; cursor: pointer; transition: all 0.3s ease; display: inline-block;"></span>
             </div>
         </div>
 
@@ -597,27 +366,21 @@
                             <!-- Thumbnails -->
                         </div>
                     </div>
-                    
+
                     <!-- Info Side -->
                     <div class="pd-info">
                         <div class="pd-brand-badge" id="spec-brand">Brand Name</div>
                         <h1 class="pd-name" id="spec-title">Product Title</h1>
                         <p class="text-muted" id="spec-subtitle" style="margin-bottom: 20px;">Item Code: #0000</p>
-                        
+
                         <div class="pd-status-row">
                             <span class="pd-cert-tag"><i class="ri-shield-check-line"></i> Certified B2B Supply</span>
-                            <span class="pd-cert-tag" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe;"><i class="ri-truck-line"></i> Fast Shipping KSA</span>
+                            <span class="pd-cert-tag"
+                                style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe;"><i
+                                    class="ri-truck-line"></i> Fast Shipping KSA</span>
                         </div>
-                        
-                        <div class="pd-divider"></div>
-                        
-                        <table class="pd-spec-table">
-                            <tbody id="spec-table-body">
-                                <!-- Dynamic Specs -->
-                            </tbody>
-                        </table>
-                        
-                        <div class="pd-cta-group">
+
+                        <div class="pd-cta-group" style="margin-top: 15px;">
                             <button class="pd-cta-primary" id="spec-add-cart">
                                 ADD TO CART / أضف إلى السلة <i class="ri-shopping-basket-line"></i>
                             </button>
@@ -625,70 +388,90 @@
                                 REQUEST A QUOTE / طلب عرض سعر <i class="ri-mail-send-line"></i>
                             </button>
                         </div>
-                        <div class="pd-cta-hint">
+                        <div class="pd-cta-hint" style="margin-bottom: 25px;">
                             <i class="ri-information-line"></i>
-                            <span>Add multiple items to request a combined bulk quote, or click Request a Quote to submit for this item instantly.<br><small style="opacity: 0.85;">أضف عدة سلع لطلب عرض سعر مجمع، أو انقر على طلب عرض سعر لإرسال الطلب فوراً لهذا المنتج.</small></span>
+                            <span>Add multiple items to request a combined bulk quote, or click Request a Quote to
+                                submit for this item instantly.<br><small style="opacity: 0.85;">أضف عدة سلع لطلب عرض
+                                    سعر مجمع، أو انقر على طلب عرض سعر لإرسال الطلب فوراً لهذا المنتج.</small></span>
                         </div>
+
+                        <div class="pd-divider"></div>
+
+                        <table class="pd-spec-table">
+                            <tbody id="spec-table-body">
+                                <!-- Dynamic Specs -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                    <div class="desc_section">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <ul class="nav nav-tabs spec_tabs mb-4" id="specTabs" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="commercial-tab" data-bs-toggle="tab" data-bs-target="#commercial-pane" type="button" role="tab">Commercial Info / الوصف التجاري</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation" id="detailed-tab-li" style="display: none;">
-                                        <button class="nav-link" id="detailed-tab" data-bs-toggle="tab" data-bs-target="#detailed-pane" type="button" role="tab">Detailed Specification / المواصفات التفصيلية</button>
-                                    </li>
-                                </ul>
-                                
-                                <div class="tab-content spec_tab_content" id="specTabsContent">
-                                    <!-- Commercial Info Pane -->
-                                    <div class="tab-pane fade show active" id="commercial-pane" role="tabpanel">
-                                        <div id="spec-desc-en">
-                                            <!-- Commercial Description English -->
-                                        </div>
-                                        <div class="arabic_content mt-4" id="spec-desc-ar-wrapper" style="display: none;">
-                                            <div class="text-end" dir="rtl">
-                                                <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">الوصف التجاري</h5>
-                                                <div id="spec-desc-ar"></div>
-                                            </div>
+                <div class="desc_section">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <ul class="nav nav-tabs spec_tabs mb-4" id="specTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="commercial-tab" data-bs-toggle="tab"
+                                        data-bs-target="#commercial-pane" type="button" role="tab">Commercial Info /
+                                        الوصف التجاري</button>
+                                </li>
+                                <li class="nav-item" role="presentation" id="detailed-tab-li" style="display: none;">
+                                    <button class="nav-link" id="detailed-tab" data-bs-toggle="tab"
+                                        data-bs-target="#detailed-pane" type="button" role="tab">Detailed Specification
+                                        / المواصفات التفصيلية</button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content spec_tab_content" id="specTabsContent">
+                                <!-- Commercial Info Pane -->
+                                <div class="tab-pane fade show active" id="commercial-pane" role="tabpanel">
+                                    <div id="spec-desc-en">
+                                        <!-- Commercial Description English -->
+                                    </div>
+                                    <div class="arabic_content mt-4" id="spec-desc-ar-wrapper" style="display: none;">
+                                        <div class="text-end" dir="rtl">
+                                            <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">
+                                                الوصف التجاري</h5>
+                                            <div id="spec-desc-ar"></div>
                                         </div>
                                     </div>
-                                    <!-- Detailed Specs Pane -->
-                                    <div class="tab-pane fade" id="detailed-pane" role="tabpanel">
-                                        <div id="spec-detailed-en">
-                                            <!-- Detailed Description English -->
-                                        </div>
-                                        <div class="arabic_content mt-4" id="spec-detailed-ar-wrapper" style="display: none;">
-                                            <div class="text-end" dir="rtl">
-                                                <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">المواصفات التفصيلية</h5>
-                                                <div id="spec-detailed-ar"></div>
-                                            </div>
+                                </div>
+                                <!-- Detailed Specs Pane -->
+                                <div class="tab-pane fade" id="detailed-pane" role="tabpanel">
+                                    <div id="spec-detailed-en">
+                                        <!-- Detailed Description English -->
+                                    </div>
+                                    <div class="arabic_content mt-4" id="spec-detailed-ar-wrapper"
+                                        style="display: none;">
+                                        <div class="text-end" dir="rtl">
+                                            <h5 style="font-family: inherit; font-weight: 700; margin-bottom: 15px;">
+                                                المواصفات التفصيلية</h5>
+                                            <div id="spec-detailed-ar"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="related_info p-4" style="background: #f8f8f8; border-radius: 8px;">
-                                    <h5 class="mb-4" style="font-weight: 700;">Need Assistance?</h5>
-                                    <p class="small text-muted">Our technical team is ready to help you with specific requirements or bulk orders.</p>
-                                    <hr>
-                                    <div class="d-flex align-items-center mb-3">
-                                        <i class="ri-phone-fill me-3" style="color: var(--main-color); font-size: 20px;"></i>
-                                        <div>
-                                            <div class="small text-muted">Call Us</div>
-                                            <a href="tel:+966545480607" style="font-weight: 700; color: #222;">+966 54 548 0607</a>
-                                        </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="related_info p-4" style="background: #f8f8f8; border-radius: 8px;">
+                                <h5 class="mb-4" style="font-weight: 700;">Need Assistance?</h5>
+                                <p class="small text-muted">Our technical team is ready to help you with specific
+                                    requirements or bulk orders.</p>
+                                <hr>
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="ri-phone-fill me-3"
+                                        style="color: var(--main-color); font-size: 20px;"></i>
+                                    <div>
+                                        <div class="small text-muted">Call Us</div>
+                                        <a href="tel:+966545480607" style="font-weight: 700; color: #222;">+966 54 548
+                                            0607</a>
                                     </div>
-                                    <div class="d-flex align-items-center">
-                                        <i class="ri-mail-fill me-3" style="color: var(--main-color); font-size: 20px;"></i>
-                                        <div>
-                                            <div class="small text-muted">Email Us</div>
-                                            <a href="mailto:enquiry@onshoretechnical.com.sa" style="font-weight: 700; color: #222;">enquiry@onshoretechnical.com.sa</a>
-                                        </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-mail-fill me-3" style="color: var(--main-color); font-size: 20px;"></i>
+                                    <div>
+                                        <div class="small text-muted">Email Us</div>
+                                        <a href="mailto:enquiry@onshoretechnical.com.sa"
+                                            style="font-weight: 700; color: #222;">enquiry@onshoretechnical.com.sa</a>
                                     </div>
                                 </div>
                             </div>
@@ -706,7 +489,8 @@
                 <div class="footer_column">
                     <div class="footer_logo">
                         <a href="./" aria-label="Onshore Technical Supplies Homepage">
-                            <img src="assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo" width="180" height="42">
+                            <img src="assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo"
+                                width="180" height="42">
                         </a>
                     </div>
 
@@ -714,23 +498,29 @@
                         industries with quality and trust</p>
 
                     <ul class="social_links">
-                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank" aria-label="Visit Onshore Technical Supplies on Facebook"><i
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"
+                                aria-label="Visit Onshore Technical Supplies on Facebook"><i
                                     class="ri-facebook-circle-line"></i></a></li>
 
-                        <li><a href="https://www.instagram.com/onshore_technical_supply/" target="_blank" aria-label="Visit Onshore Technical Supplies on Instagram"><i
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/" target="_blank"
+                                aria-label="Visit Onshore Technical Supplies on Instagram"><i
                                     class="ri-instagram-line"></i></a></li>
 
-                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank" aria-label="Visit Onshore Technical Supplies on YouTube"><i
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"
+                                aria-label="Visit Onshore Technical Supplies on YouTube"><i
                                     class="ri-youtube-fill"></i></a></li>
 
-                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank" aria-label="Visit Onshore Technical Supplies on LinkedIn"><i
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"
+                                aria-label="Visit Onshore Technical Supplies on LinkedIn"><i
                                     class="ri-linkedin-box-fill"></i></a></li>
 
                         <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
-                                target="_blank" aria-label="Visit Onshore Technical Supplies on Snapchat"><i class="ri-snapchat-line"></i></a></li>
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on Snapchat"><i
+                                    class="ri-snapchat-line"></i></a></li>
 
                         <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
-                                target="_blank" aria-label="Visit Onshore Technical Supplies on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
+                                target="_blank" aria-label="Visit Onshore Technical Supplies on TikTok"><i
+                                    class="fa-brands fa-tiktok"></i></a></li>
 
 
 

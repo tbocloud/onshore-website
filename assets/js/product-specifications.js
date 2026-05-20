@@ -5,6 +5,21 @@ $(document).ready(function () {
     const API_URL = `${BASE_URL}/api/method/onshore.api.get_published_items_summary`;
     const AUTH_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
 
+    const PARENT_INFO = {
+        'LIFTING': { label: 'Rigging & Lifting Tools', icon: 'ri-tools-line', key: 'lifting' },
+        'WELDING': { label: 'Welding Equipment & Accessories', icon: 'ri-fire-line', key: 'welding' },
+        'SAFETY':  { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'PPE':     { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'MARINE':  { label: 'Marine & Project Supplies', icon: 'ri-ship-line', key: 'marine' }
+    };
+
+    function toTitleCase(str) {
+        if (!str) return '';
+        return str.toLowerCase().split(' ').map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+    }
+
     function init() {
         const urlSearch = new URLSearchParams(window.location.search);
         let itemCode = urlSearch.get('item_code') || urlSearch.get('name');
@@ -62,7 +77,40 @@ $(document).ready(function () {
         // 1. Basic Info
         const name = p.item_name || p.name || 'Product';
         $('#hero-product-name').text(name);
-        $('#breadcrumb-current').text(name);
+        
+        // Dynamically build multi-level breadcrumbs
+        const parentCat = p.parent_item_group || '';
+        const subCat = p.item_group || '';
+        const parentLabel = parentCat ? (PARENT_INFO[parentCat.toUpperCase()]?.label || toTitleCase(parentCat)) : '';
+        const subLabel = subCat ? toTitleCase(subCat) : '';
+
+        let breadcrumbsHtml = `
+            <li class="home"><a href="./" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
+            <li style="color: rgba(255,255,255,0.4);">/</li>
+            <li><a href="product-details.html" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
+        `;
+
+        if (parentLabel) {
+            const parentKey = PARENT_INFO[parentCat.toUpperCase()]?.key || parentCat.toLowerCase().replace(/\s+/g, '-');
+            breadcrumbsHtml += `
+                <li style="color: rgba(255,255,255,0.4);">/</li>
+                <li><a href="product-details.html#${parentKey}" style="color: #38bdf8; font-weight: 600; text-decoration: none;">${parentLabel}</a></li>
+            `;
+        }
+
+        if (subLabel) {
+            breadcrumbsHtml += `
+                <li style="color: rgba(255,255,255,0.4);">/</li>
+                <li style="color: #ffffff; font-weight: 500;">${subLabel}</li>
+            `;
+        }
+
+        breadcrumbsHtml += `
+            <li style="color: rgba(255,255,255,0.4);">/</li>
+            <li style="color: rgba(255,255,255,0.85); font-weight: 400;">${name}</li>
+        `;
+
+        $('.breadcrumbs').html(breadcrumbsHtml);
         
         // Update Document Title and Meta Description dynamically
         document.title = `${name} | Onshore Technical Supplies`;
@@ -158,8 +206,10 @@ $(document).ready(function () {
         }
 
         // 3. Specifications Table
+        const parentCategory = p.parent_item_group ? (PARENT_INFO[p.parent_item_group.toUpperCase()]?.label || toTitleCase(p.parent_item_group)) : '';
         const specs = [
-            { label: 'Category', value: p.item_group },
+            { label: 'Parent Category', value: parentCategory },
+            { label: 'Category', value: p.item_group ? toTitleCase(p.item_group) : '' },
             { label: 'Brand', value: brandName },
             { label: 'SKU', value: p.custom_sku },
             { label: 'Model Number', value: p.custom_model_number },
