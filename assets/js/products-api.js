@@ -28,28 +28,45 @@ $(document).ready(function () {
 
     async function fetchProducts() {
         const loader = $('#products-loader');
-        try {
-            const response = await fetch(API_URL, {
-                method: 'GET',
-                headers: {
-                    'Authorization': AUTH_TOKEN,
-                    'Content-Type': 'application/json'
-                }
-            });
+        loader.show();
+        
+        let allItems = [];
+        let limitStart = 0;
+        const PAGE_SIZE = 50; // Fetch 50 at a time automatically
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        try {
+            while (true) {
+                const response = await fetch(`${API_URL}?limit_start=${limitStart}&limit_page_length=${PAGE_SIZE}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': AUTH_TOKEN,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const products = data.message || [];
+                
+                allItems = allItems.concat(products);
+
+                // If we got fewer than requested, we've reached the end
+                if (products.length < PAGE_SIZE) {
+                    break; 
+                }
+                
+                limitStart += PAGE_SIZE;
             }
 
-            const data = await response.json();
-            const products = data.message || [];
-
-            if (products.length === 0) {
+            if (allItems.length === 0) {
                 showError("No products found in the catalog.");
                 return;
             }
 
-            renderCatalog(products);
+            renderCatalog(allItems);
 
         } catch (error) {
             console.error("Failed to fetch products:", error);
@@ -74,9 +91,9 @@ $(document).ready(function () {
     const PARENT_INFO = {
         'LIFTING': { label: 'Rigging & Lifting Tools', icon: 'ri-tools-line', key: 'lifting' },
         'WELDING': { label: 'Welding Equipment & Accessories', icon: 'ri-fire-line', key: 'welding' },
-        'SAFETY':  { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
-        'PPE':     { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
-        'MARINE':  { label: 'Marine & Project Supplies', icon: 'ri-ship-line', key: 'marine' }
+        'SAFETY': { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'PPE': { label: 'Personal Protective Equipment', icon: 'ri-shield-user-line', key: 'ppe' },
+        'MARINE': { label: 'Marine & Project Supplies', icon: 'ri-ship-line', key: 'marine' }
     };
 
     /**
@@ -85,7 +102,7 @@ $(document).ready(function () {
      * 2. Sidebar dynamic categories list with counts
      * 3. Sidebar brand checkboxes with counts
      */
-    function renderCatalog(products) {
+    function renderCatalog(products, hasMore = false) {
         const container = $('#dynamic-products-container');
         function toTitleCase(str) {
             if (!str) return '';
@@ -206,7 +223,7 @@ $(document).ready(function () {
         // ─── Populate sidebar categories dynamically ───
         const catListContainer = $('#widget-categories');
         catListContainer.empty();
-        
+
         // Add "All Products" item
         catListContainer.append(`
             <li class="active" data-cat="all">
@@ -279,7 +296,7 @@ $(document).ready(function () {
             if (matchingLi.length) {
                 catListContainer.find('li').removeClass('active');
                 matchingLi.addClass('active');
-                
+
                 // Show nested subcategories for active parent
                 matchingLi.find('.sidebar-subcat-list').show();
 
