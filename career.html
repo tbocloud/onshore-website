@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--=============== CSS ===============-->
+
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="canonical" href="https://www.onshoretechnical.com/career.html" />
+    <title>Careers | Best Safety & Industrial Equipment Solutions | Onshore Technical Supplies</title>
+    <meta name="description"
+        content="Join the team at Onshore Technical Supplies Est. Explore our current career opportunities and open roles in Dammam, Riyadh, Jeddah, Kingdom of Saudi Arabia (KSA). Apply today!">
+    <meta name="keywords"
+        content="Careers, Jobs in Saudi Arabia, Dammam Jobs, Welding Demonstrator, IT Executive, Procurement Coordinator, Outdoor Sales Executive, Onshore Technical Supplies">
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGJW72VB');</script>
+    <!-- End Google Tag Manager -->
+
+    <style>
+        .careers_section {
+            padding: 80px 0;
+            background-color: #f8fafc;
+        }
+
+        .careers_intro {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .careers_intro p {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        .job-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 40px auto;
+            max-width: 1000px;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(1, 119, 198, 0.05);
+            transition: box-shadow .3s ease, transform .3s ease;
+            font-family: var(--primary-font);
+        }
+
+        .job-card:hover {
+            box-shadow: 0 20px 40px rgba(1, 119, 198, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* top bar */
+        .jc-top {
+            background: linear-gradient(135deg, var(--second-color) 0%, #015fa1 100%);
+            padding: 28px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .jc-top__left {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .jc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--orange-color);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-family: var(--secondary-font);
+        }
+
+        .jc-top h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 12px;
+            font-family: var(--secondary-font);
+            letter-spacing: 0.5px;
+        }
+
+        .jc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .jc-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: rgba(255, 255, 255, .95);
+            font-size: 12.5px;
+            font-weight: 500;
+            padding: 5px 13px;
+            border-radius: 20px;
+        }
+
+        /* body */
+        .jc-body {
+            padding: 32px 36px;
+        }
+
+        .jc-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .jc-col h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--second-color);
+            margin: 0 0 16px;
+            text-align: left;
+            font-family: var(--secondary-font);
+        }
+
+        .jc-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .jc-col ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14.5px;
+            color: #334155;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .jc-col ul li i {
+            color: var(--orange-color);
+            font-size: 16px;
+            margin-top: 2px;
+        }
+
+        /* Target pill */
+        .jc-target-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(1, 119, 198, 0.05), rgba(250, 162, 0, 0.08));
+            border: 1.5px solid var(--orange-color);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-bottom: 24px;
+        }
+
+        .jc-target-pill span {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--second-color);
+            font-family: var(--secondary-font);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* footer strip */
+        .jc-foot {
+            background: #F8FAFC;
+            border-top: 1px solid #e8edf2;
+            padding: 20px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .jc-foot .note {
+            font-size: 13.5px;
+            color: #64748B;
+            font-style: italic;
+        }
+
+        .jc-foot .note strong {
+            color: #1a1a1a;
+            font-style: normal;
+        }
+
+        .jc-foot-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--second-color);
+            text-decoration: none;
+            border: 1.5px solid var(--second-color);
+            padding: 8px 22px;
+            border-radius: 50px;
+            transition: all .3s ease;
+            font-family: var(--secondary-font);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .jc-foot-link:hover {
+            background: var(--second-color);
+            color: #ffffff !important;
+        }
+
+        .jc-foot-link-accent {
+            border-color: var(--orange-color);
+            color: var(--orange-color);
+        }
+
+        .jc-foot-link-accent:hover {
+            background: var(--orange-color);
+            color: #ffffff !important;
+            border-color: var(--orange-color);
+        }
+
+        /* Responsive collapsing for mobile */
+        @media (max-width: 991px) {
+            .jc-cols {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .jc-top {
+                padding: 20px 24px;
+            }
+
+            .jc-body {
+                padding: 24px 24px;
+            }
+
+            .jc-foot {
+                padding: 20px 24px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Modal & Form Styling */
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        .modal-header {
+            border-bottom: 1px solid #f1f5f9;
+            background-color: #f8fafc;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 20px 24px;
+        }
+        .modal-header h5 {
+            font-family: var(--secondary-font);
+            font-weight: 700;
+            color: var(--second-color);
+            font-size: 20px;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 13.5px;
+            margin-bottom: 6px;
+        }
+        .form-control, .form-select {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 14.5px;
+            transition: all 0.2s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--second-color);
+            box-shadow: 0 0 0 4px rgba(1, 119, 198, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGJW72VB" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+        <nav>
+            <div class="wrapper container">
+                <div class="logo">
+                    <a href="./">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
+                    </a>
+                </div>
+
+                <input type="radio" name="slide" id="menu-btn">
+                <input type="radio" name="slide" id="cancel-btn">
+                <ul class="nav-links">
+                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
+                    <li><a href="./">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="industries.html">Industries</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="brands.html">Brands</a></li>
+                    <li><a href="blog.html">News & Blogs</a></li>
+                    <li><a href="career.html">Careers</a></li>
+                </ul>
+
+                <div class="nav-right-icons">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
+                        <i class="ri-shopping-basket-fill"></i>
+                        <span class="quote-basket-count">0</span>
+                    </div>
+                    <div>
+                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+
+                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page_banner">
+            <div class="container">
+                <div class="page_banner_content">
+                    <h1 class="main_heading" style="color: #fff;">Careers</h1>
+                    <ul>
+                        <li class="home"><a href="./">Home</a></li> /
+                        <li>Careers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="careers_section">
+            <div class="container">
+                <div class="careers_intro">
+                    <h2 class="main_heading mb-3">Join Onshore Technical Supplies</h2>
+                    <p>Build your career with a leading provider of safety, welding, lifting, and marine engineering
+                        solutions in Saudi Arabia. We are constantly searching for talented, motivated, and skilled
+                        professionals who want to grow and contribute to our operational excellence.</p>
+                </div>
+
+                <!-- ───────── JOB CARD #1 ───────── -->
+                <div class="job-card" id="welding-tech">
+                    <div class="jc-top">
+                        <div class="jc-top__left">
+                            <span class="jc-badge"><i class="ri-briefcase-line"></i> Open Role — KSA</span>
+                            <h3>Welding Demonstrator / Service Technician</h3>
+                            <div class="jc-tags">
+                                <span class="jc-tag"><i class="ri-map-pin-line"></i> Head Office – KSA</span>
+                                <span class="jc-tag"><i class="ri-settings-3-line"></i> Operations</span>
+                                <span class="jc-tag"><i class="ri-route-line"></i> Dammam · Riyadh · Jeddah</span>
+                                <span class="jc-tag"><i class="ri-time-line"></i> Full-Time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-body">
+                        <p style="font-size: 15px; color: #334155; line-height: 1.75; margin: 0 0 24px;">
+                            Onshore Technical Supplies is seeking a skilled <strong>Welding Demonstrator</strong> to
+                            support our sales team by conducting live demonstrations of ARC, TIG, and MIG welding
+                            machines for potential customers — while also providing basic troubleshooting and service
+                            support.
+                        </p>
+                        <div class="jc-cols">
+                            <div class="jc-col">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Conduct live welding machine
+                                        demonstrations for customers</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Support the sales team during customer
+                                        visits and product presentations</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Perform basic troubleshooting and minor
+                                        repairs on welding equipment</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Ensure safe handling and maintenance of
+                                        all demo equipment</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Provide after-sales technical support
+                                        and internal staff training</li>
+                                </ul>
+                            </div>
+                            <div class="jc-col">
+                                <h4>Requirements at a Glance</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> ITI or Diploma in Electrical /
+                                        Electronics</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> 3+ years in welding machine operation,
+                                        demonstration, or service</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Strong knowledge of ARC, TIG &amp; MIG
+                                        welding processes</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Valid KSA driving licence for
+                                        multi-location travel</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-foot">
+                        <span class="note"><strong>Immediate Hiring</strong> — Only shortlisted candidates will be
+                            contacted.</span>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <a href="assets/img/career/Welding%20Demonstrator%20%20Service%20Technician2026.pdf"
+                                target="_blank" class="jc-foot-link jc-foot-link-accent">
+                                <i class="ri-file-pdf-line"></i> Full Job Description (PDF)
+                            </a>
+                            <a href="javascript:void(0);" class="jc-foot-link apply-now-btn" data-position="Welding Demonstrator / Service Technician">
+                                <i class="ri-mail-send-line"></i> Apply for this Role
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- ───────── JOB CARD #3 ───────── -->
+                <div class="job-card" id="procurement-coordinator">
+                    <div class="jc-top">
+                        <div class="jc-top__left">
+                            <span class="jc-badge"><i class="ri-briefcase-line"></i> Open Role — KSA</span>
+                            <h3>Procurement Coordinator / Buyer</h3>
+                            <div class="jc-tags">
+                                <span class="jc-tag"><i class="ri-map-pin-line"></i> Head Office – KSA</span>
+                                <span class="jc-tag"><i class="ri-links-line"></i> Operations &amp; Supply Chain</span>
+                                <span class="jc-tag"><i class="ri-community-line"></i> All Business Units</span>
+                                <span class="jc-tag"><i class="ri-time-line"></i> Full-Time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-body">
+                        <p style="font-size: 15px; color: #334155; line-height: 1.75; margin: 0 0 24px;">
+                            The <strong>Procurement Coordinator</strong> is responsible for managing contracts, vendor
+                            relationships, and inventory control across all business units — ensuring uninterrupted
+                            supply flow, cost-effective purchasing, and accurate ERP reporting.
+                        </p>
+                        <div class="jc-cols">
+                            <div class="jc-col">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Manage purchase orders, MRP checks, and
+                                        vendor evaluations</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Coordinate logistics, customs clearance,
+                                        and shipment scheduling</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Maintain ERP records, price lists, and
+                                        inventory reorder levels</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Liaise with Finance, Stores, Sales, and
+                                        warehouse teams</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Develop catalogues and support supplier
+                                        relationship management</li>
+                                </ul>
+                            </div>
+                            <div class="jc-col">
+                                <h4>Requirements at a Glance</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Degree in Supply Chain, Inventory /
+                                        Materials Management or equivalent</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> 3+ years in procurement, inventory
+                                        control, or supply chain</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Strong negotiation, analytical, and
+                                        ERP/MS Office skills</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Ability to manage multiple priorities in
+                                        a dynamic environment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-foot">
+                        <span class="note"><strong>Reports To:</strong> Operations Manager — Only shortlisted candidates
+                            will be contacted.</span>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <a href="assets/img/career/Procurement%20coordinator.pdf"
+                                target="_blank" class="jc-foot-link jc-foot-link-accent">
+                                <i class="ri-file-pdf-line"></i> Full Job Description (PDF)
+                            </a>
+                            <a href="javascript:void(0);" class="jc-foot-link apply-now-btn" data-position="Procurement Coordinator / Buyer">
+                                <i class="ri-mail-send-line"></i> Apply for this Role
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ───────── JOB CARD #4 ───────── -->
+                <div class="job-card" id="sales-executive">
+                    <div class="jc-top">
+                        <div class="jc-top__left">
+                            <span class="jc-badge"><i class="ri-briefcase-line"></i> Open Role — KSA</span>
+                            <h3>Sales Executive (Outdoor)</h3>
+                            <div class="jc-tags">
+                                <span class="jc-tag"><i class="ri-map-pin-line"></i> Head Office – KSA</span>
+                                <span class="jc-tag"><i class="ri-focus-3-line"></i> Sales</span>
+                                <span class="jc-tag"><i class="ri-route-line"></i> Dammam · Riyadh · Jeddah</span>
+                                <span class="jc-tag"><i class="ri-time-line"></i> Full-Time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-body">
+                        <p style="font-size: 15px; color: #334155; line-height: 1.75; margin: 0 0 20px;">
+                            The <strong>Sales Executive</strong> drives outdoor B2B sales by prospecting new clients,
+                            maintaining existing accounts, and closing deals across the assigned KSA territory — working
+                            against a clear monthly target of <strong>350,000 SAR</strong>.
+                        </p>
+                        <!-- Target pill -->
+                        <div class="jc-target-pill">
+                            <span>🎯 Monthly Target: <strong style="color:var(--orange-color);">350,000
+                                    SAR</strong></span>
+                        </div>
+                        <div class="jc-cols">
+                            <div class="jc-col">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Conduct 6–8 customer visits daily;
+                                        develop new end-user accounts monthly</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Prepare and follow up on quotations,
+                                        negotiations, and order closures</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Track sales activities and pipeline via
+                                        ERP and Excel reports</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Ensure timely payment collection within
+                                        approved credit terms</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Represent the brand at exhibitions and
+                                        deliver product demonstrations</li>
+                                </ul>
+                            </div>
+                            <div class="jc-col">
+                                <h4>Requirements at a Glance</h4>
+                                <ul>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Degree in Arts / Management /
+                                        Engineering or equivalent Diploma</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> 3+ years of outdoor B2B sales experience
+                                    </li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Strong negotiation, market intelligence,
+                                        and CRM/ERP skills</li>
+                                    <li><i class="ri-checkbox-circle-fill"></i> Valid KSA driving licence — essential
+                                        for daily field visits</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jc-foot">
+                        <span class="note"><strong>Reports To:</strong> Sales Manager / Branch Manager — Only
+                            shortlisted candidates will be contacted.</span>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <a href="assets/img/career/Sales%20%20Executive%202026%201.pdf"
+                                target="_blank" class="jc-foot-link jc-foot-link-accent">
+                                <i class="ri-file-pdf-line"></i> Full Job Description (PDF)
+                            </a>
+                            <a href="javascript:void(0);" class="jc-foot-link apply-now-btn" data-position="Sales Executive (Outdoor)">
+                                <i class="ri-mail-send-line"></i> Apply for this Role
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer_container">
+                <div class="footer_column">
+                    <div class="footer_logo">
+                        <img src="assets/img/logo.png" class="img-fluid" alt="">
+                    </div>
+
+                    <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower
+                        industries with quality and trust</p>
+
+                    <ul class="social_links">
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"><i
+                                    class="ri-facebook-circle-line"></i></a></li>
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/"><i
+                                    class="ri-instagram-line"></i></a></li>
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"><i
+                                    class="ri-youtube-fill"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"><i
+                                    class="ri-linkedin-box-fill"></i></a></li>
+                        <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
+                                target="_blank"><i class="ri-snapchat-line"></i></a></li>
+                        <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
+                                target="_blank"><i class="fa-brands fa-tiktok"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_column">
+                    <h6 class="footer_title">More Links</h6>
+                    <ul>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="./"> Home</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="brands.html"> Brands</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="career.html"> Careers</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_column contact-details">
+                    <h6 class="footer_title">Get In Touch</h6>
+
+                    <p>Location</p>
+                    <span>ONSHORE TECHNICAL SUPPLIES CO, <br>
+                        Al Muhammadiyah District, <br>
+                        Dammam 32242, Kingdom of Saudi Arabia (KSA)</span>
+
+                    <p>Mobile</p>
+                    <a href="https://wa.me/966544580607?text=Hello%20I%20need%20product%20details" target="_blank"><i
+                            class="fa-brands fa-whatsapp text-success"></i>+966544580607</a> /
+                    <a href="https://wa.me/966543496776?text=Hello%20I%20need%20product%20details" target="_blank"><i
+                            class="fa-brands fa-whatsapp text-success"></i>+966543496776</a>
+
+                    <p>E-Mail Address</p>
+                    <a href="#">enquiry@onshoretechnical.com.sa</a>
+                </div>
+            </div>
+
+            <div class="copyright text-center">
+                <p>© 2026 <span style="color:#0177c6;">Onshore</span> All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <script>
+        $(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 0) {
+                    $(".logo img").attr("src", "assets/img/logo.png");
+                }
+                else {
+                    $(".logo img").attr("src", "assets/img/white-logo.png");
+                }
+            });
+        });
+
+        // Page Banner Animations
+        ScrollReveal().reveal('.page_banner_content h1', {
+            duration: 1500,
+            delay: 200,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.page_banner_content ul li', {
+            origin: 'bottom',
+            distance: '20px',
+            duration: 800,
+            delay: 400,
+            opacity: 0,
+            interval: 150,
+            easing: 'ease-in-out'
+        });
+
+        // Intro Text Animation
+        ScrollReveal().reveal('.careers_intro .main_heading', {
+            origin: 'top',
+            distance: '30px',
+            duration: 900,
+            delay: 100,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.careers_intro p', {
+            origin: 'bottom',
+            distance: '30px',
+            duration: 900,
+            delay: 300,
+            easing: 'ease-in-out'
+        });
+
+        // Job Cards Animation
+        ScrollReveal().reveal('.job-card', {
+            origin: 'bottom',
+            distance: '60px',
+            duration: 1000,
+            interval: 200,
+            scale: 0.95,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        // Footer Animation
+        ScrollReveal().reveal('.footer_logo, .footer_desc', {
+            origin: 'left',
+            distance: '40px',
+            duration: 900,
+            delay: 100,
+            opacity: 0,
+            easing: 'ease-in-out'
+        });
+
+        ScrollReveal().reveal('.social_links li', {
+            origin: 'bottom',
+            distance: '20px',
+            duration: 800,
+            delay: 200,
+            opacity: 0,
+            easing: 'ease-in-out',
+            interval: 120
+        });
+
+        ScrollReveal().reveal('.footer_column', {
+            origin: 'bottom',
+            distance: '50px',
+            duration: 1000,
+            delay: 300,
+            opacity: 0,
+            easing: 'ease-in-out',
+            interval: 200
+        });
+
+        // Career Form JavaScript Logic
+        $(document).on('click', '.apply-now-btn', function (e) {
+            e.preventDefault();
+            const position = $(this).attr('data-position');
+            $('#form-position').val(position);
+            
+            // Clear any previous error messages
+            $('#modal-error-alert').addClass('d-none').removeClass('d-flex');
+            
+            const applyModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('applyModal'));
+            applyModal.show();
+        });
+
+        $(document).on('submit', '#apply-form', function (e) {
+            e.preventDefault();
+
+            const $btn = $('#apply-submit-btn');
+            const fileInput = document.getElementById('form-cv');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showModalError('Please select a resume file (PDF format).');
+                return;
+            }
+
+            if (file.type !== 'application/pdf') {
+                showModalError('Only PDF resumes are accepted.');
+                return;
+            }
+
+            // Clear any previous error messages
+            $('#modal-error-alert').addClass('d-none').removeClass('d-flex');
+
+            // Disable submit button
+            $btn.text('Uploading Resume...').prop('disabled', true);
+
+            // Step 1: Upload File
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+
+            $.ajax({
+                url: 'https://onshore.tbo365.cloud/api/method/upload_file',
+                type: 'POST',
+                headers: {
+                    'Authorization': 'token 9897e6ee3838b6c:06d7193075244d6'
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (uploadResponse) {
+                    if (uploadResponse && uploadResponse.message && uploadResponse.message.file_url) {
+                        const fileUrl = uploadResponse.message.file_url;
+                        // Step 2: Submit Application
+                        submitApplication(fileUrl);
+                    } else {
+                        console.error("Invalid upload response", uploadResponse);
+                        showModalError('Failed to parse uploaded resume URL. Please try again.');
+                        resetBtn();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("File upload error", xhr.responseText || error);
+                    showModalError('Failed to upload resume. Please check your network and try again.');
+                    resetBtn();
+                }
+            });
+        });
+
+        function submitApplication(fileUrl) {
+            const $btn = $('#apply-submit-btn');
+            $btn.text('Submitting Application...');
+
+            const payload = {
+                name: $('#form-name').val().trim(),
+                email: $('#form-email').val().trim(),
+                phone: $('#form-phone').val().trim(),
+                position: $('#form-position').val(),
+                experience: $('#form-experience').val(),
+                nationality: $('#form-nationality').val().trim(),
+                linkedin: $('#form-linkedin').val().trim(),
+                message: $('#form-message').val().trim(),
+                attachment: fileUrl
+            };
+
+            $.ajax({
+                url: 'https://onshore.tbo365.cloud/api/method/onshore.api.submit_career_application',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'token 9897e6ee3838b6c:06d7193075244d6'
+                },
+                data: JSON.stringify(payload),
+                success: function (response) {
+                    // Hide Form Modal sequentially to prevent bootstrap backdrop race condition
+                    const applyModalElement = document.getElementById('applyModal');
+                    const applyModalInstance = bootstrap.Modal.getInstance(applyModalElement);
+                    if (applyModalInstance) {
+                        $(applyModalElement).one('hidden.bs.modal', function () {
+                            showStatus('success', 'Thank you! Your application has been submitted successfully.');
+                        });
+                        applyModalInstance.hide();
+                    } else {
+                        showStatus('success', 'Thank you! Your application has been submitted successfully.');
+                    }
+                    
+                    // Reset Form
+                    $('#apply-form')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Application submit error", xhr.responseText || error);
+                    showModalError('Failed to submit application. Please check your network and try again.');
+                },
+                complete: function () {
+                    resetBtn();
+                }
+            });
+        }
+
+        function resetBtn() {
+            $('#apply-submit-btn').text('Submit Application').prop('disabled', false);
+        }
+
+        function showModalError(message) {
+            const $modalAlert = $('#modal-error-alert');
+            $modalAlert.find('.alert-message').text(message);
+            $modalAlert.removeClass('d-none').addClass('d-flex');
+            
+            // Scroll modal to top so error is visible
+            $('#applyModal').animate({ scrollTop: 0 }, 'slow');
+        }
+
+        function showStatus(type, message) {
+            const icon = type === 'success' 
+                ? '<i class="ri-checkbox-circle-fill" style="color: #10b981;"></i>' 
+                : '<i class="ri-error-warning-fill" style="color: #ef4444;"></i>';
+            const title = type === 'success' ? 'Application Submitted' : 'Submission Failed';
+            
+            $('#status-icon').html(icon);
+            $('#status-title').text(title);
+            $('#status-message').text(message);
+            
+            const statusModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('careerStatusModal'));
+            statusModal.show();
+        }
+
+        // Auto-clear alert when input changes
+        $(document).on('input change', '#apply-form input, #apply-form select, #apply-form textarea', function() {
+            $('#modal-error-alert').addClass('d-none').removeClass('d-flex');
+        });
+    </script>
+
+    <!-- Careers Apply Modal -->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" style="z-index: 1055;">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyModalLabel">Submit Application</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="apply-form" enctype="multipart/form-data">
+                        <!-- Modal Error Alert -->
+                        <div id="modal-error-alert" class="alert alert-danger d-none align-items-center" role="alert" style="border-radius: 8px; margin-bottom: 20px; padding: 12px 16px; font-size: 14.5px;">
+                            <i class="ri-error-warning-fill me-2" style="font-size: 20px; color: #ef4444; line-height: 1;"></i>
+                            <span class="alert-message"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="form-name" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="form-name" placeholder="John Doe" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="form-email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="form-email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="form-phone" class="form-label">Mobile Number (with country code) *</label>
+                                <input type="text" class="form-control" id="form-phone" placeholder="+966 5X XXX XXXX" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="form-position" class="form-label">Position *</label>
+                                <select class="form-select" id="form-position" required>
+                                    <option value="" disabled selected>Select Position</option>
+                                    <option value="Welding Demonstrator / Service Technician">Welding Demonstrator / Service Technician</option>
+                                    <option value="Procurement Coordinator / Buyer">Procurement Coordinator / Buyer</option>
+                                    <option value="Sales Executive (Outdoor)">Sales Executive (Outdoor)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="form-experience" class="form-label">Experience Level *</label>
+                                <select class="form-select" id="form-experience" required>
+                                    <option value="" disabled selected>Select Experience</option>
+                                    <option value="0-2 Years">0-2 Years</option>
+                                    <option value="3-6 Years">3-6 Years</option>
+                                    <option value="6+ Years">6+ Years</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="form-nationality" class="form-label">Nationality *</label>
+                                <input type="text" class="form-control" id="form-nationality" placeholder="Saudi Arabian" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="form-linkedin" class="form-label">LinkedIn Profile URL</label>
+                                <input type="url" class="form-control" id="form-linkedin" placeholder="https://linkedin.com/in/username">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="form-cv" class="form-label">Resume / CV (PDF format only) *</label>
+                                <input type="file" class="form-control" id="form-cv" accept=".pdf" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="form-message" class="form-label">Message / Cover Letter</label>
+                            <textarea class="form-control" id="form-message" rows="4" placeholder="Tell us more about yourself..."></textarea>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" style="border-radius: 50px; font-family: var(--secondary-font); padding: 8px 24px;">Cancel</button>
+                            <button type="submit" id="apply-submit-btn" class="main-btn" style="border: none; padding: 8px 28px !important;">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Alert Modal -->
+    <div class="modal fade" id="careerStatusModal" tabindex="-1" aria-labelledby="careerStatusModalLabel" aria-hidden="true" style="z-index: 1056;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-body" style="padding: 40px 30px; text-align: center;">
+                    <div id="status-icon" style="font-size: 50px; margin-bottom: 20px; line-height: 1;"></div>
+                    <h4 id="status-title" style="font-weight: 700; margin-bottom: 15px; color: #1a1a1a; font-family: var(--secondary-font);">Status</h4>
+                    <p id="status-message" style="margin: 0 0 25px; color: #64748b; font-size: 15px; line-height: 1.6;"></p>
+                    <button type="button" class="main-btn" data-bs-dismiss="modal" style="border: none; padding: 10px 30px !important;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
