@@ -35,9 +35,9 @@
 }
 
 .hero_text_content h1 {
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.2;
   color: #1a1a1a;
   margin-bottom: 25px;
 }
@@ -369,7 +369,7 @@ body.search-active .nav-pills {
 
 @media (max-width: 991px) {
   .hero_banner_ecommerce {
-    padding: 60px 0 80px;
+    padding: 120px 0 80px;
     text-align: center;
   }
   .hero_text_content .hero_desc {
