@@ -109,7 +109,8 @@
 
         <section class="contact_page section">
             <div class="container">
-                <div class="grid_row">
+                <!-- Contact Info Cards Row -->
+                <div class="grid_row mb-5">
                     <div class="item_card">
                         <div class="flex_row">
                             <div class="icon">
@@ -150,6 +151,43 @@
                             <h6>Opening Time</h6>
                         </div>
                         <p>Sat-Thu, 8am until 5pm</p>
+                    </div>
+                </div>
+                
+                <!-- Contact Form Row -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-8">
+                        <div class="contact-form-wrapper" style="background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #f1f5f9;">
+                            <h3 class="text-center" style="margin-bottom: 25px; font-family: var(--secondary-font); color: var(--second-color); font-weight: 700;">Send us a Message</h3>
+                            
+                            <div id="contact-form-status" class="alert d-none" style="border-radius: 8px;"></div>
+                            
+                            <form id="onshore-contact-form">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" style="font-weight: 600; font-size: 14px; color: #475569;">Full Name *</label>
+                                        <input type="text" class="form-control" name="name" required placeholder="John Doe" style="padding: 12px; border-radius: 8px;">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" style="font-weight: 600; font-size: 14px; color: #475569;">Email Address *</label>
+                                        <input type="email" class="form-control" name="email" required placeholder="john@example.com" style="padding: 12px; border-radius: 8px;">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="font-weight: 600; font-size: 14px; color: #475569;">Phone Number</label>
+                                    <input type="text" class="form-control" name="phone" placeholder="+966 5X XXX XXXX" style="padding: 12px; border-radius: 8px;">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" style="font-weight: 600; font-size: 14px; color: #475569;">Message *</label>
+                                    <textarea class="form-control" name="message" rows="4" required placeholder="How can we help you?" style="padding: 12px; border-radius: 8px;"></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="main-btn" style="border:none; padding: 14px 40px !important; min-width: 200px;" id="contact-submit-btn">
+                                        Send Message <i class="ri-send-plane-fill ms-1"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -387,6 +425,43 @@
             opacity: 0,
             easing: 'ease-in-out',
             interval: 200
+        });
+
+        // Contact Form Submission
+        $('#onshore-contact-form').on('submit', function(e) {
+            e.preventDefault();
+            const $btn = $('#contact-submit-btn');
+            const $status = $('#contact-form-status');
+            
+            $btn.prop('disabled', true).html('Sending... <i class="ri-loader-4-line ri-spin"></i>');
+            $status.addClass('d-none').removeClass('alert-success alert-danger');
+
+            const payload = {
+                name: $('input[name="name"]').val().trim(),
+                email: $('input[name="email"]').val().trim(),
+                phone: $('input[name="phone"]').val().trim(),
+                message: $('textarea[name="message"]').val().trim()
+            };
+
+            $.ajax({
+                url: 'https://hydrotechglobal.ae/onshore_contact_api.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function(res) {
+                    $status.addClass('alert-success').removeClass('d-none alert-danger').text(res.message || 'Your message has been sent successfully!');
+                    $('#onshore-contact-form')[0].reset();
+                    $btn.prop('disabled', false).html('Send Message <i class="ri-send-plane-fill ms-1"></i>');
+                },
+                error: function(err) {
+                    let msg = "An error occurred. Please try again.";
+                    if(err.responseJSON && err.responseJSON.message) {
+                        msg = err.responseJSON.message;
+                    }
+                    $status.addClass('alert-danger').removeClass('d-none alert-success').text(msg);
+                    $btn.prop('disabled', false).html('Send Message <i class="ri-send-plane-fill ms-1"></i>');
+                }
+            });
         });
 
     </script>
