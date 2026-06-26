@@ -20,6 +20,29 @@ $(document).ready(function () {
         }).join(' ');
     }
 
+    // Converts a product name into a clean URL slug
+    // e.g. "ORKON Wheel Wire Brush 100x16MM" => "orkon-wheel-wire-brush-100x16mm"
+    function toSlug(str) {
+        if (!str) return '';
+        return str
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '') // remove special chars
+            .trim()
+            .replace(/\s+/g, '-')         // spaces to hyphens
+            .replace(/-+/g, '-');         // collapse multiple hyphens
+    }
+
+    // Injects or updates the <link rel="canonical"> tag
+    function setCanonical(url) {
+        let tag = document.querySelector('link[rel="canonical"]');
+        if (!tag) {
+            tag = document.createElement('link');
+            tag.rel = 'canonical';
+            document.head.appendChild(tag);
+        }
+        tag.href = url;
+    }
+
     function init() {
         const urlSearch = new URLSearchParams(window.location.search);
         let itemCode = urlSearch.get('item_code') || urlSearch.get('name');
@@ -118,14 +141,39 @@ $(document).ready(function () {
 
         $('.breadcrumbs').html(breadcrumbsHtml);
         
-        // Update Document Title and Meta Description dynamically
+        // ─── SEO: Clean URL, Canonical, Title & Meta Description ───────────────
+        const slug = toSlug(name);
+        const cleanPath = `/products/${slug}/specifications`;
+        const fullCanonicalUrl = `${window.location.origin}${cleanPath}`;
+
+        // Push clean URL to the browser without a page reload
+        try {
+            window.history.replaceState({ itemCode: p.name, slug }, name, cleanPath);
+        } catch (e) { /* ignore security errors in some iframes */ }
+
+        // Inject canonical tag so search engines index the clean URL
+        setCanonical(fullCanonicalUrl);
+
+        // Update document title
         document.title = `${name} | Onshore Technical Supplies`;
+
+        // Update meta description with rich content
+        let metaDesc = '';
         if (p.description) {
-            const plainDescForMeta = $('<div>').html(p.description).text().trim();
-            if (plainDescForMeta) {
-                $('meta[name="description"]').attr('content', plainDescForMeta);
-            }
+            metaDesc = $('<div>').html(p.description).text().trim();
         }
+        if (!metaDesc || metaDesc.toLowerCase() === name.toLowerCase()) {
+            // Build a meaningful fallback description
+            const brandPart = (p.custom_brand_name || p.brand) ? `by ${p.custom_brand_name || p.brand}` : '';
+            const catPart = p.item_group ? `in ${toTitleCase(p.item_group)}` : '';
+            metaDesc = `${name} ${brandPart} ${catPart}. Industrial equipment and technical supplies from Onshore Technical Supplies, Saudi Arabia.`.replace(/\s+/g, ' ').trim();
+        }
+        $('meta[name="description"]').attr('content', metaDesc.slice(0, 160));
+
+        // Update OG/social meta tags too
+        $('meta[property="og:title"]').attr('content', `${name} | Onshore Technical Supplies`);
+        $('meta[property="og:description"]').attr('content', metaDesc.slice(0, 160));
+        $('meta[property="og:url"]').attr('content', fullCanonicalUrl);
         
         // Render Title & Arabic Item Title
         const nameAr = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
