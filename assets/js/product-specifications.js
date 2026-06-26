@@ -91,16 +91,16 @@ $(document).ready(function () {
         const subLabel = subCat ? toTitleCase(subCat) : '';
 
         let breadcrumbsHtml = `
-            <li class="home"><a href="./" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
+            <li class="home"><a href="/" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
             <li style="color: rgba(255,255,255,0.4);">/</li>
-            <li><a href="product-details.html" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
+            <li><a href="/products.html" style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
         `;
 
         if (parentLabel) {
             const parentKey = PARENT_INFO[parentCat.toUpperCase()]?.key || parentCat.toLowerCase().replace(/\s+/g, '-');
             breadcrumbsHtml += `
                 <li style="color: rgba(255,255,255,0.4);">/</li>
-                <li><a href="product-details.html#${parentKey}" style="color: #38bdf8; font-weight: 600; text-decoration: none;">${parentLabel}</a></li>
+                <li><a href="/products.html#${parentKey}" style="color: #38bdf8; font-weight: 600; text-decoration: none;">${parentLabel}</a></li>
             `;
         }
 
@@ -151,12 +151,12 @@ $(document).ready(function () {
 
         // 2. Images & Gallery
         const allImages = [];
-        const processImg = (path) => {
-            if (!path) return null;
+        const processImg = (imgPath) => {
+            if (!imgPath) return null;
             // Prepend base URL if it's a relative path starting with /
-            let fullUrl = path.startsWith('http') ? path : `${BASE_URL}${path}`;
+            const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : '/assets/img/logo.png';
             // Encode the URL to handle spaces and parentheses (e.g. "image (2).png")
-            return fullUrl.replace(/\s/g, '%20'); 
+            return fullImgUrl.replace(/\s/g, '%20'); 
         };
 
         // Prioritize the 'images' array as requested
@@ -193,14 +193,14 @@ $(document).ready(function () {
 
         if (allImages.length > 0) {
             const mainImgUrl = allImages[0];
-            $('#main-image-display').html(`<img src="${mainImgUrl}" class="img-fluid" id="current-main-img" alt="${name}" onerror="this.src='assets/img/logo.png'">`);
+            $('#main-image-display').html(`<img src="${mainImgUrl}" class="img-fluid" id="current-main-img" alt="${name}" onerror="this.src='/assets/img/logo.png'">`);
 
             if (allImages.length > 1) {
                 let thumbsHtml = '';
                 allImages.forEach((fullUrl, idx) => {
                     thumbsHtml += `
                         <div class="pd-thumb ${idx === 0 ? 'active' : ''}" data-url="${fullUrl}">
-                            <img src="${fullUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'">
+                            <img src="${fullUrl}" alt="${name}" onerror="this.src='/assets/img/logo.png'">
                         </div>
                     `;
                 });
@@ -208,7 +208,7 @@ $(document).ready(function () {
                 bindGalleryEvents();
             }
         } else {
-            $('#main-image-display').html(`<img src="assets/img/logo.png" class="img-fluid" alt="No image available">`);
+            $('#main-image-display').html(`<img src="/assets/img/logo.png" class="img-fluid" alt="No image available">`);
         }
 
         // 3. Specifications Table
@@ -299,7 +299,7 @@ $(document).ready(function () {
 
 
         // 5. Button Actions
-        const fullMainImg = allImages.length > 0 ? (allImages[0].startsWith('http') ? allImages[0] : `${BASE_URL}${allImages[0]}`) : 'assets/img/logo.png';
+        const fullMainImg = allImages.length > 0 ? (allImages[0].startsWith('http') ? allImages[0] : `${BASE_URL}${allImages[0]}`) : '/assets/img/logo.png';
         
         $('#spec-add-cart').attr('data-id', p.name)
             .attr('data-name', name)
