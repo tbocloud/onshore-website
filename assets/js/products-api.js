@@ -380,7 +380,7 @@ $(document).ready(function () {
         return `
             <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
                 <div class="pc-img">
-                    <img src="${fullImgUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'">
+                    <img src="${fullImgUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
                     <div class="pc-img-actions">
                         <button class="pc-icon-btn add-to-cart-btn"
                             data-id="${p.name || ''}"

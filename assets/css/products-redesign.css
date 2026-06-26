@@ -424,6 +424,8 @@
   transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
   position: relative;
   cursor: pointer;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 340px;
 }
 
 .pc:hover {
