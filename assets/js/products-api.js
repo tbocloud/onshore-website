@@ -361,7 +361,7 @@ $(document).ready(function () {
 
         const name = p.item_name || p.name || 'Product';
         const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
-        const specsUrl = `/products/${encodeURIComponent(p.name || '')}/specifications`;
+        const specsUrl = `/product-specifications.html?item_code=${encodeURIComponent(p.name || '')}`;
 
         let rawBrandName = p.custom_brand_name || '';
         let displayBrand = rawBrandName.toUpperCase();

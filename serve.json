@@ -1,10 +1,13 @@
 {
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/products/*/specifications",
-      "destination": "/product-specifications.html"
-    }
+    { "source": "/products", "destination": "/products.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/brands", "destination": "/brands.html" },
+    { "source": "/career", "destination": "/career.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/industries", "destination": "/industries.html" },
+    { "source": "/product-specifications", "destination": "/product-specifications.html" }
   ]
 }
