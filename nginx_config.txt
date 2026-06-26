@@ -1,0 +1,17 @@
+# NGINX Configuration for Onshore Technical Supplies Static Site
+
+Since you are hosting this frontend alongside ERPNext using NGINX, you will need to add a rewrite rule so that the server knows how to handle the new SEO-friendly URLs.
+
+In your NGINX configuration file for this website (usually located in `/etc/nginx/conf.d/` or `/etc/nginx/sites-available/`), find your `server { ... }` block and add the following location block:
+
+```nginx
+location /products/ {
+    # This rewrites anything under /products/ to the product-specifications.html file
+    # For example: /products/electric-chain-hoist/specifications -> product-specifications.html
+    rewrite ^/products/.*$ /product-specifications.html break;
+}
+```
+
+If you are using Frappe's NGINX configuration directly and placing this inside a custom Frappe app's `www` folder, NGINX might already be set up to route missing files to the Python backend. If that is the case and the above rewrite doesn't work, you can achieve this via ERPNext's "Website Route" settings in the admin panel instead!
+
+Let me know if you need help applying this to your specific NGINX setup.

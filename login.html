@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Onshore Technical Supplies</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .login-section {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+        .login-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            max-width: 450px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .login-card h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0177c6;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover {
+            background: #005a9c;
+        }
+        #recaptcha-container {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .alert-msg {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
+        authDomain: "onshore-live.firebaseapp.com",
+        projectId: "onshore-live",
+        storageBucket: "onshore-live.firebasestorage.app",
+        messagingSenderId: "941086058745",
+        appId: "1:941086058745:web:c4885dc345e6290d0e9a28",
+        measurementId: "G-6VJJ3HTR5L"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+</head>
+<body>
+    <header>
+
+        <nav>
+            <div class="wrapper container">
+                <div class="logo">
+                    <a href="./">
+                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
+                    </a>
+                </div>
+
+                <input type="radio" name="slide" id="menu-btn">
+                <input type="radio" name="slide" id="cancel-btn">
+                <ul class="nav-links">
+                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
+
+                    <li><a href="./">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="industries.html">Industries</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="brands.html">Brands</a></li>
+                    <li><a href="blog.html">News & Blogs</a></li>
+                    <li><a href="career.html">Careers</a></li>
+                    <li><a href="login.html" id="nav-login-link" class="active">Login</a></li>
+                </ul>
+
+                <div class="nav-right-icons">
+                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
+                        <i class="ri-shopping-basket-fill"></i>
+                        <span class="quote-basket-count">0</span>
+                    </div>
+                    <div>
+                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+
+                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page_banner">
+            <div class="container">
+                <div class="page_banner_content">
+                    <h1 class="main_heading" style="color: #fff;">Account Access</h1>
+                    <ul>
+                        <li class="home"><a href="./">Home</a></li> /
+                        <li>Login</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="login-section" style="padding: 80px 0;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <div class="login-text-content" style="padding-right: 30px;">
+                            <h2 style="color: #0b1c2c; font-family: var(--secondary-font); font-weight: 700; margin-bottom: 20px;">Welcome Back to Onshore Technical</h2>
+                            <p style="color: #475569; font-size: 16px; line-height: 1.8; margin-bottom: 30px;">Access your account to seamlessly manage your quotes, view exclusive pricing, and fast-track your industrial supply orders.</p>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Track and manage your quote requests</span></li>
+                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Fast and secure checkout process</span></li>
+                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Exclusive access to premium industrial brands</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="login-card" id="login-card" style="max-width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; padding: 40px; border-radius: 12px; background: #fff; margin: 0;">
+                    <h2>Sign In</h2>
+                    
+                    <div class="auth-tabs" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd;">
+                        <button class="tab-btn active" id="tab-phone" style="flex: 1; padding: 10px; background: none; border: none; border-bottom: 2px solid #0177c6; font-weight: bold; color: #0177c6; cursor: pointer;">Phone Number</button>
+                        <button class="tab-btn" id="tab-email" style="flex: 1; padding: 10px; background: none; border: none; border-bottom: 2px solid transparent; font-weight: bold; color: #777; cursor: pointer;">Email Login</button>
+                    </div>
+
+                    <!-- User Info (Hidden by default) -->
+                    <div id="user-info" class="hidden">
+                        <h4 id="user-phone"></h4>
+                        <button class="login-btn mt-3" style="background: #dc3545;" id="logout-btn">Log Out</button>
+                    </div>
+
+                    <!-- Email Section -->
+                    <div id="email-section" class="hidden">
+                        <p class="text-muted mb-4">Sign in with a magic link sent to your email.</p>
+                        <div class="form-group">
+                            <label for="email-input">Email</label>
+                            <input type="email" id="email-input" placeholder="you@company.com">
+                        </div>
+                        <button class="login-btn" id="email-login-btn" style="margin-bottom: 10px;">Send Login Link</button>
+                    </div>
+
+                    <!-- Phone Section -->
+                    <div id="phone-section">
+                        <p class="text-muted mb-4">Enter your mobile number to get an OTP.</p>
+                        
+                        <!-- Step 1: Phone Number -->
+                        <div id="step-1">
+                            <div class="form-group">
+                                <label for="phone-number">Phone Number</label>
+                                <input type="tel" id="phone-number" placeholder="+966 50 123 4567" value="+966">
+                            </div>
+                            <div id="recaptcha-container"></div>
+                            <button class="login-btn" id="send-otp-btn">Send OTP</button>
+                        </div>
+
+                        <!-- Step 2: OTP Verification -->
+                        <div id="step-2" class="hidden">
+                            <div class="form-group">
+                                <label for="otp-code">Enter OTP</label>
+                                <input type="text" id="otp-code" placeholder="123456" maxlength="6">
+                            </div>
+                            <button class="login-btn" id="verify-otp-btn">Verify & Login</button>
+                        </div>
+                    </div>
+
+                    <div id="alert-message" class="alert-msg"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+
+            <div class="footer_container">
+                <div class="footer_column">
+                    <div class="footer_logo">
+                        <img src="assets/img/logo.png" class="img-fluid" alt="">
+                    </div>
+
+                    <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower
+                        industries with quality and trust</p>
+
+                    <ul class="social_links">
+                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"><i
+                                    class="ri-facebook-circle-line"></i></a></li>
+
+                        <li><a href="https://www.instagram.com/onshore_technical_supply/"><i
+                                    class="ri-instagram-line"></i></a></li>
+
+                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"><i
+                                    class="ri-youtube-fill"></i></a></li>
+
+                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"><i
+                                    class="ri-linkedin-box-fill"></i></a></li>
+
+                        <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
+                                target="_blank"><i class="ri-snapchat-line"></i></a></li>
+
+                        <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
+                                target="_blank"><i class="fa-brands fa-tiktok"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_column">
+                    <h6 class="footer_title">More Links</h6>
+
+                    <ul>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="./"> Home</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="brands.html"> Brands</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="career.html"> Careers</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_column contact-details">
+                    <h6 class="footer_title">Get In Touch</h6>
+
+                    <p>Location</p>
+                    <span>ONSHORE TECHNICAL SUPPLIES CO, <br>
+                        Al Muhammadiyah District, <br>
+                        Dammam 32242, Kingdom of Saudi Arabia (KSA)</span>
+
+                    <p>Mobile</p>
+
+                    <a href="https://wa.me/966544580607?text=Hello%20I%20need%20product%20details" target="_blank"><i
+                            class="fa-brands fa-whatsapp text-success"></i>+966544580607</a> /
+                    <a href="https://wa.me/966543496776?text=Hello%20I%20need%20product%20details" target="_blank"><i
+                            class="fa-brands fa-whatsapp text-success"></i>+966543496776</a>
+
+                    <p>E-Mail Address</p>
+                    <a href="#">enquiry@onshoretechnical.com.sa</a>
+                </div>
+
+            </div>
+
+            <div class="copyright text-center">
+                <p>© 2026 <span style="color:#0177c6;">Onshore</span> All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Logic -->
+    <script type="module" src="assets/js/auth.js"></script>
+</body>
+</html>

@@ -24,6 +24,12 @@ $(document).ready(function () {
         const urlSearch = new URLSearchParams(window.location.search);
         let itemCode = urlSearch.get('item_code') || urlSearch.get('name');
 
+        // SEO-friendly URL detection: /products/{itemCode}/specifications
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        if (!itemCode && pathParts.length >= 3 && pathParts[0] === 'products' && pathParts[2] === 'specifications') {
+            itemCode = decodeURIComponent(pathParts[1]);
+        }
+
         // Improved Hash Detection
         if (!itemCode && window.location.hash) {
             const hash = window.location.hash.substring(1); // remove #

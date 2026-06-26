@@ -28,11 +28,28 @@ $(document).ready(function () {
 
     async function fetchProducts() {
         const loader = $('#products-loader');
-        loader.show();
         
+        // 1. Check Session Storage (Browser Cache)
+        const cachedData = sessionStorage.getItem('onshore_products_cache');
+        if (cachedData) {
+            try {
+                const parsed = JSON.parse(cachedData);
+                if (parsed && parsed.length > 0) {
+                    renderCatalog(parsed);
+                    renderFeaturedProducts(parsed);
+                    loader.hide(); // Hide the loader when serving from cache!
+                    return; // Load instantly and exit!
+                }
+            } catch (e) {
+                console.warn("Failed to parse cache");
+            }
+        }
+
+        // 2. Fetch from API if not cached
+        loader.show();
         let allItems = [];
         let limitStart = 0;
-        const PAGE_SIZE = 50; // Fetch 50 at a time automatically
+        const PAGE_SIZE = 500; // Increased to 500 to fetch data in fewer roundtrips
 
         try {
             while (true) {
@@ -53,7 +70,6 @@ $(document).ready(function () {
                 
                 allItems = allItems.concat(products);
 
-                // If we got fewer than requested, we've reached the end
                 if (products.length < PAGE_SIZE) {
                     break; 
                 }
@@ -66,7 +82,15 @@ $(document).ready(function () {
                 return;
             }
 
+            // Save to Session Storage
+            try {
+                sessionStorage.setItem('onshore_products_cache', JSON.stringify(allItems));
+            } catch (e) {
+                console.warn("Could not save to sessionStorage (might be full)");
+            }
+
             renderCatalog(allItems);
+            renderFeaturedProducts(allItems);
 
         } catch (error) {
             console.error("Failed to fetch products:", error);
@@ -317,9 +341,11 @@ $(document).ready(function () {
         }
 
         // ─── Run initial filter ───
-        if (typeof window.filterApiCatalog === 'function') {
-            window.filterApiCatalog();
-        }
+        setTimeout(() => {
+            if (typeof window.filterApiCatalog === 'function') {
+                window.filterApiCatalog();
+            }
+        }, 50);
     }
 
     /**
@@ -335,7 +361,7 @@ $(document).ready(function () {
 
         const name = p.item_name || p.name || 'Product';
         const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
-        const specsUrl = `./product-specifications.html#item_code=${encodeURIComponent(p.name || '')}`;
+        const specsUrl = `/products/${encodeURIComponent(p.name || '')}/specifications`;
 
         let rawBrandName = p.custom_brand_name || '';
         let displayBrand = rawBrandName.toUpperCase();
@@ -398,6 +424,96 @@ $(document).ready(function () {
                 </div>
             </div>
         `;
+    }
+
+
+    function renderFeaturedProducts(products) {
+        const targetItemCodes = [
+            '15LB1.5X1.5',
+            '76REMOTE-ECB1T-5T-SSDHL',
+            '15ECB-2TX6M-SSDHL'
+        ];
+        
+        let featured = products.filter(p => targetItemCodes.includes(p.name));
+        
+        // Remove duplicates if the API happens to return multiple of the same item
+        const uniqueFeatured = [];
+        const seenNames = new Set();
+        for (const p of featured) {
+            if (!seenNames.has(p.name)) {
+                uniqueFeatured.push(p);
+                seenNames.add(p.name);
+            }
+        }
+        featured = uniqueFeatured;
+
+        if (featured.length < 4) {
+            const productsWithImages = products.filter(p => {
+                let imgPath = p.image || '';
+                if (!imgPath && p.attachments && p.attachments.length > 0) {
+                    imgPath = p.attachments[0].file_url;
+                }
+                return imgPath && !targetItemCodes.includes(p.name);
+            });
+            featured = featured.concat(productsWithImages.slice(0, 4 - featured.length));
+        }
+        if (featured.length === 0) return;
+
+        const container = $('#featuredProductGrid');
+        if (!container.length) return;
+        
+        container.empty();
+
+        featured.forEach((p) => {
+            let imgPath = p.image || '';
+            if (!imgPath && p.attachments && p.attachments.length > 0) {
+                imgPath = p.attachments[0].file_url;
+            }
+            const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : 'assets/img/logo.png';
+            
+            const name = p.item_name || p.name || 'Product';
+            const escapedName = name.replace(/"/g, '&quot;');
+            let rawBrandName = p.custom_brand_name || 'ONSHORE';
+            
+            const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
+            const escapedArabicName = arabicName.replace(/"/g, '&quot;');
+            const escapedBrandName = rawBrandName.replace(/"/g, '&quot;');
+            
+            let descEn = p.custom_commercial_description || '';
+            const escapedDescEn = descEn.replace(/"/g, '&quot;');
+
+            const nameHash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+            const isTopSeller = nameHash % 3 === 0;
+            const badgeBg = isTopSeller ? '#fff5f5' : '#f0fdf4';
+            const badgeBorder = isTopSeller ? '#fecdd3' : '#bbf7d0';
+            const badgeColor = isTopSeller ? '#e11d48' : '#16a34a';
+            const badgeIcon = isTopSeller ? 'ri-fire-fill' : 'ri-checkbox-circle-fill';
+            const badgeText = isTopSeller ? 'Hot Seller' : 'In Stock';
+            
+            const cardHtml = `
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 text-center p-2" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff;">
+                        <div style="height: 110px; display: flex; align-items: center; justify-content: center; padding: 10px;">
+                            <img src="${fullImgUrl}" style="max-height: 100px; max-width: 100%; object-fit: contain;" alt="${escapedName}" onerror="this.src='assets/img/logo.png'">
+                        </div>
+                        <div class="card-body p-1 mt-2 d-flex flex-column">
+                            <h6 class="card-title text-dark fw-bold mb-2" style="font-size: 12px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 31px;">${escapedName}</h6>
+                            <div class="mb-2 mt-auto">
+                                <span style="font-size: 10px; font-weight: 700; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 8px; border-radius: 4px; display: inline-block;">
+                                    <i class="${badgeIcon}"></i> ${badgeText}
+                                </span>
+                            </div>
+                            <button class="btn w-100" 
+                                onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;"
+                                style="background: #0177c6; color: white; font-weight: 700; border-radius: 6px; font-size: 12px; padding: 6px 0; transition: all 0.3s ease;">
+                                <i class="ri-search-eye-line"></i> Explore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.append(cardHtml);
+        });
     }
 
 

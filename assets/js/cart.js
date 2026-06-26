@@ -531,7 +531,10 @@ var QuoteCart = (function ($) {
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-12" style="margin-bottom: 15px;">
+                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Promo Code</label>
+                                         <input type="text" name="promo_code" class="form-control" placeholder="e.g. ONSHORE40 (Optional)" style="border: 1px dashed #ffc107; background: #fffcf2;">
+                                     </div>
                                     <div class="col-md-12" style="margin-bottom: 20px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Message</label>
                                         <textarea name="message" rows="4" class="form-control" placeholder="Additional details..."></textarea>
@@ -766,6 +769,7 @@ var QuoteCart = (function ($) {
 
         $(document).off('click', '.add-to-cart-btn, #spec-add-cart').on('click', '.add-to-cart-btn, #spec-add-cart', function (e) {
             e.preventDefault();
+
             var $btn = $(this);
             var id = $btn.attr('data-id') || $btn.data('id');
             var name = $btn.attr('data-name') || $btn.data('name') || id;
@@ -806,7 +810,12 @@ var QuoteCart = (function ($) {
                 brand: brand,
                 image: img
             }, true); // pass true to skip opening sidebar
+            
             $('#quoteRequestModal').modal('show');
+        });
+
+        $('#quoteRequestModal').on('show.bs.modal', function (e) {
+            // Login check removed - anyone can request a quote
         });
 
         $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {

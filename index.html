@@ -2,16 +2,19 @@
 <html lang="en">
 
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5XPVJ758');</script>
-<!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5XPVJ758');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="icon" type="image/x-icon" href="assets/img/favicon.png"> -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
     <!--=============== REMIXICONS ===============-->
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -43,13 +46,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         })(window, document, 'script', 'dataLayer', 'GTM-NGJW72VB');</script>
     <!-- End Google Tag Manager -->
 
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
+            authDomain: "onshore-live.firebaseapp.com",
+            projectId: "onshore-live",
+            storageBucket: "onshore-live.firebasestorage.app",
+            messagingSenderId: "941086058745",
+            appId: "1:941086058745:web:c4885dc345e6290d0e9a28",
+            measurementId: "G-6VJJ3HTR5L"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
 </head>
 
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XPVJ758"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XPVJ758" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGJW72VB" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -80,7 +102,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <li><a href="brands.html">Brands</a></li>
                     <li><a href="blog.html">News & Blogs</a></li>
                     <li><a href="career.html">Careers</a></li>
-
+                    <!-- <li><a href="login.html" id="nav-login-link">Login</a></li> -->
 
 
 
@@ -117,8 +139,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <h1 class="main_heading">Best Industrial Equipment Supplier in <span>Saudi Arabia</span>
                             </h1>
                             <p class="hero_desc">
-                                <strong>Explore our curated collection of certified industrial equipment. Built for reliability, designed for performance.</strong><br><br>
-                                <span style="font-size: 15px; opacity: 0.9;">Onshore Technical Supplies Est is known as the best industrial equipment supplier in Saudi Arabia, delivering certified products and customized industrial solutions across KSA and the GCC. With over 10 years of experience, we support industries such as construction, manufacturing, and marine, earning the trust of professionals who prioritize quality, reliability, and performance.</span>
+                                <strong>Explore our curated collection of certified industrial equipment. Built for
+                                    reliability, designed for performance.</strong><br><br>
+                                <span style="font-size: 15px; opacity: 0.9;">Onshore Technical Supplies Est is known as
+                                    the best industrial equipment supplier in Saudi Arabia, delivering certified
+                                    products and customized industrial solutions across KSA and the GCC. With over 10
+                                    years of experience, we support industries such as construction, manufacturing, and
+                                    marine, earning the trust of professionals who prioritize quality, reliability, and
+                                    performance.</span>
                             </p>
 
                             <div class="hero_search_bar">
@@ -153,8 +181,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     <div class="col-lg-6">
                         <div class="hero_image_container">
-                            <img src="assets/img/hero-ecommerce.png" class="img-fluid hero_main_img"
-                                alt="Industrial Equipment Showcase">
+                            <img src="assets/img/hero-ecommerce-original.webp" class="img-fluid hero_main_img"
+                                alt="Industrial Equipment Supplier Saudi Arabia">
 
                             <!-- Additional Floating Badges -->
                             <div class="floating_badge top_badge">
@@ -186,18 +214,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
         </section>
-        
+
         <div class="container mt-5">
             <!-- Saudi Arabia Delivery Network Section -->
-            <div class="mb-5 p-5 bg-white border shadow-sm"
-                style="border-radius: 12px; border-top: 5px solid #0177c6;">
+            <div class="mb-5 p-5 bg-white border shadow-sm" style="border-radius: 12px; border-top: 5px solid #0177c6;">
                 <div class="text-center mb-4">
                     <span class="sub_head text-primary mb-1 d-block"
                         style="font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Direct
                         B2B Supply Network</span>
                     <h3 class="font-weight-bold mb-2" style="color: #333; font-size: 26px;">Our products can be
                         purchased from several Saudi cities</h3>
-                    <p class="text-muted small mb-0 mx-auto" style="line-height: 1.6; font-size: 14px; max-width: 800px;">
+                    <p class="text-muted small mb-0 mx-auto"
+                        style="line-height: 1.6; font-size: 14px; max-width: 800px;">
                         Our products can be purchased from several Saudi cities location Dammam, Jubail, Al
                         Khobar, Ras tanura, Riyadh, Jeddah, Mecca, Medina, Yanbu, Neom, Rabigh, red sea
                         projects, qiddiya, al kaharj, Jazan, Khamis mushait.
@@ -223,64 +251,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Dammam</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Dammam</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Jubail</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Jubail</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Al Khobar</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Al
+                                Khobar</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Ras Tanura</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Ras
+                                Tanura</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Riyadh</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Riyadh</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Jeddah</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Jeddah</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Mecca</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Mecca</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Medina</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Medina</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Yanbu</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Yanbu</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
@@ -294,8 +322,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Rabigh</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i>
+                                Rabigh</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
@@ -317,22 +345,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Al Kharj</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Al
+                                Kharj</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Jazan Hub</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Jazan
+                                Hub</span>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="p-2 text-center location-badge-card h-100">
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
-                                    class="ri-map-pin-2-fill text-primary mr-1"
-                                    style="font-size: 14px;"></i> Khamis Mushait</span>
+                                    class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Khamis
+                                Mushait</span>
                         </div>
                     </div>
                 </div>
@@ -692,7 +720,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div>
                     <div class="number">
                         <p>Contact with us</p>
-                        <a href="tel:+966544580607">+966 54 458 0607</a> / <a href="tel:+966543496776">+966 54 349 6776</a>
+                        <a href="tel:+966544580607">+966 54 458 0607</a> / <a href="tel:+966543496776">+966 54 349
+                            6776</a>
                     </div>
                 </div>
 
@@ -714,7 +743,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="blog_details">
                                 <span class="blog_category">Marine</span>
                                 <a href="why-saudi-arabias-marine-industry-relies-on-heavy-duty-industrial-equipment.html"
-                                    class="post_title">Why Saudi Arabia’s Marine Industry Relies on Heavy-Duty Industrial Equipment</a>
+                                    class="post_title">Why Saudi Arabia’s Marine Industry Relies on Heavy-Duty
+                                    Industrial Equipment</a>
                                 <div class="post_meta">
                                     <span>By Admin</span>
                                     <span>May 13, 2026</span>
@@ -725,7 +755,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     <div class="single_blog">
                         <div class="blog_image blog_item">
-                            <img src="assets/img/blogs/b12.jpeg" class="img-fluid" alt="The Role of Safety and Compliance in Modern FMCG Operations">
+                            <img src="assets/img/blogs/b12.jpeg" class="img-fluid"
+                                alt="The Role of Safety and Compliance in Modern FMCG Operations">
                             <div class="blog_details">
                                 <span class="blog_category">Compliance</span>
                                 <a href="role-of-safety-and-compliance-in-modern-fmcg-operations.html"
@@ -743,7 +774,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div>
                         <div class="blox_box">
                             <div class="blog_image">
-                                <img src="assets/img/blogs/b11.jpeg" class="img-fluid" alt="5 Common Workplace Hazards and Safety Gear">
+                                <img src="assets/img/blogs/b11.jpeg" class="img-fluid"
+                                    alt="5 Common Workplace Hazards and Safety Gear">
                                 <div class="date_box">
                                     <i class="ri-calendar-2-line"></i>
                                     <h6>May 05</h6>
@@ -751,7 +783,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </div>
                             <div class="blog_details">
                                 <span class="blog_category">Safety</span>
-                                <h3 class="blog_title"><a href="5-common-workplace-hazards-and-safety-gear.html">5 Common Workplace Hazards and How the Right Safety Gear Prevents Them</a></h3>
+                                <h3 class="blog_title"><a href="5-common-workplace-hazards-and-safety-gear.html">5
+                                        Common Workplace Hazards and How the Right Safety Gear Prevents Them</a></h3>
                                 <a href="5-common-workplace-hazards-and-safety-gear.html" class="main-btn">Read More <i
                                         class="ri-arrow-right-line"></i></a>
                             </div>
@@ -761,7 +794,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div>
                         <div class="blox_box">
                             <div class="blog_image">
-                                <img src="assets/img/blogs/b10.jpeg" class="img-fluid" alt="Logistics Equipment Solutions Saudi Arabia">
+                                <img src="assets/img/blogs/b10.jpeg" class="img-fluid"
+                                    alt="Logistics Equipment Solutions Saudi Arabia">
                                 <div class="date_box">
                                     <i class="ri-calendar-2-line"></i>
                                     <h6>Apr 28</h6>
@@ -769,9 +803,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </div>
                             <div class="blog_details">
                                 <span class="blog_category">Logistics</span>
-                                <h3 class="blog_title"><a href="logistics-equipment-solutions-in-saudi-arabia.html">Logistics Equipment Solutions in Saudi Arabia for Safe and Efficient Operations</a></h3>
-                                <a href="logistics-equipment-solutions-in-saudi-arabia.html" class="main-btn">Read More <i
-                                        class="ri-arrow-right-line"></i></a>
+                                <h3 class="blog_title"><a
+                                        href="logistics-equipment-solutions-in-saudi-arabia.html">Logistics Equipment
+                                        Solutions in Saudi Arabia for Safe and Efficient Operations</a></h3>
+                                <a href="logistics-equipment-solutions-in-saudi-arabia.html" class="main-btn">Read More
+                                    <i class="ri-arrow-right-line"></i></a>
                             </div>
                         </div>
                     </div>
@@ -787,9 +823,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </div>
                             <div class="blog_details">
                                 <span class="blog_category">Oil & Gas</span>
-                                <h3 class="blog_title"><a href="industrial-equipment-solutions-for-oil-and-gas.html">Industrial Equipment Solutions for Oil & Gas Industry</a></h3>
-                                <a href="industrial-equipment-solutions-for-oil-and-gas.html" class="main-btn">Read More <i
-                                        class="ri-arrow-right-line"></i></a>
+                                <h3 class="blog_title"><a
+                                        href="industrial-equipment-solutions-for-oil-and-gas.html">Industrial Equipment
+                                        Solutions for Oil & Gas Industry</a></h3>
+                                <a href="industrial-equipment-solutions-for-oil-and-gas.html" class="main-btn">Read More
+                                    <i class="ri-arrow-right-line"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1392,6 +1430,76 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     </script>
 
+    <!-- Custom WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <!-- Floating Button -->
+        <div class="wa-button" id="wa-toggle">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+
+        <!-- Chat Popup -->
+        <div class="wa-popup" id="wa-popup">
+            <div class="wa-header">
+                <div class="wa-avatar">
+                    <!-- Placeholder using font awesome if logo fails to load properly inside circle -->
+                    <i class="fa-solid fa-headset" style="color: #095E54; font-size: 24px;"></i>
+                </div>
+                <div class="wa-info">
+                    <h5>Onshore Technical</h5>
+                    <p>Typically replies in minutes</p>
+                </div>
+                <div class="close-btn" id="wa-close">&times;</div>
+            </div>
+
+            <div class="wa-body">
+                <div class="wa-message">
+                    Hi there 👋<br>
+                    How can we help you today with our industrial equipment?
+                </div>
+            </div>
+
+            <div class="wa-footer">
+                <a href="https://wa.me/966544580607?text=Hello,%20I%20am%20interested%20in%20your%20products!"
+                    class="wa-start-chat" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i> Start Chat
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WhatsApp Widget Toggle Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const waToggle = document.getElementById('wa-toggle');
+            const waPopup = document.getElementById('wa-popup');
+            const waClose = document.getElementById('wa-close');
+
+            // Toggle manually
+            waToggle.addEventListener('click', function () {
+                waPopup.classList.toggle('active');
+            });
+
+            // Close button
+            waClose.addEventListener('click', function () {
+                waPopup.classList.remove('active');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!event.target.closest('.whatsapp-widget')) {
+                    waPopup.classList.remove('active');
+                }
+            });
+
+            // Automatically open the popup after 15 seconds (6000 milliseconds)
+            setTimeout(function () {
+                if (!waPopup.classList.contains('active')) {
+                    waPopup.classList.add('active');
+                }
+            }, 6000);
+        });
+    </script>
+    <script type="module" src="assets/js/auth.js"></script>
 </body>
 
 

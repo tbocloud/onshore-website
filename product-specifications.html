@@ -11,12 +11,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/products-redesign.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.png">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/products-redesign.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Product Specifications | Onshore Technical Supplies</title>
@@ -289,6 +289,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <meta property="og:image" content="https://www.onshoretechnical.com/assets/img/logo/logo.png">
     <meta name="twitter:image" content="https://www.onshoretechnical.com/assets/img/logo/logo.png">
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
+        authDomain: "onshore-live.firebaseapp.com",
+        projectId: "onshore-live",
+        storageBucket: "onshore-live.firebasestorage.app",
+        messagingSenderId: "941086058745",
+        appId: "1:941086058745:web:c4885dc345e6290d0e9a28",
+        measurementId: "G-6VJJ3HTR5L"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
 </head>
 
 <body>
@@ -300,8 +319,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <nav>
             <div class="wrapper container">
                 <div class="logo">
-                    <a href="./" aria-label="Onshore Technical Supplies Homepage">
-                        <img src="assets/img/white-logo.png" class="img-fluid logo-img"
+                    <a href="/" aria-label="Onshore Technical Supplies Homepage">
+                        <img src="/assets/img/white-logo.png" class="img-fluid logo-img"
                             alt="Onshore Technical Supplies Logo" width="180" height="42">
                     </a>
                 </div>
@@ -310,13 +329,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <ul class="nav-links">
                     <label for="cancel-btn" class="btn cancel-btn" aria-label="Close Mobile Menu"><i
                             class="ri-close-line"></i></label>
-                    <li><a href="./">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="industries.html">Industries</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="brands.html">Brands</a></li>
-                    <li><a href="blog.html">News & Blogs</a></li>
-                    <li><a href="career.html">Careers</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/industries.html">Industries</a></li>
+                    <li><a href="/products.html">Products</a></li>
+                    <li><a href="/brands.html">Brands</a></li>
+                    <li><a href="/blog.html">News & Blogs</a></li>
+                    <li><a href="/career.html">Careers</a></li>
                 </ul>
                 <div class="nav-right-icons">
                     <div class="cart-trigger" onclick="QuoteCart.openSidebar()" role="button"
@@ -325,7 +344,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <span class="quote-basket-count">0</span>
                     </div>
                     <div>
-                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
+                        <a href="/contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
                     </div>
                 </div>
                 <label for="menu-btn" class="btn menu-btn" aria-label="Open Mobile Menu"><i
@@ -342,10 +361,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <h6 id="hero-product-name" style="font-family: 'Outfit', sans-serif;">Product Specifications</h6>
                     <ul class="breadcrumbs"
                         style="margin: 0; list-style: none; padding: 0; display: flex; gap: 8px; font-size: 14px; font-family: 'Outfit', sans-serif; flex-wrap: wrap; align-items: center;">
-                        <li class="home"><a href="./"
+                        <li class="home"><a href="/"
                                 style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
                         <li style="color: rgba(255,255,255,0.4);">/</li>
-                        <li><a href="product-details.html"
+                        <li><a href="/product-details.html"
                                 style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
                         <li style="color: rgba(255,255,255,0.4);">/</li>
                         <li style="color: #ffffff; font-weight: 400;" id="breadcrumb-current">Loading Product...</li>
@@ -367,7 +386,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div id="spec-error" style="display: none;" class="alert alert-danger text-center">
                     <h5>Unable to load product details</h5>
                     <p>The requested product could not be found or there was a server error.</p>
-                    <a href="product-details.html" class="main-btn mt-3">Back to Products</a>
+                    <a href="/product-details.html" class="main-btn mt-3">Back to Products</a>
                 </div>
 
                 <div id="spec-content" style="display: none;" class="pd-layout">
@@ -501,8 +520,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="footer_container">
                 <div class="footer_column">
                     <div class="footer_logo">
-                        <a href="./" aria-label="Onshore Technical Supplies Homepage">
-                            <img src="assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo"
+                        <a href="/" aria-label="Onshore Technical Supplies Homepage">
+                            <img src="/assets/img/logo.png" class="img-fluid" alt="Onshore Technical Supplies Logo"
                                 width="180" height="42">
                         </a>
                     </div>
@@ -548,14 +567,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <h6 class="footer_title">More Links</h6>
 
                     <ul>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="./"> Home</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="brands.html"> Brands</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="career.html"> Careers</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/"> Home</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/about.html"> About Us</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/industries.html"> Industries</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/products.html"> Products</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/brands.html"> Brands</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/blog.html"> News & Blogs</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/career.html"> Careers</a></li>
+                        <li><i class="fa-solid fa-angles-right"></i> <a href="/contact.html"> Contact Us</a></li>
                     </ul>
 
 
@@ -587,8 +606,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/cart.js"></script>
-    <script src="assets/js/product-specifications.js"></script>
+    <script src="/assets/js/cart.js"></script>
+    <script src="/assets/js/product-specifications.js"></script>
+
+    <!-- Custom WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <!-- Floating Button -->
+        <div class="wa-button" id="wa-toggle">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+
+        <!-- Chat Popup -->
+        <div class="wa-popup" id="wa-popup">
+            <div class="wa-header">
+                <div class="wa-avatar">
+                    <!-- Placeholder using font awesome if logo fails to load properly inside circle -->
+                    <i class="fa-solid fa-headset" style="color: #095E54; font-size: 24px;"></i>
+                </div>
+                <div class="wa-info">
+                    <h5>Onshore Technical</h5>
+                    <p>Typically replies in minutes</p>
+                </div>
+                <div class="close-btn" id="wa-close">&times;</div>
+            </div>
+            
+            <div class="wa-body">
+                <div class="wa-message">
+                    Hi there 👋<br>
+                    How can we help you today with our industrial equipment?
+                </div>
+            </div>
+            
+            <div class="wa-footer">
+                <a href="https://wa.me/966544580607?text=Hello,%20I%20am%20interested%20in%20your%20products!" class="wa-start-chat" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i> Start Chat
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WhatsApp Widget Toggle Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const waToggle = document.getElementById('wa-toggle');
+            const waPopup = document.getElementById('wa-popup');
+            const waClose = document.getElementById('wa-close');
+
+            // Toggle manually
+            if (waToggle && waPopup) {
+                waToggle.addEventListener('click', function() {
+                    waPopup.classList.toggle('active');
+                });
+            }
+
+            // Close button
+            if (waClose && waPopup) {
+                waClose.addEventListener('click', function() {
+                    waPopup.classList.remove('active');
+                });
+            }
+
+            // Close when clicking outside
+            document.addEventListener('click', function(event) {
+                if (waPopup && !event.target.closest('.whatsapp-widget')) {
+                    waPopup.classList.remove('active');
+                }
+            });
+
+            // Automatically open the popup after 15 seconds (6000 milliseconds)
+            setTimeout(function() {
+                if (waPopup && !waPopup.classList.contains('active')) {
+                    waPopup.classList.add('active');
+                }
+            }, 6000);
+        });
+    </script>
+
+    <!-- Firebase Logic -->
+    <script type="module" src="/assets/js/auth.js"></script>
 </body>
 
 </html>

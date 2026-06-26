@@ -113,6 +113,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     }
     </script>
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
+        authDomain: "onshore-live.firebaseapp.com",
+        projectId: "onshore-live",
+        storageBucket: "onshore-live.firebasestorage.app",
+        messagingSenderId: "941086058745",
+        appId: "1:941086058745:web:c4885dc345e6290d0e9a28",
+        measurementId: "G-6VJJ3HTR5L"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
 </head>
 
 <body>
@@ -602,6 +621,82 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
     </script>
+
+    <!-- Custom WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <!-- Floating Button -->
+        <div class="wa-button" id="wa-toggle">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+
+        <!-- Chat Popup -->
+        <div class="wa-popup" id="wa-popup">
+            <div class="wa-header">
+                <div class="wa-avatar">
+                    <!-- Placeholder using font awesome if logo fails to load properly inside circle -->
+                    <i class="fa-solid fa-headset" style="color: #095E54; font-size: 24px;"></i>
+                </div>
+                <div class="wa-info">
+                    <h5>Onshore Technical</h5>
+                    <p>Typically replies in minutes</p>
+                </div>
+                <div class="close-btn" id="wa-close">&times;</div>
+            </div>
+            
+            <div class="wa-body">
+                <div class="wa-message">
+                    Hi there 👋<br>
+                    How can we help you today with our industrial equipment?
+                </div>
+            </div>
+            
+            <div class="wa-footer">
+                <a href="https://wa.me/966544580607?text=Hello,%20I%20am%20interested%20in%20your%20products!" class="wa-start-chat" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i> Start Chat
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WhatsApp Widget Toggle Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const waToggle = document.getElementById('wa-toggle');
+            const waPopup = document.getElementById('wa-popup');
+            const waClose = document.getElementById('wa-close');
+
+            // Toggle manually
+            if (waToggle && waPopup) {
+                waToggle.addEventListener('click', function() {
+                    waPopup.classList.toggle('active');
+                });
+            }
+
+            // Close button
+            if (waClose && waPopup) {
+                waClose.addEventListener('click', function() {
+                    waPopup.classList.remove('active');
+                });
+            }
+
+            // Close when clicking outside
+            document.addEventListener('click', function(event) {
+                if (waPopup && !event.target.closest('.whatsapp-widget')) {
+                    waPopup.classList.remove('active');
+                }
+            });
+
+            // Automatically open the popup after 15 seconds (6000 milliseconds)
+            setTimeout(function() {
+                if (waPopup && !waPopup.classList.contains('active')) {
+                    waPopup.classList.add('active');
+                }
+            }, 6000);
+        });
+    </script>
+
+    <!-- Firebase Logic -->
+    <script type="module" src="assets/js/auth.js"></script>
 </body>
 
 </html>
