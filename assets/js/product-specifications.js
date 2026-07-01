@@ -45,35 +45,77 @@ $(document).ready(function () {
 
     function init() {
         const urlSearch = new URLSearchParams(window.location.search);
-        let itemCode = urlSearch.get('item_code') || urlSearch.get('name');
-
-        // SEO-friendly URL detection: /products/{itemCode}/specifications
-        const pathParts = window.location.pathname.split('/').filter(Boolean);
-        if (!itemCode && pathParts.length >= 3 && pathParts[0] === 'products' && pathParts[2] === 'specifications') {
-            itemCode = decodeURIComponent(pathParts[1]);
-        }
+        let itemName = urlSearch.get('item_name');
 
         // Improved Hash Detection
-        if (!itemCode && window.location.hash) {
+        if (!itemName && window.location.hash) {
             const hash = window.location.hash.substring(1); // remove #
             const hashParams = new URLSearchParams(hash);
-            itemCode = hashParams.get('item_code') || hashParams.get('name') || hash; // handle #72LX88 format too
+            itemName = hashParams.get('item_name') || hash;
         }
 
-        console.log("Detected Item Code:", itemCode);
+        console.log("Detected Item Name:", itemName);
 
-        if (!itemCode || itemCode === 'undefined') {
+        if (!itemName || itemName === 'undefined') {
             $('#spec-loader').hide();
             $('#spec-error').show().find('p').text("No product specified in the URL. Please go back and select a product.");
             return;
         }
 
-        fetchProductDetails(itemCode);
+        // Try to find the product in cache using either item name or slug
+        const cachedData = sessionStorage.getItem('onshore_products_cache');
+        if (cachedData) {
+            try {
+                const parsed = JSON.parse(cachedData);
+                const found = parsed.find(p => p.item_name === itemName || toSlug(p.item_name || p.name) === itemName);
+                if (found) {
+                    console.log("Product found in cache. Rendering instantly.");
+                    renderProductDetails(found);
+                    return;
+                }
+            } catch (e) {
+                console.warn("Failed to parse cache in product specifications");
+            }
+        }
+
+        // Cache miss: We might only have a slug. 
+        // To get the exact item name for the API, fetch the catalog summary first.
+        resolveSlugAndFetch(itemName);
     }
 
-    async function fetchProductDetails(itemCode) {
+    async function resolveSlugAndFetch(slugOrName) {
         try {
-            const response = await fetch(`${API_URL}?item_code=${itemCode}`, {
+            // Fetch all products to resolve the slug
+            const catalogUrl = `${BASE_URL}/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000`;
+            const catResponse = await fetch(catalogUrl, {
+                headers: { 'Authorization': AUTH_TOKEN, 'Content-Type': 'application/json' }
+            });
+            
+            if (catResponse.ok) {
+                const catData = await catResponse.json();
+                const products = catData.message || [];
+                // Save to cache for next time
+                sessionStorage.setItem('onshore_products_cache', JSON.stringify(products));
+                
+                const found = products.find(p => p.item_name === slugOrName || toSlug(p.item_name || p.name) === slugOrName);
+                if (found) {
+                    // Render directly without making a second API call since get_item_details has everything
+                    renderProductDetails(found);
+                    return;
+                }
+            }
+
+            // Fallback: just try to fetch using what we have
+            fetchProductDetails(slugOrName);
+        } catch (e) {
+            console.error("Error resolving slug:", e);
+            fetchProductDetails(slugOrName);
+        }
+    }
+
+    async function fetchProductDetails(itemName) {
+        try {
+            const response = await fetch(`${API_URL}?item_name=${encodeURIComponent(itemName)}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': AUTH_TOKEN,
@@ -84,7 +126,6 @@ $(document).ready(function () {
             if (!response.ok) throw new Error("Product not found");
 
             const data = await response.json();
-            // Handle both object response and array response
             let product = data.message;
             if (Array.isArray(product)) {
                 product = product[0];
@@ -93,7 +134,7 @@ $(document).ready(function () {
             if (product) {
                 renderProductDetails(product);
             } else {
-                throw new Error("No product data found for this item code.");
+                throw new Error("No product data found.");
             }
         } catch (error) {
             console.error("Error fetching product specifications:", error);
@@ -141,18 +182,14 @@ $(document).ready(function () {
 
         $('.breadcrumbs').html(breadcrumbsHtml);
         
-        // ─── SEO: Clean URL, Canonical, Title & Meta Description ───────────────
-        const slug = toSlug(name);
-        const cleanPath = `/products/${slug}/specifications`;
-        const fullCanonicalUrl = `${window.location.origin}${cleanPath}`;
+        // ─── SEO: Canonical, Title & Meta Description ────────────────────────────
+        // Canonical uses the working ?item_code= URL (no server-side routing needed)
+        const itemNameParam = encodeURIComponent(p.item_name || p.name || '');
+        const canonicalUrl = `${window.location.origin}/product-specifications.html#item_name=${itemNameParam}`;
 
-        // Push clean URL to the browser without a page reload
-        try {
-            window.history.replaceState({ itemCode: p.name, slug }, name, cleanPath);
-        } catch (e) { /* ignore security errors in some iframes */ }
+        // Inject canonical tag so search engines index the correct URL
+        setCanonical(canonicalUrl);
 
-        // Inject canonical tag so search engines index the clean URL
-        setCanonical(fullCanonicalUrl);
 
         // Update document title
         document.title = `${name} | Onshore Technical Supplies`;
@@ -173,7 +210,7 @@ $(document).ready(function () {
         // Update OG/social meta tags too
         $('meta[property="og:title"]').attr('content', `${name} | Onshore Technical Supplies`);
         $('meta[property="og:description"]').attr('content', metaDesc.slice(0, 160));
-        $('meta[property="og:url"]').attr('content', fullCanonicalUrl);
+        $('meta[property="og:url"]').attr('content', canonicalUrl);
         
         // Render Title & Arabic Item Title
         const nameAr = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
@@ -185,7 +222,7 @@ $(document).ready(function () {
 
         const brandName = p.custom_brand_name || p.brand || 'General';
         $('#spec-brand').text(brandName);
-        $('#spec-subtitle').text(`Item Code: #${p.name}`);
+        $('#spec-subtitle').text(`Item Name: ${p.item_name || p.name}`);
 
         // Dynamic summary description underneath the code
         if (p.description) {

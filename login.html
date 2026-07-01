@@ -81,9 +81,44 @@
             background: #e8f5e9;
             color: #2e7d32;
         }
-        .hidden {
-            display: none;
+        .google-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: #fff;
+            color: #3c4043;
+            border: 1.5px solid #dadce0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+            text-decoration: none;
         }
+        .google-btn:hover {
+            background: #f8f9fa;
+            border-color: #bbb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        .hidden { display: none; }
     </style>
 
     <!-- Firebase Initialization -->
@@ -176,49 +211,40 @@
                     <div class="col-lg-6">
                         <div class="login-card" id="login-card" style="max-width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; padding: 40px; border-radius: 12px; background: #fff; margin: 0;">
                     <h2>Sign In</h2>
-                    
-                    <div class="auth-tabs" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd;">
-                        <button class="tab-btn active" id="tab-phone" style="flex: 1; padding: 10px; background: none; border: none; border-bottom: 2px solid #0177c6; font-weight: bold; color: #0177c6; cursor: pointer;">Phone Number</button>
-                        <button class="tab-btn" id="tab-email" style="flex: 1; padding: 10px; background: none; border: none; border-bottom: 2px solid transparent; font-weight: bold; color: #777; cursor: pointer;">Email Login</button>
-                    </div>
+                    <p class="text-muted mb-4" style="font-size: 14px;">Access your Onshore Technical account</p>
 
                     <!-- User Info (Hidden by default) -->
                     <div id="user-info" class="hidden">
-                        <h4 id="user-phone"></h4>
+                        <div style="padding: 16px; background: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 16px;">
+                            <p style="margin: 0; color: #166534; font-weight: 600;">✅ Logged in successfully!</p>
+                            <h4 id="user-phone" style="margin: 6px 0 0; font-size: 14px; color: #374151;"></h4>
+                        </div>
                         <button class="login-btn mt-3" style="background: #dc3545;" id="logout-btn">Log Out</button>
                     </div>
 
-                    <!-- Email Section -->
-                    <div id="email-section" class="hidden">
-                        <p class="text-muted mb-4">Sign in with a magic link sent to your email.</p>
-                        <div class="form-group">
-                            <label for="email-input">Email</label>
-                            <input type="email" id="email-input" placeholder="you@company.com">
-                        </div>
-                        <button class="login-btn" id="email-login-btn" style="margin-bottom: 10px;">Send Login Link</button>
-                    </div>
+                    <!-- Sign In Options -->
+                    <div id="sign-in-options">
+                        <!-- Continue with Google -->
+                        <button class="google-btn" id="google-signin-btn">
+                            <svg width="20" height="20" viewBox="0 0 48 48">
+                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                            </svg>
+                            Continue with Google
+                        </button>
 
-                    <!-- Phone Section -->
-                    <div id="phone-section">
-                        <p class="text-muted mb-4">Enter your mobile number to get an OTP.</p>
-                        
-                        <!-- Step 1: Phone Number -->
-                        <div id="step-1">
-                            <div class="form-group">
-                                <label for="phone-number">Phone Number</label>
-                                <input type="tel" id="phone-number" placeholder="+966 50 123 4567" value="+966">
-                            </div>
-                            <div id="recaptcha-container"></div>
-                            <button class="login-btn" id="send-otp-btn">Send OTP</button>
-                        </div>
+                        <div class="divider">or sign in with email</div>
 
-                        <!-- Step 2: OTP Verification -->
-                        <div id="step-2" class="hidden">
+                        <!-- Email Section -->
+                        <div id="email-section">
+                            <p class="text-muted mb-3" style="font-size: 13px;">We'll send a secure magic link to your inbox.</p>
                             <div class="form-group">
-                                <label for="otp-code">Enter OTP</label>
-                                <input type="text" id="otp-code" placeholder="123456" maxlength="6">
+                                <label for="email-input">Email Address</label>
+                                <input type="email" id="email-input" placeholder="you@company.com">
                             </div>
-                            <button class="login-btn" id="verify-otp-btn">Verify & Login</button>
+                            <button class="login-btn" id="email-login-btn">Send Login Link</button>
                         </div>
                     </div>
 

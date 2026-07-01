@@ -361,7 +361,10 @@ $(document).ready(function () {
 
         const name = p.item_name || p.name || 'Product';
         const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
-        const specsUrl = `/product-specifications.html?item_code=${encodeURIComponent(p.name || '')}`;
+        
+        // Generate a clean SEO-friendly slug for the URL
+        const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+        const specsUrl = `/product-specifications.html#${slug}`;
 
         let rawBrandName = p.custom_brand_name || '';
         let displayBrand = rawBrandName.toUpperCase();

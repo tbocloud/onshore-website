@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
@@ -14,111 +14,92 @@ const firebaseConfig = {
 // Initialize Firebase safely
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
-
-// Global Variables
-let confirmationResult = null;
+const googleProvider = new GoogleAuthProvider();
 
 // UI Elements
-const step1 = document.getElementById("step-1");
-const step2 = document.getElementById("step-2");
 const userInfo = document.getElementById("user-info");
-const phoneInput = document.getElementById("phone-number");
-const otpInput = document.getElementById("otp-code");
-const sendOtpBtn = document.getElementById("send-otp-btn");
-const verifyOtpBtn = document.getElementById("verify-otp-btn");
-const logoutBtn = document.getElementById("logout-btn");
+const signInOptions = document.getElementById("sign-in-options");
 const alertBox = document.getElementById("alert-message");
 const navLoginLink = document.getElementById("nav-login-link");
-
-// Email / Tab Elements
-const tabPhone = document.getElementById("tab-phone");
-const tabEmail = document.getElementById("tab-email");
-const phoneSection = document.getElementById("phone-section");
-const emailSection = document.getElementById("email-section");
+const logoutBtn = document.getElementById("logout-btn");
+const googleSignInBtn = document.getElementById("google-signin-btn");
 const emailInput = document.getElementById("email-input");
 const emailLoginBtn = document.getElementById("email-login-btn");
-const authTabs = document.querySelector(".auth-tabs");
 
 function showAlert(message, type = "error") {
     if (!alertBox) return;
     alertBox.textContent = message;
     alertBox.className = "alert-msg alert-" + type;
     alertBox.style.display = "block";
-    setTimeout(() => { alertBox.style.display = "none"; }, 5000);
+    setTimeout(() => { alertBox.style.display = "none"; }, 6000);
 }
 
-// Check Login State
+// ─── Auth State Observer ───────────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
     window.isUserLoggedIn = !!user;
-    
+
     if (navLoginLink) {
         navLoginLink.textContent = user ? "My Account" : "Login";
     }
 
-    if (!step1) return; // Not on login page
+    if (!userInfo) return; // Not on login page
 
     if (user) {
-        // User is signed in
-        step1.classList.add("hidden");
-        step2.classList.add("hidden");
-        if (emailSection) emailSection.classList.add("hidden");
-        if (phoneSection) phoneSection.classList.add("hidden");
-        if (authTabs) authTabs.style.display = "none";
+        if (signInOptions) signInOptions.classList.add("hidden");
         userInfo.classList.remove("hidden");
-        document.getElementById("user-phone").textContent = "Logged in as: " + (user.email || user.phoneNumber || "User");
-        
-        // Clean up messy Firebase URL if we just logged in via magic link
+        const displayName = user.displayName || user.email || user.phoneNumber || "User";
+        document.getElementById("user-phone").textContent = displayName;
+
+        // Clean up Firebase magic link URL params
         if (window.location.href.includes('apiKey=')) {
             window.history.replaceState({}, document.title, "/");
-            window.location.href = "/"; // Redirect to home page
+            window.location.href = "/";
         }
     } else {
-        // User is signed out
         userInfo.classList.add("hidden");
-        if (authTabs) authTabs.style.display = "flex";
-        // Reset to default tab (Phone)
-        if (tabPhone) tabPhone.click();
-        else {
-            step1.classList.remove("hidden");
-            step2.classList.add("hidden");
-        }
+        if (signInOptions) signInOptions.classList.remove("hidden");
     }
 });
 
-// Tab Toggling Logic
-if (tabPhone && tabEmail) {
-    tabPhone.addEventListener("click", () => {
-        tabPhone.classList.add("active");
-        tabPhone.style.borderBottomColor = "#0177c6";
-        tabEmail.classList.remove("active");
-        tabEmail.style.borderBottomColor = "transparent";
-        phoneSection.classList.remove("hidden");
-        emailSection.classList.add("hidden");
-    });
+// ─── Google Sign-In ───────────────────────────────────────────────────
+if (googleSignInBtn) {
+    googleSignInBtn.addEventListener("click", () => {
+        googleSignInBtn.disabled = true;
+        googleSignInBtn.textContent = "Signing in...";
 
-    tabEmail.addEventListener("click", () => {
-        tabEmail.classList.add("active");
-        tabEmail.style.borderBottomColor = "#0177c6";
-        tabPhone.classList.remove("active");
-        tabPhone.style.borderBottomColor = "transparent";
-        emailSection.classList.remove("hidden");
-        phoneSection.classList.add("hidden");
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                showAlert(`Welcome, ${result.user.displayName}! Redirecting...`, "success");
+                setTimeout(() => { window.location.href = "/"; }, 1500);
+            })
+            .catch((error) => {
+                console.error("Google Sign-In Error:", error);
+                if (error.code === "auth/popup-closed-by-user") {
+                    showAlert("Sign-in cancelled. Please try again.");
+                } else if (error.code === "auth/unauthorized-domain") {
+                    showAlert("This domain is not authorized in Firebase. Please contact support.");
+                } else {
+                    showAlert(error.message);
+                }
+                googleSignInBtn.disabled = false;
+                googleSignInBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
+            });
     });
 }
 
-// Email Passwordless Login
+// ─── Email Magic Link ─────────────────────────────────────────────────
 if (emailLoginBtn) {
-    // Check if user is returning from an email link
+    // Check if returning from email magic link
     if (isSignInWithEmailLink(auth, window.location.href)) {
         let email = window.localStorage.getItem('emailForSignIn');
         if (!email) {
-            email = window.prompt('Please provide your email for confirmation');
+            email = window.prompt('Please confirm your email address:');
         }
-        
         signInWithEmailLink(auth, email, window.location.href)
-            .then((result) => {
+            .then(() => {
                 window.localStorage.removeItem('emailForSignIn');
                 showAlert("Logged in successfully!", "success");
+                window.history.replaceState({}, document.title, "/login.html");
             })
             .catch((error) => {
                 console.error(error);
@@ -128,13 +109,13 @@ if (emailLoginBtn) {
 
     emailLoginBtn.addEventListener("click", () => {
         const email = emailInput.value.trim();
-        if (!email) {
-            showAlert("Please enter your email.");
+        if (!email || !email.includes('@')) {
+            showAlert("Please enter a valid email address.");
             return;
         }
 
         const actionCodeSettings = {
-            url: window.location.origin + '/login',
+            url: window.location.origin + '/login.html',
             handleCodeInApp: true
         };
 
@@ -144,7 +125,7 @@ if (emailLoginBtn) {
         sendSignInLinkToEmail(auth, email, actionCodeSettings)
             .then(() => {
                 window.localStorage.setItem('emailForSignIn', email);
-                showAlert("Login link sent! Please check your email.", "success");
+                showAlert("✅ Login link sent! Please check your inbox.", "success");
             })
             .catch((error) => {
                 console.error(error);
@@ -157,70 +138,12 @@ if (emailLoginBtn) {
     });
 }
 
-// Phone Auth Logic
-if (sendOtpBtn) {
-    // Initialize reCAPTCHA
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'normal',
-        'callback': (response) => {
-            // reCAPTCHA solved
-        }
-    });
-
-    sendOtpBtn.addEventListener("click", () => {
-        const phoneNumber = phoneInput.value.trim();
-        if (!phoneNumber || phoneNumber.length < 5) {
-            showAlert("Please enter a valid phone number with country code.");
-            return;
-        }
-
-        sendOtpBtn.disabled = true;
-        sendOtpBtn.textContent = "Sending...";
-
-        signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
-            .then((result) => {
-                confirmationResult = result;
-                step1.classList.add("hidden");
-                step2.classList.remove("hidden");
-                showAlert("OTP sent successfully!", "success");
-            })
-            .catch((error) => {
-                console.error(error);
-                showAlert(error.message);
-                sendOtpBtn.disabled = false;
-                sendOtpBtn.textContent = "Send OTP";
-                if (window.recaptchaVerifier) {
-                    window.recaptchaVerifier.render().then(function(widgetId) {
-                        grecaptcha.reset(widgetId);
-                    });
-                }
-            });
-    });
-
-    verifyOtpBtn.addEventListener("click", () => {
-        const code = otpInput.value.trim();
-        if (code.length !== 6) {
-            showAlert("Please enter the 6-digit OTP.");
-            return;
-        }
-
-        verifyOtpBtn.disabled = true;
-        verifyOtpBtn.textContent = "Verifying...";
-
-        confirmationResult.confirm(code).then((result) => {
-            showAlert("Logged in successfully!", "success");
-        }).catch((error) => {
-            console.error(error);
-            showAlert("Invalid OTP. Please try again.");
-            verifyOtpBtn.disabled = false;
-            verifyOtpBtn.textContent = "Verify & Login";
-        });
-    });
-
+// ─── Logout ───────────────────────────────────────────────────────────
+if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
         signOut(auth).then(() => {
             showAlert("Logged out successfully!", "success");
-        }).catch((error) => {
+        }).catch(() => {
             showAlert("Error logging out.");
         });
     });
