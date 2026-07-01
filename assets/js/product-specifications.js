@@ -47,7 +47,7 @@ $(document).ready(function () {
         const urlSearch = new URLSearchParams(window.location.search);
         let itemName = urlSearch.get('item_name');
 
-        // Improved Hash Detection
+        // Improved Hash Detection (Fallback just in case)
         if (!itemName && window.location.hash) {
             const hash = window.location.hash.substring(1); // remove #
             const hashParams = new URLSearchParams(hash);
@@ -184,8 +184,8 @@ $(document).ready(function () {
         
         // ─── SEO: Canonical, Title & Meta Description ────────────────────────────
         // Canonical uses the working ?item_code= URL (no server-side routing needed)
-        const itemNameParam = encodeURIComponent(p.item_name || p.name || '');
-        const canonicalUrl = `${window.location.origin}/product-specifications.html#item_name=${itemNameParam}`;
+        const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+        const canonicalUrl = `${window.location.origin}/product-specifications.html?item_name=${encodeURIComponent(slug)}`;
 
         // Inject canonical tag so search engines index the correct URL
         setCanonical(canonicalUrl);
