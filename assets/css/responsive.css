@@ -163,6 +163,20 @@
 
 
 @media screen and (max-width:600px){
+    .page_banner {
+        height: auto;
+        min-height: 250px;
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+    .page_banner .page_banner_content {
+        height: auto;
+        justify-content: flex-start;
+    }
+    .page_banner .page_banner_content h6 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
     .page_banner ul{
         display:none;
     }
