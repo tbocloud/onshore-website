@@ -1134,3 +1134,25 @@ body.user-logged-in .auth-only-stock {
     display: inline-block !important;
 }
 
+/* ─── Search Redesign ────────────────────────────────────── */
+.popular-search-pill {
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    color: var(--mid);
+    transition: all var(--ease);
+    user-select: none;
+}
+
+.popular-search-pill:hover {
+    border-color: var(--pr);
+    color: var(--pr);
+    background: var(--pr-xlight);
+}
+
+.main-search-input-group input:focus {
+    box-shadow: 0 0 0 3px rgba(1,119,198,.1) !important;
+    border-color: var(--pr) !important;
+}
