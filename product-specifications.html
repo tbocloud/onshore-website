@@ -669,6 +669,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const waPopup = document.getElementById('wa-popup');
             const waClose = document.getElementById('wa-close');
 
+            function markWhatsAppClosed() {
+                localStorage.setItem('waClosedAt', Date.now());
+            }
+
             // Toggle manually
             if (waToggle && waPopup) {
                 waToggle.addEventListener('click', function() {
@@ -680,20 +684,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             if (waClose && waPopup) {
                 waClose.addEventListener('click', function() {
                     waPopup.classList.remove('active');
+                    markWhatsAppClosed();
                 });
             }
 
             // Close when clicking outside
             document.addEventListener('click', function(event) {
-                if (waPopup && !event.target.closest('.whatsapp-widget')) {
+                if (waPopup && waPopup.classList.contains('active') && !event.target.closest('.whatsapp-widget')) {
                     waPopup.classList.remove('active');
+                    markWhatsAppClosed();
                 }
             });
 
-            // Automatically open the popup after 15 seconds (6000 milliseconds)
+            // Automatically open the popup after 6 seconds (if not closed recently)
             setTimeout(function() {
-                if (waPopup && !waPopup.classList.contains('active')) {
-                    waPopup.classList.add('active');
+                const lastClosed = localStorage.getItem('waClosedAt');
+                const fiveMins = 5 * 60 * 1000;
+                
+                if (!lastClosed || (Date.now() - parseInt(lastClosed)) > fiveMins) {
+                    if (waPopup && !waPopup.classList.contains('active')) {
+                        waPopup.classList.add('active');
+                    }
                 }
             }, 6000);
         });
