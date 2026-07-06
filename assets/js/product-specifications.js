@@ -234,6 +234,24 @@ $(document).ready(function () {
             }
         }
 
+        // Render Stock for logged in users
+        $('#spec-stock-info').remove();
+        if (typeof p.stock === 'number') {
+            const calculatedStock = Math.round(p.stock * 0.7);
+            let stockHtml = '';
+            if (calculatedStock > 0) {
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #10b981; font-weight: 700; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1fae5;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>${calculatedStock} units in stock</div>`;
+            } else {
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #ef4444; font-weight: 700; background: #fef2f2; padding: 6px 12px; border-radius: 6px; border: 1px solid #fee2e2;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>Out of stock</div>`;
+            }
+            
+            if ($('#spec-info-desc').length) {
+                $(stockHtml).insertAfter('#spec-info-desc');
+            } else {
+                $(stockHtml).insertAfter('#spec-subtitle');
+            }
+        }
+
         // 2. Images & Gallery
         const allImages = [];
         const processImg = (imgPath) => {

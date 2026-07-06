@@ -4,90 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Onshore Technical Supplies</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <!-- Fonts and Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <style>
-        .login-section {
-            padding: 100px 0;
-            background-color: #f9f9f9;
-            min-height: 80vh;
+        :root {
+            --login-primary: #0177c6;
+            --login-hover: #005a9c;
+            --login-text: #334155;
+            --login-muted: #64748b;
+            --login-bg: #f8fafc;
+            --login-border: #e2e8f0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: var(--primary-font, 'Inter', sans-serif);
+            background-color: #fff;
+        }
+
+        .split-login-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* ─── Left Side: Banner ─── */
+        .login-left {
+            flex: 1;
+            position: relative;
+            background: url('assets/img/herosection_new.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            color: #fff;
+        }
+
+        .login-left-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(2, 18, 38, 0.9) 0%, rgba(1, 119, 198, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .login-left-content {
+            position: relative;
+            z-index: 2;
+            max-width: 550px;
+        }
+
+        .back-home-link {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-home-link:hover {
+            opacity: 0.8;
+            color: #fff;
+        }
+
+        .login-logo {
+            width: 200px;
+            margin-bottom: 50px;
+        }
+
+        .login-left-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-family: var(--secondary-font, 'Montserrat', sans-serif);
+            line-height: 1.2;
+        }
+
+        .login-left-content p {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .login-left-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .login-left-content ul li {
+            font-size: 16px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
+            gap: 12px;
         }
-        .login-card {
+
+        .login-left-content ul li i {
+            color: #38bdf8;
+            font-size: 22px;
+        }
+
+        /* ─── Right Side: Form ─── */
+        .login-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #fff;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            max-width: 450px;
-            margin: 0 auto;
-            text-align: center;
+            position: relative;
         }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .login-card h2 {
-            margin-bottom: 20px;
-            color: #333;
+            font-size: 32px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-family: var(--secondary-font, 'Montserrat', sans-serif);
         }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+
+        .login-card > p {
+            color: var(--login-muted);
+            font-size: 15px;
+            margin-bottom: 40px;
+            margin-top: 0;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #0177c6;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .login-btn:hover {
-            background: #005a9c;
-        }
-        #recaptcha-container {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: center;
-        }
-        .alert-msg {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        .alert-error {
-            background: #ffebee;
-            color: #c62828;
-        }
-        .alert-success {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
+
+        /* Google Button */
         .google-btn {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 24px;
             background: #fff;
-            color: #3c4043;
-            border: 1.5px solid #dadce0;
-            border-radius: 8px;
+            color: #334155;
+            border: 1px solid var(--login-border);
+            border-radius: 12px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
@@ -95,243 +167,327 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            transition: all 0.2s;
-            margin-bottom: 16px;
-            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            font-family: var(--primary-font, 'Inter', sans-serif);
         }
-        .google-btn:hover {
-            background: #f8f9fa;
-            border-color: #bbb;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+        .google-btn:hover:not(:disabled) {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-1px);
         }
+
+        .google-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .divider {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin: 16px 0;
+            gap: 16px;
+            margin: 30px 0;
             color: #94a3b8;
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 500;
         }
+
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: #e2e8f0;
+            background: #f1f5f9;
         }
-        .hidden { display: none; }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--login-border);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: var(--primary-font, 'Inter', sans-serif);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: #f8fafc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--login-primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(1, 119, 198, 0.1);
+        }
+
+        /* Primary Button */
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--login-primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(1, 119, 198, 0.3);
+            font-family: var(--primary-font, 'Inter', sans-serif);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            background: var(--login-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(1, 119, 198, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* User Info State */
+        .hidden { display: none !important; }
+
+        #user-info {
+            text-align: center;
+        }
+
+        .success-box {
+            padding: 24px;
+            background: #f0fdf4;
+            border-radius: 16px;
+            border: 1px solid #bbf7d0;
+            margin-bottom: 24px;
+        }
+
+        .success-box i {
+            font-size: 48px;
+            color: #22c55e;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .success-box p {
+            margin: 0 0 8px 0;
+            color: #166534;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .success-box h4 {
+            margin: 0;
+            font-size: 15px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        #logout-btn {
+            background: #fff;
+            color: #ef4444;
+            border: 1.5px solid #fca5a5;
+            box-shadow: none;
+        }
+
+        #logout-btn:hover {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        /* Alerts */
+        .alert-msg {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            display: none;
+        }
+
+        .login-btn.loading .spinner { display: block; }
+        .login-btn.loading .btn-text { display: none; }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .explore-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0177c6 0%, #005a9c 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(1, 119, 198, 0.3);
+            font-family: var(--primary-font, 'Inter', sans-serif);
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(1, 119, 198, 0.4);
+            color: #fff;
+        }
+
+        .explore-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .explore-btn:hover i {
+            transform: translateX(4px);
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .split-login-container {
+                flex-direction: column;
+            }
+            .login-left {
+                padding: 40px 24px;
+                flex: none;
+                min-height: 400px;
+            }
+            .back-home-link {
+                top: 20px;
+                left: 20px;
+            }
+            .login-logo {
+                width: 160px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+            .login-left-content h1 {
+                font-size: 32px;
+            }
+        }
     </style>
-
-    <!-- Firebase Initialization -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyAM4XYdn1PiUbeo1oRyjJLlb3vWC7fVXA8",
-        authDomain: "onshore-live.firebaseapp.com",
-        projectId: "onshore-live",
-        storageBucket: "onshore-live.firebasestorage.app",
-        messagingSenderId: "941086058745",
-        appId: "1:941086058745:web:c4885dc345e6290d0e9a28",
-        measurementId: "G-6VJJ3HTR5L"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-    </script>
 </head>
 <body>
-    <header>
-
-        <nav>
-            <div class="wrapper container">
-                <div class="logo">
-                    <a href="./">
-                        <img src="assets/img/white-logo.png" class="img-fluid logo-img" alt="">
-                    </a>
-                </div>
-
-                <input type="radio" name="slide" id="menu-btn">
-                <input type="radio" name="slide" id="cancel-btn">
-                <ul class="nav-links">
-                    <label for="cancel-btn" class="btn cancel-btn"><i class="ri-close-line"></i></label>
-
-                    <li><a href="./">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="industries.html">Industries</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="brands.html">Brands</a></li>
-                    <li><a href="blog.html">News & Blogs</a></li>
-                    <li><a href="career.html">Careers</a></li>
-                    <li><a href="login.html" id="nav-login-link" class="active">Login</a></li>
+    <a href="./" class="back-home-link"><i class="ri-arrow-left-line"></i> Back to Home</a>
+    
+    <div class="split-login-container">
+        <!-- Left Side: Banner -->
+        <div class="login-left">
+            <div class="login-left-overlay"></div>
+            <div class="login-left-content">
+                <img src="assets/img/white-logo.png" alt="Onshore Technical Supplies" class="login-logo">
+                <h1>Welcome Back to Onshore Technical</h1>
+                <p>Access your account to seamlessly manage your quotes, view exclusive pricing, and fast-track your industrial supply orders.</p>
+                <ul>
+                    <li><i class="ri-checkbox-circle-fill"></i> Track and manage your quote requests</li>
+                    <li><i class="ri-checkbox-circle-fill"></i> Fast and secure checkout process</li>
+                    <li><i class="ri-checkbox-circle-fill"></i> Exclusive access to premium industrial brands</li>
                 </ul>
-
-                <div class="nav-right-icons">
-                    <div class="cart-trigger" onclick="QuoteCart.openSidebar()">
-                        <i class="ri-shopping-basket-fill"></i>
-                        <span class="quote-basket-count">0</span>
-                    </div>
-                    <div>
-                        <a href="contact.html" class="main-btn">Contact Now <i class="ri-arrow-right-line"></i></a>
-                    </div>
-                </div>
-
-                <label for="menu-btn" class="btn menu-btn"><i class="ri-menu-line"></i></label>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <div class="page_banner">
-            <div class="container">
-                <div class="page_banner_content">
-                    <h1 class="main_heading" style="color: #fff;">Account Access</h1>
-                    <ul>
-                        <li class="home"><a href="./">Home</a></li> /
-                        <li>Login</li>
-                    </ul>
-                </div>
             </div>
         </div>
 
-        <section class="login-section" style="padding: 80px 0;">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="login-text-content" style="padding-right: 30px;">
-                            <h2 style="color: #0b1c2c; font-family: var(--secondary-font); font-weight: 700; margin-bottom: 20px;">Welcome Back to Onshore Technical</h2>
-                            <p style="color: #475569; font-size: 16px; line-height: 1.8; margin-bottom: 30px;">Access your account to seamlessly manage your quotes, view exclusive pricing, and fast-track your industrial supply orders.</p>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Track and manage your quote requests</span></li>
-                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Fast and secure checkout process</span></li>
-                                <li style="margin-bottom: 15px; display: flex; align-items: center;"><i class="ri-checkbox-circle-fill" style="color: #0177c6; font-size: 20px; margin-right: 10px;"></i> <span style="font-weight: 500;">Exclusive access to premium industrial brands</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="login-card" id="login-card" style="max-width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; padding: 40px; border-radius: 12px; background: #fff; margin: 0;">
-                    <h2>Sign In</h2>
-                    <p class="text-muted mb-4" style="font-size: 14px;">Access your Onshore Technical account</p>
+        <!-- Right Side: Form -->
+        <div class="login-right">
+            <div class="login-card" id="login-card">
+                <h2>Sign In</h2>
+                <p class="text-muted">Access your Onshore Technical account</p>
 
-                    <!-- User Info (Hidden by default) -->
-                    <div id="user-info" class="hidden">
-                        <div style="padding: 16px; background: #f0fdf4; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 16px;">
-                            <p style="margin: 0; color: #166534; font-weight: 600;">✅ Logged in successfully!</p>
-                            <h4 id="user-phone" style="margin: 6px 0 0; font-size: 14px; color: #374151;"></h4>
-                        </div>
-                        <button class="login-btn mt-3" style="background: #dc3545;" id="logout-btn">Log Out</button>
+                <!-- User Info (Hidden by default) -->
+                <div id="user-info" class="hidden">
+                    <div class="success-box">
+                        <i class="ri-shield-check-fill"></i>
+                        <p>Logged in successfully!</p>
+                        <h4 id="user-phone"></h4>
                     </div>
+                    
+                    <a href="products.html" class="explore-btn">
+                        <span>Explore Products</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
 
-                    <!-- Sign In Options -->
-                    <div id="sign-in-options">
-                        <!-- Continue with Google -->
-                        <button class="google-btn" id="google-signin-btn">
-                            <svg width="20" height="20" viewBox="0 0 48 48">
-                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                            </svg>
-                            Continue with Google
+                    <button class="login-btn" id="logout-btn">Log Out</button>
+                </div>
+
+                <!-- Sign In Options -->
+                <div id="sign-in-options">
+                    <!-- Continue with Google -->
+                    <button class="google-btn" id="google-signin-btn">
+                        <svg width="22" height="22" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        <span class="btn-text">Continue with Google</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <div class="divider">or sign in with email</div>
+
+                    <!-- Email Section -->
+                    <div id="email-section">
+                        <div class="form-group">
+                            <label for="email-input">Email Address</label>
+                            <input type="email" id="email-input" placeholder="you@company.com" autocomplete="email">
+                        </div>
+                        <button class="login-btn" id="email-login-btn">
+                            <span class="btn-text">Send Magic Link</span>
+                            <div class="spinner"></div>
                         </button>
-
-                        <div class="divider">or sign in with email</div>
-
-                        <!-- Email Section -->
-                        <div id="email-section">
-                            <p class="text-muted mb-3" style="font-size: 13px;">We'll send a secure magic link to your inbox.</p>
-                            <div class="form-group">
-                                <label for="email-input">Email Address</label>
-                                <input type="email" id="email-input" placeholder="you@company.com">
-                            </div>
-                            <button class="login-btn" id="email-login-btn">Send Login Link</button>
-                        </div>
-                    </div>
-
-                    <div id="alert-message" class="alert-msg"></div>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <div class="container">
-
-            <div class="footer_container">
-                <div class="footer_column">
-                    <div class="footer_logo">
-                        <img src="assets/img/logo.png" class="img-fluid" alt="">
-                    </div>
-
-                    <p class="footer_desc">Providing reliable technical supplies and innovative solutions to empower
-                        industries with quality and trust</p>
-
-                    <ul class="social_links">
-                        <li><a href="https://www.facebook.com/profile.php?id=61578903729677" target="_blank"><i
-                                    class="ri-facebook-circle-line"></i></a></li>
-
-                        <li><a href="https://www.instagram.com/onshore_technical_supply/"><i
-                                    class="ri-instagram-line"></i></a></li>
-
-                        <li><a href="https://www.youtube.com/@onshoretechnicalsupply" target="_blank"><i
-                                    class="ri-youtube-fill"></i></a></li>
-
-                        <li><a href="https://www.linkedin.com/company/108125902/admin/dashboard/" target="_blank"><i
-                                    class="ri-linkedin-box-fill"></i></a></li>
-
-                        <li><a href="https://www.snapchat.com/add/onshore_ksa?share_id=9jj0RbG2wOs&locale=en-US"
-                                target="_blank"><i class="ri-snapchat-line"></i></a></li>
-
-                        <li><a href="https://www.tiktok.com/@onshoretechnicalsupply?_t=ZS-8z086rA2jK5&_r=1"
-                                target="_blank"><i class="fa-brands fa-tiktok"></i></a></li>
-                    </ul>
-                </div>
-
-                <div class="footer_column">
-                    <h6 class="footer_title">More Links</h6>
-
-                    <ul>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="./"> Home</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="about.html"> About Us</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="industries.html"> Industries</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="products.html"> Products</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="brands.html"> Brands</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="blog.html"> News & Blogs</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="career.html"> Careers</a></li>
-                        <li><i class="fa-solid fa-angles-right"></i> <a href="contact.html"> Contact Us</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer_column contact-details">
-                    <h6 class="footer_title">Get In Touch</h6>
-
-                    <p>Location</p>
-                    <span>ONSHORE TECHNICAL SUPPLIES CO, <br>
-                        Al Muhammadiyah District, <br>
-                        Dammam 32242, Kingdom of Saudi Arabia (KSA)</span>
-
-                    <p>Mobile</p>
-
-                    <a href="https://wa.me/966544580607?text=Hello%20I%20need%20product%20details" target="_blank"><i
-                            class="fa-brands fa-whatsapp text-success"></i>+966544580607</a> /
-                    <a href="https://wa.me/966543496776?text=Hello%20I%20need%20product%20details" target="_blank"><i
-                            class="fa-brands fa-whatsapp text-success"></i>+966543496776</a>
-
-                    <p>E-Mail Address</p>
-                    <a href="#">enquiry@onshoretechnical.com.sa</a>
-                </div>
-
-            </div>
-
-            <div class="copyright text-center">
-                <p>© 2026 <span style="color:#0177c6;">Onshore</span> All rights reserved</p>
+                <div id="alert-message" class="alert-msg"></div>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Firebase Logic -->
     <script type="module" src="assets/js/auth.js"></script>
 </body>
 </html>

@@ -1128,3 +1128,9 @@
     height: 32px;
   }
 }
+
+/* Reveal stock for logged in users */
+body.user-logged-in .auth-only-stock {
+    display: inline-block !important;
+}
+

@@ -77,6 +77,14 @@ var QuoteCart = (function ($) {
                                     </table>
                                 </div>
                             </div>
+                            <!-- Auth Prompt Section -->
+                            <div id="quote-auth-prompt" style="display:none; text-align:center; padding: 40px 20px;">
+                                <i class="ri-lock-2-line" style="font-size: 48px; color: #0177c6; margin-bottom: 20px; display: inline-block;"></i>
+                                <h4 style="font-weight: 700; color: #333; margin-bottom: 15px;">Sign In to Submit Your Quote</h4>
+                                <p style="color: #666; margin-bottom: 25px; font-size: 15px;">Please sign in to your Onshore Technical account so we can securely process your request and link it to your account.</p>
+                                <a href="login.html" class="btn btn-primary" style="background: #0177c6; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px;">Sign In Now</a>
+                            </div>
+
                             <!-- Form Section -->
                             <form id="quote-form-modal">
                                 <!-- Honeypot field (hidden from humans) -->
@@ -815,7 +823,13 @@ var QuoteCart = (function ($) {
         });
 
         $('#quoteRequestModal').on('show.bs.modal', function (e) {
-            // Login check removed - anyone can request a quote
+            if (window.isUserLoggedIn) {
+                $('#quote-auth-prompt').hide();
+                $('#quote-form-modal').show();
+            } else {
+                $('#quote-form-modal').hide();
+                $('#quote-auth-prompt').show();
+            }
         });
 
         $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {

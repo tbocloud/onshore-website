@@ -274,10 +274,11 @@ nav .wrapper {
 .nav-links li a {
   color: #ffffff;
   text-decoration: none;
-  padding: 9px 15px;
+  padding: 8px 10px;
   text-transform: uppercase;
   transition: all .4s;
-  font-size: 14px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .nav-links li a:hover {

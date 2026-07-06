@@ -105,6 +105,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
                 </ul>
 
                 <div class="nav-right-icons">
@@ -193,6 +194,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div id="contact-form-status" class="alert d-none" style="border-radius: 8px;"></div>
                             
                             <form id="onshore-contact-form">
+                                <!-- HONEYPOT FIELD (Hidden from humans, bots will fill this out) -->
+                                <input type="text" name="company_website" style="display:none !important" tabindex="-1" autocomplete="off">
+                                
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label" style="font-weight: 600; font-size: 14px; color: #475569;">Full Name *</label>
@@ -470,7 +474,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 name: $('input[name="name"]').val().trim(),
                 email: $('input[name="email"]').val().trim(),
                 phone: $('input[name="phone"]').val().trim(),
-                message: $('textarea[name="message"]').val().trim()
+                message: $('textarea[name="message"]').val().trim(),
+                company_website: $('input[name="company_website"]').val()
             };
 
             $.ajax({

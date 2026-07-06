@@ -379,6 +379,15 @@ $(document).ready(function () {
 
         const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;');
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
+        let stockDisplay = '';
+        if (typeof p.stock === 'number') {
+            const calculatedStock = Math.round(p.stock * 0.7);
+            if (calculatedStock > 0) {
+                stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #10b981; font-weight: 700; margin-top: 5px;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>${calculatedStock} units in stock</div>`;
+            } else {
+                stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-top: 5px;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>Out of stock</div>`;
+            }
+        }
 
         return `
             <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
@@ -409,6 +418,7 @@ $(document).ready(function () {
                     ${p.item_group ? `<span class="pc-subcat" style="font-size: 11px; font-weight: 700; color: #0177c6; display: block; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Outfit', sans-serif;"><i class="ri-folder-open-line" style="vertical-align: middle; margin-right: 3px;"></i>${p.parent_item_group ? `${p.parent_item_group.trim().toUpperCase()} / ` : ''}${p.item_group.trim().toUpperCase()}</span>` : ''}
                     <p class="pc-name" style="margin-top: 4px; font-weight: 600; line-height: 1.4;">${name}</p>
                     ${arabicName ? `<span class="pc-arabic">${arabicName}</span>` : ''}
+                    ${stockDisplay}
                     <div class="pc-actions">
                         <button class="pc-btn-primary add-to-cart-btn"
                             data-id="${p.name || ''}"
