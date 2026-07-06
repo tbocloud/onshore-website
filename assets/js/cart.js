@@ -69,7 +69,7 @@ var QuoteCart = (function ($) {
                                         </div>
                                     </div>
                                 </div>
-                                <div id="modal-quote-cart-items" style="max-height: 300px; overflow-y: auto;">
+                                <div id="modal-quote-cart-items" style="max-height: 160px; overflow-y: auto;">
                                     <table class="table" style="width: 100%; margin-bottom: 0;">
                                         <tbody id="modal-quote-cart-body">
                                             <!-- Modal cart items will be injected here -->
@@ -77,12 +77,29 @@ var QuoteCart = (function ($) {
                                     </table>
                                 </div>
                             </div>
-                            <!-- Auth Prompt Section -->
-                            <div id="quote-auth-prompt" style="display:none; text-align:center; padding: 40px 20px;">
-                                <i class="ri-lock-2-line" style="font-size: 48px; color: #0177c6; margin-bottom: 20px; display: inline-block;"></i>
-                                <h4 style="font-weight: 700; color: #333; margin-bottom: 15px;">Sign In to Submit Your Quote</h4>
-                                <p style="color: #666; margin-bottom: 25px; font-size: 15px;">Please sign in to your Onshore Technical account so we can securely process your request and link it to your account.</p>
-                                <a href="login.html" class="btn btn-primary" style="background: #0177c6; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px;">Sign In Now</a>
+                            <div id="quote-auth-prompt" style="display:none; text-align:center; padding: 15px 20px;">
+                                <i class="ri-lock-2-line" style="font-size: 36px; color: #0177c6; margin-bottom: 10px; display: inline-block;"></i>
+                                <h4 style="font-weight: 700; color: #333; margin-bottom: 5px; font-size: 20px;">Sign In to Submit Your Quote</h4>
+                                <p style="color: #666; margin-bottom: 15px; font-size: 13px;">Please sign in to securely process your request and link it to your account.</p>
+                                
+                                <div style="max-width: 320px; margin: 0 auto; text-align: left;">
+                                    <div style="margin-bottom: 10px;">
+                                        <input type="email" id="cart-email-input" class="form-control" placeholder="Enter Email Address" style="border: 1px solid #ddd; border-radius: 4px; padding: 10px; font-size: 14px; box-shadow: none;">
+                                    </div>
+                                    <button type="button" id="cart-email-login-btn" class="btn btn-primary w-100" style="background: #fb641b; color: white; border: none; padding: 10px; font-size: 14px; font-weight: 600; border-radius: 4px; transition: background 0.3s;">
+                                        Request Magic Link
+                                    </button>
+                                    
+                                    <div style="display: flex; align-items: center; margin: 12px 0; color: #878787; font-size: 12px;">
+                                        <div style="flex: 1; height: 1px; background: #e0e0e0;"></div>
+                                        <span style="padding: 0 10px; background: #fff;">OR</span>
+                                        <div style="flex: 1; height: 1px; background: #e0e0e0;"></div>
+                                    </div>
+                                    
+                                    <button type="button" id="cart-google-signin-btn" class="btn w-100" style="background: #fff; color: #444; border: 1px solid #ddd; padding: 10px; font-size: 14px; font-weight: 500; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.3s;">
+                                        <img src="https://www.google.com/favicon.ico" width="16" height="16"> Sign in with Google
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Form Section -->

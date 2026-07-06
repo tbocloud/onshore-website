@@ -91,11 +91,36 @@ const emailLoginBtn = document.getElementById("modal-email-login-btn");
 const modalOverlay = document.getElementById("loginModalOverlay");
 
 function showAlert(message, type = "error") {
-    if (!alertBox) return;
-    alertBox.textContent = message;
-    alertBox.style.backgroundColor = type === "success" ? "#10b981" : "#ef4444";
-    alertBox.style.display = "block";
-    setTimeout(() => { alertBox.style.display = "none"; }, 6000);
+    let globalAlert = document.getElementById("global-auth-toast");
+    if (!globalAlert) {
+        globalAlert = document.createElement("div");
+        globalAlert.id = "global-auth-toast";
+        globalAlert.style.position = "fixed";
+        globalAlert.style.top = "20px";
+        globalAlert.style.right = "20px";
+        globalAlert.style.padding = "15px 20px";
+        globalAlert.style.color = "#fff";
+        globalAlert.style.borderRadius = "8px";
+        globalAlert.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
+        globalAlert.style.zIndex = "999999";
+        globalAlert.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        globalAlert.style.opacity = "0";
+        globalAlert.style.transform = "translateY(-10px)";
+        globalAlert.style.pointerEvents = "none";
+        globalAlert.style.fontWeight = "600";
+        globalAlert.style.fontSize = "14px";
+        document.body.appendChild(globalAlert);
+    }
+    
+    globalAlert.textContent = message;
+    globalAlert.style.backgroundColor = type === "success" ? "#10b981" : "#ef4444";
+    globalAlert.style.opacity = "1";
+    globalAlert.style.transform = "translateY(0)";
+    
+    setTimeout(() => { 
+        globalAlert.style.opacity = "0"; 
+        globalAlert.style.transform = "translateY(-10px)";
+    }, 4000);
 }
 
 // ─── Utility to handle loading states ──────────────────────────────────
@@ -160,16 +185,56 @@ onAuthStateChanged(auth, (user) => {
             showAlert("Logged in successfully!", "success");
             setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
         }
+
+        // Update Quote Cart Modal if it's open
+        const quoteAuthPrompt = document.getElementById('quote-auth-prompt');
+        const quoteFormModal = document.getElementById('quote-form-modal');
+        if (quoteAuthPrompt && quoteFormModal) {
+            // Use jQuery since cart.js uses jQuery hide/show
+            if (typeof $ !== 'undefined') {
+                $('#quote-auth-prompt').hide();
+                $('#quote-form-modal').show();
+            } else {
+                quoteAuthPrompt.style.display = 'none';
+                quoteFormModal.style.display = 'block';
+            }
+        }
     } else {
         if (userInfo) userInfo.style.display = "none";
         if (signInOptions) signInOptions.style.display = "block";
     }
 });
 
-// ─── Google Sign-In ───────────────────────────────────────────────────
-if (googleSignInBtn) {
-    googleSignInBtn.addEventListener("click", () => {
-        setLoading("modal-google-signin-btn", true);
+// ─── Email Magic Link Landing ─────────────────────────────────────────
+// Check if returning from email magic link
+if (isSignInWithEmailLink(auth, window.location.href)) {
+    modalOverlay.classList.add('active'); // auto open modal if returning from email link
+    let email = window.localStorage.getItem('emailForSignIn');
+    if (!email) {
+        email = window.prompt('Please confirm your email address:');
+    }
+    setLoading("modal-email-login-btn", true);
+    signInWithEmailLink(auth, email, window.location.href)
+        .then(() => {
+            window.localStorage.removeItem('emailForSignIn');
+            setLoading("modal-email-login-btn", false);
+            showAlert("Logged in successfully!", "success");
+            window.history.replaceState({}, document.title, window.location.pathname);
+            setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
+        })
+        .catch((error) => {
+            console.error(error);
+            showAlert(error.message);
+        });
+}
+
+// ─── Global Event Delegation for Auth Buttons ─────────────────────────
+document.addEventListener("click", (e) => {
+    // Google Sign-In
+    const googleBtn = e.target.closest("#modal-google-signin-btn") || e.target.closest("#cart-google-signin-btn");
+    if (googleBtn) {
+        const btnId = googleBtn.id;
+        setLoading(btnId, true);
 
         signInWithPopup(auth, googleProvider)
             .then((result) => {
@@ -185,37 +250,18 @@ if (googleSignInBtn) {
                 } else {
                     showAlert(error.message);
                 }
-                setLoading("modal-google-signin-btn", false);
-            });
-    });
-}
-
-// ─── Email Magic Link ─────────────────────────────────────────────────
-if (emailLoginBtn) {
-    // Check if returning from email magic link
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-        modalOverlay.classList.add('active'); // auto open modal if returning from email link
-        let email = window.localStorage.getItem('emailForSignIn');
-        if (!email) {
-            email = window.prompt('Please confirm your email address:');
-        }
-        setLoading("modal-email-login-btn", true);
-        signInWithEmailLink(auth, email, window.location.href)
-            .then(() => {
-                window.localStorage.removeItem('emailForSignIn');
-                setLoading("modal-email-login-btn", false);
-                showAlert("Logged in successfully!", "success");
-                window.history.replaceState({}, document.title, window.location.pathname);
-                setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
-            })
-            .catch((error) => {
-                console.error(error);
-                showAlert(error.message);
+                setLoading(btnId, false);
             });
     }
 
-    emailLoginBtn.addEventListener("click", () => {
-        const email = emailInput.value.trim();
+    // Email Magic Link
+    const emailBtn = e.target.closest("#modal-email-login-btn") || e.target.closest("#cart-email-login-btn");
+    if (emailBtn) {
+        const btnId = emailBtn.id;
+        const inputId = btnId === "cart-email-login-btn" ? "cart-email-input" : "modal-email-input";
+        const emailInputEl = document.getElementById(inputId);
+        const email = emailInputEl ? emailInputEl.value.trim() : "";
+
         if (!email || !email.includes('@')) {
             showAlert("Please enter a valid email address.");
             return;
@@ -226,7 +272,7 @@ if (emailLoginBtn) {
             handleCodeInApp: true
         };
 
-        setLoading("modal-email-login-btn", true);
+        setLoading(btnId, true);
 
         sendSignInLinkToEmail(auth, email, actionCodeSettings)
             .then(() => {
@@ -238,10 +284,10 @@ if (emailLoginBtn) {
                 showAlert(error.message);
             })
             .finally(() => {
-                setLoading("modal-email-login-btn", false);
+                setLoading(btnId, false);
             });
-    });
-}
+    }
+});
 
 // ─── Logout ───────────────────────────────────────────────────────────
 if (logoutBtn) {
