@@ -2189,3 +2189,223 @@ nav.header-scrolled .cart-trigger {
     background: #1EBE56;
     color: white;
 }
+
+/* ==============================================
+   FLIPKART STYLE LOGIN MODAL
+   ============================================== */
+.login-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.login-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.login-modal-content {
+    background: #fff;
+    width: 750px;
+    height: 500px;
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.login-modal-overlay.active .login-modal-content {
+    transform: translateY(0);
+}
+
+.login-modal-close {
+    position: absolute;
+    top: -35px;
+    right: 0;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+}
+
+.login-modal-left {
+    background: #0177c6;
+    width: 40%;
+    padding: 40px 30px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-modal-left h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.login-modal-left p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+}
+
+.login-modal-left .login-modal-img {
+    text-align: center;
+    margin-top: auto;
+}
+
+.login-modal-right {
+    width: 60%;
+    padding: 50px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-modal-right .form-group {
+    margin-bottom: 25px;
+}
+
+.login-modal-right .form-control {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+    padding: 10px 0;
+    font-size: 15px;
+    box-shadow: none;
+    transition: border-color 0.3s;
+}
+
+.login-modal-right .form-control:focus {
+    border-bottom-color: #0177c6;
+    outline: none;
+}
+
+.login-modal-btn {
+    background: #fb641b;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    margin-top: 15px;
+}
+
+.login-modal-btn:hover {
+    background: #df5816;
+}
+
+.login-modal-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.login-modal-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 45%;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.login-modal-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 45%;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.login-modal-divider span {
+    background: #fff;
+    padding: 0 10px;
+    color: #878787;
+    font-size: 12px;
+}
+
+.login-modal-google {
+    background: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.login-modal-google:hover {
+    background: #f9f9f9;
+}
+
+.login-modal-terms {
+    font-size: 11px;
+    color: #878787;
+    margin-top: 30px;
+}
+
+.login-modal-terms a {
+    color: #0177c6;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .login-modal-content {
+        width: 90%;
+        height: auto;
+        flex-direction: column;
+    }
+    .login-modal-left {
+        width: 100%;
+        padding: 20px;
+    }
+    .login-modal-right {
+        width: 100%;
+        padding: 30px 20px;
+    }
+    .login-modal-left .login-modal-img {
+        display: none;
+    }
+    .login-modal-close {
+        top: 10px;
+        right: 15px;
+        color: #fff;
+        z-index: 10;
+    }
+}

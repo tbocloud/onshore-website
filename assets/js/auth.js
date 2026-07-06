@@ -16,20 +16,84 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+// ─── Modal Injection ──────────────────────────────────────────────────
+function injectLoginModal() {
+    if (document.getElementById('loginModalOverlay')) return; // already injected
+
+    const modalHTML = `
+    <div class="login-modal-overlay" id="loginModalOverlay">
+        <div class="login-modal-content">
+            <button class="login-modal-close" id="loginModalClose">&times;</button>
+            <div class="login-modal-left">
+                <div>
+                    <h2>Login</h2>
+                    <p>Get access to your Orders, Quotes and Recommendations</p>
+                </div>
+                <div class="login-modal-img">
+                    <img src="assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
+                </div>
+            </div>
+            <div class="login-modal-right">
+                <div id="modal-alert-message" style="display: none; padding: 10px; margin-bottom: 15px; border-radius: 4px; font-size: 13px; text-align: center; color: white;"></div>
+                <div id="modal-sign-in-options">
+                    <div class="form-group" style="position: relative;">
+                        <input type="email" class="form-control" id="modal-email-input" placeholder="Enter Email Address">
+                    </div>
+                    <p style="font-size: 12px; color: #878787; margin-top: 20px;">By continuing, you agree to Onshore's <a href="#" style="color: #0177c6; text-decoration: none;">Terms of Use</a> and <a href="#" style="color: #0177c6; text-decoration: none;">Privacy Policy</a>.</p>
+                    <button class="login-modal-btn" id="modal-email-login-btn">Request Magic Link</button>
+                    
+                    <div class="login-modal-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <button class="login-modal-google" id="modal-google-signin-btn">
+                        <img src="https://www.google.com/favicon.ico" width="16" height="16">
+                        Sign in with Google
+                    </button>
+                </div>
+                <div id="modal-user-info" class="hidden" style="text-align: center;">
+                    <h3 style="margin-bottom: 15px; font-weight: 600;">You are logged in!</h3>
+                    <p id="modal-user-phone" style="font-weight: 700; color: #0177c6; margin-bottom: 25px;"></p>
+                    <button class="login-modal-google" id="modal-logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const overlay = document.getElementById('loginModalOverlay');
+    const closeBtn = document.getElementById('loginModalClose');
+
+    closeBtn.addEventListener('click', () => {
+        overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.classList.remove('active');
+        }
+    });
+}
+
+// Inject Modal immediately
+injectLoginModal();
+
 // UI Elements
-const userInfo = document.getElementById("user-info");
-const signInOptions = document.getElementById("sign-in-options");
-const alertBox = document.getElementById("alert-message");
-const navLoginLink = document.getElementById("nav-login-link");
-const logoutBtn = document.getElementById("logout-btn");
-const googleSignInBtn = document.getElementById("google-signin-btn");
-const emailInput = document.getElementById("email-input");
-const emailLoginBtn = document.getElementById("email-login-btn");
+const userInfo = document.getElementById("modal-user-info");
+const signInOptions = document.getElementById("modal-sign-in-options");
+const alertBox = document.getElementById("modal-alert-message");
+const logoutBtn = document.getElementById("modal-logout-btn");
+const googleSignInBtn = document.getElementById("modal-google-signin-btn");
+const emailInput = document.getElementById("modal-email-input");
+const emailLoginBtn = document.getElementById("modal-email-login-btn");
+const modalOverlay = document.getElementById("loginModalOverlay");
 
 function showAlert(message, type = "error") {
     if (!alertBox) return;
     alertBox.textContent = message;
-    alertBox.className = "alert-msg alert-" + type;
+    alertBox.style.backgroundColor = type === "success" ? "#10b981" : "#ef4444";
     alertBox.style.display = "block";
     setTimeout(() => { alertBox.style.display = "none"; }, 6000);
 }
@@ -39,13 +103,28 @@ function setLoading(buttonId, isLoading) {
     const btn = document.getElementById(buttonId);
     if (!btn) return;
     if (isLoading) {
-        btn.classList.add('loading');
+        btn.style.opacity = "0.7";
         btn.disabled = true;
     } else {
-        btn.classList.remove('loading');
+        btn.style.opacity = "1";
         btn.disabled = false;
     }
 }
+
+// ─── Intercept Navigation Links ───────────────────────────────────────
+document.addEventListener('click', (e) => {
+    const loginLink = e.target.closest('a[href="login.html"]');
+    if (loginLink) {
+        e.preventDefault();
+        if (window.isUserLoggedIn) {
+            // If they are already logged in, show the profile view in the modal
+            modalOverlay.classList.add('active');
+        } else {
+            // Show the login options
+            modalOverlay.classList.add('active');
+        }
+    }
+});
 
 // ─── Auth State Observer ───────────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
@@ -69,35 +148,33 @@ onAuthStateChanged(auth, (user) => {
         document.body.classList.remove('user-logged-in');
     }
 
-    if (!userInfo) return; // Not on login page
-
     if (user) {
-        if (signInOptions) signInOptions.classList.add("hidden");
-        userInfo.classList.remove("hidden");
+        if (signInOptions) signInOptions.style.display = "none";
+        if (userInfo) userInfo.style.display = "block";
         const displayName = user.displayName || user.email || user.phoneNumber || "User";
-        document.getElementById("user-phone").textContent = displayName;
+        document.getElementById("modal-user-phone").textContent = displayName;
 
         // Clean up Firebase magic link URL params
         if (window.location.href.includes('apiKey=')) {
             window.history.replaceState({}, document.title, window.location.pathname);
-            // Smooth redirect after seeing success box
-            setTimeout(() => { window.location.href = "/"; }, 2000);
+            showAlert("Logged in successfully!", "success");
+            setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
         }
     } else {
-        userInfo.classList.add("hidden");
-        if (signInOptions) signInOptions.classList.remove("hidden");
+        if (userInfo) userInfo.style.display = "none";
+        if (signInOptions) signInOptions.style.display = "block";
     }
 });
 
 // ─── Google Sign-In ───────────────────────────────────────────────────
 if (googleSignInBtn) {
     googleSignInBtn.addEventListener("click", () => {
-        setLoading("google-signin-btn", true);
+        setLoading("modal-google-signin-btn", true);
 
         signInWithPopup(auth, googleProvider)
             .then((result) => {
-                showAlert(`Welcome, ${result.user.displayName}! Redirecting...`, "success");
-                setTimeout(() => { window.location.href = "/"; }, 1500);
+                showAlert(`Welcome, ${result.user.displayName}!`, "success");
+                setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
             })
             .catch((error) => {
                 console.error("Google Sign-In Error:", error);
@@ -108,7 +185,7 @@ if (googleSignInBtn) {
                 } else {
                     showAlert(error.message);
                 }
-                setLoading("google-signin-btn", false);
+                setLoading("modal-google-signin-btn", false);
             });
     });
 }
@@ -117,17 +194,19 @@ if (googleSignInBtn) {
 if (emailLoginBtn) {
     // Check if returning from email magic link
     if (isSignInWithEmailLink(auth, window.location.href)) {
+        modalOverlay.classList.add('active'); // auto open modal if returning from email link
         let email = window.localStorage.getItem('emailForSignIn');
         if (!email) {
             email = window.prompt('Please confirm your email address:');
         }
-        setLoading("email-login-btn", true);
+        setLoading("modal-email-login-btn", true);
         signInWithEmailLink(auth, email, window.location.href)
             .then(() => {
                 window.localStorage.removeItem('emailForSignIn');
-                setLoading("email-login-btn", false);
+                setLoading("modal-email-login-btn", false);
                 showAlert("Logged in successfully!", "success");
-                window.history.replaceState({}, document.title, "/login.html");
+                window.history.replaceState({}, document.title, window.location.pathname);
+                setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
             })
             .catch((error) => {
                 console.error(error);
@@ -143,11 +222,11 @@ if (emailLoginBtn) {
         }
 
         const actionCodeSettings = {
-            url: window.location.origin + '/login.html',
+            url: window.location.href, // Redirect back to the SAME page they are on!
             handleCodeInApp: true
         };
 
-        setLoading("email-login-btn", true);
+        setLoading("modal-email-login-btn", true);
 
         sendSignInLinkToEmail(auth, email, actionCodeSettings)
             .then(() => {
@@ -159,7 +238,7 @@ if (emailLoginBtn) {
                 showAlert(error.message);
             })
             .finally(() => {
-                setLoading("email-login-btn", false);
+                setLoading("modal-email-login-btn", false);
             });
     });
 }
@@ -169,6 +248,7 @@ if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
         signOut(auth).then(() => {
             showAlert("Logged out successfully!", "success");
+            setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
         }).catch(() => {
             showAlert("Error logging out.");
         });
