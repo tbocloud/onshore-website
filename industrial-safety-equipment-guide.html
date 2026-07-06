@@ -606,7 +606,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const waClose = document.getElementById('wa-close');
 
             function markWhatsAppClosed() {
-                localStorage.setItem('waClosedAt', Date.now());
+                try {
+                    localStorage.setItem('waClosedAt', Date.now());
+                } catch(e) {
+                    // Ignore if localStorage is restricted
+                }
             }
 
             // Toggle manually
@@ -632,17 +636,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }
             });
 
-            // Automatically open the popup after 6 seconds (if not closed recently)
+            // Automatically open the popup after 4 seconds (if not closed recently)
             setTimeout(function() {
-                const lastClosed = localStorage.getItem('waClosedAt');
-                const fiveMins = 5 * 60 * 1000;
-                
-                if (!lastClosed || (Date.now() - parseInt(lastClosed)) > fiveMins) {
-                    if (waPopup && !waPopup.classList.contains('active')) {
-                        waPopup.classList.add('active');
+                let shouldOpen = true;
+                try {
+                    const lastClosed = localStorage.getItem('waClosedAt');
+                    const fiveMins = 5 * 60 * 1000;
+                    if (lastClosed && (Date.now() - parseInt(lastClosed)) <= fiveMins) {
+                        shouldOpen = false;
                     }
+                } catch(e) {
+                    // If localStorage is blocked (like in some Incognito modes), always show it
                 }
-            }, 6000);
+                
+                if (shouldOpen && waPopup && !waPopup.classList.contains('active')) {
+                    waPopup.classList.add('active');
+                }
+            }, 4000);
         });
     </script>
 
