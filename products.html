@@ -457,7 +457,7 @@
                         <div id="search-status" style="display:none; margin-bottom:16px;">
                             <div class="filter-pill">
                                 Searching: "<span id="search-term"></span>"
-                                <a href="products.html" class="pill-remove"><i class="ri-close-line"></i></a>
+                                <a href="#" class="pill-remove" data-remove-type="search"><i class="ri-close-line"></i></a>
                             </div>
                         </div>
 
@@ -1022,6 +1022,12 @@
                 } else if (type === 'brand') {
                     const brandVal = $(this).data('val');
                     $('.api-brand-cb[value="' + brandVal + '"]').prop('checked', false).trigger('change');
+                } else if (type === 'search') {
+                    $('#main-search-input').val('').trigger('input');
+                    const url = new URL(window.location);
+                    url.searchParams.delete('search');
+                    window.history.replaceState({}, '', url);
+                    filterCatalog();
                 }
             });
 
