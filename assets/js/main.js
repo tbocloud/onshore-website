@@ -81,7 +81,11 @@ function handleUrlSearch() {
             const cat = item.querySelector('.product_cat')?.textContent.toLowerCase() || '';
             const desc = item.querySelector('.product_desc')?.textContent.toLowerCase() || '';
             
-            if (name.includes(query) || cat.includes(query) || desc.includes(query)) {
+            const queryWords = query.split(/\s+/);
+            const combinedText = (name + " " + cat + " " + desc).toLowerCase();
+            const matchesAll = queryWords.every(word => combinedText.includes(word));
+            
+            if (matchesAll) {
                 item.style.display = '';
             } else {
                 item.style.display = 'none';
@@ -141,7 +145,11 @@ if (productPageSearch) {
                 const cat = item.querySelector('.product_cat')?.textContent.toLowerCase() || '';
                 const desc = item.querySelector('.product_desc')?.textContent.toLowerCase() || '';
                 
-                if (name.includes(query) || cat.includes(query) || desc.includes(query)) {
+                const queryWords = query.split(/\s+/);
+                const combinedText = (name + " " + cat + " " + desc).toLowerCase();
+                const matchesAll = queryWords.every(word => combinedText.includes(word));
+                
+                if (matchesAll) {
                     item.style.display = '';
                 } else {
                     item.style.display = 'none';

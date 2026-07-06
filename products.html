@@ -703,7 +703,10 @@
 
                     // 1. Search Query Filter
                     if (query !== '') {
-                        if (!name.includes(query) && !arabicName.includes(query) && !brand.toLowerCase().includes(query)) {
+                        const queryWords = query.split(/\s+/);
+                        const combinedText = (name + " " + arabicName + " " + brand).toLowerCase();
+                        const matchesAll = queryWords.every(word => combinedText.includes(word));
+                        if (!matchesAll) {
                             isVisible = false;
                         }
                     }
