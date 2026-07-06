@@ -720,11 +720,6 @@ var QuoteCart = (function ($) {
                                     ${item.name}
                                     ${item.name_ar ? `<span style="display: block; font-size: 12px; color: #555; font-weight: 600; text-align: right; margin-top: 2px;" dir="rtl">${item.name_ar}</span>` : ''}
                                 </h4>
-                                
-                                ${item.desc_en ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
-                                ${item.desc_ar ? `<div style="font-size: 11px; color: #666; margin-top: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
-                                
-                                <small style="color: var(--second-color); font-weight: 600; text-transform: uppercase; display: block; margin-top: 5px;">Quantity / الكمية</small>
                             </div>
                         </div>
                     </td>
