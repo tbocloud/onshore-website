@@ -8,6 +8,7 @@
     { "source": "/career", "destination": "/career.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/industries", "destination": "/industries.html" },
-    { "source": "/product-specifications", "destination": "/product-specifications.html" }
+    { "source": "/product-specifications", "destination": "/product-specifications.html" },
+    { "source": "/p/**", "destination": "/product-specifications.html" }
   ]
 }

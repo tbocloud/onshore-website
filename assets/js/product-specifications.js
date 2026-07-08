@@ -45,7 +45,17 @@ $(document).ready(function () {
 
     function init() {
         const urlSearch = new URLSearchParams(window.location.search);
-        let itemName = urlSearch.get('item_name');
+        // Use static generated slug if available, fallback to query param
+        let itemName = window.SERVER_ITEM_NAME || urlSearch.get('item_name');
+
+        // Dynamic Fallback: If the physical file isn't generated yet, the server might rewrite the URL to here.
+        if (!itemName && window.location.pathname.startsWith('/p/')) {
+            const pathParts = window.location.pathname.split('/');
+            const filename = pathParts[pathParts.length - 1];
+            if (filename.endsWith('.html')) {
+                itemName = filename.replace('.html', '');
+            }
+        }
 
         // Improved Hash Detection (Fallback just in case)
         if (!itemName && window.location.hash) {

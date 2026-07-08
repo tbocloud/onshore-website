@@ -5,10 +5,9 @@ Since you are hosting this frontend alongside ERPNext using NGINX, you will need
 In your NGINX configuration file for this website (usually located in `/etc/nginx/conf.d/` or `/etc/nginx/sites-available/`), find your `server { ... }` block and add the following location block:
 
 ```nginx
-location /products/ {
-    # This rewrites anything under /products/ to the product-specifications.html file
-    # For example: /products/electric-chain-hoist/specifications -> product-specifications.html
-    rewrite ^/products/.*$ /product-specifications.html break;
+location /p/ {
+    # If the physical static file doesn't exist yet, fallback to the dynamic template
+    try_files $uri $uri/ /product-specifications.html;
 }
 ```
 
