@@ -417,8 +417,8 @@ $(document).ready(function () {
                             data-brand="${rawBrandName}">
                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                         </button>
-                        <a class="pc-btn-secondary" href="${specsUrl}" style="width: 34px; height: 34px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px;">
-                            <i class="ri-arrow-left-right-line"></i>
+                        <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 6px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; text-decoration: none;">
+                            <i class="ri-eye-line" style="margin-right: 4px;"></i> Details
                         </a>
                     </div>
                 </div>

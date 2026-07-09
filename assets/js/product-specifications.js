@@ -166,7 +166,7 @@ $(document).ready(function () {
         // ─── SEO: Canonical, Title & Meta Description ────────────────────────────
         // Canonical uses the working ?item_code= URL (no server-side routing needed)
         const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-        const canonicalUrl = `${window.location.origin}/product-specifications.html?item_name=${encodeURIComponent(slug)}`;
+        const canonicalUrl = `${window.location.origin}/product/${slug}.html`;
 
         // Inject canonical tag so search engines index the correct URL
         setCanonical(canonicalUrl);
@@ -428,6 +428,32 @@ $(document).ready(function () {
         } catch(e) {
             console.error("Recently viewed error:", e);
         }
+
+        // 7. Update og:image and Inject JSON-LD Schema
+        const absoluteImage = fullMainImg.startsWith('http') ? fullMainImg : `${window.location.origin}${fullMainImg}`;
+        $('meta[property="og:image"]').attr('content', absoluteImage);
+
+        const schema = {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": name,
+            "image": absoluteImage,
+            "description": metaDesc.slice(0, 160),
+            "brand": {
+                "@type": "Brand",
+                "name": brandName
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": canonicalUrl,
+                "priceCurrency": "SAR",
+                "price": typeof p.price === 'number' && p.price > 0 ? p.price.toFixed(2) : "0.00",
+                "availability": p.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+            }
+        };
+
+        $('#product-schema').remove();
+        $('<script>').attr('type', 'application/ld+json').attr('id', 'product-schema').text(JSON.stringify(schema)).appendTo('head');
     }
 
     function bindGalleryEvents() {
