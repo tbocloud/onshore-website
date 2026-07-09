@@ -1134,6 +1134,11 @@ body.user-logged-in .auth-only-stock {
     display: inline-block !important;
 }
 
+/* Hide the Check Stock badge since stock is already visible */
+body.user-logged-in .check-stock-trigger {
+    display: none !important;
+}
+
 /* ─── Search Redesign ────────────────────────────────────── */
 .popular-search-pill {
     cursor: pointer;

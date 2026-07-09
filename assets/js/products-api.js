@@ -374,8 +374,8 @@ $(document).ready(function () {
         // Status badge — deterministic based on product name hash
         const nameHash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
         const isTopSeller = nameHash % 4 === 0;
-        const badgeClass = isTopSeller ? 'hot' : 'stock';
-        const badgeText = isTopSeller ? 'Hot Seller' : 'In Stock';
+        const badgeClass = isTopSeller ? 'hot' : 'stock check-stock-trigger';
+        const badgeText = isTopSeller ? 'Hot Seller' : 'Check Stock';
 
         const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;');
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
@@ -413,7 +413,7 @@ $(document).ready(function () {
                 <div class="pc-body">
                     <div class="pc-meta">
                         <span class="pc-brand">${displayBrand}</span>
-                        <span class="pc-badge ${badgeClass}">${badgeText}</span>
+                        <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
                     </div>
                     ${p.item_group ? `<span class="pc-subcat" style="font-size: 11px; font-weight: 700; color: #0177c6; display: block; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Outfit', sans-serif;"><i class="ri-folder-open-line" style="vertical-align: middle; margin-right: 3px;"></i>${p.parent_item_group ? `${p.parent_item_group.trim().toUpperCase()} / ` : ''}${p.item_group.trim().toUpperCase()}</span>` : ''}
                     <p class="pc-name" style="margin-top: 4px; font-weight: 600; line-height: 1.4;">${name}</p>
@@ -501,7 +501,7 @@ $(document).ready(function () {
             const badgeBorder = isTopSeller ? '#fecdd3' : '#bbf7d0';
             const badgeColor = isTopSeller ? '#e11d48' : '#16a34a';
             const badgeIcon = isTopSeller ? 'ri-fire-fill' : 'ri-checkbox-circle-fill';
-            const badgeText = isTopSeller ? 'Hot Seller' : 'In Stock';
+            const badgeText = isTopSeller ? 'Hot Seller' : 'Check Stock';
             
             const cardHtml = `
                 <div class="col-6 col-md-3">
@@ -512,7 +512,7 @@ $(document).ready(function () {
                         <div class="card-body p-1 mt-2 d-flex flex-column">
                             <h6 class="card-title text-dark fw-bold mb-2" style="font-size: 12px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 31px;">${escapedName}</h6>
                             <div class="mb-2 mt-auto">
-                                <span style="font-size: 10px; font-weight: 700; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 8px; border-radius: 4px; display: inline-block;">
+                                <span class="${!isTopSeller ? 'check-stock-trigger' : ''}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)"' : ''} style="${!isTopSeller ? 'cursor: pointer;' : ''} font-size: 10px; font-weight: 700; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 8px; border-radius: 4px; display: inline-block;">
                                     <i class="${badgeIcon}"></i> ${badgeText}
                                 </span>
                             </div>
@@ -531,4 +531,69 @@ $(document).ready(function () {
 
 
     init();
+
+    // Inject Stock Login Modal
+    if ($('#stockLoginModal').length === 0) {
+        $('body').append(`
+            <div class="modal fade" id="stockLoginModal" tabindex="-1" aria-labelledby="stockLoginModalLabel" aria-hidden="true" style="z-index: 1060;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                        <div class="modal-header" style="background: #0b1120; color: white; border-top-left-radius: 12px; border-top-right-radius: 12px; padding: 15px 20px;">
+                            <h5 class="modal-title" id="stockLoginModalLabel" style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;"><i class="ri-lock-2-line" style="margin-right: 8px; vertical-align: middle;"></i>Login Required</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center" style="padding: 30px 20px;">
+                            <i class="ri-user-shared-line" style="font-size: 54px; color: #0177c6; margin-bottom: 15px; display: block;"></i>
+                            <h4 style="font-family: 'Outfit', sans-serif; color: #333; margin-bottom: 10px; font-size: 22px; font-weight: 700;">Check Stock Availability</h4>
+                            <p style="color: #666; font-size: 15px; margin-bottom: 25px; line-height: 1.5;">To view live inventory and stock availability for this product, please log in to your account.</p>
+                            <a href="login.html" class="btn w-100" style="background: #0177c6; color: white; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; transition: background 0.3s ease;">Login Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+
+    // Expose function globally so inline onclick works
+    window.showStockLoginModal = function(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // If the user is already logged in, stock is displayed directly on the card!
+        if (window.isUserLoggedIn) {
+            // Provide feedback so they aren't confused why the login modal isn't popping up
+            alert("You are already logged in! The live stock quantity is now visible directly on all product cards.");
+            return;
+        }
+
+        try {
+            var modalEl = document.getElementById('stockLoginModal');
+            // Try standard Bootstrap 5 API
+            if (typeof bootstrap !== 'undefined') {
+                var modal = bootstrap.Modal.getInstance(modalEl);
+                if (!modal) {
+                    modal = new bootstrap.Modal(modalEl);
+                }
+                modal.show();
+            } else {
+                // jQuery fallback for older versions
+                $('#stockLoginModal').modal('show');
+            }
+        } catch (err) {
+            console.error("Modal error:", err);
+            // Absolute raw fallback
+            $('#stockLoginModal').addClass('show').css('display', 'block');
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+        }
+    };
+
+    // Automatically show popup after 30 seconds if user is not logged in
+    setTimeout(() => {
+        if (!window.isUserLoggedIn && !sessionStorage.getItem('stock_modal_shown')) {
+            window.showStockLoginModal();
+            sessionStorage.setItem('stock_modal_shown', 'true');
+        }
+    }, 30000);
 });
