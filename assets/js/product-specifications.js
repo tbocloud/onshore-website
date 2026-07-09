@@ -95,59 +95,30 @@ $(document).ready(function () {
 
     async function resolveSlugAndFetch(slugOrName) {
         try {
-            // Fetch all products to resolve the slug
-            const catalogUrl = `${BASE_URL}/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000`;
-            const catResponse = await fetch(catalogUrl, {
-                headers: { 'Authorization': AUTH_TOKEN, 'Content-Type': 'application/json' }
+            // Fetch ultra-fast static JSON instead of querying the live database
+            const response = await fetch('/assets/data/products.json', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
             });
             
-            if (catResponse.ok) {
-                const catData = await catResponse.json();
-                const products = catData.message || [];
+            if (response.ok) {
+                const products = await response.json();
+                
                 // Save to cache for next time
-                sessionStorage.setItem('onshore_products_cache', JSON.stringify(products));
+                try {
+                    sessionStorage.setItem('onshore_products_cache', JSON.stringify(products));
+                } catch(e) {}
                 
                 const found = products.find(p => p.item_name === slugOrName || toSlug(p.item_name || p.name) === slugOrName);
                 if (found) {
-                    // Render directly without making a second API call since get_item_details has everything
                     renderProductDetails(found);
                     return;
                 }
             }
-
-            // Fallback: just try to fetch using what we have
-            fetchProductDetails(slugOrName);
+            
+            throw new Error("Product not found in static JSON");
         } catch (e) {
-            console.error("Error resolving slug:", e);
-            fetchProductDetails(slugOrName);
-        }
-    }
-
-    async function fetchProductDetails(itemName) {
-        try {
-            const response = await fetch(`${API_URL}?item_name=${encodeURIComponent(itemName)}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': AUTH_TOKEN,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) throw new Error("Product not found");
-
-            const data = await response.json();
-            let product = data.message;
-            if (Array.isArray(product)) {
-                product = product[0];
-            }
-
-            if (product) {
-                renderProductDetails(product);
-            } else {
-                throw new Error("No product data found.");
-            }
-        } catch (error) {
-            console.error("Error fetching product specifications:", error);
+            console.error("Error fetching product:", e);
             $('#spec-loader').hide();
             $('#spec-error').fadeIn();
         }
@@ -266,8 +237,12 @@ $(document).ready(function () {
         const allImages = [];
         const processImg = (imgPath) => {
             if (!imgPath) return null;
-            // Prepend base URL if it's a relative path starting with /
-            const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : '/assets/img/logo.png';
+            let fullImgUrl = '/assets/img/logo.png';
+            if (imgPath.startsWith('http') || imgPath.startsWith('/assets/')) {
+                fullImgUrl = imgPath;
+            } else {
+                fullImgUrl = `${BASE_URL}${imgPath}`;
+            }
             // Encode the URL to handle spaces and parentheses (e.g. "image (2).png")
             return fullImgUrl.replace(/\s/g, '%20'); 
         };
@@ -303,25 +278,30 @@ $(document).ready(function () {
         }
 
         console.log("Processed Images:", allImages);
+        const safeName = name ? name.replace(/"/g, '&quot;') : '';
 
         if (allImages.length > 0) {
             const mainImgUrl = allImages[0];
-            $('#main-image-display').html(`<img src="${mainImgUrl}" class="img-fluid" id="current-main-img" alt="${name}" onerror="this.src='/assets/img/logo.png'">`);
+            $('#main-image-display').html(`<img src="${mainImgUrl}" class="img-fluid" id="current-main-img" alt="${safeName}" onerror="this.src='/assets/img/logo.png'">`);
 
             if (allImages.length > 1) {
                 let thumbsHtml = '';
                 allImages.forEach((fullUrl, idx) => {
                     thumbsHtml += `
                         <div class="pd-thumb ${idx === 0 ? 'active' : ''}" data-url="${fullUrl}">
-                            <img src="${fullUrl}" alt="${name}" onerror="this.src='/assets/img/logo.png'">
+                            <img src="${fullUrl}" alt="${safeName}" onerror="this.src='/assets/img/logo.png'">
                         </div>
                     `;
                 });
-                $('#thumbnail-grid').html(thumbsHtml);
+                $('#product-gallery-thumbs').html(thumbsHtml).show();
                 bindGalleryEvents();
+            } else {
+                $('#product-gallery-thumbs').hide();
             }
         } else {
-            $('#main-image-display').html(`<img src="/assets/img/logo.png" class="img-fluid" alt="No image available">`);
+            // No images found
+            $('#main-image-display').html(`<img src="/assets/img/logo.png" class="img-fluid" id="current-main-img" alt="${safeName}">`);
+            $('#product-gallery-thumbs').hide();
         }
 
         // 3. Specifications Table
@@ -412,7 +392,14 @@ $(document).ready(function () {
 
 
         // 5. Button Actions
-        const fullMainImg = allImages.length > 0 ? (allImages[0].startsWith('http') ? allImages[0] : `${BASE_URL}${allImages[0]}`) : '/assets/img/logo.png';
+        let fullMainImg = '/assets/img/logo.png';
+        if (allImages.length > 0) {
+            if (allImages[0].startsWith('http') || allImages[0].startsWith('/assets/')) {
+                fullMainImg = allImages[0];
+            } else {
+                fullMainImg = `${BASE_URL}${allImages[0]}`;
+            }
+        }
         
         $('#spec-add-cart').attr('data-id', p.name)
             .attr('data-name', name)

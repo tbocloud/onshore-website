@@ -48,36 +48,23 @@ $(document).ready(function () {
         // 2. Fetch from API if not cached
         loader.show();
         let allItems = [];
-        let limitStart = 0;
-        const PAGE_SIZE = 500; // Increased to 500 to fetch data in fewer roundtrips
 
         try {
-            while (true) {
-                const response = await fetch(`${API_URL}?limit_start=${limitStart}&limit_page_length=${PAGE_SIZE}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': AUTH_TOKEN,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // Fetch lightning-fast static JSON data instead of querying database
+            const response = await fetch('/assets/data/products.json', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
+            });
 
-                const data = await response.json();
-                const products = data.message || [];
-                
-                allItems = allItems.concat(products);
-
-                if (products.length < PAGE_SIZE) {
-                    break; 
-                }
-                
-                limitStart += PAGE_SIZE;
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            if (allItems.length === 0) {
+            allItems = await response.json();
+
+            if (!allItems || allItems.length === 0) {
                 showError("No products found in the catalog.");
                 return;
             }
@@ -357,7 +344,15 @@ $(document).ready(function () {
         if (!imgPath && p.attachments && p.attachments.length > 0) {
             imgPath = p.attachments[0].file_url;
         }
-        const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : 'assets/img/logo.png';
+        
+        let fullImgUrl = 'assets/img/logo.png';
+        if (imgPath) {
+            if (imgPath.startsWith('http') || imgPath.startsWith('/assets/')) {
+                fullImgUrl = imgPath;
+            } else {
+                fullImgUrl = `${BASE_URL}${imgPath}`;
+            }
+        }
 
         const name = p.item_name || p.name || 'Product';
         const arabicName = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
@@ -379,6 +374,7 @@ $(document).ready(function () {
 
         const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;');
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
+        const safeName = name.replace(/"/g, '&quot;');
         let stockDisplay = '';
         if (typeof p.stock === 'number') {
             const calculatedStock = Math.round(p.stock * 0.7);
@@ -392,7 +388,7 @@ $(document).ready(function () {
         return `
             <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
                 <div class="pc-img">
-                    <img src="${fullImgUrl}" alt="${name}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                    <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
                     <div class="pc-img-actions">
                         <button class="pc-icon-btn add-to-cart-btn"
                             data-id="${p.name || ''}"

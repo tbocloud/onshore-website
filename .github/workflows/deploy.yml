@@ -21,6 +21,12 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Generate Static JSON Database & Images
+        run: |
+          echo "Generating static products.json and downloading all images..."
+          node generate-products-json.js
+          echo "Static API generated successfully!"
+
       - name: Generate SEO Product Pages
         run: |
           echo "Generating physical HTML pages for all products..."
