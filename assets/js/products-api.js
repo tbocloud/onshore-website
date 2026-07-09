@@ -364,7 +364,7 @@ $(document).ready(function () {
         
         // Generate a clean SEO-friendly slug for the URL
         const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-        const specsUrl = `/p/${slug}.html`;
+        const specsUrl = `/product/${slug}.html`;
 
         let rawBrandName = p.custom_brand_name || '';
         let displayBrand = rawBrandName.toUpperCase();

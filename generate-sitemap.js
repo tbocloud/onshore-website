@@ -89,7 +89,7 @@ async function generateSitemap() {
             
             // Slug generation logic matching products-api.js
             const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-            const productUrl = `${DOMAIN}/p/${slug}.html`;
+            const productUrl = `${DOMAIN}/product/${slug}.html`;
             
             xml += `  <url>\n`;
             xml += `    <loc>${productUrl}</loc>\n`;

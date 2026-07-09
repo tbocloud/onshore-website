@@ -49,7 +49,7 @@ $(document).ready(function () {
         let itemName = window.SERVER_ITEM_NAME || urlSearch.get('item_name');
 
         // Dynamic Fallback: If the physical file isn't generated yet, the server might rewrite the URL to here.
-        if (!itemName && window.location.pathname.startsWith('/p/')) {
+        if (!itemName && window.location.pathname.startsWith('/product/')) {
             const pathParts = window.location.pathname.split('/');
             const filename = pathParts[pathParts.length - 1];
             if (filename.endsWith('.html')) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Onshore Technical</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; color: #333; text-align: center; padding: 50px; margin: 0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { color: #0b1120; font-size: 80px; margin: 0; }
+        h2 { color: #0177c6; font-size: 24px; margin-top: 0; }
+        p { color: #666; margin-bottom: 30px; line-height: 1.6; }
+        a { display: inline-block; background-color: #0177c6; color: white; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
+        a:hover { background-color: #0b1120; }
+    </style>
+    <script>
+        // S3 Graceful Fallback for newly added products!
+        // If a product HTML file hasn't been generated yet, redirect them to the dynamic page.
+        document.addEventListener("DOMContentLoaded", function() {
+            var path = window.location.pathname;
+            if (path.startsWith('/product/')) {
+                var pathParts = path.split('/');
+                var filename = pathParts[pathParts.length - 1];
+                if (filename.endsWith('.html')) {
+                    var itemName = filename.replace('.html', '');
+                    // Redirect to the dynamic template
+                    window.location.replace('/product-specifications.html?item_name=' + encodeURIComponent(itemName));
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <p id="message">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="index.html">Return to Homepage</a>
+    </div>
+    
+    <script>
+        // Provide visual feedback if we are redirecting
+        if (window.location.pathname.startsWith('/product/')) {
+            document.querySelector('h1').style.display = 'none';
+            document.querySelector('h2').innerText = 'Loading Product...';
+            document.getElementById('message').innerText = 'Please wait while we locate this product for you.';
+            document.querySelector('a').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
