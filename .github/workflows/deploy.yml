@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+  schedule:
+    - cron: '0 0 * * *' # Runs automatically every day at midnight UTC
 
 jobs:
   deploy:
@@ -12,6 +15,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate SEO Product Pages
+        run: |
+          echo "Generating physical HTML pages for all products..."
+          node generate-products-seo.js
+          echo "Product pages generated successfully!"
+
+      - name: Generate Sitemap
+        run: |
+          echo "Generating fresh sitemap.xml..."
+          node generate-sitemap.js
+          echo "Sitemap generated successfully!"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -22,6 +42,7 @@ jobs:
 
       - name: Sync to S3
         run: |
+          # Sync all files, including dynamically generated /product/ HTML files and sitemap.xml
           aws s3 sync ./ s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*" --exclude ".DS_Store"
 
       - name: Invalidate CloudFront Cache

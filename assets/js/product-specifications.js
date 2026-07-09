@@ -433,6 +433,14 @@ $(document).ready(function () {
         // Show Content
         $('#spec-loader').hide();
         $('#spec-content').fadeIn();
+
+        // 6. Recently Viewed Products Logic
+        try {
+            updateRecentlyViewed(p, `/product/${slug}.html`, fullMainImg);
+            renderRecentlyViewed(name);
+        } catch(e) {
+            console.error("Recently viewed error:", e);
+        }
     }
 
     function bindGalleryEvents() {
@@ -442,6 +450,201 @@ $(document).ready(function () {
             $(this).addClass('active');
             $('#current-main-img').attr('src', url);
         });
+    }
+
+    function updateRecentlyViewed(product, url, imageUrl) {
+        const STORAGE_KEY = 'recently_viewed_products';
+        let viewed = [];
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) viewed = JSON.parse(raw);
+        } catch (e) {
+            viewed = [];
+        }
+
+        const name = product.item_name || product.name;
+        
+        // Remove if it already exists to put it at the front
+        viewed = viewed.filter(item => item.name !== name);
+        
+        // Add to front
+        viewed.unshift({
+            name: name,
+            url: url,
+            image: imageUrl,
+            brand: product.custom_brand_name || product.brand || ''
+        });
+        
+        // Keep only last 6 items
+        if (viewed.length > 6) {
+            viewed = viewed.slice(0, 6);
+        }
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(viewed));
+    }
+
+    function renderRecentlyViewed(currentProductName) {
+        const STORAGE_KEY = 'recently_viewed_products';
+        let viewed = [];
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) viewed = JSON.parse(raw);
+        } catch (e) {
+            return;
+        }
+
+        // Filter out the current product so we don't show what they are already looking at
+        const toShow = viewed.filter(item => item.name !== currentProductName);
+        
+        if (toShow.length === 0) return; // Nothing else viewed
+
+        let html = `
+            <style>
+                .recently-viewed-section {
+                    background: #f8fafc;
+                    padding: 60px 0;
+                    border-top: 1px solid #e2e8f0;
+                }
+                .recently-viewed-title {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #0f172a;
+                    margin-bottom: 30px;
+                    text-align: center;
+                }
+                .rv-grid {
+                    display: grid;
+                    grid-template-columns: repeat(5, 1fr);
+                    gap: 20px;
+                }
+                .rv-card {
+                    background: #fff;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                    transition: transform 0.2s, box-shadow 0.2s;
+                    text-decoration: none;
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid #f1f5f9;
+                }
+                .rv-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                    text-decoration: none;
+                }
+                .rv-img-wrapper {
+                    height: 180px;
+                    padding: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #fff;
+                    border-bottom: 1px solid #f1f5f9;
+                }
+                .rv-img-wrapper img {
+                    max-height: 100%;
+                    max-width: 100%;
+                    object-fit: contain;
+                }
+                .rv-details {
+                    padding: 15px;
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .rv-brand {
+                    font-size: 11px;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 5px;
+                    font-weight: 600;
+                }
+                .rv-name {
+                    font-size: 14px;
+                    color: #1e293b;
+                    font-weight: 600;
+                    line-height: 1.4;
+                    margin: 0;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+                
+                @media (max-width: 1024px) {
+                    .rv-grid {
+                        grid-template-columns: repeat(4, 1fr);
+                    }
+                }
+                @media (max-width: 768px) {
+                    .recently-viewed-section {
+                        padding: 40px 0;
+                    }
+                    /* Make it a horizontal scroll snap container on mobile */
+                    .rv-grid {
+                        display: flex;
+                        overflow-x: auto;
+                        scroll-snap-type: x mandatory;
+                        scroll-behavior: smooth;
+                        -webkit-overflow-scrolling: touch;
+                        padding-bottom: 15px;
+                        gap: 15px;
+                    }
+                    .rv-grid::-webkit-scrollbar {
+                        height: 6px;
+                    }
+                    .rv-grid::-webkit-scrollbar-track {
+                        background: #f1f5f9;
+                        border-radius: 4px;
+                    }
+                    .rv-grid::-webkit-scrollbar-thumb {
+                        background: #cbd5e1;
+                        border-radius: 4px;
+                    }
+                    .rv-card {
+                        flex: 0 0 220px;
+                        scroll-snap-align: start;
+                    }
+                    .rv-img-wrapper {
+                        height: 150px;
+                    }
+                }
+            </style>
+            <section class="recently-viewed-section" id="recently-viewed-section">
+                <div class="container">
+                    <h3 class="recently-viewed-title">Recently Viewed Products</h3>
+                    <div class="rv-grid">
+        `;
+        
+        // Show up to 5 items max
+        const limit = Math.min(toShow.length, 5);
+        for (let i = 0; i < limit; i++) {
+            const item = toShow[i];
+            const safeName = item.name ? item.name.replace(/"/g, '&quot;') : '';
+            html += `
+                <a href="${item.url}" class="rv-card">
+                    <div class="rv-img-wrapper">
+                        <img src="${item.image}" alt="${safeName}" onerror="this.src='/assets/img/logo.png'">
+                    </div>
+                    <div class="rv-details">
+                        ${item.brand ? `<div class="rv-brand">${item.brand}</div>` : ''}
+                        <h4 class="rv-name">${item.name}</h4>
+                    </div>
+                </a>
+            `;
+        }
+        
+        html += `
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        // Inject right above footer
+        $('#recently-viewed-section').remove(); // Clear if re-rendered
+        $('footer').before(html);
     }
 
     init();
