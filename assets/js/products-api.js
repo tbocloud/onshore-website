@@ -388,37 +388,28 @@ $(document).ready(function () {
         return `
             <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
                 <div class="pc-img">
-                    <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                    <!-- Top Overlay Badges -->
                     <div class="pc-img-actions">
-                        <button class="pc-icon-btn add-to-cart-btn"
-                            data-id="${p.name || ''}"
-                            data-name="${name}"
-                            data-name-ar="${arabicName}"
-                            data-desc-en="${escapedDescEn}"
-                            data-desc-ar="${escapedDescAr}"
-                            data-image="${fullImgUrl}"
-                            data-brand="${rawBrandName}"
-                            title="Add to Cart">
-                            <i class="ri-shopping-cart-line"></i>
-                        </button>
-                        <a class="pc-icon-btn" href="${specsUrl}" title="View Details">
-                            <i class="ri-eye-line"></i>
-                        </a>
+                        <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
+                        <button class="pc-icon-btn"><i class="ri-heart-3-line"></i></button>
                     </div>
+                    <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
                 </div>
                 <div class="pc-body">
-                    <div class="pc-meta">
-                        <span class="pc-brand">${displayBrand}</span>
-                        <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
+                    <span class="pc-brand">${displayBrand}</span>
+                    <a href="${specsUrl}" class="pc-name" target="_blank">${safeName}</a>
+                    <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
+                        SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
                     </div>
-                    ${p.item_group ? `<span class="pc-subcat" style="font-size: 11px; font-weight: 700; color: #0177c6; display: block; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Outfit', sans-serif;"><i class="ri-folder-open-line" style="vertical-align: middle; margin-right: 3px;"></i>${p.parent_item_group ? `${p.parent_item_group.trim().toUpperCase()} / ` : ''}${p.item_group.trim().toUpperCase()}</span>` : ''}
-                    <p class="pc-name" style="margin-top: 4px; font-weight: 600; line-height: 1.4;">${name}</p>
-                    ${arabicName ? `<span class="pc-arabic">${arabicName}</span>` : ''}
+                    <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
+                        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
+                        <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span> | <span style="margin-left: 5px;">10+ sold</span>
+                    </div>
                     ${stockDisplay}
-                    <div class="pc-actions">
-                        <button class="pc-btn-primary add-to-cart-btn"
+                    <div class="pc-actions" style="display: flex; gap: 6px; margin-top: auto;">
+                        <button class="pc-btn-primary add-to-cart-btn" style="flex: 1; padding: 6px 0; border-radius: 6px;"
                             data-id="${p.name || ''}"
-                            data-name="${name}"
+                            data-name="${safeName}"
                             data-name-ar="${arabicName}"
                             data-desc-en="${escapedDescEn}"
                             data-desc-ar="${escapedDescAr}"
@@ -426,8 +417,8 @@ $(document).ready(function () {
                             data-brand="${rawBrandName}">
                             <i class="ri-shopping-cart-2-line"></i> Add to Cart
                         </button>
-                        <a class="pc-btn-secondary" href="${specsUrl}">
-                            <i class="ri-eye-line"></i> View Details
+                        <a class="pc-btn-secondary" href="${specsUrl}" style="width: 34px; height: 34px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px;">
+                            <i class="ri-arrow-left-right-line"></i>
                         </a>
                     </div>
                 </div>
@@ -478,7 +469,14 @@ $(document).ready(function () {
             if (!imgPath && p.attachments && p.attachments.length > 0) {
                 imgPath = p.attachments[0].file_url;
             }
-            const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `${BASE_URL}${imgPath}`) : 'assets/img/logo.png';
+            let fullImgUrl = 'assets/img/logo.png';
+            if (imgPath) {
+                if (imgPath.startsWith('http') || imgPath.startsWith('/assets/')) {
+                    fullImgUrl = imgPath;
+                } else {
+                    fullImgUrl = `${BASE_URL}${imgPath}`;
+                }
+            }
             
             const name = p.item_name || p.name || 'Product';
             const escapedName = name.replace(/"/g, '&quot;');
@@ -493,30 +491,36 @@ $(document).ready(function () {
 
             const nameHash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
             const isTopSeller = nameHash % 3 === 0;
-            const badgeBg = isTopSeller ? '#fff5f5' : '#f0fdf4';
-            const badgeBorder = isTopSeller ? '#fecdd3' : '#bbf7d0';
-            const badgeColor = isTopSeller ? '#e11d48' : '#16a34a';
-            const badgeIcon = isTopSeller ? 'ri-fire-fill' : 'ri-checkbox-circle-fill';
-            const badgeText = isTopSeller ? 'Hot Seller' : 'Check Stock';
+            const badgeText = isTopSeller ? '<i class="ri-fire-fill"></i> Hot Seller' : '<i class="ri-checkbox-circle-fill"></i> Check Stock';
+            const specsUrl = `product-specifications.html?item=${encodeURIComponent(p.name)}`;
+            const badgeClass = isTopSeller ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success';
             
             const cardHtml = `
                 <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 text-center p-2" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff;">
-                        <div style="height: 110px; display: flex; align-items: center; justify-content: center; padding: 10px;">
-                            <img src="${fullImgUrl}" style="max-height: 100px; max-width: 100%; object-fit: contain;" alt="${escapedName}" onerror="this.src='assets/img/logo.png'">
-                        </div>
-                        <div class="card-body p-1 mt-2 d-flex flex-column">
-                            <h6 class="card-title text-dark fw-bold mb-2" style="font-size: 12px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 31px;">${escapedName}</h6>
-                            <div class="mb-2 mt-auto">
-                                <span class="${!isTopSeller ? 'check-stock-trigger' : ''}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)"' : ''} style="${!isTopSeller ? 'cursor: pointer;' : ''} font-size: 10px; font-weight: 700; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 8px; border-radius: 4px; display: inline-block;">
-                                    <i class="${badgeIcon}"></i> ${badgeText}
-                                </span>
+                    <div class="pc" style="height: 100%;">
+                        <div class="pc-img">
+                            <div class="pc-img-actions">
+                                <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
+                                <button class="pc-icon-btn"><i class="ri-heart-3-line"></i></button>
                             </div>
-                            <button class="btn w-100" 
-                                onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;"
-                                style="background: #0177c6; color: white; font-weight: 700; border-radius: 6px; font-size: 12px; padding: 6px 0; transition: all 0.3s ease;">
-                                <i class="ri-search-eye-line"></i> Explore
-                            </button>
+                            <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                        </div>
+                        <div class="pc-body">
+                            <span class="pc-brand">${escapedBrandName}</span>
+                            <a href="${specsUrl}" class="pc-name" target="_blank">${escapedName}</a>
+                            <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
+                                SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
+                            </div>
+                            <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
+                                <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
+                                <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span> | <span style="margin-left: 5px;">10+ sold</span>
+                            </div>
+                            <div class="pc-actions" style="margin-top: auto;">
+                                <button class="pc-btn-primary" style="width: 100%; padding: 6px 0; border-radius: 6px;"
+                                    onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;">
+                                    <i class="ri-search-eye-line"></i> Explore
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
