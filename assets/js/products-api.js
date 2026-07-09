@@ -29,8 +29,8 @@ $(document).ready(function () {
     async function fetchProducts() {
         const loader = $('#products-loader');
         
-        // 1. Check Session Storage (Browser Cache)
-        const cachedData = sessionStorage.getItem('onshore_products_cache');
+        // 1. Try to read from Session Cache (unless a hard refresh was requested)
+        const cachedData = sessionStorage.getItem('onshore_products_cache_v2');
         if (cachedData) {
             try {
                 const parsed = JSON.parse(cachedData);
@@ -41,7 +41,7 @@ $(document).ready(function () {
                     return; // Load instantly and exit!
                 }
             } catch (e) {
-                console.warn("Failed to parse cache");
+                console.warn("Failed to parse cache in products-api");
             }
         }
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
             // Save to Session Storage
             try {
-                sessionStorage.setItem('onshore_products_cache', JSON.stringify(allItems));
+                sessionStorage.setItem('onshore_products_cache_v2', JSON.stringify(allItems));
             } catch (e) {
                 console.warn("Could not save to sessionStorage (might be full)");
             }

@@ -73,7 +73,7 @@ $(document).ready(function () {
         }
 
         // Try to find the product in cache using either item name or slug
-        const cachedData = sessionStorage.getItem('onshore_products_cache');
+        const cachedData = sessionStorage.getItem('onshore_products_cache_v2');
         if (cachedData) {
             try {
                 const parsed = JSON.parse(cachedData);
@@ -106,7 +106,7 @@ $(document).ready(function () {
                 
                 // Save to cache for next time
                 try {
-                    sessionStorage.setItem('onshore_products_cache', JSON.stringify(products));
+                    sessionStorage.setItem('onshore_products_cache_v2', JSON.stringify(products));
                 } catch(e) {}
                 
                 const found = products.find(p => p.item_name === slugOrName || toSlug(p.item_name || p.name) === slugOrName);
