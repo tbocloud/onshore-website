@@ -1,3 +1,21 @@
+// --- GLOBAL SEARCH INJECTION ---
+(function() {
+    // 1. Inject global-search.css
+    if (!document.querySelector('link[href="assets/css/global-search.css"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'assets/css/global-search.css';
+        document.head.appendChild(link);
+    }
+    // 2. Inject global-search.js
+    if (!document.querySelector('script[src="assets/js/global-search.js"]')) {
+        const script = document.createElement('script');
+        script.src = 'assets/js/global-search.js';
+        script.defer = true;
+        document.body.appendChild(script);
+    }
+})();
+// -------------------------------
 
 window.addEventListener("scroll", function () {
     var header = this.document.querySelector("nav");

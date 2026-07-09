@@ -20,6 +20,7 @@ var QuoteCart = (function ($) {
             if (item.brand === 'undefined') item.brand = '';
         });
         updateCartCount();
+        checkAbandonedCart();
         bindEvents();
     }
 
@@ -1006,6 +1007,155 @@ var QuoteCart = (function ($) {
                 }
             }
         });
+    }
+
+    function injectAbandonedCartReminder() {
+        if ($('#abandoned-cart-toast').length > 0) return;
+        
+        var toastHtml = `
+            <style>
+                .abandoned-cart-toast {
+                    position: fixed;
+                    bottom: 30px;
+                    right: 30px;
+                    width: 320px;
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border-radius: 12px;
+                    box-shadow: 0 15px 35px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.05);
+                    border: 1px solid rgba(255,255,255,0.4);
+                    padding: 20px;
+                    z-index: 100005;
+                    transform: translateY(100px);
+                    opacity: 0;
+                    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    pointer-events: none;
+                }
+                .abandoned-cart-toast.show {
+                    transform: translateY(0);
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+                .abandoned-cart-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 10px;
+                }
+                .abandoned-cart-title {
+                    font-weight: 700;
+                    color: #0f172a;
+                    font-size: 15px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                .abandoned-cart-close {
+                    background: transparent;
+                    border: none;
+                    color: #94a3b8;
+                    cursor: pointer;
+                    font-size: 18px;
+                    padding: 0;
+                    line-height: 1;
+                    transition: color 0.2s;
+                }
+                .abandoned-cart-close:hover {
+                    color: #ef4444;
+                }
+                .abandoned-cart-body {
+                    color: #475569;
+                    font-size: 13px;
+                    line-height: 1.5;
+                    margin-bottom: 15px;
+                }
+                .abandoned-cart-btn {
+                    display: block;
+                    width: 100%;
+                    background: #0177c6;
+                    color: #fff;
+                    text-align: center;
+                    padding: 10px;
+                    border-radius: 6px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: background 0.2s;
+                    border: none;
+                    cursor: pointer;
+                }
+                .abandoned-cart-btn:hover {
+                    background: #015f9e;
+                    color: #fff;
+                }
+                @media (max-width: 768px) {
+                    .abandoned-cart-toast {
+                        bottom: 20px;
+                        right: 20px;
+                        left: 20px;
+                        width: auto;
+                    }
+                }
+            </style>
+            <div id="abandoned-cart-toast" class="abandoned-cart-toast">
+                <div class="abandoned-cart-header">
+                    <div class="abandoned-cart-title">
+                        <i class="ri-shopping-cart-2-fill" style="color: #0177c6; font-size: 18px;"></i>
+                        Welcome back!
+                    </div>
+                    <button class="abandoned-cart-close" id="close-abandoned-toast">&times;</button>
+                </div>
+                <div class="abandoned-cart-body">
+                    You have <strong><span id="abandoned-item-count"></span> items</strong> waiting in your quote basket. Don't forget to submit your request!
+                </div>
+                <button class="abandoned-cart-btn" id="resume-quote-btn">Resume Quote</button>
+            </div>
+        `;
+        
+        $('body').append(toastHtml);
+        
+        $('#close-abandoned-toast').on('click', function() {
+            $('#abandoned-cart-toast').removeClass('show');
+            setTimeout(function() {
+                $('#abandoned-cart-toast').remove();
+            }, 500);
+        });
+        
+        $('#resume-quote-btn').on('click', function() {
+            $('#abandoned-cart-toast').removeClass('show');
+            openSidebar();
+        });
+    }
+
+    function checkAbandonedCart() {
+        var now = Date.now();
+        var lastActive = localStorage.getItem('cart_last_active_time');
+        
+        // If there are items in the cart
+        if (cart.length > 0) {
+            // Check if user has been inactive for more than 30 mins (30 * 60 * 1000)
+            var THRESHOLD = 30 * 60 * 1000;
+            
+            // For testing/demonstration purposes, if lastActive is missing, or if it's over threshold
+            if (!lastActive || (now - parseInt(lastActive)) > THRESHOLD) {
+                // Ensure we only show it once per browser session using sessionStorage
+                if (!sessionStorage.getItem('cart_reminder_shown')) {
+                    injectAbandonedCartReminder();
+                    
+                    $('#abandoned-item-count').text(cart.length);
+                    
+                    // Small delay for smooth slide-up animation after page load
+                    setTimeout(function() {
+                        $('#abandoned-cart-toast').addClass('show');
+                    }, 1500);
+                    
+                    sessionStorage.setItem('cart_reminder_shown', 'true');
+                }
+            }
+        }
+        
+        // Always update the last active time on load
+        localStorage.setItem('cart_last_active_time', now);
     }
 
     return {

@@ -689,9 +689,30 @@
 
                     // 1. Search Query Filter
                     if (query !== '') {
+                        const searchSynonyms = {
+                            "cutter": ["cutting", "disc", "blade"],
+                            "weld": ["welding", "machine", "electrode", "torch"],
+                            "drill": ["drilling", "bit"],
+                            "grind": ["grinding", "wheel", "abrasive"],
+                            "wire": ["brush", "rope"]
+                        };
+
                         const queryWords = query.split(/\s+/);
-                        const combinedText = (name + " " + arabicName + " " + brand).toLowerCase();
-                        const matchesAll = queryWords.every(word => combinedText.includes(word));
+                        const combinedText = (name + " " + arabicName + " " + brand + " " + cat).toLowerCase();
+                        
+                        const matchesAll = queryWords.every(word => {
+                            if (combinedText.includes(word)) return true;
+                            // Check synonyms
+                            if (searchSynonyms[word]) {
+                                return searchSynonyms[word].some(syn => combinedText.includes(syn));
+                            }
+                            // Basic stemming (e.g. if they type "cutters", match "cutter")
+                            if (word.endsWith('s') && combinedText.includes(word.slice(0, -1))) return true;
+                            if (word.endsWith('er') && combinedText.includes(word.slice(0, -2))) return true;
+                            if (word.endsWith('ing') && combinedText.includes(word.slice(0, -3))) return true;
+                            return false;
+                        });
+
                         if (!matchesAll) {
                             isVisible = false;
                         }
