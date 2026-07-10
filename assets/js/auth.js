@@ -277,7 +277,7 @@ document.addEventListener("click", (e) => {
         sendSignInLinkToEmail(auth, email, actionCodeSettings)
             .then(() => {
                 window.localStorage.setItem('emailForSignIn', email);
-                showAlert("✅ Login link sent! Please check your inbox (and spam folder).", "success");
+                showAlert("✅ Login link sent! Please check your inbox.", "success");
             })
             .catch((error) => {
                 console.error(error);
