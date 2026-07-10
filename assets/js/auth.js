@@ -281,7 +281,24 @@ document.addEventListener("click", (e) => {
             })
             .catch((error) => {
                 console.error(error);
-                showAlert(error.message);
+                if (error.code === 'auth/quota-exceeded') {
+                    const inlineAlert = document.getElementById('modal-alert-message');
+                    if (inlineAlert) {
+                        inlineAlert.textContent = "Email login is temporarily unavailable due to high volume. For instant access, please Sign in with Google.";
+                        inlineAlert.style.backgroundColor = "#fff3cd";
+                        inlineAlert.style.color = "#856404";
+                        inlineAlert.style.border = "1px solid #ffeeba";
+                        inlineAlert.style.display = "block";
+                    }
+                    if (document.getElementById('modal-email-input')) {
+                        document.getElementById('modal-email-input').closest('.form-group').style.display = 'none';
+                        document.getElementById('modal-email-login-btn').style.display = 'none';
+                        document.querySelector('.login-modal-divider').style.display = 'none';
+                        document.getElementById('modal-email-login-btn').previousElementSibling.style.display = 'none';
+                    }
+                } else {
+                    showAlert(error.message);
+                }
             })
             .finally(() => {
                 setLoading(btnId, false);
