@@ -403,7 +403,7 @@ $(document).ready(function () {
                     </div>
                     <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
                         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
-                        <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span> | <span style="margin-left: 5px;">10+ sold</span>
+                        <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span>
                     </div>
                     ${stockDisplay}
                     <div class="pc-actions" style="display: flex; gap: 6px; margin-top: auto;">
@@ -513,7 +513,7 @@ $(document).ready(function () {
                             </div>
                             <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
                                 <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
-                                <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span> | <span style="margin-left: 5px;">10+ sold</span>
+                                <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span>
                             </div>
                             <div class="pc-actions" style="margin-top: auto;">
                                 <button class="pc-btn-primary" style="width: 100%; padding: 6px 0; border-radius: 6px;"
