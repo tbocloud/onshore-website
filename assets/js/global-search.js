@@ -222,7 +222,7 @@
             const cat = item.item_group || '';
             const brand = item.brand || '';
             
-            const slug = name.toLowerCase().replace(/[^a-z0-9\\s-]/g, '').trim().replace(/\\s+/g, '-').replace(/-+/g, '-');
+            const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
             const url = `/product/${slug}.html`;
 
             let imageUrl = item.image;

@@ -8,9 +8,9 @@
         document.head.appendChild(link);
     }
     // 2. Inject global-search.js
-    if (!document.querySelector('script[src="assets/js/global-search.js"]')) {
+    if (!document.querySelector('script[src^="assets/js/global-search.js"]')) {
         const script = document.createElement('script');
-        script.src = 'assets/js/global-search.js';
+        script.src = 'assets/js/global-search.js?v=1.6';
         script.defer = true;
         document.body.appendChild(script);
     }
