@@ -391,7 +391,7 @@ $(document).ready(function () {
                     <!-- Top Overlay Badges -->
                     <div class="pc-img-actions">
                         <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
-                        <button class="pc-icon-btn"><i class="ri-heart-3-line"></i></button>
+
                     </div>
                     <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
                 </div>
@@ -501,7 +501,7 @@ $(document).ready(function () {
                         <div class="pc-img">
                             <div class="pc-img-actions">
                                 <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
-                                <button class="pc-icon-btn"><i class="ri-heart-3-line"></i></button>
+
                             </div>
                             <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
                         </div>
