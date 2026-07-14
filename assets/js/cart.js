@@ -910,7 +910,9 @@ var QuoteCart = (function ($) {
         $('#quoteRequestModal').on('show.bs.modal', function (e) {
             // BEST UX: Always show the quote form, bypassing the sign-in requirement entirely
             $('#quote-auth-prompt').hide();
-            $('#quote-form-modal').show();
+            $('#quote-otp-section').hide();
+            $('#quote-form-modal').attr('style', 'display: block');
+            $('#quote-form-modal').find('button[type="submit"]').html('<span dir="rtl">إرسال الطلب</span> Submit Request <i class="ri-arrow-right-line"></i>').prop('disabled', false);
         });
 
         $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {
@@ -1029,16 +1031,16 @@ var QuoteCart = (function ($) {
                 window.pendingPayload = payload;
                 
                 var userEmail = payload.email;
-                var GAS_URL = 'https://script.google.com/macros/s/AKfycbzqMksdKkiYQaMd0fBPh5_7QxOb2kMmhXFBvHjyDAhWwZwq6G2c1AXBBTmoB7jLmCh0Gw/exec';
+                var API_URL = 'https://hydrotechglobal.ae/onshore_contact_api.php';
                 
                 // Send email request
-                fetch(GAS_URL, {
+                fetch(API_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Safest for Google Apps Script to prevent CORS blocking
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        name: payload.full_name,
                         email: userEmail,
                         otp: generatedOTP
                     })
@@ -1058,7 +1060,7 @@ var QuoteCart = (function ($) {
                             <span style="font-size: 13px; color: #888; font-style: italic;">(Please also check your spam/junk folder if you don't see it)</span>
                         </p>
                         <div style="margin-bottom: 20px;">
-                            <input type="text" id="quote-otp-input" placeholder="000000" maxlength="6" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 200px; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                            <input type="text" id="quote-otp-input" placeholder="000000" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 200px; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
                         </div>
                         <button type="button" id="verify-otp-btn" class="btn" style="background: #0177c6; color: white; padding: 12px 30px; font-weight: 600; border-radius: 6px; margin-bottom: 15px;">Verify & Submit</button>
                         <p id="otp-error-msg" style="color: #dc3545; display: none; margin-top: 15px; font-size: 14px; font-weight: 600;">Invalid verification code. Please check your email and try again.</p>
@@ -1076,9 +1078,14 @@ var QuoteCart = (function ($) {
             sendQuoteToBackend(payload, $btn);
         });
 
+        // Handle OTP formatting on input/paste
+        $(document).off('input', '#quote-otp-input').on('input', '#quote-otp-input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
+        });
+
         // Handle OTP verification click
         $(document).off('click', '#verify-otp-btn').on('click', '#verify-otp-btn', function () {
-            var enteredOTP = $('#quote-otp-input').val().trim();
+            var enteredOTP = $('#quote-otp-input').val();
             if (enteredOTP === window.pendingOTP) {
                 // OTP matches! Clear the UI and submit
                 $('#quote-otp-input').prop('disabled', true);
@@ -1110,20 +1117,21 @@ var QuoteCart = (function ($) {
             $resendBtn.css('pointer-events', 'none').css('opacity', '0.5');
 
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
+            var userName = window.pendingPayload ? window.pendingPayload.full_name : '';
             if(!userEmail) return;
 
             var generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
             window.pendingOTP = generatedOTP;
             
-            var GAS_URL = 'https://script.google.com/macros/s/AKfycbzqMksdKkiYQaMd0fBPh5_7QxOb2kMmhXFBvHjyDAhWwZwq6G2c1AXBBTmoB7jLmCh0Gw/exec';
+            var API_URL = 'https://hydrotechglobal.ae/onshore_contact_api.php';
             
-            fetch(GAS_URL, {
+            fetch(API_URL, {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    name: userName,
                     email: userEmail,
                     otp: generatedOTP
                 })
