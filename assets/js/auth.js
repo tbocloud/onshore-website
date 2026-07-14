@@ -27,7 +27,7 @@ function injectLoginModal() {
             <div class="login-modal-left">
                 <div>
                     <h2>Login</h2>
-                    <p>Get access to your Orders, Quotes and Recommendations</p>
+                    <p>To get the item stock, please register your email.<br><span dir="rtl" style="font-size: 13px; font-weight: 500; display: block; margin-top: 5px; opacity: 0.9;">لمعرفة حالة المخزون، يرجى تسجيل بريدك الإلكتروني.</span></p>
                 </div>
                 <div class="login-modal-img">
                     <img src="assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
@@ -40,7 +40,7 @@ function injectLoginModal() {
                         <input type="email" class="form-control" id="modal-email-input" placeholder="Enter Email Address">
                     </div>
                     <p style="font-size: 12px; color: #878787; margin-top: 20px;">By continuing, you agree to Onshore's <a href="#" style="color: #0177c6; text-decoration: none;">Terms of Use</a> and <a href="#" style="color: #0177c6; text-decoration: none;">Privacy Policy</a>.</p>
-                    <button class="login-modal-btn" id="modal-email-login-btn">Request Magic Link</button>
+                    <button class="login-modal-btn" id="modal-email-login-btn">Request Login Link <span dir="rtl" style="font-size: 12px; margin-left: 5px; opacity: 0.9;">| طلب رابط الدخول</span></button>
                     
                     <div class="login-modal-divider">
                         <span>OR</span>

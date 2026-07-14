@@ -1674,8 +1674,8 @@ footer .copyright p {
 #cart-sidebar {
   position: fixed;
   top: 0;
-  right: -350px;
-  width: 350px;
+  right: -420px;
+  width: 420px;
   height: 100%;
   background: #fff;
   z-index: 9999;
@@ -2038,7 +2038,7 @@ nav.header-scrolled .cart-trigger {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    z-index: 10000;
+    z-index: 9997;
     font-family: Arial, sans-serif;
 }
 

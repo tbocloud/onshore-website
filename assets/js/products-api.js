@@ -414,7 +414,8 @@ $(document).ready(function () {
                 </div>
                 <div class="pc-body">
                     <span class="pc-brand">${displayBrand}</span>
-                    <a href="${specsUrl}" class="pc-name" target="_blank">${safeName}</a>
+                    <a href="${specsUrl}" class="pc-name" target="_blank" title="${safeName}">${safeName}</a>
+                    ${arabicName ? `<div dir="rtl" class="pc-name-ar" style="font-size: 13px; color: #666; font-weight: 600; margin-top: -4px; margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${arabicName}</div>` : ''}
                     <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
                         SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
                     </div>
@@ -429,10 +430,10 @@ $(document).ready(function () {
                             data-desc-ar="${escapedDescAr}"
                             data-image="${fullImgUrl}"
                             data-brand="${rawBrandName}">
-                            <i class="ri-shopping-cart-2-line"></i> Add to Cart
+                            <i class="ri-shopping-cart-2-line"></i> Add to Cart <span dir="rtl" style="font-size: 11px; margin-left: 3px;">| أضف للسلة</span>
                         </button>
                         <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 6px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; text-decoration: none;">
-                            <i class="ri-eye-line" style="margin-right: 4px;"></i> Details
+                            <i class="ri-eye-line" style="margin-right: 4px;"></i> Details <span dir="rtl" style="font-size: 11px; margin-left: 3px;">| التفاصيل</span>
                         </a>
                     </div>
                 </div>
@@ -546,7 +547,8 @@ $(document).ready(function () {
                         </div>
                         <div class="pc-body">
                             <span class="pc-brand">${escapedBrandName}</span>
-                            <a href="${specsUrl}" class="pc-name" target="_blank">${escapedName}</a>
+                            <a href="${specsUrl}" class="pc-name" target="_blank" title="${escapedName}">${escapedName}</a>
+                            ${escapedArabicName ? `<div dir="rtl" class="pc-name-ar" style="font-size: 13px; color: #666; font-weight: 600; margin-top: -4px; margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapedArabicName}</div>` : ''}
                             <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
                                 SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
                             </div>
@@ -762,7 +764,7 @@ $(document).ready(function () {
             </style>
             <section class="recently-viewed-section" id="recently-viewed-section">
                 <div class="container">
-                    <h3 class="recently-viewed-title">Recently Viewed Products</h3>
+                    <h3 class="recently-viewed-title">Recently Viewed Products <br><span dir="rtl" style="font-size: 16px; font-weight: 600; color: #64748b;">المنتجات المعروضة مؤخراً</span></h3>
                     <div class="rv-grid">
         `;
         
@@ -778,6 +780,7 @@ $(document).ready(function () {
                     <div class="rv-details">
                         ${item.brand ? `<div class="rv-brand">${item.brand}</div>` : ''}
                         <h4 class="rv-name">${item.name}</h4>
+                        ${item.nameAr ? `<div dir="rtl" style="font-size: 11px; color: #64748b; margin-top: 4px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.nameAr}</div>` : ''}
                     </div>
                 </a>
             `;

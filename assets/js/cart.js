@@ -30,17 +30,78 @@ var QuoteCart = (function ($) {
 
         var sidebarHtml = `
             <div class="cart-overlay"></div>
-            <div id="cart-sidebar">
-                <div class="cart-header">
-                    <h4>QUOTE BASKET</h4>
-                    <span class="close-cart"><i class="ri-close-line"></i></span>
+            <div id="cart-sidebar" style="background: #fdfdfd; display: flex; flex-direction: column; height: 100vh;">
+                <!-- Header -->
+                <div class="cart-header" style="background: #fff; padding: 20px; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                        <div style="background: #eef5fc; color: #015bb5; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                            <i class="ri-shopping-cart-2-fill"></i>
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #111; line-height: 1.4;">ENQUIRY BASKET (<span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span>)<br><span dir="rtl" style="font-size: 14px; font-weight: 500; color: #666; display: block; margin-top: 3px;">سلة الاستفسارات</span></h4>
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Review your selected items before requesting a quote.<br><span dir="rtl" style="display:inline-block; font-size: 11px; margin-top:2px;">راجع العناصر المحددة قبل طلب عرض السعر.</span></div>
+                        </div>
+                    </div>
+                    <span class="close-cart" style="font-size: 24px; color: #444; cursor: pointer; display: flex; align-items: flex-start; padding-top: 4px;"><i class="ri-close-line"></i></span>
                 </div>
-                <div class="cart-items">
+
+                <!-- Progress Bar -->
+                <div style="padding: 20px; background: #fff; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; position: relative; margin-bottom: 0;">
+                        <div style="position: absolute; top: 12px; left: 15%; right: 15%; height: 2px; background: #eee; z-index: 0;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
+                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #015bb5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">1</div>
+                            <div style="font-size: 11px; color: #015bb5; font-weight: 600; margin-top: 8px; text-align: center;">Basket<br><span dir="rtl" style="font-weight: 500;">السلة</span></div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
+                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid #ddd; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">2</div>
+                            <div style="font-size: 11px; color: #666; font-weight: 500; margin-top: 8px; text-align: center;">Contact Details<br><span dir="rtl">بيانات الاتصال</span></div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
+                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid #ddd; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">3</div>
+                            <div style="font-size: 11px; color: #666; font-weight: 500; margin-top: 8px; text-align: center;">Send Request<br><span dir="rtl">إرسال الطلب</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 20px; background: #fdfdfd;">
                     <!-- Items will be injected here -->
-                    <div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.</div>
+                    <div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.<br><span dir="rtl" style="display: block; margin-top: 5px;">سلة العروض الخاصة بك فارغة.</span></div>
                 </div>
-                <div class="cart-footer">
-                    <a href="#" class="btn-view-cart" data-bs-toggle="modal" data-bs-target="#quoteRequestModal">Request Quote</a>
+
+                <!-- Footer -->
+                <div class="cart-footer" style="padding: 20px; background: #fff; border-top: 1px solid #eee;">
+                    <!-- Summary Card -->
+                    <div style="background: #f8fbff; border: 1px solid #e1effe; border-radius: 8px; padding: 15px; display: flex; margin-bottom: 20px;">
+                        <div style="flex: 1; display: flex; align-items: center; gap: 10px; border-right: 1px solid #e1effe; padding-right: 15px;">
+                            <div style="color: #015bb5; font-size: 24px; opacity: 0.8;"><i class="ri-file-list-3-line"></i></div>
+                            <div>
+                                <div style="font-size: 11px; color: #555;">Total Items<br><span dir="rtl" style="font-size: 10px;">إجمالي المنتجات</span></div>
+                                <div style="font-size: 14px; font-weight: 700; color: #111;"><span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span> Products<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">منتجات</span></div>
+                            </div>
+                        </div>
+                        <div style="flex: 1; display: flex; align-items: center; gap: 10px; padding-left: 15px;">
+                            <div style="color: #015bb5; font-size: 24px; opacity: 0.8;"><i class="ri-time-line"></i></div>
+                            <div>
+                                <div style="font-size: 11px; color: #555;">Estimated Response<br><span dir="rtl" style="font-size: 10px;">الرد المتوقع</span></div>
+                                <div style="font-size: 13px; font-weight: 700; color: #111; line-height: 1.2;">Within 24 Hours<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">خلال 24 ساعة</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                        <button class="btn-view-cart" data-bs-toggle="modal" data-bs-target="#quoteRequestModal" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 15px; font-size: 14px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;"><span dir="rtl" style="font-weight: 500; font-size: 12px;">إرسال الطلب (إتمام الطلب)</span> | REQUEST QUOTE (CHECK OUT) <i class="ri-arrow-right-line"></i></div>
+                            <div style="font-size: 10px; font-weight: 400; opacity: 0.9; margin-top: 4px;">We'll get back to you shortly <span dir="rtl" style="font-size: 9px;">/ سنعود إليك قريباً</span></div>
+                        </button>
+                        <span class="close-cart" style="color: #015bb5; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <i class="ri-arrow-left-line"></i> Continue Shopping <span dir="rtl" style="font-size: 12px; font-weight: 500;">/ مواصلة التسوق</span>
+                        </span>
+                    </div>
+
+
                 </div>
             </div>
         `;
@@ -49,33 +110,22 @@ var QuoteCart = (function ($) {
             <!-- Request Quote Modal -->
             <div class="modal fade" id="quoteRequestModal" tabindex="-1" aria-labelledby="quoteRequestModalLabel" aria-hidden="true" style="z-index: 100000;">
                 <div class="modal-dialog modal-lg">
-                    <div class="modal-content" style="border-radius: 0;">
-                        <div class="modal-header" style="background-color: #f8f8f8; border-bottom: 1px solid #ddd;">
-                            <h5 class="modal-title" id="quoteRequestModalLabel" style="font-weight: 700; color: #333;">REQUEST QUOTE</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div class="modal-header" style="background-color: #fff; border-bottom: none; padding: 20px 25px 10px;">
+                            <h5 class="modal-title" id="quoteRequestModalLabel" style="font-weight: 700; color: #333;">REQUEST QUOTE <span dir="rtl" style="font-size: 14px; color: #666; font-weight: 500; margin-left: 10px;">| طلب عرض سعر</span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #ddd; border-radius: 50%; padding: 8px; opacity: 1; background-size: 10px;"></button>
                         </div>
                         <div class="modal-body" style="padding: 30px;">
-                            <!-- Products Table Section -->
-                            <div class="shopping-cart text-center" style="margin-bottom: 30px;">
-                                <div class="cart-head" style="background: #f8f8f8; padding: 10px 0; font-weight: bold; border-bottom: 2px solid #ddd; margin-bottom: 15px;">
-                                    <div class="row" style="margin: 0;">
-                                        <div class="col-6 text-start" style="padding-left: 20px;">
-                                            <h6 style="margin: 0; font-size: 14px;">PRODUCTS</h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 style="margin: 0; font-size: 14px;">QTY</h6>
-                                        </div>
-                                        <div class="col-3">
-                                            <h6 style="margin: 0; font-size: 14px;">REMOVE</h6>
-                                        </div>
-                                    </div>
+                            <!-- Selected Products Section -->
+                            <div style="border: 1px solid #eaeaea; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 10px;">
+                                    <span style="font-weight: 700; color: #333; font-size: 13px;">SELECTED PRODUCTS</span>
+                                    <span dir="rtl" style="font-size: 12px; color: #888; font-weight: 500;">المنتجات المحددة</span>
                                 </div>
-                                <div id="modal-quote-cart-items" style="max-height: 160px; overflow-y: auto;">
-                                    <table class="table" style="width: 100%; margin-bottom: 0;">
-                                        <tbody id="modal-quote-cart-body">
-                                            <!-- Modal cart items will be injected here -->
-                                        </tbody>
-                                    </table>
+                                <div id="modal-quote-cart-items" style="max-height: 120px; overflow-y: auto; padding-right: 5px;">
+                                    <div id="modal-quote-cart-body">
+                                        <!-- Products injected here -->
+                                    </div>
                                 </div>
                             </div>
                             <div id="quote-auth-prompt" style="display:none; text-align:center; padding: 15px 20px;">
@@ -105,27 +155,40 @@ var QuoteCart = (function ($) {
 
                             <!-- Form Section -->
                             <form id="quote-form-modal">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <span style="font-weight: 700; color: #222; font-size: 14px;">CONTACT INFORMATION</span>
+                                            <span dir="rtl" style="font-size: 13px; color: #888; font-weight: 500;">بيانات الاتصال</span>
+                                        </div>
+                                        <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                            Complete the form below and we'll send you a quotation shortly.<br>
+                                            <span dir="rtl" style="display: inline-block; margin-top: 2px;">يرجى تعبئة النموذج أدناه وسنقوم بإرسال عرض السعر لك قريباً.</span>
+                                        </div>
+                                    </div>
+                                    <div style="color: #0177c6; font-size: 24px; opacity: 0.8;"><i class="ri-file-text-line"></i></div>
+                                </div>
                                 <!-- Honeypot field (hidden from humans) -->
                                 <div style="display:none;">
                                     <label>Leave this field blank</label>
                                     <input type="text" name="hp_field" value="">
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Full Name *</label>
-                                        <input type="text" name="full_name" required class="form-control">
+                                <div class="row" style="margin: 0 -10px;">
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Full Name <span style="font-weight: normal; color: #777;">الاسم الكامل</span> *</label>
+                                        <input type="text" name="full_name" required class="form-control" placeholder="Enter your full name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                     </div>
-                                    <div class="col-md-6" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Email *</label>
-                                        <input type="email" name="email" required class="form-control">
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Email <span style="font-weight: normal; color: #777;">البريد الإلكتروني</span> *</label>
+                                        <input type="email" name="email" required class="form-control" placeholder="Enter your email address" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                     </div>
-                                    <div class="col-md-6" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Company Name</label>
-                                        <input type="text" name="company_name" class="form-control">
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span></label>
+                                        <input type="text" name="company_name" class="form-control" placeholder="Enter your company name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                     </div>
-                                    <div class="col-md-6" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Country *</label>
-                                        <select name="country" id="quote-country-select" class="form-select" required>
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Country <span style="font-weight: normal; color: #777;">الدولة</span> *</label>
+                                        <select name="country" id="quote-country-select" class="form-select" required style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                             <option value="">Select Country</option>
 <option value="Afghanistan">Afghanistan</option>
 <option value="Albania">Albania</option>
@@ -324,15 +387,14 @@ var QuoteCart = (function ($) {
 <option value="Zimbabwe">Zimbabwe</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-5" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">City</label>
-                                        <input type="text" name="city" class="form-control">
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">City <span style="font-weight: normal; color: #777;">المدينة</span></label>
+                                        <input type="text" name="city" class="form-control" placeholder="Enter your city" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                     </div>
-                                    <div class="col-md-7" style="margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Mobile Number *</label>
-                                        <div class="row" style="margin: 0; gap: 5px;">
-                                            <div class="col-4" style="padding: 0;">
-                                                <select name="country_code" id="quote-country-code" class="form-select" style="padding: 0.375rem 0.5rem; font-size: 13px;">
+                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
+                                        <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
+                                                <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 130px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
                                                     <option data-countryCode="AE" value="971">UAE (+971)</option>
                                                     <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
                                                     <option data-countryCode="QA" value="974">Qatar (+974)</option>
@@ -551,29 +613,23 @@ var QuoteCart = (function ($) {
                                                         <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
                                                     </optgroup>
                                                 </select>
-                                            </div>
-                                            <div class="col-7" style="padding: 0; flex-grow: 1;">
-                                                <input type="text" name="phone" required class="form-control" placeholder="Number">
-                                            </div>
+                                                <input type="text" name="phone" required class="form-control" placeholder="Enter mobile number" style="font-size: 13px; padding: 10px 12px; border: none; flex-grow: 1;">
                                         </div>
                                     </div>
-                                    <div class="col-md-12" style="margin-bottom: 15px;">
-                                         <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Promo Code</label>
-                                         <input type="text" name="promo_code" class="form-control" placeholder="e.g. ONSHORE40 (Optional)" style="border: 1px dashed #ffc107; background: #fffcf2;">
-                                     </div>
-                                    <div class="col-md-12" style="margin-bottom: 20px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #555;">Message</label>
-                                        <textarea name="message" rows="4" class="form-control" placeholder="Additional details..."></textarea>
-                                    </div>
+
 
                                     <!-- Cloudflare Turnstile -->
-                                    <div class="col-md-12" style="margin-bottom: 20px;">
+                                    <div class="col-md-12" style="margin-bottom: 10px;">
                                         <div id="turnstile-container"></div>
                                     </div>
                                 </div>
-                                <div class="text-end" style="margin-top: 20px;">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 10px;">Cancel</button>
-                                    <button type="submit" class="btn btn-primary" style="background-color: #0275c6; border-color: #0275c6;">Submit Request</button>
+                                                                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; padding: 0 10px;">
+                                    <button type="button" class="btn" data-bs-dismiss="modal" style="background-color: white; color: #6c757d; border: 1px solid #6c757d; border-radius: 6px; padding: 8px 20px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+                                        <span dir="rtl">إلغاء</span> Cancel
+                                    </button>
+                                    <button type="submit" class="btn" style="background-color: white; color: #015bb5; border: 1px solid #015bb5; border-radius: 6px; padding: 8px 20px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+                                        <span dir="rtl">إرسال الطلب</span> Submit Request <i class="ri-arrow-right-line"></i>
+                                    </button>
                                 </div>
                             </form>
                             <div id="quote-otp-section" style="display:none;"></div>
@@ -583,10 +639,10 @@ var QuoteCart = (function ($) {
             </div>
             <div class="modal fade" id="quoteStatusModal" tabindex="-1" aria-labelledby="quoteStatusModalLabel" aria-hidden="true" style="z-index: 100001;">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content" style="border-radius: 0;">
-                        <div class="modal-header" style="background-color: #f8f8f8; border-bottom: 1px solid #ddd;">
+                    <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div class="modal-header" style="background-color: #fff; border-bottom: none; padding: 20px 25px 10px;">
                             <h5 class="modal-title" id="quoteStatusModalLabel" style="font-weight: 700; color: #333;">Request Status</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #ddd; border-radius: 50%; padding: 8px; opacity: 1; background-size: 10px;"></button>
                         </div>
                         <div class="modal-body" style="padding: 30px; text-align: center;">
                             <div id="quote-status-icon" style="font-size: 40px; margin-bottom: 15px; line-height: 1;"></div>
@@ -685,36 +741,51 @@ var QuoteCart = (function ($) {
         $container.empty();
 
         if (cart.length === 0) {
-            $container.html('<div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.</div>');
+            $container.html('<div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.<br><span dir="rtl" style="display: block; margin-top: 5px;">سلة العروض الخاصة بك فارغة.</span></div>');
+            $('.cart-count').text("0");
             return;
         }
 
         cart.forEach(function (item) {
             var html = `
-                <div class="cart-item" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #f9f9f9; padding-bottom: 15px;">
-                    <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
-                    <div class="cart-item-details" style="flex-grow: 1;">
-                        <h5 style="margin: 0 0 5px; font-size: 14px; font-weight: 700;">
-                            ${item.name}
-                            ${item.name_ar ? `<span style="display: block; font-size: 12px; color: #555; font-weight: 600; text-align: right; margin-top: 2px;" dir="rtl">${item.name_ar}</span>` : ''}
-                        </h5>
+                <div class="cart-item" style="background: #fff; border: 1px solid #eaeaea; border-radius: 8px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <div style="display: flex; padding: 15px;">
+                        <img src="${item.image}" alt="${item.name}" style="width: 70px; height: 70px; object-fit: contain; margin-right: 15px; border: 1px solid #f0f0f0; border-radius: 4px; padding: 4px;">
                         
-                        ${item.desc_en ? `<div class="cart-item-desc" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4;">${item.desc_en}</div>` : ''}
-                        ${item.desc_ar ? `<div class="cart-item-desc-ar" style="font-size: 11px; color: #666; margin-bottom: 5px; line-height: 1.4; text-align: right;" dir="rtl">${item.desc_ar}</div>` : ''}
-                        
-                        <div class="cart-item-brand" style="font-size: 11px; color: var(--second-color); font-weight: 600; text-transform: uppercase; margin-bottom: 3px;">Quantity / الكمية</div>
-                        
-                        <div class="qty-control mt-2">
-                            <button type="button" class="update-qty" data-id="${item.id}" data-action="decrease">-</button>
-                            <input type="text" value="${item.qty}" readonly>
-                            <button type="button" class="update-qty" data-id="${item.id}" data-action="increase">+</button>
+                        <div style="flex: 1; min-width: 0; padding-right: 10px;">
+                            <h5 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #111; line-height: 1.3;">${item.name}</h5>
+                            <div style="font-size: 11px; color: #666; margin-bottom: 8px;">SKU: ${item.id}</div>
+                            
+                            <div style="display: flex; align-items: center; gap: 5px; color: #28a745; font-size: 11px; font-weight: 600;">
+                                <i class="ri-checkbox-circle-fill"></i> In Stock <span dir="rtl" style="font-weight: 500; font-size: 10px;">/ متوفر</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                            <div class="remove-from-cart-btn" data-id="${item.id}" style="cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+                                <div style="width: 30px; height: 30px; border-radius: 50%; background: #fff0f0; color: #dc3545; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 4px; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#ffdfdf'" onmouseout="this.style.backgroundColor='#fff0f0'">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                                <span style="color: #dc3545; font-size: 10px; font-weight: 500;">Remove <span dir="rtl">إزالة</span></span>
+                            </div>
                         </div>
                     </div>
-                    <span class="remove-from-cart-btn" data-id="${item.id}" style="cursor: pointer; color: #ff0000; padding: 0 5px;"><i class="ri-close-line"></i></span>
+                    
+                    <div style="border-top: 1px dashed #eaeaea; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; background: #fafafa;">
+                        <span style="font-size: 12px; font-weight: 600; color: #444;">Quantity <span dir="rtl" style="font-weight: 500; color: #666; font-size: 11px;">/ الكمية</span></span>
+                        <div class="qty-control" style="display: flex; align-items: center; background: #fff; border: 1px solid #ddd; border-radius: 6px; overflow: hidden;">
+                            <button type="button" class="update-qty" data-id="${item.id}" data-action="decrease" style="background: transparent; border: none; width: 30px; height: 30px; font-size: 16px; color: #555; cursor: pointer;">-</button>
+                            <input type="text" value="${item.qty}" readonly style="width: 35px; height: 30px; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: center; font-size: 13px; font-weight: 700; color: #111; padding: 0;">
+                            <button type="button" class="update-qty" data-id="${item.id}" data-action="increase" style="background: transparent; border: none; width: 30px; height: 30px; font-size: 14px; color: #555; cursor: pointer;">+</button>
+                        </div>
+                    </div>
                 </div>
             `;
             $container.append(html);
         });
+        
+        var totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+        $('.cart-count').text(totalQty);
     }
 
     function renderModalCartSpace() {

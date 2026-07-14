@@ -127,7 +127,12 @@ $(document).ready(function () {
     function renderProductDetails(p) {
         // 1. Basic Info
         const name = p.item_name || p.name || 'Product';
-        $('#hero-product-name').text(name);
+        const nameArBanner = p.custom_item_name_in_arabic || p.item_name_in_arabic || '';
+        if (nameArBanner) {
+            $('#hero-product-name').html(`${name} <br><span dir="rtl" style="font-size: 0.6em; opacity: 0.9; font-weight: 500; display: block; margin-top: 5px;">${nameArBanner}</span>`);
+        } else {
+            $('#hero-product-name').text(name);
+        }
         
         // Dynamically build multi-level breadcrumbs
         const parentCat = p.parent_item_group || '';
@@ -307,14 +312,14 @@ $(document).ready(function () {
         // 3. Specifications Table
         const parentCategory = p.parent_item_group ? (PARENT_INFO[p.parent_item_group.toUpperCase()]?.label || toTitleCase(p.parent_item_group)) : '';
         const specs = [
-            { label: 'Parent Category', value: parentCategory },
-            { label: 'Category', value: p.item_group ? toTitleCase(p.item_group) : '' },
-            { label: 'Brand', value: brandName },
-            { label: 'SKU', value: p.custom_sku },
-            { label: 'Model Number', value: p.custom_model_number },
-            { label: 'Stock Status', value: p.stock > 0 ? 'In Stock' : 'Contact for Availability' },
-            { label: 'Delivery', value: 'Delivery will be done within 3-4 working days' },
-            { label: 'Price', value: p.price > 0 ? `Contact for Price` : 'Request a Quote' }
+            { label: 'Parent Category | الفئة الرئيسية', value: parentCategory },
+            { label: 'Category | الفئة', value: p.item_group ? toTitleCase(p.item_group) : '' },
+            { label: 'Brand | الماركة', value: brandName },
+            { label: 'SKU | رمز المنتج', value: p.custom_sku },
+            { label: 'Model Number | رقم الموديل', value: p.custom_model_number },
+            { label: 'Stock Status | حالة المخزون', value: p.stock > 0 ? 'In Stock | متوفر' : 'Contact for Availability | تواصل لمعرفة التوفر' },
+            { label: 'Delivery | التوصيل', value: 'Delivery will be done within 3-4 working days | سيتم التوصيل خلال 3-4 أيام عمل' },
+            { label: 'Price | السعر', value: p.price > 0 ? `Contact for Price | تواصل لمعرفة السعر` : 'Request a Quote | طلب عرض سعر' }
         ];
 
         let specsHtml = '';
@@ -483,6 +488,7 @@ $(document).ready(function () {
         // Add to front
         viewed.unshift({
             name: name,
+            nameAr: product.custom_item_name_in_arabic || product.item_name_in_arabic || '',
             url: url,
             image: imageUrl,
             brand: product.custom_brand_name || product.brand || ''
@@ -627,7 +633,7 @@ $(document).ready(function () {
             </style>
             <section class="recently-viewed-section" id="recently-viewed-section">
                 <div class="container">
-                    <h3 class="recently-viewed-title">Recently Viewed Products</h3>
+                    <h3 class="recently-viewed-title">Recently Viewed Products <br><span dir="rtl" style="font-size: 16px; font-weight: 600; color: #64748b;">المنتجات المعروضة مؤخراً</span></h3>
                     <div class="rv-grid">
         `;
         
@@ -644,6 +650,7 @@ $(document).ready(function () {
                     <div class="rv-details">
                         ${item.brand ? `<div class="rv-brand">${item.brand}</div>` : ''}
                         <h4 class="rv-name">${item.name}</h4>
+                        ${item.nameAr ? `<div dir="rtl" style="font-size: 11px; color: #64748b; margin-top: 4px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.nameAr}</div>` : ''}
                     </div>
                 </a>
             `;
