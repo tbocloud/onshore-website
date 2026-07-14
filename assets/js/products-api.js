@@ -376,13 +376,28 @@ $(document).ready(function () {
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
         const safeName = name.replace(/"/g, '&quot;');
         let stockDisplay = '';
+        let publicStockDisplay = '';
         if (typeof p.stock === 'number') {
-            const calculatedStock = Math.round(p.stock * 0.7);
+            const baseStock = p.stock || 0;
+            const salesOrder = p.sales_order || 0;
+            let calculatedStock = (baseStock - salesOrder) * 0.8;
+            
+            if (calculatedStock > 0 && calculatedStock < 1) {
+                calculatedStock = calculatedStock >= 0.4 ? 1 : 0;
+            } else {
+                calculatedStock = Math.round(calculatedStock);
+            }
+            calculatedStock = Math.max(0, calculatedStock);
+
             if (calculatedStock > 0) {
                 stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #10b981; font-weight: 700; margin-top: 5px;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>${calculatedStock} units in stock</div>`;
+                publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span><span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span></div>`;
             } else {
                 stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-top: 5px;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>Out of stock</div>`;
+                publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; margin-right: 5px;"></span><span style="color: #ef4444; font-weight: 600; margin-right: 5px;">Out of Stock</span></div>`;
             }
+        } else {
+            publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; margin-right: 5px;"></span><span style="color: #f59e0b; font-weight: 600; margin-right: 5px;">Check Stock</span></div>`;
         }
 
         return `
@@ -393,7 +408,9 @@ $(document).ready(function () {
                         <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
 
                     </div>
-                    <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                    <a href="${specsUrl}" target="_blank">
+                        <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                    </a>
                 </div>
                 <div class="pc-body">
                     <span class="pc-brand">${displayBrand}</span>
@@ -401,10 +418,7 @@ $(document).ready(function () {
                     <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
                         SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
                     </div>
-                    <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
-                        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
-                        <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span>
-                    </div>
+                    ${publicStockDisplay}
                     ${stockDisplay}
                     <div class="pc-actions" style="display: flex; gap: 6px; margin-top: auto;">
                         <button class="pc-btn-primary add-to-cart-btn" style="flex: 1; padding: 6px 0; border-radius: 6px;"
@@ -430,8 +444,9 @@ $(document).ready(function () {
     function renderFeaturedProducts(products) {
         const targetItemCodes = [
             '15LB1.5X1.5',
-            '76REMOTE-ECB1T-5T-SSDHL',
-            '15ECB-2TX6M-SSDHL'
+            '15HPT2.5T',
+            '15ECB-2TX6M-SSDHL',
+            '15CB2X6'
         ];
         
         let featured = products.filter(p => targetItemCodes.includes(p.name));
@@ -495,6 +510,28 @@ $(document).ready(function () {
             const specsUrl = `product-specifications.html?item=${encodeURIComponent(p.name)}`;
             const badgeClass = isTopSeller ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success';
             
+            let publicStockDisplay = '';
+            if (typeof p.stock === 'number') {
+                const baseStock = p.stock || 0;
+                const salesOrder = p.sales_order || 0;
+                let calculatedStock = (baseStock - salesOrder) * 0.8;
+                
+                if (calculatedStock > 0 && calculatedStock < 1) {
+                    calculatedStock = calculatedStock >= 0.4 ? 1 : 0;
+                } else {
+                    calculatedStock = Math.round(calculatedStock);
+                }
+                calculatedStock = Math.max(0, calculatedStock);
+
+                if (calculatedStock > 0) {
+                    publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span><span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span></div>`;
+                } else {
+                    publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; margin-right: 5px;"></span><span style="color: #ef4444; font-weight: 600; margin-right: 5px;">Out of Stock</span></div>`;
+                }
+            } else {
+                publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; margin-right: 5px;"></span><span style="color: #f59e0b; font-weight: 600; margin-right: 5px;">Check Stock</span></div>`;
+            }
+
             const cardHtml = `
                 <div class="col-6 col-md-3">
                     <div class="pc" style="height: 100%;">
@@ -503,7 +540,9 @@ $(document).ready(function () {
                                 <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
 
                             </div>
-                            <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                            <a href="${specsUrl}" target="_blank">
+                                <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                            </a>
                         </div>
                         <div class="pc-body">
                             <span class="pc-brand">${escapedBrandName}</span>
@@ -511,10 +550,7 @@ $(document).ready(function () {
                             <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
                                 SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
                             </div>
-                            <div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;">
-                                <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span>
-                                <span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span>
-                            </div>
+                            ${publicStockDisplay}
                             <div class="pc-actions" style="margin-top: auto;">
                                 <button class="pc-btn-primary" style="width: 100%; padding: 6px 0; border-radius: 6px;"
                                     onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;">

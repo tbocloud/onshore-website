@@ -151,7 +151,7 @@
                                     style="font-size: 12px; font-weight: 700; line-height: 1.1; text-align: right; letter-spacing: 1px;">
                                     UP<br>TO</div>
                                 <div style="font-size: 42px; font-weight: 800; color: #ffc107; line-height: 1; letter-spacing: -1px;"
-                                    class="me-3">40%<span
+                                    class="me-3">10%<span
                                         style="font-size: 18px; letter-spacing: 0; margin-left: 5px;">OFF</span></div>
                                 <div
                                     style="font-size: 14px; font-weight: 600; line-height: 1.2; letter-spacing: 0.2px;">
@@ -164,7 +164,7 @@
                                     style="font-size: 11px; color: #a0aec0; display: block; margin-bottom: 2px; font-weight: 600; letter-spacing: 0.5px;">Use
                                     Code</span>
                                 <div style="font-weight: 800; color: #ffc107; font-size: 18px; letter-spacing: 1.5px;">
-                                    ONSHORE40
+                                    ONSHORE10
                                 </div>
                             </div>
 
@@ -181,7 +181,7 @@
                             <div class="ms-4" style="height: 80px; width: 120px; position: relative;">
                                 <div
                                     style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 100%;">
-                                    <img src="assets/img/offer_slider/offer1.png"
+                                    <img src="assets/img/special/hook.png"
                                         style="height: 85px; width: 100%; object-fit: contain; filter: drop-shadow(-5px 5px 15px rgba(0,0,0,0.8));"
                                         alt="Equipment Offer">
                                 </div>
@@ -846,8 +846,8 @@
 
                 const matchingCards = [];
 
-                // Loop through each product card
-                $('.pc').each(function () {
+                // Loop through each product card in the catalog grid (ignore banner)
+                $('#dynamic-products-container .pc').each(function () {
                     const $card = $(this);
                     const name = $card.find('.pc-name').text().toLowerCase();
                     const arabicName = $card.find('.pc-arabic').text().toLowerCase();

@@ -221,6 +221,11 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
             showAlert("Logged in successfully!", "success");
             window.history.replaceState({}, document.title, window.location.pathname);
             setTimeout(() => { modalOverlay.classList.remove('active'); }, 1500);
+            
+            // If the user was trying to request a quote, submit it now!
+            if (window.QuoteCart && typeof window.QuoteCart.submitPendingQuote === 'function') {
+                window.QuoteCart.submitPendingQuote();
+            }
         })
         .catch((error) => {
             console.error(error);

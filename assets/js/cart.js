@@ -576,6 +576,7 @@ var QuoteCart = (function ($) {
                                     <button type="submit" class="btn btn-primary" style="background-color: #0275c6; border-color: #0275c6;">Submit Request</button>
                                 </div>
                             </form>
+                            <div id="quote-otp-section" style="display:none;"></div>
                         </div>
                     </div>
                 </div>
@@ -836,13 +837,9 @@ var QuoteCart = (function ($) {
         });
 
         $('#quoteRequestModal').on('show.bs.modal', function (e) {
-            if (window.isUserLoggedIn) {
-                $('#quote-auth-prompt').hide();
-                $('#quote-form-modal').show();
-            } else {
-                $('#quote-form-modal').hide();
-                $('#quote-auth-prompt').show();
-            }
+            // BEST UX: Always show the quote form, bypassing the sign-in requirement entirely
+            $('#quote-auth-prompt').hide();
+            $('#quote-form-modal').show();
         });
 
         $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {
@@ -954,36 +951,124 @@ var QuoteCart = (function ($) {
 
             $btn.text('Sending...').prop('disabled', true);
 
-            $.ajax({
-                url: REQUEST_QUOTE_URL,
-                method: 'POST',
-                contentType: 'application/json',
-                headers: {
-                    Authorization: REQUEST_QUOTE_AUTH
-                },
-                data: JSON.stringify(payload),
-                success: function (response) {
-                    quoteModalInstance = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
-                    if (quoteModalInstance) {
-                        quoteModalInstance.hide();
-                    }
+            if (!window.isUserLoggedIn) {
+                // Not logged in: Generate OTP and send via Google Apps Script
+                var generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                window.pendingOTP = generatedOTP;
+                window.pendingPayload = payload;
+                
+                var userEmail = payload.email;
+                var GAS_URL = 'https://script.google.com/macros/s/AKfycbzqMksdKkiYQaMd0fBPh5_7QxOb2kMmhXFBvHjyDAhWwZwq6G2c1AXBBTmoB7jLmCh0Gw/exec';
+                
+                // Send email request
+                fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Safest for Google Apps Script to prevent CORS blocking
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        otp: generatedOTP
+                    })
+                }).catch(function(err) {
+                    console.error("OTP send error:", err);
+                });
+                
+                // Update UI to enter OTP
+                $form.attr('style', 'display: none !important');
+                $('#quote-otp-section').html(`
+                    <div class="text-center" style="padding: 30px 20px;">
+                        <i class="ri-mail-check-line" style="font-size: 48px; color: #0177c6; margin-bottom: 20px; display: inline-block;"></i>
+                        <h4 style="font-weight: 700; color: #333; margin-bottom: 10px;">Verify Your Email</h4>
+                        <p style="color: #666; font-size: 15px; margin-bottom: 20px;">
+                            We just sent a 6-digit code to <strong>` + userEmail + `</strong>.<br>
+                            Please enter it below to submit your quote.<br>
+                            <span style="font-size: 13px; color: #888; font-style: italic;">(Please also check your spam/junk folder if you don't see it)</span>
+                        </p>
+                        <div style="margin-bottom: 20px;">
+                            <input type="text" id="quote-otp-input" placeholder="000000" maxlength="6" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 200px; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                        </div>
+                        <button type="button" id="verify-otp-btn" class="btn" style="background: #0177c6; color: white; padding: 12px 30px; font-weight: 600; border-radius: 6px; margin-bottom: 15px;">Verify & Submit</button>
+                        <p id="otp-error-msg" style="color: #dc3545; display: none; margin-top: 15px; font-size: 14px; font-weight: 600;">Invalid verification code. Please check your email and try again.</p>
+                        <p id="otp-success-msg" style="color: #28a745; display: none; margin-top: 15px; font-size: 14px; font-weight: 600;">A new code has been sent!</p>
+                        <div style="margin-top: 15px; font-size: 14px;">
+                            <a href="#" id="change-email-btn" style="color: #0177c6; text-decoration: underline; margin-right: 20px; font-weight: 500;">Change Email</a>
+                            <a href="#" id="resend-otp-btn" style="color: #0177c6; text-decoration: underline; font-weight: 500;">Send Again</a>
+                        </div>
+                    </div>
+                `).show();
+                return;
+            }
 
-                    showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
-
-                    // Clear cart
-                    cart = [];
-                    localStorage.setItem('onshore_quote_cart', JSON.stringify(cart));
-                    QuoteCart.init(); // Refresh UI
-                },
-                error: function (err) {
-                    console.error('Quote request failed:', err);
-                    showStatusPopup('error', 'Oops! Something went wrong while sending your request. Please try again or contact us directly.');
-                },
-                complete: function () {
-                    $btn.text('Submit Request').prop('disabled', false);
-                }
-            });
+            // Already logged in: Submit normally
+            sendQuoteToBackend(payload, $btn);
         });
+
+        // Handle OTP verification click
+        $(document).off('click', '#verify-otp-btn').on('click', '#verify-otp-btn', function () {
+            var enteredOTP = $('#quote-otp-input').val().trim();
+            if (enteredOTP === window.pendingOTP) {
+                // OTP matches! Clear the UI and submit
+                $('#quote-otp-input').prop('disabled', true);
+                var $verifyBtn = $(this);
+                $verifyBtn.text('Submitting...').prop('disabled', true);
+                
+                if (window.pendingPayload) {
+                    sendQuoteToBackend(window.pendingPayload, $verifyBtn);
+                    window.pendingOTP = null;
+                    window.pendingPayload = null;
+                }
+            } else {
+                // Incorrect OTP
+                $('#otp-error-msg').show();
+                $('#quote-otp-input').addClass('is-invalid');
+            }
+        });
+
+        $(document).off('click', '#change-email-btn').on('click', '#change-email-btn', function (e) {
+            e.preventDefault();
+            $('#quote-otp-section').hide();
+            $('#quote-form-modal').attr('style', 'display: block');
+            $('#quote-form-modal').find('button[type="submit"]').text('Submit Request').prop('disabled', false);
+        });
+
+        $(document).off('click', '#resend-otp-btn').on('click', '#resend-otp-btn', function (e) {
+            e.preventDefault();
+            var $resendBtn = $(this);
+            $resendBtn.css('pointer-events', 'none').css('opacity', '0.5');
+
+            var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
+            if(!userEmail) return;
+
+            var generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            window.pendingOTP = generatedOTP;
+            
+            var GAS_URL = 'https://script.google.com/macros/s/AKfycbzqMksdKkiYQaMd0fBPh5_7QxOb2kMmhXFBvHjyDAhWwZwq6G2c1AXBBTmoB7jLmCh0Gw/exec';
+            
+            fetch(GAS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: userEmail,
+                    otp: generatedOTP
+                })
+            }).catch(function(err) {
+                console.error("OTP send error:", err);
+            });
+            
+            $('#otp-error-msg').hide();
+            $('#otp-success-msg').show();
+            setTimeout(function() {
+                $('#otp-success-msg').fadeOut();
+                $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
+            }, 3000);
+        });
+
+
 
         $(document).off('shown.bs.modal', '#quoteRequestModal').on('shown.bs.modal', '#quoteRequestModal', function () {
             closeSidebar();
@@ -1007,6 +1092,52 @@ var QuoteCart = (function ($) {
                 }
             }
         });
+    }
+
+    function sendQuoteToBackend(payload, $btn) {
+        $.ajax({
+            url: REQUEST_QUOTE_URL,
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {
+                Authorization: REQUEST_QUOTE_AUTH
+            },
+            data: JSON.stringify(payload),
+            success: function (response) {
+                var quoteModalInstance = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
+                if (quoteModalInstance) {
+                    quoteModalInstance.hide();
+                }
+
+                showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
+
+                // Clear cart
+                cart = [];
+                localStorage.setItem('onshore_quote_cart', JSON.stringify(cart));
+                QuoteCart.init(); // Refresh UI
+            },
+            error: function (err) {
+                console.error('Quote request failed:', err);
+                showStatusPopup('error', 'Oops! Something went wrong while sending your request. Please try again or contact us directly.');
+            },
+            complete: function () {
+                if ($btn) $btn.text('Submit Request').prop('disabled', false);
+            }
+        });
+    }
+    
+    // Expose function for auth.js to call after magic link login
+    function submitPendingQuote() {
+        var pendingData = localStorage.getItem('pending_quote_request');
+        if (pendingData) {
+            try {
+                var payload = JSON.parse(pendingData);
+                sendQuoteToBackend(payload, null);
+                localStorage.removeItem('pending_quote_request');
+            } catch (e) {
+                console.error("Failed to parse pending quote", e);
+            }
+        }
     }
 
     function injectAbandonedCartReminder() {
@@ -1162,7 +1293,8 @@ var QuoteCart = (function ($) {
         init: init,
         addToCart: addToCart,
         openSidebar: openSidebar,
-        closeSidebar: closeSidebar
+        closeSidebar: closeSidebar,
+        submitPendingQuote: submitPendingQuote
     };
 
 })(jQuery);
