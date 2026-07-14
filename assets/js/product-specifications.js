@@ -95,8 +95,9 @@ $(document).ready(function () {
 
     async function resolveSlugAndFetch(slugOrName) {
         try {
-            // Fetch ultra-fast static JSON instead of querying the live database
-            const response = await fetch('/assets/data/products.json', {
+            // Fetch lightning-fast static JSON data instead of querying database
+            // Append timestamp to bust aggressive browser caching
+            const response = await fetch('/assets/data/products.json?v=' + new Date().getTime(), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
