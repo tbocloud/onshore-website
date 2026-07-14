@@ -51,7 +51,8 @@ $(document).ready(function () {
 
         try {
             // Fetch lightning-fast static JSON data instead of querying database
-            const response = await fetch('/assets/data/products.json', {
+            // Append timestamp to bust aggressive browser caching
+            const response = await fetch('/assets/data/products.json?v=' + new Date().getTime(), {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
