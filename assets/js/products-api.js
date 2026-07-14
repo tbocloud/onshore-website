@@ -29,30 +29,40 @@ $(document).ready(function () {
     async function fetchProducts() {
         const loader = $('#products-loader');
         
-        // 1. Try to read from Session Cache (unless a hard refresh was requested)
-        const cachedData = sessionStorage.getItem('onshore_products_cache_v2');
-        if (cachedData) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                if (parsed && parsed.length > 0) {
-                    renderCatalog(parsed);
-                    renderFeaturedProducts(parsed);
-                    loader.hide(); // Hide the loader when serving from cache!
-                    return; // Load instantly and exit!
-                }
-            } catch (e) {
-                console.warn("Failed to parse cache in products-api");
-            }
-        }
-
-        // 2. Fetch from API if not cached
-        loader.show();
         let allItems = [];
 
         try {
-            // Fetch lightning-fast static JSON data instead of querying database
-            // Append timestamp to bust aggressive browser caching
-            const response = await fetch('/assets/data/products.json?v=' + new Date().getTime(), {
+            // 1. Check live version instantly (tiny 13 byte file, 0 lag)
+            let liveVersion = 'force_update';
+            try {
+                const verRes = await fetch('/assets/data/version.txt?v=' + Date.now());
+                if (verRes.ok) liveVersion = await verRes.text();
+            } catch (e) {
+                console.warn("Could not check version, proceeding with normal fetch.");
+            }
+
+            // 2. Check localStorage for matching version
+            const cachedVer = localStorage.getItem('onshore_catalog_version');
+            if (cachedVer && cachedVer === liveVersion) {
+                try {
+                    const cachedData = localStorage.getItem('onshore_catalog_data');
+                    if (cachedData) {
+                        allItems = JSON.parse(cachedData);
+                        if (allItems && allItems.length > 0) {
+                            renderCatalog(allItems);
+                            renderFeaturedProducts(allItems);
+                            loader.hide(); // Hide the loader when serving from cache!
+                            return; // Load instantly and exit!
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Cache corrupted, re-fetching...");
+                }
+            }
+
+            // 3. Fetch from server if version changed or cache missing
+            loader.show();
+            const response = await fetch('/assets/data/products.json?v=' + liveVersion, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,12 +80,15 @@ $(document).ready(function () {
                 return;
             }
 
-            // Save to Session Storage
+            // Save to Local Storage for instant loading next time
             try {
-                sessionStorage.setItem('onshore_products_cache_v2', JSON.stringify(allItems));
+                localStorage.setItem('onshore_catalog_version', liveVersion);
+                localStorage.setItem('onshore_catalog_data', JSON.stringify(allItems));
             } catch (e) {
-                console.warn("Could not save to sessionStorage (might be full)");
+                console.warn("Could not save to localStorage (might be full)");
             }
+
+            // Render the catalog directly
 
             renderCatalog(allItems);
             renderFeaturedProducts(allItems);

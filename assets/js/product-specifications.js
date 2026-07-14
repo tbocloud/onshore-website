@@ -72,22 +72,6 @@ $(document).ready(function () {
             return;
         }
 
-        // Try to find the product in cache using either item name or slug
-        const cachedData = sessionStorage.getItem('onshore_products_cache_v2');
-        if (cachedData) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                const found = parsed.find(p => p.item_name === itemName || toSlug(p.item_name || p.name) === itemName);
-                if (found) {
-                    console.log("Product found in cache. Rendering instantly.");
-                    renderProductDetails(found);
-                    return;
-                }
-            } catch (e) {
-                console.warn("Failed to parse cache in product specifications");
-            }
-        }
-
         // Cache miss: We might only have a slug. 
         // To get the exact item name for the API, fetch the catalog summary first.
         resolveSlugAndFetch(itemName);
@@ -95,9 +79,33 @@ $(document).ready(function () {
 
     async function resolveSlugAndFetch(slugOrName) {
         try {
-            // Fetch lightning-fast static JSON data instead of querying database
-            // Append timestamp to bust aggressive browser caching
-            const response = await fetch('/assets/data/products.json?v=' + new Date().getTime(), {
+            // 1. Check live version instantly (tiny 13 byte file, 0 lag)
+            let liveVersion = 'force_update';
+            try {
+                const verRes = await fetch('/assets/data/version.txt?v=' + Date.now());
+                if (verRes.ok) liveVersion = await verRes.text();
+            } catch (e) {
+                console.warn("Could not check version, proceeding with normal fetch.");
+            }
+
+            // 2. Check localStorage for matching version
+            const cachedVer = localStorage.getItem('onshore_catalog_version');
+            if (cachedVer && cachedVer === liveVersion) {
+                try {
+                    const cachedData = localStorage.getItem('onshore_catalog_data');
+                    if (cachedData) {
+                        const parsed = JSON.parse(cachedData);
+                        const found = parsed.find(p => p.item_name === slugOrName || toSlug(p.item_name || p.name) === slugOrName);
+                        if (found) {
+                            renderProductDetails(found);
+                            return; // Load instantly and exit!
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            // 3. Fetch from server if version changed or cache missing
+            const response = await fetch('/assets/data/products.json?v=' + liveVersion, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -105,10 +113,11 @@ $(document).ready(function () {
             if (response.ok) {
                 const products = await response.json();
                 
-                // Save to cache for next time
+                // Save to Local Storage for instant loading next time
                 try {
-                    sessionStorage.setItem('onshore_products_cache_v2', JSON.stringify(products));
-                } catch(e) {}
+                    localStorage.setItem('onshore_catalog_version', liveVersion);
+                    localStorage.setItem('onshore_catalog_data', JSON.stringify(products));
+                } catch (e) {}
                 
                 const found = products.find(p => p.item_name === slugOrName || toSlug(p.item_name || p.name) === slugOrName);
                 if (found) {

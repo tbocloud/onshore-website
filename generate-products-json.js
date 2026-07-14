@@ -123,6 +123,12 @@ const req = https.request(API_URL, options, (res) => {
             fs.writeFileSync(outputPath, JSON.stringify(products));
             console.log(`✅ Saved all static product data to ${outputPath}`);
             
+            // Output version string for smart cache invalidation
+            const versionPath = path.join(DATA_DIR, 'version.txt');
+            const versionString = Date.now().toString();
+            fs.writeFileSync(versionPath, versionString);
+            console.log(`✅ Saved catalog version ${versionString} to ${versionPath}`);
+            
         } catch (e) {
             console.error("Error parsing API response:", e);
             process.exit(1);
