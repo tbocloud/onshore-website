@@ -1080,7 +1080,14 @@ var QuoteCart = (function ($) {
 
         // Handle OTP formatting on input/paste
         $(document).off('input', '#quote-otp-input').on('input', '#quote-otp-input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
+            // Convert Arabic/Eastern numerals to English numerals first
+            var val = this.value.replace(/[٠-٩]/g, function(d) {
+                return String.fromCharCode(d.charCodeAt(0) - 1632);
+            }).replace(/[۰-۹]/g, function(d) {
+                return String.fromCharCode(d.charCodeAt(0) - 1776);
+            });
+            // Then remove any non-numeric characters and limit to 6 digits
+            this.value = val.replace(/[^0-9]/g, '').substring(0, 6);
         });
 
         // Handle OTP verification click
