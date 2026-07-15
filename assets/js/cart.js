@@ -1070,7 +1070,7 @@ var QuoteCart = (function ($) {
                             </span>
                         </p>
                         <div style="margin-bottom: 15px;">
-                            <input type="text" id="quote-otp-input" placeholder="000000" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 180px; padding: 8px; border: 2px solid #ddd; border-radius: 8px;">
+                            <input type="text" id="quote-otp-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 180px; padding: 8px; border: 2px solid #ddd; border-radius: 8px;">
                         </div>
                         <button type="button" id="verify-otp-btn" class="btn" style="background: #0177c6; color: white; padding: 10px 30px; font-weight: 600; border-radius: 6px; margin-bottom: 10px;">
                             Verify & Submit <span dir="rtl" style="margin-left: 8px; font-weight: 500;">| التحقق والإرسال</span>
@@ -1090,22 +1090,19 @@ var QuoteCart = (function ($) {
             sendQuoteToBackend(payload, $btn);
         });
 
-        // Handle OTP formatting on input/paste
-        $(document).off('input', '#quote-otp-input').on('input', '#quote-otp-input', function () {
-            // Convert Arabic/Eastern numerals to English numerals first
-            var val = this.value.replace(/[٠-٩]/g, function(d) {
+        // Handle OTP verification click
+        $(document).off('click', '#verify-otp-btn').on('click', '#verify-otp-btn', function () {
+            var rawOTP = $('#quote-otp-input').val() || '';
+            // Convert Arabic/Eastern numerals to English numerals
+            var val = rawOTP.replace(/[٠-٩]/g, function(d) {
                 return String.fromCharCode(d.charCodeAt(0) - 1632);
             }).replace(/[۰-۹]/g, function(d) {
                 return String.fromCharCode(d.charCodeAt(0) - 1776);
             });
-            // Then remove any non-numeric characters and limit to 6 digits
-            this.value = val.replace(/[^0-9]/g, '').substring(0, 6);
-        });
+            // Extract only numbers
+            var enteredOTP = val.replace(/[^0-9]/g, '');
 
-        // Handle OTP verification click
-        $(document).off('click', '#verify-otp-btn').on('click', '#verify-otp-btn', function () {
-            var enteredOTP = $('#quote-otp-input').val();
-            if (enteredOTP === window.pendingOTP) {
+            if (enteredOTP === window.pendingOTP && window.pendingOTP) {
                 // OTP matches! Clear the UI and submit
                 $('#quote-otp-input').prop('disabled', true);
                 var $verifyBtn = $(this);
