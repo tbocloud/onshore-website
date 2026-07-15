@@ -911,6 +911,7 @@ var QuoteCart = (function ($) {
             // BEST UX: Always show the quote form, bypassing the sign-in requirement entirely
             $('#quote-auth-prompt').hide();
             $('#quote-otp-section').hide();
+            $('#modal-quote-cart-items').parent().show();
             $('#quote-form-modal').attr('style', 'display: block');
             $('#quote-form-modal').find('button[type="submit"]').html('<span dir="rtl">إرسال الطلب</span> Submit Request <i class="ri-arrow-right-line"></i>').prop('disabled', false);
         });
@@ -1050,32 +1051,33 @@ var QuoteCart = (function ($) {
                 
                 // Update UI to enter OTP
                 $form.attr('style', 'display: none !important');
+                $('#modal-quote-cart-items').parent().hide(); // Hide selected products to save space
                 $('#quote-otp-section').html(`
-                    <div class="text-center" style="padding: 30px 20px;">
-                        <i class="ri-mail-check-line" style="font-size: 48px; color: #0177c6; margin-bottom: 20px; display: inline-block;"></i>
+                    <div class="text-center" style="padding: 10px 20px;">
+                        <i class="ri-mail-check-line" style="font-size: 36px; color: #0177c6; margin-bottom: 10px; display: inline-block;"></i>
                         <h4 style="font-weight: 700; color: #333; margin-bottom: 15px;">
                             Verify Your Email
-                            <div dir="rtl" style="font-size: 18px; color: #555; font-weight: 600; margin-top: 5px;">التحقق من بريدك الإلكتروني</div>
+                            <div dir="rtl" style="font-size: 16px; color: #555; font-weight: 600; margin-top: 5px;">التحقق من بريدك الإلكتروني</div>
                         </h4>
-                        <p style="color: #666; font-size: 15px; margin-bottom: 20px;">
+                        <p style="color: #666; font-size: 14px; margin-bottom: 15px; line-height: 1.4;">
                             We just sent a 6-digit code to <strong>` + userEmail + `</strong>.<br>
                             Please enter it below to submit your quote.<br>
-                            <span style="font-size: 13px; color: #888; font-style: italic;">(Please also check your spam/junk folder if you don't see it)</span>
-                            <span dir="rtl" style="display: block; color: #555; margin-top: 12px; font-size: 14px;">
+                            <span style="font-size: 12px; color: #888; font-style: italic;">(Please also check your spam/junk folder if you don't see it)</span>
+                            <span dir="rtl" style="display: block; color: #555; margin-top: 8px; font-size: 13px;">
                                 لقد أرسلنا رمزاً من 6 أرقام إلى <strong>` + userEmail + `</strong>.<br>
                                 يرجى إدخاله أدناه لإرسال طلب عرض السعر.<br>
-                                <span style="font-size: 13px; color: #888; font-style: italic;">(يرجى التحقق من مجلد البريد العشوائي إذا لم تجده)</span>
+                                <span style="font-size: 12px; color: #888; font-style: italic;">(يرجى التحقق من مجلد البريد العشوائي إذا لم تجده)</span>
                             </span>
                         </p>
-                        <div style="margin-bottom: 20px;">
-                            <input type="text" id="quote-otp-input" placeholder="000000" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 200px; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                        <div style="margin-bottom: 15px;">
+                            <input type="text" id="quote-otp-input" placeholder="000000" style="font-size: 24px; letter-spacing: 8px; text-align: center; width: 180px; padding: 8px; border: 2px solid #ddd; border-radius: 8px;">
                         </div>
-                        <button type="button" id="verify-otp-btn" class="btn" style="background: #0177c6; color: white; padding: 12px 30px; font-weight: 600; border-radius: 6px; margin-bottom: 15px;">
+                        <button type="button" id="verify-otp-btn" class="btn" style="background: #0177c6; color: white; padding: 10px 30px; font-weight: 600; border-radius: 6px; margin-bottom: 10px;">
                             Verify & Submit <span dir="rtl" style="margin-left: 8px; font-weight: 500;">| التحقق والإرسال</span>
                         </button>
-                        <p id="otp-error-msg" style="color: #dc3545; display: none; margin-top: 15px; font-size: 14px; font-weight: 600;">Invalid verification code. Please try again. <br><span dir="rtl">رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.</span></p>
-                        <p id="otp-success-msg" style="color: #28a745; display: none; margin-top: 15px; font-size: 14px; font-weight: 600;">A new code has been sent! <br><span dir="rtl">تم إرسال رمز جديد!</span></p>
-                        <div style="margin-top: 15px; font-size: 14px;">
+                        <p id="otp-error-msg" style="color: #dc3545; display: none; margin-top: 10px; font-size: 13px; font-weight: 600;">Invalid verification code. Please try again. <br><span dir="rtl">رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.</span></p>
+                        <p id="otp-success-msg" style="color: #28a745; display: none; margin-top: 10px; font-size: 13px; font-weight: 600;">A new code has been sent! <br><span dir="rtl">تم إرسال رمز جديد!</span></p>
+                        <div style="margin-top: 10px; font-size: 13px;">
                             <a href="#" id="change-email-btn" style="color: #0177c6; text-decoration: underline; margin-right: 20px; font-weight: 500;">Change Email <span dir="rtl">| تغيير البريد</span></a>
                             <a href="#" id="resend-otp-btn" style="color: #0177c6; text-decoration: underline; font-weight: 500;">Send Again <span dir="rtl">| إرسال مجدداً</span></a>
                         </div>
