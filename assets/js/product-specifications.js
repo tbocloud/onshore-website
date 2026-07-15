@@ -218,7 +218,9 @@ $(document).ready(function () {
 
         const brandName = p.custom_brand_name || p.brand || 'General';
         $('#spec-brand').text(brandName);
-        $('#spec-subtitle').text(`Item Name: ${p.item_name || p.name}`);
+        
+        // Hide the subtitle since it duplicates the main title
+        $('#spec-subtitle').hide();
 
         // Dynamic summary description underneath the code
         if (p.description) {
@@ -431,6 +433,37 @@ $(document).ready(function () {
             .attr('data-desc-ar', commAr)
             .attr('data-image', fullMainImg)
             .attr('data-brand', brandName);
+
+        // --- NEW: Add Previous & Next Buttons ---
+        try {
+            const cachedData = localStorage.getItem('onshore_catalog_data');
+            if (cachedData) {
+                const allProds = JSON.parse(cachedData);
+                // Filter by same parent category to keep navigation relevant
+                const sameCatProds = allProds.filter(prod => prod.parent_item_group === p.parent_item_group);
+                if (sameCatProds.length > 1) {
+                    const currentIndex = sameCatProds.findIndex(prod => prod.name === p.name || prod.item_name === p.item_name);
+                    if (currentIndex !== -1) {
+                        const prevProd = currentIndex > 0 ? sameCatProds[currentIndex - 1] : sameCatProds[sameCatProds.length - 1];
+                        const nextProd = currentIndex < sameCatProds.length - 1 ? sameCatProds[currentIndex + 1] : sameCatProds[0];
+                        
+                        const getSlug = (str) => str ? str.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-') : '';
+                        
+                        const prevSlug = getSlug(prevProd.item_name || prevProd.name);
+                        const nextSlug = getSlug(nextProd.item_name || nextProd.name);
+                        
+                        $('.product-nav-links').remove(); // clear if re-rendering
+                        const navHtml = `
+                        <div class="product-nav-links mt-4 pt-3 border-top d-flex justify-content-between align-items-center" style="border-color: #e2e8f0 !important; margin-bottom: 25px;">
+                            <a href="/product/${prevSlug}.html" class="btn btn-sm" style="background: #fff; border: 1px solid #e2e8f0; color: #475569; font-weight: 600; font-size: 13px; padding: 8px 16px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s;" onmouseover="this.style.borderColor='#0177c6'; this.style.color='#0177c6'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#475569'"><i class="ri-arrow-left-s-line" style="vertical-align: middle;"></i> Previous Product</a>
+                            <a href="/product/${nextSlug}.html" class="btn btn-sm" style="background: #fff; border: 1px solid #e2e8f0; color: #475569; font-weight: 600; font-size: 13px; padding: 8px 16px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s;" onmouseover="this.style.borderColor='#0177c6'; this.style.color='#0177c6'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.color='#475569'">Next Product <i class="ri-arrow-right-s-line" style="vertical-align: middle;"></i></a>
+                        </div>
+                        `;
+                        $('.pd-cta-hint').after(navHtml);
+                    }
+                }
+            }
+        } catch(e) { console.warn("Could not generate prev/next links", e); }
 
         // Show Content
         $('#spec-loader').hide();

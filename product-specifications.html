@@ -381,7 +381,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <li class="home"><a href="/"
                                 style="color: #38bdf8; font-weight: 600; text-decoration: none;">Home</a></li>
                         <li style="color: rgba(255,255,255,0.4);">/</li>
-                        <li><a href="/product-details.html"
+                        <li><a href="/products.html"
                                 style="color: #38bdf8; font-weight: 600; text-decoration: none;">Products</a></li>
                         <li style="color: rgba(255,255,255,0.4);">/</li>
                         <li style="color: #ffffff; font-weight: 400;" id="breadcrumb-current">Loading Product...</li>
@@ -403,7 +403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div id="spec-error" style="display: none;" class="alert alert-danger text-center">
                     <h5>Unable to load product details</h5>
                     <p>The requested product could not be found or there was a server error.</p>
-                    <a href="/product-details.html" class="main-btn mt-3">Back to Products</a>
+                    <a href="/products.html" class="main-btn mt-3">Back to Products</a>
                 </div>
 
                 <div id="spec-content" style="display: none;" class="pd-layout">
@@ -423,17 +423,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <h1 class="pd-name" id="spec-title">Product Title</h1>
                         <p class="text-muted" id="spec-subtitle" style="margin-bottom: 20px;">Item Name: </p>
 
-                        <div class="pd-status-row" style="flex-wrap: wrap; gap: 8px;">
-                            <span class="pd-cert-tag" style="margin-bottom: 5px;"><i class="ri-shield-check-line"></i> Certified B2B Supply</span>
-                            <span class="pd-cert-tag" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe; margin-bottom: 5px;"><i class="ri-truck-line"></i> Fast Shipping KSA</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Dammam الدمام</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Jubail الجبيل</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Al Khobar الخبر</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Ras Tanura رأس تنورة</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Riyadh الرياض</span>
-                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Jeddah جدة</span>
-                        </div>
-
                         <div class="pd-cta-group" style="margin-top: 15px;">
                             <button class="pd-cta-primary" id="spec-add-cart">
                                 ADD TO CART / أضف إلى السلة <i class="ri-shopping-basket-line"></i>
@@ -447,6 +436,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span>Add multiple items to request a combined bulk quote, or click Request a Quote to
                                 submit for this item instantly.<br><small style="opacity: 0.85;">أضف عدة سلع لطلب عرض
                                     سعر مجمع، أو انقر على طلب عرض سعر لإرسال الطلب فوراً لهذا المنتج.</small></span>
+                        </div>
+                        <div class="pd-status-row" style="flex-wrap: wrap; gap: 8px;">
+                            <span class="pd-cert-tag" style="margin-bottom: 5px;"><i class="ri-shield-check-line"></i> Certified B2B Supply</span>
+                            <span class="pd-cert-tag" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe; margin-bottom: 5px;"><i class="ri-truck-line"></i> Fast Shipping KSA</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Dammam الدمام</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Jubail الجبيل</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Al Khobar الخبر</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Ras Tanura رأس تنورة</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Riyadh الرياض</span>
+                            <span class="pd-cert-tag" style="background: #f8fafc; color: #475569; border-color: #e2e8f0; font-size: 12px; padding: 4px 10px; margin-bottom: 5px;"><i class="ri-map-pin-line"></i> Jeddah جدة</span>
                         </div>
 
                         <div class="pd-divider"></div>
