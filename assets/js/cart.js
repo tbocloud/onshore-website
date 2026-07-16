@@ -796,8 +796,11 @@ var QuoteCart = (function ($) {
 
         if (cart.length === 0) {
             $container.html('<tr><td colspan="3" class="text-center" style="padding: 20px;">Your quote basket is empty.</td></tr>');
+            $('#quote-form-modal').hide();
             return;
         }
+
+        $('#quote-form-modal').show();
 
         cart.forEach(function (item) {
             var html = `
