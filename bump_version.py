@@ -12,8 +12,8 @@ def bump_version():
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
-            if 'auth.js?v=2.4' in content:
-                new_content = content.replace('auth.js?v=2.4', 'auth.js?v=2.5')
+            if 'auth.js?v=2.6' in content:
+                new_content = content.replace('auth.js?v=2.6', 'auth.js?v=2.7')
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(new_content)
                 count += 1

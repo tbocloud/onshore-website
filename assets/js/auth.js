@@ -174,10 +174,11 @@ onAuthStateChanged(auth, (user) => {
     }
 
     if (user) {
-        if (signInOptions) signInOptions.style.display = "none";
-        if (userInfo) userInfo.style.display = "block";
+        document.querySelectorAll('#modal-sign-in-options, #sign-in-options').forEach(el => { if(el) el.style.display = 'none'; });
+        document.querySelectorAll('#modal-user-info, #authenticated-view').forEach(el => { if(el) el.style.display = 'block'; });
+        
         const displayName = user.displayName || user.email || user.phoneNumber || "User";
-        document.getElementById("modal-user-phone").textContent = displayName;
+        document.querySelectorAll("#modal-user-phone, #user-email-display").forEach(el => { if(el) el.textContent = displayName; });
 
         // Clean up Firebase magic link URL params
         if (window.location.href.includes('apiKey=')) {
@@ -200,8 +201,8 @@ onAuthStateChanged(auth, (user) => {
             }
         }
     } else {
-        if (userInfo) userInfo.style.display = "none";
-        if (signInOptions) signInOptions.style.display = "block";
+        document.querySelectorAll('#modal-user-info, #authenticated-view').forEach(el => { if(el) el.style.display = 'none'; });
+        document.querySelectorAll('#modal-sign-in-options, #sign-in-options').forEach(el => { if(el) el.style.display = 'block'; });
     }
 });
 
@@ -236,7 +237,7 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
 // ─── Global Event Delegation for Auth Buttons ─────────────────────────
 document.addEventListener("click", (e) => {
     // Google Sign-In
-    const googleBtn = e.target.closest("#modal-google-signin-btn") || e.target.closest("#cart-google-signin-btn");
+    const googleBtn = e.target.closest("#modal-google-signin-btn") || e.target.closest("#cart-google-signin-btn") || e.target.closest("#google-signin-btn");
     if (googleBtn) {
         const btnId = googleBtn.id;
         setLoading(btnId, true);
@@ -260,10 +261,12 @@ document.addEventListener("click", (e) => {
     }
 
     // Email Magic Link
-    const emailBtn = e.target.closest("#modal-email-login-btn") || e.target.closest("#cart-email-login-btn");
+    const emailBtn = e.target.closest("#modal-email-login-btn") || e.target.closest("#cart-email-login-btn") || e.target.closest("#email-login-btn");
     if (emailBtn) {
         const btnId = emailBtn.id;
-        const inputId = btnId === "cart-email-login-btn" ? "cart-email-input" : "modal-email-input";
+        let inputId = "modal-email-input";
+        if (btnId === "cart-email-login-btn") inputId = "cart-email-input";
+        if (btnId === "email-login-btn") inputId = "email-input";
         const emailInputEl = document.getElementById(inputId);
         const email = emailInputEl ? emailInputEl.value.trim() : "";
 

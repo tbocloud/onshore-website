@@ -436,26 +436,31 @@
         <div class="login-right">
             <div class="login-card" id="login-card">
                 <h2>Sign In</h2>
-                <p class="text-muted">Access your Onshore Technical account</p>
-
+                <p class="text-muted" style="margin-bottom: 5px;">Access your Onshore Technical account</p>
                 <!-- User Info (Hidden by default) -->
-                <div id="user-info" class="hidden">
-                    <div class="success-box">
-                        <i class="ri-shield-check-fill"></i>
-                        <p>Logged in successfully!</p>
-                        <h4 id="user-phone"></h4>
+                <div id="authenticated-view" style="display: none;">
+                    <div class="success-box" style="margin-bottom: 25px; text-align: center;">
+                        <i class="ri-shield-check-fill" style="font-size: 48px; color: #10b981;"></i>
+                        <h3 style="color: #0A3654; margin: 15px 0 5px 0;">Welcome Back!</h3>
+                        <p style="color: #666; margin-bottom: 15px;">You have successfully authenticated as:</p>
+                        <h4 id="user-email-display" style="color: #0056b3; background: #f0f7ff; padding: 10px; border-radius: 6px; font-size: 16px;"></h4>
+                        <p style="color: #666; font-size: 14px; margin-top: 15px;">You can now view live item stock and seamlessly manage your quotes.</p>
                     </div>
                     
-                    <a href="products.html" class="explore-btn">
-                        <span>Explore Products</span>
+                    <a href="products.html" class="login-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px;">
+                        <span>Explore Products & Check Stock</span>
                         <i class="ri-arrow-right-line"></i>
                     </a>
 
-                    <button class="login-btn" id="logout-btn">Log Out</button>
+                    <button class="login-btn" id="logout-btn" style="background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">Log Out</button>
                 </div>
 
                 <!-- Sign In Options -->
                 <div id="sign-in-options">
+                    <div style="background-color: #0A3654; color: white; padding: 15px; border-radius: 8px; margin-bottom: 25px; text-align: left;">
+                        <p style="margin: 0; font-size: 14px; line-height: 1.4;">To get the item stock, please register your email.</p>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: 500; text-align: right; opacity: 0.9; line-height: 1.4;" dir="rtl">لمعرفة حالة المخزون، يرجى تسجيل بريدك الإلكتروني.</p>
+                    </div>
                     <!-- Continue with Google -->
                     <button class="google-btn" id="google-signin-btn">
                         <svg width="22" height="22" viewBox="0 0 48 48">
@@ -488,6 +493,6 @@
         </div>
     </div>
 
-    <script type="module" src="assets/js/auth.js?v=2.5"></script>
+    <script type="module" src="assets/js/auth.js?v=2.7"></script>
 </body>
 </html>
