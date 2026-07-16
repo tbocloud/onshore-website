@@ -272,18 +272,24 @@ document.addEventListener("click", (e) => {
             return;
         }
 
-        const actionCodeSettings = {
-            url: window.location.href, // Redirect back to the SAME page they are on!
-            handleCodeInApp: true
-        };
-
         setLoading(btnId, true);
 
-        sendSignInLinkToEmail(auth, email, actionCodeSettings)
-            .then(() => {
+        const formData = new FormData();
+        formData.append('email', email);
+
+        fetch('https://hydrotechglobal.ae/send-magic-link.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
                 window.localStorage.setItem('emailForSignIn', email);
                 showAlert("✅ Login link sent! Please check your inbox.", "success");
-            })
+            } else {
+                throw new Error(data.message || 'Failed to send login link');
+            }
+        })
             .catch((error) => {
                 console.error(error);
                 if (error.code === 'auth/quota-exceeded') {
