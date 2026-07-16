@@ -1026,26 +1026,27 @@ var QuoteCart = (function ($) {
             $btn.text('Sending...').prop('disabled', true);
 
             if (!window.isUserLoggedIn) {
-                // Not logged in: Generate OTP and send via Google Apps Script
-                var generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                window.pendingOTP = generatedOTP;
+                // Not logged in: Request stateless OTP and signature
                 window.pendingPayload = payload;
-                
                 var userEmail = payload.email;
-                var API_URL = 'https://hydrotechglobal.ae/onshore_contact_api.php';
+                var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
                 
                 // Send email request
                 fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: payload.full_name,
-                        email: userEmail,
-                        otp: generatedOTP
-                    })
-                }).catch(function(err) {
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: userEmail })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        window.otpExpires = data.expires;
+                        window.otpSignature = data.signature;
+                    } else {
+                        console.error("OTP Error:", data.message);
+                    }
+                })
+                .catch(function(err) {
                     console.error("OTP send error:", err);
                 });
                 
@@ -1102,22 +1103,66 @@ var QuoteCart = (function ($) {
             // Extract only numbers
             var enteredOTP = val.replace(/[^0-9]/g, '');
 
-            if (enteredOTP === window.pendingOTP && window.pendingOTP) {
-                // OTP matches! Clear the UI and submit
-                $('#quote-otp-input').prop('disabled', true);
-                var $verifyBtn = $(this);
-                $verifyBtn.text('Submitting...').prop('disabled', true);
-                
-                if (window.pendingPayload) {
-                    sendQuoteToBackend(window.pendingPayload, $verifyBtn);
-                    window.pendingOTP = null;
-                    window.pendingPayload = null;
-                }
-            } else {
-                // Incorrect OTP
-                $('#otp-error-msg').show();
-                $('#quote-otp-input').addClass('is-invalid');
+            if (enteredOTP.length !== 6) {
+                $('#otp-error-msg').show().text('Please enter the 6-digit code.');
+                return;
             }
+
+            var $verifyBtn = $(this);
+            $verifyBtn.text('Verifying...').prop('disabled', true);
+            $('#otp-error-msg').hide();
+
+            var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
+            var API_URL = 'https://hydrotechglobal.ae/verify-otp-api.php';
+
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: userEmail,
+                    otp: enteredOTP,
+                    expires: window.otpExpires,
+                    signature: window.otpSignature
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success && data.customToken) {
+                    // Sign in to Firebase!
+                    if (window.signInWithFirebaseCustomToken) {
+                        window.signInWithFirebaseCustomToken(data.customToken)
+                            .then(() => {
+                                $('#quote-otp-input').prop('disabled', true);
+                                $verifyBtn.text('Submitting...');
+                                if (window.pendingPayload) {
+                                    sendQuoteToBackend(window.pendingPayload, $verifyBtn);
+                                    window.pendingPayload = null;
+                                }
+                            })
+                            .catch(err => {
+                                console.error("Firebase Auth Error:", err);
+                                $('#otp-error-msg').show().text('Auth error. Please try again.');
+                                $verifyBtn.text('Verify & Submit').prop('disabled', false);
+                            });
+                    } else {
+                        // Fallback
+                        $('#quote-otp-input').prop('disabled', true);
+                        if (window.pendingPayload) {
+                            sendQuoteToBackend(window.pendingPayload, $verifyBtn);
+                            window.pendingPayload = null;
+                        }
+                    }
+                } else {
+                    $('#otp-error-msg').show().html((data.message || 'Invalid code.') + '<br><span dir="rtl">رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.</span>');
+                    $('#quote-otp-input').addClass('is-invalid');
+                    $verifyBtn.text('Verify & Submit').prop('disabled', false);
+                }
+            })
+            .catch(err => {
+                console.error("OTP verify error:", err);
+                $('#otp-error-msg').show().text('Connection error. Please try again.');
+                $verifyBtn.text('Verify & Submit').prop('disabled', false);
+            });
         });
 
         $(document).off('click', '#change-email-btn').on('click', '#change-email-btn', function (e) {
@@ -1133,26 +1178,29 @@ var QuoteCart = (function ($) {
             $resendBtn.css('pointer-events', 'none').css('opacity', '0.5');
 
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
-            var userName = window.pendingPayload ? window.pendingPayload.full_name : '';
             if(!userEmail) return;
-
-            var generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-            window.pendingOTP = generatedOTP;
             
-            var API_URL = 'https://hydrotechglobal.ae/onshore_contact_api.php';
+            var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
             
             fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: userName,
-                    email: userEmail,
-                    otp: generatedOTP
-                })
-            }).catch(function(err) {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    window.otpExpires = data.expires;
+                    window.otpSignature = data.signature;
+                    $('#otp-error-msg').hide();
+                    $('#otp-success-msg').show();
+                    setTimeout(() => { $('#otp-success-msg').fadeOut(); }, 3000);
+                }
+                $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
+            })
+            .catch(err => {
                 console.error("OTP send error:", err);
+                $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
             });
             
             $('#otp-error-msg').hide();

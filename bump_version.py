@@ -12,8 +12,15 @@ def bump_version():
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
-            if 'auth.js?v=2.6' in content:
-                new_content = content.replace('auth.js?v=2.6', 'auth.js?v=2.7')
+            # Bump auth.js and cart.js to v=3.0
+            new_content = content
+            new_content = new_content.replace('auth.js?v=2.7', 'auth.js?v=3.0')
+            new_content = new_content.replace('cart.js?v=2.4', 'cart.js?v=3.0')
+            new_content = new_content.replace('cart.js?v=2.5', 'cart.js?v=3.0')
+            new_content = new_content.replace('cart.js?v=2.6', 'cart.js?v=3.0')
+            new_content = new_content.replace('cart.js?v=2.7', 'cart.js?v=3.0')
+            
+            if new_content != content:
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(new_content)
                 count += 1
