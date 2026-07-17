@@ -3,7 +3,7 @@
 $(document).ready(function() {
     if ($('#global-auth-banner').length === 0 && !window.isUserLoggedIn) {
         var bannerHtml = `
-        <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 10000; position: relative;">
+        <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 999; position: relative;">
             <span style="font-weight: 500;">🔔 Register an account to view live stock availability and access exclusive pricing!</span>
             <a href="login.html" style="color: #f1c40f; font-weight: 700; text-decoration: underline; margin-left: 10px;">Login / Register Here</a>
         </div>
@@ -69,59 +69,42 @@ var QuoteCart = (function ($) {
                     <span class="close-cart" style="font-size: 24px; color: #444; cursor: pointer; display: flex; align-items: flex-start; padding-top: 4px;"><i class="ri-close-line"></i></span>
                 </div>
 
-                <!-- Progress Bar -->
-                <div style="padding: 20px; background: #fff; border-bottom: 1px solid #eee;">
-                    <div style="display: flex; justify-content: space-between; position: relative; margin-bottom: 0;">
-                        <div style="position: absolute; top: 12px; left: 15%; right: 15%; height: 2px; background: #eee; z-index: 0;"></div>
-                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
-                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #015bb5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">1</div>
-                            <div style="font-size: 11px; color: #015bb5; font-weight: 600; margin-top: 8px; text-align: center;">Basket<br><span dir="rtl" style="font-weight: 500;">السلة</span></div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
-                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid #ddd; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">2</div>
-                            <div style="font-size: 11px; color: #666; font-weight: 500; margin-top: 8px; text-align: center;">Contact Details<br><span dir="rtl">بيانات الاتصال</span></div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; align-items: center; z-index: 1; flex: 1;">
-                            <div style="width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid #ddd; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">3</div>
-                            <div style="font-size: 11px; color: #666; font-weight: 500; margin-top: 8px; text-align: center;">Send Request<br><span dir="rtl">إرسال الطلب</span></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Progress bar removed for more vertical space -->
 
                 <!-- Products -->
-                <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 20px; background: #fdfdfd;">
+                <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 15px 20px; background: #fdfdfd;">
                     <!-- Items will be injected here -->
                     <div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.<br><span dir="rtl" style="display: block; margin-top: 5px;">سلة العروض الخاصة بك فارغة.</span></div>
                 </div>
 
                 <!-- Footer -->
-                <div class="cart-footer" style="padding: 20px; background: #fff; border-top: 1px solid #eee;">
+                <div class="cart-footer" style="padding: 15px 20px; background: #fff; border-top: 1px solid #eee;">
                     <!-- Summary Card -->
-                    <div style="background: #f8fbff; border: 1px solid #e1effe; border-radius: 8px; padding: 15px; display: flex; margin-bottom: 20px;">
+                    <div style="background: #f8fbff; border: 1px solid #e1effe; border-radius: 8px; padding: 12px 15px; display: flex; margin-bottom: 15px;">
                         <div style="flex: 1; display: flex; align-items: center; gap: 10px; border-right: 1px solid #e1effe; padding-right: 15px;">
-                            <div style="color: #015bb5; font-size: 24px; opacity: 0.8;"><i class="ri-file-list-3-line"></i></div>
+                            <div style="color: #015bb5; font-size: 20px; opacity: 0.8;"><i class="ri-file-list-3-line"></i></div>
                             <div>
                                 <div style="font-size: 11px; color: #555;">Total Items<br><span dir="rtl" style="font-size: 10px;">إجمالي المنتجات</span></div>
-                                <div style="font-size: 14px; font-weight: 700; color: #111;"><span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span> Products<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">منتجات</span></div>
+                                <div style="font-size: 13px; font-weight: 700; color: #111;"><span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span> Products<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">منتجات</span></div>
                             </div>
                         </div>
                         <div style="flex: 1; display: flex; align-items: center; gap: 10px; padding-left: 15px;">
-                            <div style="color: #015bb5; font-size: 24px; opacity: 0.8;"><i class="ri-time-line"></i></div>
+                            <div style="color: #015bb5; font-size: 20px; opacity: 0.8;"><i class="ri-time-line"></i></div>
                             <div>
                                 <div style="font-size: 11px; color: #555;">Estimated Response<br><span dir="rtl" style="font-size: 10px;">الرد المتوقع</span></div>
-                                <div style="font-size: 13px; font-weight: 700; color: #111; line-height: 1.2;">Within 24 Hours<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">خلال 24 ساعة</span></div>
+                                <div style="font-size: 12px; font-weight: 700; color: #111; line-height: 1.2;">Within 24 Hours<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">خلال 24 ساعة</span></div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Buttons -->
-                    <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
-                        <button class="btn-view-cart" id="checkout-submit-btn" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 15px; font-size: 14px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                        <button class="btn-view-cart" id="checkout-submit-btn" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 12px 15px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
                             <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;"><span dir="rtl" style="font-weight: 500; font-size: 12px;">إرسال الطلب (إتمام الطلب)</span> | CHECK OUT / SUBMIT ENQUIRY <i class="ri-arrow-right-line"></i></div>
-                            <div style="font-size: 10px; font-weight: 400; opacity: 0.9; margin-top: 4px;">We'll get back to you shortly <span dir="rtl" style="font-size: 9px;">/ سنعود إليك قريباً</span></div>
+                            <div style="font-size: 10px; font-weight: 400; opacity: 0.9; margin-top: 2px;">We'll get back to you shortly <span dir="rtl" style="font-size: 9px;">/ سنعود إليك قريباً</span></div>
                         </button>
-                        <span class="close-cart" style="color: #015bb5; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
-                            <i class="ri-arrow-left-line"></i> Continue Shopping <span dir="rtl" style="font-size: 12px; font-weight: 500;">/ مواصلة التسوق</span>
+                        <span class="close-cart" style="color: #015bb5; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 5px 0;">
+                            <i class="ri-arrow-left-line"></i> Continue Shopping <span dir="rtl" style="font-size: 11px; font-weight: 500;">/ مواصلة التسوق</span>
                         </span>
                     </div>
 
