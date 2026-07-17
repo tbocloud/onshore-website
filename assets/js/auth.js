@@ -174,6 +174,11 @@ onAuthStateChanged(auth, (user) => {
 
     if (user) {
         document.body.classList.add('user-logged-in');
+        // Hide global auth banner if present
+        var banner = document.getElementById('global-auth-banner');
+        if (banner) banner.remove();
+        var bannerStyle = document.getElementById('banner-offset-style');
+        if (bannerStyle) bannerStyle.remove();
     } else {
         document.body.classList.remove('user-logged-in');
     }

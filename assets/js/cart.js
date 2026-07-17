@@ -1,3 +1,27 @@
+
+// --- TOP BANNER INJECTION ---
+$(document).ready(function() {
+    if ($('#global-auth-banner').length === 0 && !window.isUserLoggedIn) {
+        var bannerHtml = `
+        <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 10000; position: relative;">
+            <span style="font-weight: 500;">🔔 Register an account to view live stock availability and access exclusive pricing!</span>
+            <a href="login.html" style="color: #f1c40f; font-weight: 700; text-decoration: underline; margin-left: 10px;">Login / Register Here</a>
+        </div>
+        `;
+        $('body').prepend(bannerHtml);
+        
+        // Fix alignment: Push the absolute navigation header down ONLY when at the top (not scrolled)
+        setTimeout(function() {
+            var bannerHeight = $('#global-auth-banner').outerHeight();
+            var dynamicStyle = '<style id="banner-offset-style">nav:not(.header-scrolled) { top: ' + bannerHeight + 'px !important; } nav.header-scrolled { top: 0 !important; }</style>';
+            $('head').append(dynamicStyle);
+            // Remove the hardcoded inline style from the previous version
+            $('nav').css('top', '');
+        }, 50);
+    }
+});
+// -----------------------------
+
 /**
  * Quote Cart Logic for Onshore Technical Supplies
  * Handles adding/removing items to a quote basket using localStorage.
@@ -395,8 +419,8 @@ var QuoteCart = (function ($) {
                                         <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
                                         <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
                                                 <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 130px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
-                                                    <option data-countryCode="AE" value="971">UAE (+971)</option>
                                                     <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
+                                                    <option data-countryCode="AE" value="971">UAE (+971)</option>
                                                     <option data-countryCode="QA" value="974">Qatar (+974)</option>
                                                     <option data-countryCode="BH" value="973">Bahrain (+973)</option>
                                                     <option data-countryCode="KW" value="965">Kuwait (+965)</option>
@@ -1216,6 +1240,24 @@ var QuoteCart = (function ($) {
 
 
 
+        
+        $(document).off('show.bs.modal', '#quoteRequestModal').on('show.bs.modal', '#quoteRequestModal', function () {
+            var saved = localStorage.getItem('user_quote_details');
+            if (saved) {
+                try {
+                    var details = JSON.parse(saved);
+                    var $m = $('#quoteRequestModal');
+                    if (details.full_name) $m.find('[name="full_name"]').val(details.full_name);
+                    if (details.email) $m.find('[name="email"]').val(details.email);
+                    if (details.company_name) $m.find('[name="company_name"]').val(details.company_name);
+                    if (details.country) $m.find('[name="country"]').val(details.country);
+                    if (details.city) $m.find('[name="city"]').val(details.city);
+                    if (details.mobile_number) $m.find('[name="phone"]').val(details.mobile_number);
+                    if (details.mobile_country_code) $m.find('[name="country_code"]').val(details.mobile_country_code);
+                } catch(e) {}
+            }
+        });
+
         $(document).off('shown.bs.modal', '#quoteRequestModal').on('shown.bs.modal', '#quoteRequestModal', function () {
             closeSidebar();
             renderModalCartSpace();
@@ -1260,6 +1302,19 @@ var QuoteCart = (function ($) {
                 }
 
                 showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
+
+                
+                // Save user details for next time so they don't have to re-enter them
+                var userDetails = {
+                    full_name: payload.full_name,
+                    email: payload.email,
+                    mobile_number: payload.mobile_number,
+                    mobile_country_code: payload.mobile_country_code,
+                    country: payload.country,
+                    company_name: payload.company_name,
+                    city: payload.city
+                };
+                localStorage.setItem('user_quote_details', JSON.stringify(userDetails));
 
                 // Clear cart
                 cart = [];
@@ -1460,8 +1515,41 @@ $(document).on('click', '#checkout-submit-btn', function(e) {
     var stored = localStorage.getItem('onshore_quote_cart');
     var cartItems = stored ? JSON.parse(stored) : [];
     if (!window.isUserLoggedIn && cartItems.length > 3) {
-        alert("For more than 3 items, please log in or register to request a quote.\n\nبخصوص الطلبات التي تحتوي على أكثر من 3 منتجات، يرجى تسجيل الدخول أو التسجيل لطلب عرض سعر.");
-        window.location.href = 'login.html';
+        
+        // Remove old modal if exists
+        $('#limitErrorModal').remove();
+
+        var modalHtml = `
+        <div class="modal fade" id="limitErrorModal" tabindex="-1" aria-hidden="true" style="z-index: 100005;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    <div class="modal-header" style="background: #fff3cd; color: #856404; border-bottom: none; padding: 20px;">
+                        <h5 class="modal-title" style="font-weight: 700; margin: 0; display: flex; align-items: center; gap: 10px;">
+                            <i class="ri-error-warning-fill" style="font-size: 24px;"></i> Registration Required
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 30px 25px; text-align: center;">
+                        <p style="font-size: 16px; color: #333; margin-bottom: 15px; font-weight: 600;">
+                            For more than 3 items, please log in or register to request a quote.
+                        </p>
+                        <p dir="rtl" style="font-size: 15px; color: #555; margin-bottom: 0; font-weight: 500;">
+                            بخصوص الطلبات التي تحتوي على أكثر من 3 منتجات، يرجى تسجيل الدخول أو التسجيل لطلب عرض سعر.
+                        </p>
+                    </div>
+                    <div class="modal-footer" style="border-top: 1px solid #eee; padding: 15px 25px; display: flex; justify-content: center; background: #fafafa;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+                        <a href="login.html" class="btn btn-primary" style="background: #015bb5; border: none; padding: 10px 30px; font-weight: 600; border-radius: 6px;">Login / Register <i class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+        $('body').append(modalHtml);
+        
+        var limitModal = new bootstrap.Modal(document.getElementById('limitErrorModal'));
+        limitModal.show();
+        
         return;
     }
     // Otherwise show the modal
