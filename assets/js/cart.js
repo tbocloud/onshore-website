@@ -92,8 +92,8 @@ var QuoteCart = (function ($) {
                     
                     <!-- Buttons -->
                     <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
-                        <button class="btn-view-cart" data-bs-toggle="modal" data-bs-target="#quoteRequestModal" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 15px; font-size: 14px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
-                            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;"><span dir="rtl" style="font-weight: 500; font-size: 12px;">إرسال الطلب (إتمام الطلب)</span> | REQUEST QUOTE (CHECK OUT) <i class="ri-arrow-right-line"></i></div>
+                        <button class="btn-view-cart" id="checkout-submit-btn" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 15px; font-size: 14px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;"><span dir="rtl" style="font-weight: 500; font-size: 12px;">إرسال الطلب (إتمام الطلب)</span> | CHECK OUT / SUBMIT ENQUIRY <i class="ri-arrow-right-line"></i></div>
                             <div style="font-size: 10px; font-weight: 400; opacity: 0.9; margin-top: 4px;">We'll get back to you shortly <span dir="rtl" style="font-size: 9px;">/ سنعود إليك قريباً</span></div>
                         </button>
                         <span class="close-cart" style="color: #015bb5; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
@@ -162,7 +162,7 @@ var QuoteCart = (function ($) {
                                             <span dir="rtl" style="font-size: 13px; color: #888; font-weight: 500;">بيانات الاتصال</span>
                                         </div>
                                         <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                                            Complete the form below and we'll send you a quotation shortly.<br>
+                                            FILL DETAILS TO SEND A QUOTATION TO YOUR EMAIL INBOX<br>
                                             <span dir="rtl" style="display: inline-block; margin-top: 2px;">يرجى تعبئة النموذج أدناه وسنقوم بإرسال عرض السعر لك قريباً.</span>
                                         </div>
                                     </div>
@@ -1451,4 +1451,19 @@ var QuoteCart = (function ($) {
 
 $(document).ready(function () {
     QuoteCart.init();
+});
+
+
+// Enforce max 3 items for guests
+$(document).on('click', '#checkout-submit-btn', function(e) {
+    e.preventDefault();
+    var stored = localStorage.getItem('onshore_quote_cart');
+    var cartItems = stored ? JSON.parse(stored) : [];
+    if (!window.isUserLoggedIn && cartItems.length > 3) {
+        alert("For more than 3 items, please log in or register to request a quote.\n\nبخصوص الطلبات التي تحتوي على أكثر من 3 منتجات، يرجى تسجيل الدخول أو التسجيل لطلب عرض سعر.");
+        window.location.href = 'login.html';
+        return;
+    }
+    // Otherwise show the modal
+    $('#quoteRequestModal').modal('show');
 });
