@@ -635,7 +635,7 @@ var QuoteCart = (function ($) {
                                         <span dir="rtl">إلغاء</span> Cancel
                                     </button>
                                     <button type="submit" class="btn" style="background-color: white; color: #015bb5; border: 1px solid #015bb5; border-radius: 6px; padding: 8px 20px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
-                                        <span dir="rtl">إرسال الطلب</span> Submit Enquiry <i class="ri-arrow-right-line"></i>
+                                        <span dir="rtl">إرسال الطلب</span> Submit Request <i class="ri-arrow-right-line"></i>
                                     </button>
                                 </div>
                             </form>
@@ -923,7 +923,7 @@ var QuoteCart = (function ($) {
             $('#quote-otp-section').hide();
             $('#modal-quote-cart-items').parent().show();
             $('#quote-form-modal').attr('style', 'display: block');
-            $('#quote-form-modal').find('button[type="submit"]').html('<span dir="rtl">إرسال الطلب</span> Submit Enquiry <i class="ri-arrow-right-line"></i>').prop('disabled', false);
+            $('#quote-form-modal').find('button[type="submit"]').html('<span dir="rtl">إرسال الطلب</span> Submit Request <i class="ri-arrow-right-line"></i>').prop('disabled', false);
         });
 
         $(document).off('click', '.close-cart, .cart-overlay').on('click', '.close-cart, .cart-overlay', function () {
@@ -1039,7 +1039,7 @@ var QuoteCart = (function ($) {
                 // Not logged in: Request stateless OTP and signature
                 window.pendingPayload = payload;
                 var userEmail = payload.email;
-                var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
+                var API_URL = 'http://localhost:8000/api/method/onshore.api.send_otp';
                 
                 // Send email request
                 fetch(API_URL, {
@@ -1049,6 +1049,7 @@ var QuoteCart = (function ($) {
                 })
                 .then(r => r.json())
                 .then(data => {
+                    data = data.message || data; // Unwrap Frappe response
                     if (data.success) {
                         window.otpExpires = data.expires;
                         window.otpSignature = data.signature;
@@ -1123,7 +1124,7 @@ var QuoteCart = (function ($) {
             $('#otp-error-msg').hide();
 
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
-            var API_URL = 'https://hydrotechglobal.ae/verify-otp-api.php';
+            var API_URL = 'http://localhost:8000/api/method/onshore.api.verify_otp';
 
             fetch(API_URL, {
                 method: 'POST',
@@ -1137,6 +1138,7 @@ var QuoteCart = (function ($) {
             })
             .then(r => r.json())
             .then(data => {
+                data = data.message || data; // Unwrap Frappe response
                 if (data.success && data.customToken) {
                     // Sign in to Firebase!
                     if (window.signInWithFirebaseCustomToken) {
@@ -1179,7 +1181,7 @@ var QuoteCart = (function ($) {
             e.preventDefault();
             $('#quote-otp-section').hide();
             $('#quote-form-modal').attr('style', 'display: block');
-            $('#quote-form-modal').find('button[type="submit"]').text('Submit Enquiry').prop('disabled', false);
+            $('#quote-form-modal').find('button[type="submit"]').text('Submit Request').prop('disabled', false);
         });
 
         $(document).off('click', '#resend-otp-btn').on('click', '#resend-otp-btn', function (e) {
@@ -1190,7 +1192,7 @@ var QuoteCart = (function ($) {
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
             if(!userEmail) return;
             
-            var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
+            var API_URL = 'http://localhost:8000/api/method/onshore.api.send_otp';
             
             fetch(API_URL, {
                 method: 'POST',
@@ -1199,6 +1201,7 @@ var QuoteCart = (function ($) {
             })
             .then(r => r.json())
             .then(data => {
+                data = data.message || data; // Unwrap Frappe response
                 if (data.success) {
                     window.otpExpires = data.expires;
                     window.otpSignature = data.signature;
@@ -1309,7 +1312,7 @@ var QuoteCart = (function ($) {
                 showStatusPopup('error', 'Oops! Something went wrong while sending your request. Please try again or contact us directly.');
             },
             complete: function () {
-                if ($btn) $btn.text('Submit Enquiry').prop('disabled', false);
+                if ($btn) $btn.text('Submit Request').prop('disabled', false);
             }
         });
     }
