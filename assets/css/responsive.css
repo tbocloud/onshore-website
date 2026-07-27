@@ -94,7 +94,15 @@
         color: #000;
     }
     header .main-btn{
+        padding: 6px 12px;
+        font-size: 12px;
+        gap: 6px;
+    }
+    header .main-btn .ri-arrow-right-line{
         display: none;
+    }
+    .nav-right-icons{
+        gap: 6px;
     }
     .industries_we_serve .first_grid{
         grid-template-columns: 1fr;
@@ -280,4 +288,18 @@
     .blog_wrapper .multiple_blogs .blog{
         margin-bottom: 24px;
     }
+}
+
+@media screen and (max-width:480px){
+    #cart-sidebar { width: 100vw; right: -100vw; }
+    .cat-sidebar { width: 100%; position: static; max-height: none; }
+    .catalog-layout { flex-direction: column; }
+    .hero_text_content h1 { font-size: 32px; }
+    .page_banner { height: 35vh; }
+    .page_banner .page_banner_content { height: 35vh; }
+    .page_banner .page_banner_content h6 { font-size: 22px; }
+    .main_heading { font-size: 28px; }
+    .login-left { display: none; }
+    .login-right { padding: 20px; }
+    .login-card { max-width: 100%; }
 }

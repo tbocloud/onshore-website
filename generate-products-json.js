@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+const http = require('http');
 
 // Configuration
-const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000';
-const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
+const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000&bypass_approval=1';
+const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6'; // Make sure this works locally or is ignored
 const DATA_DIR = path.join(__dirname, 'assets', 'data');
 const IMG_DIR = path.join(__dirname, 'assets', 'img', 'products');
 const BASE_URL = 'https://onshore.tbo365.cloud';
@@ -63,7 +63,7 @@ const options = {
     }
 };
 
-const req = https.request(API_URL, options, (res) => {
+const req = http.request(API_URL, options, (res) => {
     let data = '';
 
     res.on('data', (chunk) => {

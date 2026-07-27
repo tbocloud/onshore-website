@@ -20,7 +20,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="assets/css/header.css?v=2.4">
     <link rel="stylesheet" href="assets/css/styles.css?v=2.4">
     <link rel="stylesheet" href="assets/css/responsive.css?v=2.4">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="canonical" href="https://www.onshoretechnical.com/blog-detail.html" />
     <title>Onshore Technical Supplies</title>
@@ -111,13 +111,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="page_banner">
             <div class="container">
                 <div class="page_banner_content">
-                    <h6>Top 7 Welding Safety Tips Every
-                        Professional Should Follow</h6>
+                    <h6 id="banner-title">Loading Blog...</h6>
                     <ul>
                         <li class="home"><a href="./">Home</a></li> /
                         <li class="home"><a href="blog.html">Blogs</a></li> /
-                        <li>Top 7 Welding Safety Tips Every
-                            Professional Should Follow</li>
+                        <li id="breadcrumb-title">Loading...</li>
                     </ul>
                 </div>
             </div>
@@ -129,39 +127,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
-                        <div class="blog_box">
-                            <h2 class="blog_name">Top 7 Welding Safety Tips Every
-                                Professional Should Follow</h2>
-                            <div class="blog_image">
-                                <img src="assets/img/blogs/b1.webp" class="img-fluid" alt="">
+                        <div class="blog_box" id="blog-content-container">
+                            <div style="text-align:center; padding:50px;">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <div style="margin-top:10px; color:#666;">Loading Blog Content...</div>
                             </div>
-
-                            <div class="blog_data">
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident neque deleniti
-                                    minus ipsa doloremque asperiores earum corrupti aut magnam animi, nesciunt eos quam
-                                    ducimus porro optio. Accusantium pariatur quo nam aut. Harum blanditiis labore
-                                    expedita, consectetur distinctio voluptas ullam facere.</p>
-                            </div>
-                            <div class="blog_data">
-                                <h6>Lorem, ipsum dolor.</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos dolores dolorem
-                                    excepturi dolorum corporis exercitationem tempore debitis voluptates adipisci
-                                    commodi? Eaque temporibus consequuntur maiores fugiat officiis earum vero, veritatis
-                                    quos? Voluptatem blanditiis harum dolores, distinctio ipsum animi suscipit eum
-                                    perspiciatis! Rerum, nesciunt autem. Eum soluta harum culpa iusto, deserunt officia?
-                                </p>
-                            </div>
-
-                            <div class="blog_data">
-                                <h6>Lorem, ipsum dolor.</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos dolores dolorem
-                                    excepturi dolorum corporis exercitationem tempore debitis voluptates adipisci
-                                    commodi? Eaque temporibus consequuntur maiores fugiat officiis earum vero, veritatis
-                                    quos? Voluptatem blanditiis harum dolores, distinctio ipsum animi suscipit eum
-                                    perspiciatis! Rerum, nesciunt autem. Eum soluta harum culpa iusto, deserunt officia?
-                                </p>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -257,7 +227,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/bootstrap.bundle.min.js?v=1.6"></script>
     <script src="assets/js/jquery.min.js?v=1.6"></script>
-    <script src="assets/js/main.js?v=2.4"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const route = urlParams.get('route');
+            
+            if(!route) {
+                document.getElementById('blog-content-container').innerHTML = '<p class="text-danger">Blog not found. Invalid route.</p>';
+                return;
+            }
+
+            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blog_detail?route=' + encodeURIComponent(route))
+                .then(response => response.json())
+                .then(data => {
+                    if(data.message && data.message.success && data.message.blog) {
+                        renderBlogDetail(data.message.blog);
+                    } else {
+                        document.getElementById('blog-content-container').innerHTML = '<p class="text-danger">Blog not found or is unpublished.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching blog:', error);
+                    document.getElementById('blog-content-container').innerHTML = '<p class="text-danger">Failed to load blog.</p>';
+                });
+        });
+
+        function renderBlogDetail(blog) {
+            document.title = blog.title + " | Onshore";
+            document.getElementById('banner-title').innerText = blog.title;
+            document.getElementById('breadcrumb-title').innerText = blog.title;
+            
+            const img = blog.meta_image ? `https://onshore.tbo365.cloud${blog.meta_image}` : 'assets/img/blogs/placeholder.jpg';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            const dateStr = blog.published_on ? new Date(blog.published_on).toLocaleDateString('en-US', options) : '';
+            
+            let html = `
+                <h2 class="blog_name">${blog.title}</h2>
+                <div style="font-size:13px; color:#666; margin-bottom:20px;">
+                    <i class="ri-user-3-line"></i> ${blog.blogger_name || 'Admin'} &nbsp;|&nbsp; 
+                    <i class="ri-calendar-2-line"></i> ${dateStr} &nbsp;|&nbsp; 
+                    <i class="ri-folder-2-line"></i> ${blog.blog_category || 'General'}
+                </div>
+                ${blog.blog_intro ? `<p style="font-size: 18px; font-weight: 500; color: #444; margin-bottom: 25px; line-height: 1.6;">${blog.blog_intro}</p>` : ''}
+            `;
+            
+            if (blog.meta_image) {
+                html += `
+                    <div class="blog_image" style="margin-bottom: 30px;">
+                        <img src="${img}" class="img-fluid" alt="${blog.title}" style="border-radius: 8px; width:100%;">
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="blog_data" style="margin-top:20px;">
+                    ${blog.content}
+                </div>
+            `;
+            
+            document.getElementById('blog-content-container').innerHTML = html;
+        }
+    </script>
     <script src="assets/js/cart.js?v=3.1"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>

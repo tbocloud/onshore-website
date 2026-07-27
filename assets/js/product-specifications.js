@@ -232,18 +232,48 @@ $(document).ready(function () {
             }
         }
 
+        // Render Price for logged in and pricing approved users
+        $('#spec-price-info').remove();
+        if (typeof p.price === 'number') {
+            let priceHtml = '';
+            if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
+                const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
+                priceHtml = `
+                    <div class="mt-3 mb-2 auth-only-price" id="spec-price-info" style="display: none; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
+                        <span style="background: #dcfce7; color: #15803d; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 4px; vertical-align: middle; margin-right: 8px;">SAVE ${discount}%</span>
+                        <span style="text-decoration: line-through; color: #94a3b8; font-size: 18px; font-weight: 500; margin-right: 8px;">SAR ${p.original_price.toFixed(2)}</span>
+                        <span>SAR ${p.price.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                priceHtml = `
+                    <div class="mt-3 mb-2 auth-only-price" id="spec-price-info" style="display: none; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
+                        <span>SAR ${p.price.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+            
+            if ($('#spec-info-desc').length) {
+                $(priceHtml).insertAfter('#spec-info-desc');
+            } else {
+                $(priceHtml).insertAfter('#spec-subtitle');
+            }
+        }
+
         // Render Stock for logged in users
         $('#spec-stock-info').remove();
         if (typeof p.stock === 'number') {
             const calculatedStock = Math.round(p.stock * 0.7);
             let stockHtml = '';
             if (calculatedStock > 0) {
-                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #10b981; font-weight: 700; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1fae5;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>${calculatedStock} units in stock</div>`;
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #10b981; font-weight: 700; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1fae5; width: fit-content;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>${calculatedStock} units in stock</div>`;
             } else {
-                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #ef4444; font-weight: 700; background: #fef2f2; padding: 6px 12px; border-radius: 6px; border: 1px solid #fee2e2;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>Out of stock</div>`;
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #ef4444; font-weight: 700; background: #fef2f2; padding: 6px 12px; border-radius: 6px; border: 1px solid #fee2e2; width: fit-content;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>Out of stock</div>`;
             }
             
-            if ($('#spec-info-desc').length) {
+            if ($('#spec-price-info').length) {
+                $(stockHtml).insertAfter('#spec-price-info');
+            } else if ($('#spec-info-desc').length) {
                 $(stockHtml).insertAfter('#spec-info-desc');
             } else {
                 $(stockHtml).insertAfter('#spec-subtitle');
@@ -406,6 +436,32 @@ $(document).ready(function () {
             $('#detailed-tab-li').hide();
         }
 
+        // Render FAQs
+        if (p.custom_faqs && Array.isArray(p.custom_faqs) && p.custom_faqs.length > 0) {
+            let faqHtml = '';
+            p.custom_faqs.forEach((faq, index) => {
+                const headingId = `faq-heading-${index}`;
+                const collapseId = `faq-collapse-${index}`;
+                faqHtml += `
+                    <div class="accordion-item" style="border: 1px solid #eee; margin-bottom: 10px; border-radius: 8px; overflow: hidden;">
+                        <h2 class="accordion-header" id="${headingId}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}" style="font-weight: 600; background-color: #fafbfc; color: #333; box-shadow: none; padding: 15px 20px;">
+                                ${faq.question || ''}
+                            </button>
+                        </h2>
+                        <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headingId}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background-color: #fff; color: #555; line-height: 1.6; padding: 20px; border-top: 1px solid #eee;">
+                                ${formatText(faq.answer) || ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            $('#faqAccordion').html(faqHtml);
+            $('#spec-faq-section').show();
+        } else {
+            $('#spec-faq-section').hide();
+        }
 
 
         // 5. Button Actions

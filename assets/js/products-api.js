@@ -178,10 +178,24 @@ $(document).ready(function () {
                 if (!categoryData[catKey].subcategories[subcatKey]) {
                     categoryData[catKey].subcategories[subcatKey] = {
                         label: toTitleCase(subcatRaw),
-                        count: 0
+                        count: 0,
+                        leafcats: {}
                     };
                 }
                 categoryData[catKey].subcategories[subcatKey].count++;
+
+                // Track leaf group (level 3)
+                const leafcatRaw = (p.original_item_group || '').trim();
+                if (leafcatRaw && leafcatRaw !== subcatRaw) {
+                    const leafKey = leafcatRaw.toLowerCase().replace(/\s+/g, '-');
+                    if (!categoryData[catKey].subcategories[subcatKey].leafcats[leafKey]) {
+                        categoryData[catKey].subcategories[subcatKey].leafcats[leafKey] = {
+                            label: toTitleCase(leafcatRaw),
+                            count: 0
+                        };
+                    }
+                    categoryData[catKey].subcategories[subcatKey].leafcats[leafKey].count++;
+                }
             }
 
             const brandRaw = (p.custom_brand_name || 'General').trim();
@@ -277,8 +291,26 @@ $(document).ready(function () {
                                 <span>${subcat.label}</span>
                                 <span class="cat-count" style="font-size: 9.5px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 1px 5px; border-radius: 50px;">${subcat.count}</span>
                             </a>
-                        </li>
                     `;
+
+                    // Render leaf categories if any
+                    const sortedLeafKeys = Object.keys(subcat.leafcats || {}).sort();
+                    if (sortedLeafKeys.length > 0) {
+                        subcatsHtml += `<ul class="sidebar-leafcat-list" style="display: none; list-style: none; padding-left: 12px; margin: 4px 0 0; flex-direction: column; gap: 2px;">`;
+                        sortedLeafKeys.forEach(leafKey => {
+                            const leafcat = subcat.leafcats[leafKey];
+                            subcatsHtml += `
+                                <li data-leafcat="${leafKey}">
+                                    <a href="#" style="display: flex; align-items: center; justify-content: space-between; padding: 4px 8px; font-size: 11.5px; font-weight: 400; color: #94a3b8; border-radius: 6px; text-decoration: none; transition: all 0.2s ease;">
+                                        <span>- ${leafcat.label}</span>
+                                        <span class="cat-count" style="font-size: 9px; font-weight: 600; color: #94a3b8; background: #f8fafc; padding: 1px 4px; border-radius: 50px;">${leafcat.count}</span>
+                                    </a>
+                                </li>
+                            `;
+                        });
+                        subcatsHtml += `</ul>`;
+                    }
+                    subcatsHtml += `</li>`;
                 });
                 subcatsHtml += `</ul>`;
             }
@@ -316,6 +348,7 @@ $(document).ready(function () {
             const parts = hashVal.split(':');
             const catHash = parts[0];
             const subcatHash = parts[1] || '';
+            const leafcatHash = parts[2] || '';
 
             const matchingLi = catListContainer.find(`li[data-cat="${catHash}"]`);
             if (matchingLi.length) {
@@ -330,9 +363,22 @@ $(document).ready(function () {
                     if (matchingSubLi.length) {
                         matchingSubLi.addClass('active');
                         window.activeSubcat = subcatHash;
-                        const parentLabel = matchingLi.find('> a > span:first-child').text();
-                        const subLabel = matchingSubLi.find('a > span:first-child').text();
-                        $('#catalog-title').text(`${parentLabel} / ${subLabel}`);
+                        
+                        // Show leafcats for active subcat
+                        matchingSubLi.find('.sidebar-leafcat-list').show();
+                        
+                        let titleLabel = matchingLi.find('> a > span:first-child').text() + ' / ' + matchingSubLi.find('> a > span:first-child').text();
+                        
+                        if (leafcatHash) {
+                            const matchingLeafLi = matchingSubLi.find(`li[data-leafcat="${leafcatHash}"]`);
+                            if (matchingLeafLi.length) {
+                                matchingLeafLi.addClass('active');
+                                window.activeLeafcat = leafcatHash;
+                                titleLabel += ' / ' + matchingLeafLi.find('a > span:first-child').text().replace('- ', '');
+                            }
+                        }
+                        
+                        $('#catalog-title').text(titleLabel);
                     }
                 } else {
                     const catLabel = matchingLi.find('> a > span:first-child').text();
@@ -380,47 +426,35 @@ $(document).ready(function () {
         if (displayBrand === 'PPE') displayBrand = 'SAFETY PRO';
         if (!displayBrand) displayBrand = 'ONSHORE';
 
-        // Status badge — deterministic based on product name hash
-        const nameHash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-        const isTopSeller = nameHash % 4 === 0;
+        const isTopSeller = p.custom_hot_seller === 1;
         const badgeClass = isTopSeller ? 'hot' : 'stock check-stock-trigger';
         const badgeText = isTopSeller ? 'Hot Seller' : 'Check Stock';
 
         const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;');
         const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
         const safeName = name.replace(/"/g, '&quot;');
-        let stockDisplay = '';
-        let publicStockDisplay = '';
+        let stockLabel = '';
+        let stockLogin = '';
         if (typeof p.stock === 'number') {
             const baseStock = p.stock || 0;
             const salesOrder = p.sales_order || 0;
-            let calculatedStock = (baseStock - salesOrder) * 0.8;
-            
-            if (calculatedStock > 0 && calculatedStock < 1) {
-                calculatedStock = calculatedStock >= 0.4 ? 1 : 0;
-            } else {
-                calculatedStock = Math.round(calculatedStock);
-            }
-            calculatedStock = Math.max(0, calculatedStock);
-
-            if (calculatedStock > 0) {
-                stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #10b981; font-weight: 700; margin-top: 5px;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>${calculatedStock} units in stock</div>`;
-                publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-right: 5px;"></span><span style="color: #10b981; font-weight: 600; margin-right: 5px;">In Stock</span></div>`;
-            } else {
-                stockDisplay = `<div class="auth-only-stock" style="display: none; font-size: 12px; color: #ef4444; font-weight: 700; margin-top: 5px;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>Out of stock</div>`;
-                publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ef4444; margin-right: 5px;"></span><span style="color: #ef4444; font-weight: 600; margin-right: 5px;">Out of Stock</span></div>`;
-            }
+            let calc = (baseStock - salesOrder) * 0.8;
+            if (calc > 0 && calc < 1) calc = calc >= 0.4 ? 1 : 0;
+            else calc = Math.round(calc);
+            calc = Math.max(0, calc);
+            stockLabel = calc > 0
+                ? `<span style="font-size: 11px; color: #10b981; font-weight: 600;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>In Stock</span>`
+                : `<span style="font-size: 11px; color: #ef4444; font-weight: 600;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>Out of Stock</span>`;
+            stockLogin = `<div class="auth-only-stock" style="display:none; font-size:12px; font-weight:600; margin-top:5px;">${calc > 0 ? `<span style="color:#10b981">${calc} units in stock</span>` : `<span style="color:#ef4444">Out of stock</span>`}</div>`;
         } else {
-            publicStockDisplay = `<div style="font-size: 11px; color: #6b7280; display: flex; align-items: center; margin-bottom: 12px; margin-top: auto;"><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; margin-right: 5px;"></span><span style="color: #f59e0b; font-weight: 600; margin-right: 5px;">Check Stock</span></div>`;
+            stockLabel = `<span style="font-size: 11px; color: #64748b; font-weight: 600;"><i class="ri-information-line" style="vertical-align: middle; margin-right: 3px;"></i>Login for stock &amp; price</span>`;
         }
 
         return `
-            <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}">
+            <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}" data-leafcat="${p.original_item_group || ''}">
                 <div class="pc-img">
-                    <!-- Top Overlay Badges -->
                     <div class="pc-img-actions">
                         <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
-
                     </div>
                     <a href="${specsUrl}" target="_blank">
                         <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
@@ -430,24 +464,31 @@ $(document).ready(function () {
                     <span class="pc-brand">${displayBrand}</span>
                     <a href="${specsUrl}" class="pc-name" target="_blank" title="${safeName}">${safeName}</a>
                     ${arabicName ? `<div dir="rtl" class="pc-name-ar" style="font-size: 13px; color: #666; font-weight: 600; margin-top: -4px; margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${arabicName}</div>` : ''}
-                    <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
-                        SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
+                    <div class="auth-only-price" style="display: none; font-size: 15px; margin-bottom: 6px;">
+                        ${(() => {
+                            if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
+                                const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
+                                return `<span style="color: #388e3c; font-weight: 600; margin-right: 6px; font-size: 14px;">↓${discount}%</span><span style="text-decoration: line-through; color: #878787; font-weight: 400; margin-right: 6px; font-size: 13px;">SAR ${p.original_price.toFixed(2)}</span><span style="color: #212121; font-weight: 800;">SAR ${p.price.toFixed(2)}</span>`;
+                            }
+                            return `<span style="color: #111827; font-weight: 800;">SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}</span>`;
+                        })()}
                     </div>
-                    ${publicStockDisplay}
-                    ${stockDisplay}
-                    <div class="pc-actions" style="display: flex; gap: 6px; margin-top: auto;">
-                        <button class="pc-btn-primary add-to-cart-btn" style="flex: 1; padding: 6px 0; border-radius: 6px;"
+                    ${stockLogin || ''}
+                    <div class="pc-actions" style="display: flex; gap: 8px; margin-top: auto;">
+                        <button class="pc-btn-primary add-to-cart-btn" style="flex: 1; padding: 8px 0; border-radius: 6px; font-size: 12px;"
                             data-id="${p.name || ''}"
                             data-name="${safeName}"
                             data-name-ar="${arabicName}"
                             data-desc-en="${escapedDescEn}"
                             data-desc-ar="${escapedDescAr}"
                             data-image="${fullImgUrl}"
-                            data-brand="${rawBrandName}">
-                            <i class="ri-shopping-cart-2-line"></i> Add to Cart <span dir="rtl" style="font-size: 11px; margin-left: 3px;">| أضف للسلة</span>
+                            data-brand="${rawBrandName}"
+                            title="Add this product to your enquiry basket">
+                            <i class="ri-file-list-3-line"></i> Add <span dir="rtl" style="font-size: 11px; margin-left: 2px;">| أضف</span>
                         </button>
-                        <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 6px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; text-decoration: none;">
-                            <i class="ri-eye-line" style="margin-right: 4px;"></i> Details <span dir="rtl" style="font-size: 11px; margin-left: 3px;">| التفاصيل</span>
+                        <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 8px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; text-decoration: none;"
+                            title="View full product specifications">
+                            <i class="ri-eye-line" style="margin-right: 4px;"></i> View <span dir="rtl" style="font-size: 11px; margin-left: 2px;">| عرض</span>
                         </a>
                     </div>
                 </div>
@@ -518,9 +559,9 @@ $(document).ready(function () {
             
             let descEn = p.custom_commercial_description || '';
             const escapedDescEn = descEn.replace(/"/g, '&quot;');
-
-            const nameHash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-            const isTopSeller = nameHash % 3 === 0;
+            
+            // Status badge
+            const isTopSeller = p.custom_hot_seller === 1;
             const badgeText = isTopSeller ? '<i class="ri-fire-fill"></i> Hot Seller' : '<i class="ri-checkbox-circle-fill"></i> Check Stock';
             const specsUrl = `product-specifications.html?item=${encodeURIComponent(p.name)}`;
             const badgeClass = isTopSeller ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success';
@@ -563,8 +604,14 @@ $(document).ready(function () {
                             <span class="pc-brand">${escapedBrandName}</span>
                             <a href="${specsUrl}" class="pc-name" target="_blank" title="${escapedName}">${escapedName}</a>
                             ${escapedArabicName ? `<div dir="rtl" class="pc-name-ar" style="font-size: 13px; color: #666; font-weight: 600; margin-top: -4px; margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapedArabicName}</div>` : ''}
-                            <div style="display: none; font-size: 15px; font-weight: 800; color: #111827; margin-bottom: 6px;">
-                                SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}
+                            <div class="auth-only-price" style="display: none; font-size: 14px; margin-bottom: 6px;">
+                                ${(() => {
+                                    if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
+                                        const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
+                                        return `<span style="color: #388e3c; font-weight: 600; margin-right: 6px; font-size: 13px;">↓${discount}%</span><span style="text-decoration: line-through; color: #878787; font-weight: 400; margin-right: 6px; font-size: 12px;">SAR ${p.original_price.toFixed(2)}</span><span style="color: #212121; font-weight: 800;">SAR ${p.price.toFixed(2)}</span>`;
+                                    }
+                                    return `<span style="color: #111827; font-weight: 800;">SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}</span>`;
+                                })()}
                             </div>
                             ${publicStockDisplay}
                             <div class="pc-actions" style="margin-top: auto;">
@@ -608,15 +655,11 @@ $(document).ready(function () {
 
     // Expose function globally so inline onclick works
     window.showStockLoginModal = function(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+        if(e) e.preventDefault();
         
-        // If the user is already logged in, stock is displayed directly on the card!
+        // If the user is already logged in but they clicked this, they might not be approved yet
         if (window.isUserLoggedIn) {
-            // Provide feedback so they aren't confused why the login modal isn't popping up
-            alert("You are already logged in! The live stock quantity is now visible directly on all product cards.");
+            alert("Your account is pending approval. Once approved, live stock quantities will be visible directly on all product cards.");
             return;
         }
 
@@ -641,13 +684,14 @@ $(document).ready(function () {
         }
     };
 
-    // Automatically show popup after 30 seconds if user is not logged in
+    // Show a subtle stock-login banner after 15s instead of an intrusive modal
     setTimeout(() => {
-        if (!window.isUserLoggedIn && !sessionStorage.getItem('stock_modal_shown')) {
-            window.showStockLoginModal();
-            sessionStorage.setItem('stock_modal_shown', 'true');
+        if (!window.isUserLoggedIn && !sessionStorage.getItem('stock_banner_shown')) {
+            const banner = document.getElementById('stock-login-banner');
+            if (banner) banner.style.display = 'flex';
+            sessionStorage.setItem('stock_banner_shown', 'true');
         }
-    }, 30000);
+    }, 15000);
 
     // Render Recently Viewed Products at the bottom of the catalog
     function renderRecentlyViewedCatalog() {

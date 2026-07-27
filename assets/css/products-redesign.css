@@ -1050,18 +1050,34 @@
   background: transparent !important;
 }
 
-.sidebar-subcat-list li a:hover {
+.sidebar-subcat-list li > a:hover {
   background: var(--bg) !important;
   color: var(--pr) !important;
 }
 
-.sidebar-subcat-list li.active a {
+.sidebar-subcat-list li.active > a {
   background: var(--pr-xlight) !important;
   color: var(--pr) !important;
   font-weight: 700 !important;
 }
 
-.sidebar-subcat-list li.active a .cat-count {
+.sidebar-subcat-list li.active > a .cat-count {
+  background: var(--pr) !important;
+  color: #fff !important;
+}
+
+.sidebar-leafcat-list li a:hover {
+  background: var(--bg) !important;
+  color: var(--pr) !important;
+}
+
+.sidebar-leafcat-list li.active > a {
+  background: var(--pr-xlight) !important;
+  color: var(--pr) !important;
+  font-weight: 700 !important;
+}
+
+.sidebar-leafcat-list li.active > a .cat-count {
   background: var(--pr) !important;
   color: #fff !important;
 }
@@ -1173,13 +1189,16 @@
 }
 
 /* Reveal stock for logged in users */
-body.user-logged-in .auth-only-stock {
-    display: inline-block !important;
+body.user-approved-stock .auth-only-stock {
+  display: block !important;
 }
 
-/* Hide the Check Stock badge since stock is already visible */
-body.user-logged-in .check-stock-trigger {
-    display: none !important;
+body.user-approved-stock .pc-badge.check-stock-trigger {
+  display: none !important;
+}
+
+body.user-approved-pricing .auth-only-price {
+  display: block !important;
 }
 
 /* ─── Search Redesign ────────────────────────────────────── */

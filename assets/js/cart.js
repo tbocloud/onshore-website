@@ -1,6 +1,6 @@
 
 // --- TOP BANNER INJECTION ---
-$(document).ready(function() {
+$(document).ready(function () {
     if ($('#global-auth-banner').length === 0 && !window.isUserLoggedIn) {
         var bannerHtml = `
         <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 999; position: relative;">
@@ -9,9 +9,9 @@ $(document).ready(function() {
         </div>
         `;
         $('body').prepend(bannerHtml);
-        
+
         // Fix alignment: Push the absolute navigation header down ONLY when at the top (not scrolled)
-        setTimeout(function() {
+        setTimeout(function () {
             var bannerHeight = $('#global-auth-banner').outerHeight();
             var dynamicStyle = '<style id="banner-offset-style">nav:not(.header-scrolled) { top: ' + bannerHeight + 'px !important; } nav.header-scrolled { top: 0 !important; }</style>';
             $('head').append(dynamicStyle);
@@ -31,12 +31,12 @@ var QuoteCart = (function ($) {
     "use strict";
 
     var STORAGE_KEY = 'onshore_quote_cart';
-    var REQUEST_QUOTE_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.create_request_quote';
+    var API_BASE_URL = 'https://onshore.tbo365.cloud';
+    var REQUEST_QUOTE_URL = API_BASE_URL + '/api/method/onshore.api.create_request_quote';
     var REQUEST_QUOTE_AUTH = 'token9897e6ee3838b6c:06d7193075244d6';
     var cart = [];
     var eventsBound = false;
     function init() {
-
         injectCartSidebar();
         loadCart();
         // Cleanup legacy 'undefined' strings from previous cache
@@ -46,6 +46,23 @@ var QuoteCart = (function ($) {
         updateCartCount();
         checkAbandonedCart();
         bindEvents();
+        autoDetectCountry();
+    }
+
+    function autoDetectCountry() {
+        try {
+            var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            var countryMap = {
+                'Riyadh': 'Saudi Arabia', 'Qatar': 'Qatar', 'Dubai': 'United Arab Emirates',
+                'Kuwait': 'Kuwait', 'Bahrain': 'Bahrain', 'Muscat': 'Oman'
+            };
+            for (var key in countryMap) {
+                if (tz.indexOf(key) !== -1) {
+                    $('#quote-country-select').val(countryMap[key]);
+                    break;
+                }
+            }
+        } catch(e) {}
     }
 
     // Inject Sidebar HTML into the DOM
@@ -54,61 +71,46 @@ var QuoteCart = (function ($) {
 
         var sidebarHtml = `
             <div class="cart-overlay"></div>
-            <div id="cart-sidebar" style="background: #fdfdfd; display: flex; flex-direction: column; height: 100vh;">
+            <div id="cart-sidebar" style="background: #fff; display: flex; flex-direction: column; height: 100vh;">
                 <!-- Header -->
-                <div class="cart-header" style="background: #fff; padding: 20px; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; justify-content: space-between;">
-                    <div style="display: flex; align-items: flex-start; gap: 12px;">
-                        <div style="background: #eef5fc; color: #015bb5; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="ri-shopping-cart-2-fill"></i>
+                <div class="cart-header" style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="background: #0177c6; color: #fff; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+                            <i class="ri-file-list-3-line"></i>
                         </div>
                         <div>
-                            <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #111; line-height: 1.4;">ENQUIRY BASKET (<span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span>)<br><span dir="rtl" style="font-size: 14px; font-weight: 500; color: #666; display: block; margin-top: 3px;">سلة الاستفسارات</span></h4>
-                            <div style="font-size: 12px; color: #666; margin-top: 4px;">Review your selected items before requesting a quote.<br><span dir="rtl" style="display:inline-block; font-size: 11px; margin-top:2px;">راجع العناصر المحددة قبل طلب عرض السعر.</span></div>
+                            <h4 style="margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; line-height: 1.3;">ENQUIRY BASKET <span dir="rtl" style="font-weight: 500; font-size: 13px; color: #64748b;">سلة الاستفسارات</span></h4>
                         </div>
                     </div>
-                    <span class="close-cart" style="font-size: 24px; color: #444; cursor: pointer; display: flex; align-items: flex-start; padding-top: 4px;"><i class="ri-close-line"></i></span>
+                    <span class="close-cart" style="font-size: 20px; color: #94a3b8; cursor: pointer; display: flex;"><i class="ri-close-line"></i></span>
                 </div>
 
-                <!-- Progress bar removed for more vertical space -->
-
                 <!-- Products -->
-                <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 15px 20px; background: #fdfdfd;">
-                    <!-- Items will be injected here -->
-                    <div class="text-center" style="margin-top: 50px; color: #999;">Your quote basket is empty.<br><span dir="rtl" style="display: block; margin-top: 5px;">سلة العروض الخاصة بك فارغة.</span></div>
+                <div class="cart-items" style="flex: 1; overflow-y: auto; padding: 12px 16px; background: #f8fafc;">
+                    <div class="text-center" style="margin-top: 40px; color: #94a3b8; font-size: 13px;">Your quote basket is empty.<br><span dir="rtl" style="display: block; margin-top: 5px;">سلة عرض السعر فارغة.</span></div>
                 </div>
 
                 <!-- Footer -->
-                <div class="cart-footer" style="padding: 15px 20px; background: #fff; border-top: 1px solid #eee;">
-                    <!-- Summary Card -->
-                    <div style="background: #f8fbff; border: 1px solid #e1effe; border-radius: 8px; padding: 12px 15px; display: flex; margin-bottom: 15px;">
-                        <div style="flex: 1; display: flex; align-items: center; gap: 10px; border-right: 1px solid #e1effe; padding-right: 15px;">
-                            <div style="color: #015bb5; font-size: 20px; opacity: 0.8;"><i class="ri-file-list-3-line"></i></div>
-                            <div>
-                                <div style="font-size: 11px; color: #555;">Total Items<br><span dir="rtl" style="font-size: 10px;">إجمالي المنتجات</span></div>
-                                <div style="font-size: 13px; font-weight: 700; color: #111;"><span class="cart-count" style="background: none; color: inherit; padding: 0; position: static; display: inline;">0</span> Products<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">منتجات</span></div>
-                            </div>
+                <div class="cart-footer" style="padding: 12px 16px 16px; background: #fff; border-top: 1px solid #e2e8f0;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                        <div style="flex: 1; display: flex; align-items: center; gap: 6px;">
+                            <i class="ri-file-list-3-line" style="color: #0177c6; font-size: 14px;"></i>
+                            <span style="font-size: 12px; color: #475569;"><span class="cart-count" style="font-weight: 700; color: #0f172a;">0</span> items selected <span dir="rtl" style="color: #94a3b8;">| عدد المنتجات</span></span>
                         </div>
-                        <div style="flex: 1; display: flex; align-items: center; gap: 10px; padding-left: 15px;">
-                            <div style="color: #015bb5; font-size: 20px; opacity: 0.8;"><i class="ri-time-line"></i></div>
-                            <div>
-                                <div style="font-size: 11px; color: #555;">Estimated Response<br><span dir="rtl" style="font-size: 10px;">الرد المتوقع</span></div>
-                                <div style="font-size: 12px; font-weight: 700; color: #111; line-height: 1.2;">Within 24 Hours<br><span dir="rtl" style="font-size: 11px; font-weight: 500; color: #555;">خلال 24 ساعة</span></div>
-                            </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <i class="ri-time-line" style="color: #0177c6; font-size: 14px;"></i>
+                            <span style="font-size: 12px; color: #475569;">Quote in 24h <span dir="rtl" style="color: #94a3b8;">| الرد خلال 24 ساعة</span></span>
                         </div>
                     </div>
                     
-                    <!-- Buttons -->
-                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-                        <button class="btn-view-cart" id="checkout-submit-btn" style="width: 100%; background: #015bb5; color: #fff; border: none; border-radius: 8px; padding: 12px 15px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
-                            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;"><span dir="rtl" style="font-weight: 500; font-size: 12px;">إرسال الطلب (إتمام الطلب)</span> | CHECK OUT / SUBMIT ENQUIRY <i class="ri-arrow-right-line"></i></div>
-                            <div style="font-size: 10px; font-weight: 400; opacity: 0.9; margin-top: 2px;">We'll get back to you shortly <span dir="rtl" style="font-size: 9px;">/ سنعود إليك قريباً</span></div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button class="btn-view-cart" id="checkout-submit-btn" style="width: 100%; background: #0177c6; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+                            <i class="ri-send-plane-2-line"></i> Submit Enquiry <span dir="rtl" style="font-weight: 500; font-size: 13px;">| إرسال الطلب</span>
                         </button>
-                        <span class="close-cart" style="color: #015bb5; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 5px 0;">
+                        <span class="close-cart" style="color: #64748b; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 4px 0;">
                             <i class="ri-arrow-left-line"></i> Continue Shopping <span dir="rtl" style="font-size: 11px; font-weight: 500;">/ مواصلة التسوق</span>
                         </span>
                     </div>
-
-
                 </div>
             </div>
         `;
@@ -119,14 +121,14 @@ var QuoteCart = (function ($) {
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                         <div class="modal-header" style="background-color: #fff; border-bottom: none; padding: 20px 25px 10px;">
-                            <h5 class="modal-title" id="quoteRequestModalLabel" style="font-weight: 700; color: #333;">REQUEST QUOTE <span dir="rtl" style="font-size: 14px; color: #666; font-weight: 500; margin-left: 10px;">| طلب عرض سعر</span></h5>
+                            <h5 class="modal-title" id="quoteRequestModalLabel" style="font-weight: 700; color: #333;">REQUEST ENQUIRY <span dir="rtl" style="font-size: 14px; color: #666; font-weight: 500; margin-left: 10px;">| طلب استفسار</span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #ddd; border-radius: 50%; padding: 8px; opacity: 1; background-size: 10px;"></button>
                         </div>
                         <div class="modal-body" style="padding: 30px;">
                             <!-- Selected Products Section -->
                             <div style="border: 1px solid #eaeaea; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 10px;">
-                                    <span style="font-weight: 700; color: #333; font-size: 13px;">SELECTED PRODUCTS</span>
+                                    <span style="font-weight: 700; color: #333; font-size: 13px;">SELECTED PRODUCTS (<span class="cart-count">0</span>)</span>
                                     <span dir="rtl" style="font-size: 12px; color: #888; font-weight: 500;">المنتجات المحددة</span>
                                 </div>
                                 <div id="modal-quote-cart-items" style="max-height: 120px; overflow-y: auto; padding-right: 5px;">
@@ -197,201 +199,12 @@ var QuoteCart = (function ($) {
                                         <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Country <span style="font-weight: normal; color: #777;">الدولة</span> *</label>
                                         <select name="country" id="quote-country-select" class="form-select" required style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                             <option value="">Select Country</option>
-<option value="Afghanistan">Afghanistan</option>
-<option value="Albania">Albania</option>
-<option value="Algeria">Algeria</option>
-<option value="Andorra">Andorra</option>
-<option value="Angola">Angola</option>
-<option value="Antigua and Barbuda">Antigua and Barbuda</option>
-<option value="Argentina">Argentina</option>
-<option value="Armenia">Armenia</option>
-<option value="Australia">Australia</option>
-<option value="Austria">Austria</option>
-<option value="Azerbaijan">Azerbaijan</option>
-<option value="Bahamas">Bahamas</option>
-<option value="Bahrain">Bahrain</option>
-<option value="Bangladesh">Bangladesh</option>
-<option value="Barbados">Barbados</option>
-<option value="Belarus">Belarus</option>
-<option value="Belgium">Belgium</option>
-<option value="Belize">Belize</option>
-<option value="Benin">Benin</option>
-<option value="Bhutan">Bhutan</option>
-<option value="Bolivia">Bolivia</option>
-<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-<option value="Botswana">Botswana</option>
-<option value="Brazil">Brazil</option>
-<option value="Brunei">Brunei</option>
-<option value="Bulgaria">Bulgaria</option>
-<option value="Burkina Faso">Burkina Faso</option>
-<option value="Burundi">Burundi</option>
-<option value="Côte d'Ivoire">Côte d'Ivoire</option>
-<option value="Cabo Verde">Cabo Verde</option>
-<option value="Cambodia">Cambodia</option>
-<option value="Cameroon">Cameroon</option>
-<option value="Canada">Canada</option>
-<option value="Central African Republic">Central African Republic</option>
-<option value="Chad">Chad</option>
-<option value="Chile">Chile</option>
-<option value="China">China</option>
-<option value="Colombia">Colombia</option>
-<option value="Comoros">Comoros</option>
-<option value="Congo (Congo-Brazzaville)">Congo (Congo-Brazzaville)</option>
-<option value="Costa Rica">Costa Rica</option>
-<option value="Croatia">Croatia</option>
-<option value="Cuba">Cuba</option>
-<option value="Cyprus">Cyprus</option>
-<option value="Czechia (Czech Republic)">Czechia (Czech Republic)</option>
-<option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
-<option value="Denmark">Denmark</option>
-<option value="Djibouti">Djibouti</option>
-<option value="Dominica">Dominica</option>
-<option value="Dominican Republic">Dominican Republic</option>
-<option value="Ecuador">Ecuador</option>
-<option value="Egypt">Egypt</option>
-<option value="El Salvador">El Salvador</option>
-<option value="Equatorial Guinea">Equatorial Guinea</option>
-<option value="Eritrea">Eritrea</option>
-<option value="Estonia">Estonia</option>
-<option value="Eswatini (fmr. Swaziland)">Eswatini (fmr. Swaziland)</option>
-<option value="Ethiopia">Ethiopia</option>
-<option value="Fiji">Fiji</option>
-<option value="Finland">Finland</option>
-<option value="France">France</option>
-<option value="Gabon">Gabon</option>
-<option value="Gambia">Gambia</option>
-<option value="Georgia">Georgia</option>
-<option value="Germany">Germany</option>
-<option value="Ghana">Ghana</option>
-<option value="Greece">Greece</option>
-<option value="Grenada">Grenada</option>
-<option value="Guatemala">Guatemala</option>
-<option value="Guinea">Guinea</option>
-<option value="Guinea-Bissau">Guinea-Bissau</option>
-<option value="Guyana">Guyana</option>
-<option value="Haiti">Haiti</option>
-<option value="Holy See">Holy See</option>
-<option value="Honduras">Honduras</option>
-<option value="Hungary">Hungary</option>
-<option value="Iceland">Iceland</option>
-<option value="India">India</option>
-<option value="Indonesia">Indonesia</option>
-<option value="Iran">Iran</option>
-<option value="Iraq">Iraq</option>
-<option value="Ireland">Ireland</option>
-<option value="Israel">Israel</option>
-<option value="Italy">Italy</option>
-<option value="Jamaica">Jamaica</option>
-<option value="Japan">Japan</option>
-<option value="Jordan">Jordan</option>
-<option value="Kazakhstan">Kazakhstan</option>
-<option value="Kenya">Kenya</option>
-<option value="Kiribati">Kiribati</option>
-<option value="Kuwait">Kuwait</option>
-<option value="Kyrgyzstan">Kyrgyzstan</option>
-<option value="Laos">Laos</option>
-<option value="Latvia">Latvia</option>
-<option value="Lebanon">Lebanon</option>
-<option value="Lesotho">Lesotho</option>
-<option value="Liberia">Liberia</option>
-<option value="Libya">Libya</option>
-<option value="Liechtenstein">Liechtenstein</option>
-<option value="Lithuania">Lithuania</option>
-<option value="Luxembourg">Luxembourg</option>
-<option value="Madagascar">Madagascar</option>
-<option value="Malawi">Malawi</option>
-<option value="Malaysia">Malaysia</option>
-<option value="Maldives">Maldives</option>
-<option value="Mali">Mali</option>
-<option value="Malta">Malta</option>
-<option value="Marshall Islands">Marshall Islands</option>
-<option value="Mauritania">Mauritania</option>
-<option value="Mauritius">Mauritius</option>
-<option value="Mexico">Mexico</option>
-<option value="Micronesia">Micronesia</option>
-<option value="Moldova">Moldova</option>
-<option value="Monaco">Monaco</option>
-<option value="Mongolia">Mongolia</option>
-<option value="Montenegro">Montenegro</option>
-<option value="Morocco">Morocco</option>
-<option value="Mozambique">Mozambique</option>
-<option value="Myanmar (formerly Burma)">Myanmar (formerly Burma)</option>
-<option value="Namibia">Namibia</option>
-<option value="Nauru">Nauru</option>
-<option value="Nepal">Nepal</option>
-<option value="Netherlands">Netherlands</option>
-<option value="New Zealand">New Zealand</option>
-<option value="Nicaragua">Nicaragua</option>
-<option value="Niger">Niger</option>
-<option value="Nigeria">Nigeria</option>
-<option value="North Korea">North Korea</option>
-<option value="North Macedonia">North Macedonia</option>
-<option value="Norway">Norway</option>
-<option value="Oman">Oman</option>
-<option value="Pakistan">Pakistan</option>
-<option value="Palau">Palau</option>
-<option value="Palestine State">Palestine State</option>
-<option value="Panama">Panama</option>
-<option value="Papua New Guinea">Papua New Guinea</option>
-<option value="Paraguay">Paraguay</option>
-<option value="Peru">Peru</option>
-<option value="Philippines">Philippines</option>
-<option value="Poland">Poland</option>
-<option value="Portugal">Portugal</option>
-<option value="Qatar">Qatar</option>
-<option value="Romania">Romania</option>
-<option value="Russia">Russia</option>
-<option value="Rwanda">Rwanda</option>
-<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-<option value="Saint Lucia">Saint Lucia</option>
-<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-<option value="Samoa">Samoa</option>
-<option value="San Marino">San Marino</option>
-<option value="Sao Tome and Principe">Sao Tome and Principe</option>
 <option value="Saudi Arabia">Saudi Arabia</option>
-<option value="Senegal">Senegal</option>
-<option value="Serbia">Serbia</option>
-<option value="Seychelles">Seychelles</option>
-<option value="Sierra Leone">Sierra Leone</option>
-<option value="Singapore">Singapore</option>
-<option value="Slovakia">Slovakia</option>
-<option value="Slovenia">Slovenia</option>
-<option value="Solomon Islands">Solomon Islands</option>
-<option value="Somalia">Somalia</option>
-<option value="South Africa">South Africa</option>
-<option value="South Korea">South Korea</option>
-<option value="South Sudan">South Sudan</option>
-<option value="Spain">Spain</option>
-<option value="Sri Lanka">Sri Lanka</option>
-<option value="Sudan">Sudan</option>
-<option value="Suriname">Suriname</option>
-<option value="Sweden">Sweden</option>
-<option value="Switzerland">Switzerland</option>
-<option value="Syria">Syria</option>
-<option value="Tajikistan">Tajikistan</option>
-<option value="Tanzania">Tanzania</option>
-<option value="Thailand">Thailand</option>
-<option value="Timor-Leste">Timor-Leste</option>
-<option value="Togo">Togo</option>
-<option value="Tonga">Tonga</option>
-<option value="Trinidad and Tobago">Trinidad and Tobago</option>
-<option value="Tunisia">Tunisia</option>
-<option value="Turkey">Turkey</option>
-<option value="Turkmenistan">Turkmenistan</option>
-<option value="Tuvalu">Tuvalu</option>
-<option value="Uganda">Uganda</option>
-<option value="Ukraine">Ukraine</option>
 <option value="United Arab Emirates">United Arab Emirates</option>
-<option value="United Kingdom">United Kingdom</option>
-<option value="United States of America">United States of America</option>
-<option value="Uruguay">Uruguay</option>
-<option value="Uzbekistan">Uzbekistan</option>
-<option value="Vanuatu">Vanuatu</option>
-<option value="Venezuela">Venezuela</option>
-<option value="Vietnam">Vietnam</option>
-<option value="Yemen">Yemen</option>
-<option value="Zambia">Zambia</option>
-<option value="Zimbabwe">Zimbabwe</option>
+<option value="Qatar">Qatar</option>
+<option value="Kuwait">Kuwait</option>
+<option value="Bahrain">Bahrain</option>
+<option value="Oman">Oman</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
@@ -401,224 +214,14 @@ var QuoteCart = (function ($) {
                                     <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
                                         <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
                                         <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
-                                                <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 130px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
+                                                <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 180px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
                                                     <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
                                                     <option data-countryCode="AE" value="971">UAE (+971)</option>
                                                     <option data-countryCode="QA" value="974">Qatar (+974)</option>
                                                     <option data-countryCode="BH" value="973">Bahrain (+973)</option>
                                                     <option data-countryCode="KW" value="965">Kuwait (+965)</option>
                                                     <option data-countryCode="OM" value="968">Oman (+968)</option>
-                                                    <option data-countryCode="IN" value="91">India (+91)</option>
-                                                    <option data-countryCode="US" value="1">US (+1)</option>
-                                                    <option data-countryCode="GB" value="44">UK (+44)</option>
-                                                    <optgroup label="Other countries">
-                                                        <option data-countryCode="AF" value="93">Afghanistan (+93)</option>
-                                                        <option data-countryCode="AL" value="355">Albania (+355)</option>
-                                                        <option data-countryCode="DZ" value="213">Algeria (+213)</option>
-                                                        <option data-countryCode="AD" value="376">Andorra (+376)</option>
-                                                        <option data-countryCode="AO" value="244">Angola (+244)</option>
-                                                        <option data-countryCode="AI" value="1264">Anguilla (+1264)</option>
-                                                        <option data-countryCode="AG" value="1268">Antigua & Barbuda (+1268)</option>
-                                                        <option data-countryCode="AR" value="54">Argentina (+54)</option>
-                                                        <option data-countryCode="AM" value="374">Armenia (+374)</option>
-                                                        <option data-countryCode="AW" value="297">Aruba (+297)</option>
-                                                        <option data-countryCode="AU" value="61">Australia (+61)</option>
-                                                        <option data-countryCode="AT" value="43">Austria (+43)</option>
-                                                        <option data-countryCode="AZ" value="994">Azerbaijan (+994)</option>
-                                                        <option data-countryCode="BS" value="1242">Bahamas (+1242)</option>
-                                                        <option data-countryCode="BD" value="880">Bangladesh (+880)</option>
-                                                        <option data-countryCode="BB" value="1246">Barbados (+1246)</option>
-                                                        <option data-countryCode="BY" value="375">Belarus (+375)</option>
-                                                        <option data-countryCode="BE" value="32">Belgium (+32)</option>
-                                                        <option data-countryCode="BZ" value="501">Belize (+501)</option>
-                                                        <option data-countryCode="BJ" value="229">Benin (+229)</option>
-                                                        <option data-countryCode="BM" value="1441">Bermuda (+1441)</option>
-                                                        <option data-countryCode="BT" value="975">Bhutan (+975)</option>
-                                                        <option data-countryCode="BO" value="591">Bolivia (+591)</option>
-                                                        <option data-countryCode="BA" value="387">Bosnia Herzegovina (+387)</option>
-                                                        <option data-countryCode="BW" value="267">Botswana (+267)</option>
-                                                        <option data-countryCode="BR" value="55">Brazil (+55)</option>
-                                                        <option data-countryCode="BN" value="673">Brunei (+673)</option>
-                                                        <option data-countryCode="BG" value="359">Bulgaria (+359)</option>
-                                                        <option data-countryCode="BF" value="226">Burkina Faso (+226)</option>
-                                                        <option data-countryCode="BI" value="257">Burundi (+257)</option>
-                                                        <option data-countryCode="KH" value="855">Cambodia (+855)</option>
-                                                        <option data-countryCode="CM" value="237">Cameroon (+237)</option>
-                                                        <option data-countryCode="CA" value="1">Canada (+1)</option>
-                                                        <option data-countryCode="CV" value="238">Cape Verde Islands (+238)</option>
-                                                        <option data-countryCode="KY" value="1345">Cayman Islands (+1345)</option>
-                                                        <option data-countryCode="CF" value="236">Central African Republic (+236)</option>
-                                                        <option data-countryCode="CL" value="56">Chile (+56)</option>
-                                                        <option data-countryCode="CN" value="86">China (+86)</option>
-                                                        <option data-countryCode="CO" value="57">Colombia (+57)</option>
-                                                        <option data-countryCode="KM" value="269">Comoros (+269)</option>
-                                                        <option data-countryCode="CG" value="242">Congo (+242)</option>
-                                                        <option data-countryCode="CK" value="682">Cook Islands (+682)</option>
-                                                        <option data-countryCode="CR" value="506">Costa Rica (+506)</option>
-                                                        <option data-countryCode="HR" value="385">Croatia (+385)</option>
-                                                        <option data-countryCode="CU" value="53">Cuba (+53)</option>
-                                                        <option data-countryCode="CY" value="90392">Cyprus North (+90392)</option>
-                                                        <option data-countryCode="CY" value="357">Cyprus South (+357)</option>
-                                                        <option data-countryCode="CZ" value="42">Czech Republic (+42)</option>
-                                                        <option data-countryCode="DK" value="45">Denmark (+45)</option>
-                                                        <option data-countryCode="DJ" value="253">Djibouti (+253)</option>
-                                                        <option data-countryCode="DM" value="1809">Dominica (+1809)</option>
-                                                        <option data-countryCode="DO" value="1809">Dominican Republic (+1809)</option>
-                                                        <option data-countryCode="EC" value="593">Ecuador (+593)</option>
-                                                        <option data-countryCode="EG" value="20">Egypt (+20)</option>
-                                                        <option data-countryCode="SV" value="503">El Salvador (+503)</option>
-                                                        <option data-countryCode="GQ" value="240">Equatorial Guinea (+240)</option>
-                                                        <option data-countryCode="ER" value="291">Eritrea (+291)</option>
-                                                        <option data-countryCode="EE" value="372">Estonia (+372)</option>
-                                                        <option data-countryCode="ET" value="251">Ethiopia (+251)</option>
-                                                        <option data-countryCode="FK" value="500">Falkland Islands (+500)</option>
-                                                        <option data-countryCode="FO" value="298">Faroe Islands (+298)</option>
-                                                        <option data-countryCode="FJ" value="679">Fiji (+679)</option>
-                                                        <option data-countryCode="FI" value="358">Finland (+358)</option>
-                                                        <option data-countryCode="FR" value="33">France (+33)</option>
-                                                        <option data-countryCode="GF" value="594">French Guiana (+594)</option>
-                                                        <option data-countryCode="PF" value="689">French Polynesia (+689)</option>
-                                                        <option data-countryCode="GA" value="241">Gabon (+241)</option>
-                                                        <option data-countryCode="GM" value="220">Gambia (+220)</option>
-                                                        <option data-countryCode="GE" value="7880">Georgia (+7880)</option>
-                                                        <option data-countryCode="DE" value="49">Germany (+49)</option>
-                                                        <option data-countryCode="GH" value="233">Ghana (+233)</option>
-                                                        <option data-countryCode="GI" value="350">Gibraltar (+350)</option>
-                                                        <option data-countryCode="GR" value="30">Greece (+30)</option>
-                                                        <option data-countryCode="GL" value="299">Greenland (+299)</option>
-                                                        <option data-countryCode="GD" value="1473">Grenada (+1473)</option>
-                                                        <option data-countryCode="GP" value="590">Guadeloupe (+590)</option>
-                                                        <option data-countryCode="GU" value="671">Guam (+671)</option>
-                                                        <option data-countryCode="GT" value="502">Guatemala (+502)</option>
-                                                        <option data-countryCode="GN" value="224">Guinea (+224)</option>
-                                                        <option data-countryCode="GW" value="245">Guinea - Bissau (+245)</option>
-                                                        <option data-countryCode="GY" value="592">Guyana (+592)</option>
-                                                        <option data-countryCode="HT" value="509">Haiti (+509)</option>
-                                                        <option data-countryCode="HN" value="504">Honduras (+504)</option>
-                                                        <option data-countryCode="HK" value="852">Hong Kong (+852)</option>
-                                                        <option data-countryCode="HU" value="36">Hungary (+36)</option>
-                                                        <option data-countryCode="IS" value="354">Iceland (+354)</option>
-                                                        <option data-countryCode="ID" value="62">Indonesia (+62)</option>
-                                                        <option data-countryCode="IR" value="98">Iran (+98)</option>
-                                                        <option data-countryCode="IQ" value="964">Iraq (+964)</option>
-                                                        <option data-countryCode="IE" value="353">Ireland (+353)</option>
-                                                        <option data-countryCode="IL" value="972">Israel (+972)</option>
-                                                        <option data-countryCode="IT" value="39">Italy (+39)</option>
-                                                        <option data-countryCode="JM" value="1876">Jamaica (+1876)</option>
-                                                        <option data-countryCode="JP" value="81">Japan (+81)</option>
-                                                        <option data-countryCode="JO" value="962">Jordan (+962)</option>
-                                                        <option data-countryCode="KZ" value="7">Kazakhstan (+7)</option>
-                                                        <option data-countryCode="KE" value="254">Kenya (+254)</option>
-                                                        <option data-countryCode="KI" value="686">Kiribati (+686)</option>
-                                                        <option data-countryCode="KP" value="850">Korea North (+850)</option>
-                                                        <option data-countryCode="KR" value="82">Korea South (+82)</option>
-                                                        <option data-countryCode="KG" value="996">Kyrgyzstan (+996)</option>
-                                                        <option data-countryCode="LA" value="856">Laos (+856)</option>
-                                                        <option data-countryCode="LV" value="371">Latvia (+371)</option>
-                                                        <option data-countryCode="LB" value="961">Lebanon (+961)</option>
-                                                        <option data-countryCode="LS" value="266">Lesotho (+266)</option>
-                                                        <option data-countryCode="LR" value="231">Liberia (+231)</option>
-                                                        <option data-countryCode="LY" value="218">Libya (+218)</option>
-                                                        <option data-countryCode="LI" value="417">Liechtenstein (+417)</option>
-                                                        <option data-countryCode="LT" value="370">Lithuania (+370)</option>
-                                                        <option data-countryCode="LU" value="352">Luxembourg (+352)</option>
-                                                        <option data-countryCode="MO" value="853">Macao (+853)</option>
-                                                        <option data-countryCode="MK" value="389">Macedonia (+389)</option>
-                                                        <option data-countryCode="MG" value="261">Madagascar (+261)</option>
-                                                        <option data-countryCode="MW" value="265">Malawi (+265)</option>
-                                                        <option data-countryCode="MY" value="60">Malaysia (+60)</option>
-                                                        <option data-countryCode="MV" value="960">Maldives (+960)</option>
-                                                        <option data-countryCode="ML" value="223">Mali (+223)</option>
-                                                        <option data-countryCode="MT" value="356">Malta (+356)</option>
-                                                        <option data-countryCode="MH" value="692">Marshall Islands (+692)</option>
-                                                        <option data-countryCode="MQ" value="596">Martinique (+596)</option>
-                                                        <option data-countryCode="MR" value="222">Mauritania (+222)</option>
-                                                        <option data-countryCode="YT" value="269">Mayotte (+269)</option>
-                                                        <option data-countryCode="MX" value="52">Mexico (+52)</option>
-                                                        <option data-countryCode="FM" value="691">Micronesia (+691)</option>
-                                                        <option data-countryCode="MD" value="373">Moldova (+373)</option>
-                                                        <option data-countryCode="MC" value="377">Monaco (+377)</option>
-                                                        <option data-countryCode="MN" value="976">Mongolia (+976)</option>
-                                                        <option data-countryCode="MS" value="1664">Montserrat (+1664)</option>
-                                                        <option data-countryCode="MA" value="212">Morocco (+212)</option>
-                                                        <option data-countryCode="MZ" value="258">Mozambique (+258)</option>
-                                                        <option data-countryCode="MN" value="95">Myanmar (+95)</option>
-                                                        <option data-countryCode="NA" value="264">Namibia (+264)</option>
-                                                        <option data-countryCode="NR" value="674">Nauru (+674)</option>
-                                                        <option data-countryCode="NP" value="977">Nepal (+977)</option>
-                                                        <option data-countryCode="NL" value="31">Netherlands (+31)</option>
-                                                        <option data-countryCode="NC" value="687">New Caledonia (+687)</option>
-                                                        <option data-countryCode="NZ" value="64">New Zealand (+64)</option>
-                                                        <option data-countryCode="NI" value="505">Nicaragua (+505)</option>
-                                                        <option data-countryCode="NE" value="227">Niger (+227)</option>
-                                                        <option data-countryCode="NG" value="234">Nigeria (+234)</option>
-                                                        <option data-countryCode="NU" value="683">Niue (+683)</option>
-                                                        <option data-countryCode="NF" value="672">Norfolk Islands (+672)</option>
-                                                        <option data-countryCode="NP" value="670">Northern Marianas (+670)</option>
-                                                        <option data-countryCode="NO" value="47">Norway (+47)</option>
-                                                        <option data-countryCode="PW" value="680">Palau (+680)</option>
-                                                        <option data-countryCode="PA" value="507">Panama (+507)</option>
-                                                        <option data-countryCode="PG" value="675">Papua New Guinea (+675)</option>
-                                                        <option data-countryCode="PY" value="595">Paraguay (+595)</option>
-                                                        <option data-countryCode="PE" value="51">Peru (+51)</option>
-                                                        <option data-countryCode="PH" value="63">Philippines (+63)</option>
-                                                        <option data-countryCode="PL" value="48">Poland (+48)</option>
-                                                        <option data-countryCode="PT" value="351">Portugal (+351)</option>
-                                                        <option data-countryCode="PR" value="1787">Puerto Rico (+1787)</option>
-                                                        <option data-countryCode="RE" value="262">Reunion (+262)</option>
-                                                        <option data-countryCode="RO" value="40">Romania (+40)</option>
-                                                        <option data-countryCode="RU" value="7">Russia (+7)</option>
-                                                        <option data-countryCode="RW" value="250">Rwanda (+250)</option>
-                                                        <option data-countryCode="SM" value="378">San Marino (+378)</option>
-                                                        <option data-countryCode="ST" value="239">Sao Tome & Principe (+239)</option>
-                                                        <option data-countryCode="SN" value="221">Senegal (+221)</option>
-                                                        <option data-countryCode="CS" value="381">Serbia (+381)</option>
-                                                        <option data-countryCode="SC" value="248">Seychelles (+248)</option>
-                                                        <option data-countryCode="SL" value="232">Sierra Leone (+232)</option>
-                                                        <option data-countryCode="SG" value="65">Singapore (+65)</option>
-                                                        <option data-countryCode="SK" value="421">Slovak Republic (+421)</option>
-                                                        <option data-countryCode="SI" value="386">Slovenia (+386)</option>
-                                                        <option data-countryCode="SB" value="677">Solomon Islands (+677)</option>
-                                                        <option data-countryCode="SO" value="252">Somalia (+252)</option>
-                                                        <option data-countryCode="ZA" value="27">South Africa (+27)</option>
-                                                        <option data-countryCode="ES" value="34">Spain (+34)</option>
-                                                        <option data-countryCode="LK" value="94">Sri Lanka (+94)</option>
-                                                        <option data-countryCode="SH" value="290">St. Helena (+290)</option>
-                                                        <option data-countryCode="KN" value="1869">St. Kitts (+1869)</option>
-                                                        <option data-countryCode="SC" value="1758">St. Lucia (+1758)</option>
-                                                        <option data-countryCode="SD" value="249">Sudan (+249)</option>
-                                                        <option data-countryCode="SR" value="597">Suriname (+597)</option>
-                                                        <option data-countryCode="SZ" value="268">Swaziland (+268)</option>
-                                                        <option data-countryCode="SE" value="46">Sweden (+46)</option>
-                                                        <option data-countryCode="CH" value="41">Switzerland (+41)</option>
-                                                        <option data-countryCode="SI" value="963">Syria (+963)</option>
-                                                        <option data-countryCode="TW" value="886">Taiwan (+886)</option>
-                                                        <option data-countryCode="TJ" value="7">Tajikstan (+7)</option>
-                                                        <option data-countryCode="TH" value="66">Thailand (+66)</option>
-                                                        <option data-countryCode="TG" value="228">Togo (+228)</option>
-                                                        <option data-countryCode="TO" value="676">Tonga (+676)</option>
-                                                        <option data-countryCode="TT" value="1868">Trinidad & Tobago (+1868)</option>
-                                                        <option data-countryCode="TN" value="216">Tunisia (+216)</option>
-                                                        <option data-countryCode="TR" value="90">Turkey (+90)</option>
-                                                        <option data-countryCode="TM" value="993">Turkmenistan (+993)</option>
-                                                        <option data-countryCode="TC" value="1649">Turks & Caicos Islands (+1649)</option>
-                                                        <option data-countryCode="TV" value="688">Tuvalu (+688)</option>
-                                                        <option data-countryCode="UG" value="256">Uganda (+256)</option>
-                                                        <option data-countryCode="UA" value="380">Ukraine (+380)</option>
-                                                        <option data-countryCode="UY" value="598">Uruguay (+598)</option>
-                                                        <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
-                                                        <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
-                                                        <option data-countryCode="VA" value="379">Vatican City (+379)</option>
-                                                        <option data-countryCode="VE" value="58">Venezuela (+58)</option>
-                                                        <option data-countryCode="VN" value="84">Vietnam (+84)</option>
-                                                        <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
-                                                        <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
-                                                        <option data-countryCode="WF" value="681">Wallis & Futuna (+681)</option>
-                                                        <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
-                                                        <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
-                                                        <option data-countryCode="ZM" value="260">Zambia (+260)</option>
-                                                        <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
-                                                    </optgroup>
+                                                    
                                                 </select>
                                                 <input type="text" name="phone" required class="form-control" placeholder="Enter mobile number" style="font-size: 13px; padding: 10px 12px; border: none; flex-grow: 1;">
                                         </div>
@@ -739,6 +342,7 @@ var QuoteCart = (function ($) {
     function updateCartCount() {
         var count = cart.reduce(function (sum, item) { return sum + item.qty; }, 0);
         $('.quote-basket-count').text(count);
+        $('.cart-count').text(count);
     }
 
     function renderCartSidebar() {
@@ -790,7 +394,7 @@ var QuoteCart = (function ($) {
             `;
             $container.append(html);
         });
-        
+
         var totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
         $('.cart-count').text(totalQty);
     }
@@ -913,7 +517,7 @@ var QuoteCart = (function ($) {
                 brand: brand,
                 image: img
             }, true); // pass true to skip opening sidebar
-            
+
             $('#quoteRequestModal').modal('show');
         });
 
@@ -1010,6 +614,50 @@ var QuoteCart = (function ($) {
                 return;
             }
 
+            var rawMobileNumber = ($form.find('[name="phone"]').val() || '').trim();
+            var mobileNumber = rawMobileNumber.replace(/[\s-]/g, '');
+            
+            // Remove leading zero if user entered it (e.g., 054 instead of 54)
+            if (mobileNumber.startsWith('0')) {
+                mobileNumber = mobileNumber.substring(1);
+            }
+            
+            var countryCode = ($form.find('[name="country_code"]').val() || '').trim();
+            
+            var mobileValid = true;
+            var errorMsg = 'Please enter a correct mobile number.';
+            
+            if (countryCode === '971' || countryCode === '966') {
+                // UAE and KSA: 9 digits, starts with 5
+                if (!/^5\d{8}$/.test(mobileNumber)) {
+                    mobileValid = false;
+                    errorMsg = 'Please enter a valid 9-digit mobile number starting with 5 (e.g. 5X XXX XXXX).';
+                }
+            } else if (countryCode === '974') {
+                // Qatar: 8 digits, starts with 3, 5, 6, or 7
+                if (!/^[3567]\d{7}$/.test(mobileNumber)) {
+                    mobileValid = false;
+                    errorMsg = 'For Qatar, please enter a valid 8-digit mobile number starting with 3, 5, 6, or 7.';
+                }
+            } else if (countryCode === '973') {
+                // Bahrain: 8 digits, starts with 33, 34, 35, 36, 37, 38, 39, 66, or 77
+                if (!/^(33|34|35|36|37|38|39|66|77)\d{6}$/.test(mobileNumber)) {
+                    mobileValid = false;
+                    errorMsg = 'For Bahrain, please enter a valid 8-digit mobile number.';
+                }
+            } else if (countryCode === '965' || countryCode === '968') {
+                // Kuwait and Oman: 8 digits
+                if (!/^\d{8}$/.test(mobileNumber)) {
+                    mobileValid = false;
+                    errorMsg = 'Please enter a valid 8-digit mobile number.';
+                }
+            }
+            
+            if (!mobileValid) {
+                showStatusPopup('error', errorMsg);
+                return;
+            }
+
             payload = {
                 full_name: ($form.find('[name="full_name"]').val() || '').trim(),
                 email: ($form.find('[name="email"]').val() || '').trim(),
@@ -1039,27 +687,28 @@ var QuoteCart = (function ($) {
                 // Not logged in: Request stateless OTP and signature
                 window.pendingPayload = payload;
                 var userEmail = payload.email;
-                var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
-                
+                var API_URL = API_BASE_URL + '/api/method/onshore.api.send_otp';
+
                 // Send email request
                 fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: userEmail })
                 })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-                        window.otpExpires = data.expires;
-                        window.otpSignature = data.signature;
-                    } else {
-                        console.error("OTP Error:", data.message);
-                    }
-                })
-                .catch(function(err) {
-                    console.error("OTP send error:", err);
-                });
-                
+                    .then(r => r.json())
+                    .then(data => {
+                        data = data.message || data; // Unwrap Frappe response
+                        if (data.success) {
+                            window.otpExpires = data.expires;
+                            window.otpSignature = data.signature;
+                        } else {
+                            console.error("OTP Error:", data.message);
+                        }
+                    })
+                    .catch(function (err) {
+                        console.error("OTP send error:", err);
+                    });
+
                 // Update UI to enter OTP
                 $form.attr('style', 'display: none !important');
                 $('#modal-quote-cart-items').parent().hide(); // Hide selected products to save space
@@ -1105,9 +754,9 @@ var QuoteCart = (function ($) {
         $(document).off('click', '#verify-otp-btn').on('click', '#verify-otp-btn', function () {
             var rawOTP = $('#quote-otp-input').val() || '';
             // Convert Arabic/Eastern numerals to English numerals
-            var val = rawOTP.replace(/[٠-٩]/g, function(d) {
+            var val = rawOTP.replace(/[٠-٩]/g, function (d) {
                 return String.fromCharCode(d.charCodeAt(0) - 1632);
-            }).replace(/[۰-۹]/g, function(d) {
+            }).replace(/[۰-۹]/g, function (d) {
                 return String.fromCharCode(d.charCodeAt(0) - 1776);
             });
             // Extract only numbers
@@ -1123,7 +772,7 @@ var QuoteCart = (function ($) {
             $('#otp-error-msg').hide();
 
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
-            var API_URL = 'https://hydrotechglobal.ae/verify-otp-api.php';
+            var API_URL = API_BASE_URL + '/api/method/onshore.api.verify_otp';
 
             fetch(API_URL, {
                 method: 'POST',
@@ -1135,44 +784,45 @@ var QuoteCart = (function ($) {
                     signature: window.otpSignature
                 })
             })
-            .then(r => r.json())
-            .then(data => {
-                if (data.success && data.customToken) {
-                    // Sign in to Firebase!
-                    if (window.signInWithFirebaseCustomToken) {
-                        window.signInWithFirebaseCustomToken(data.customToken)
-                            .then(() => {
-                                $('#quote-otp-input').prop('disabled', true);
-                                $verifyBtn.text('Submitting...');
-                                if (window.pendingPayload) {
-                                    sendQuoteToBackend(window.pendingPayload, $verifyBtn);
-                                    window.pendingPayload = null;
-                                }
-                            })
-                            .catch(err => {
-                                console.error("Firebase Auth Error:", err);
-                                $('#otp-error-msg').show().text('Auth error. Please try again.');
-                                $verifyBtn.text('Verify & Submit').prop('disabled', false);
-                            });
-                    } else {
-                        // Fallback
-                        $('#quote-otp-input').prop('disabled', true);
-                        if (window.pendingPayload) {
-                            sendQuoteToBackend(window.pendingPayload, $verifyBtn);
-                            window.pendingPayload = null;
+                .then(r => r.json())
+                .then(data => {
+                    data = data.message || data; // Unwrap Frappe response
+                    if (data.success && data.customToken) {
+                        // Sign in to Firebase!
+                        if (window.signInWithFirebaseCustomToken) {
+                            window.signInWithFirebaseCustomToken(data.customToken)
+                                .then(() => {
+                                    $('#quote-otp-input').prop('disabled', true);
+                                    $verifyBtn.text('Submitting...');
+                                    if (window.pendingPayload) {
+                                        sendQuoteToBackend(window.pendingPayload, $verifyBtn);
+                                        window.pendingPayload = null;
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error("Firebase Auth Error:", err);
+                                    $('#otp-error-msg').show().text('Auth error. Please try again.');
+                                    $verifyBtn.text('Verify & Submit').prop('disabled', false);
+                                });
+                        } else {
+                            // Fallback
+                            $('#quote-otp-input').prop('disabled', true);
+                            if (window.pendingPayload) {
+                                sendQuoteToBackend(window.pendingPayload, $verifyBtn);
+                                window.pendingPayload = null;
+                            }
                         }
+                    } else {
+                        $('#otp-error-msg').show().html((data.message || 'Invalid code.') + '<br><span dir="rtl">رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.</span>');
+                        $('#quote-otp-input').addClass('is-invalid');
+                        $verifyBtn.text('Verify & Submit').prop('disabled', false);
                     }
-                } else {
-                    $('#otp-error-msg').show().html((data.message || 'Invalid code.') + '<br><span dir="rtl">رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.</span>');
-                    $('#quote-otp-input').addClass('is-invalid');
+                })
+                .catch(err => {
+                    console.error("OTP verify error:", err);
+                    $('#otp-error-msg').show().text('Connection error. Please try again.');
                     $verifyBtn.text('Verify & Submit').prop('disabled', false);
-                }
-            })
-            .catch(err => {
-                console.error("OTP verify error:", err);
-                $('#otp-error-msg').show().text('Connection error. Please try again.');
-                $verifyBtn.text('Verify & Submit').prop('disabled', false);
-            });
+                });
         });
 
         $(document).off('click', '#change-email-btn').on('click', '#change-email-btn', function (e) {
@@ -1188,34 +838,35 @@ var QuoteCart = (function ($) {
             $resendBtn.css('pointer-events', 'none').css('opacity', '0.5');
 
             var userEmail = window.pendingPayload ? window.pendingPayload.email : '';
-            if(!userEmail) return;
-            
-            var API_URL = 'https://hydrotechglobal.ae/send-otp-api.php';
-            
+            if (!userEmail) return;
+
+            var API_URL = API_BASE_URL + '/api/method/onshore.api.send_otp';
+
             fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: userEmail })
             })
-            .then(r => r.json())
-            .then(data => {
-                if (data.success) {
-                    window.otpExpires = data.expires;
-                    window.otpSignature = data.signature;
-                    $('#otp-error-msg').hide();
-                    $('#otp-success-msg').show();
-                    setTimeout(() => { $('#otp-success-msg').fadeOut(); }, 3000);
-                }
-                $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
-            })
-            .catch(err => {
-                console.error("OTP send error:", err);
-                $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
-            });
-            
+                .then(r => r.json())
+                .then(data => {
+                    data = data.message || data; // Unwrap Frappe response
+                    if (data.success) {
+                        window.otpExpires = data.expires;
+                        window.otpSignature = data.signature;
+                        $('#otp-error-msg').hide();
+                        $('#otp-success-msg').show();
+                        setTimeout(() => { $('#otp-success-msg').fadeOut(); }, 3000);
+                    }
+                    $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
+                })
+                .catch(err => {
+                    console.error("OTP send error:", err);
+                    $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
+                });
+
             $('#otp-error-msg').hide();
             $('#otp-success-msg').show();
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#otp-success-msg').fadeOut();
                 $resendBtn.css('pointer-events', 'auto').css('opacity', '1');
             }, 3000);
@@ -1223,21 +874,87 @@ var QuoteCart = (function ($) {
 
 
 
-        
+
         $(document).off('show.bs.modal', '#quoteRequestModal').on('show.bs.modal', '#quoteRequestModal', function () {
             var saved = localStorage.getItem('user_quote_details');
+            var $m = $('#quoteRequestModal');
             if (saved) {
                 try {
                     var details = JSON.parse(saved);
-                    var $m = $('#quoteRequestModal');
                     if (details.full_name) $m.find('[name="full_name"]').val(details.full_name);
                     if (details.email) $m.find('[name="email"]').val(details.email);
                     if (details.company_name) $m.find('[name="company_name"]').val(details.company_name);
                     if (details.country) $m.find('[name="country"]').val(details.country);
                     if (details.city) $m.find('[name="city"]').val(details.city);
-                    if (details.mobile_number) $m.find('[name="phone"]').val(details.mobile_number);
-                    if (details.mobile_country_code) $m.find('[name="country_code"]').val(details.mobile_country_code);
-                } catch(e) {}
+                    if (details.mobile_number) {
+                        let rawMobile = details.mobile_number;
+                        let currCountryCode = '966';
+                        let currMobileOnly = rawMobile;
+                        const countryCodes = ['966', '971', '974', '973', '965', '968'];
+                        for (let code of countryCodes) {
+                            if (rawMobile.startsWith(code) && rawMobile.length > code.length) {
+                                currCountryCode = code;
+                                currMobileOnly = rawMobile.substring(code.length);
+                                break;
+                            }
+                        }
+                        $m.find('[name="phone"]').val(currMobileOnly);
+                        $m.find('[name="country_code"]').val(currCountryCode);
+                    } else if (details.mobile_country_code) {
+                        $m.find('[name="country_code"]').val(details.mobile_country_code);
+                    }
+                } catch (e) { }
+            }
+            
+            // If user is logged in and has a mobile number, hide the big form and just show a summary
+            var details = JSON.parse(localStorage.getItem('user_quote_details') || "{}");
+            if (window.isUserLoggedIn && details && details.mobile_number) {
+                var $row = $m.find('.row').first(); // the form fields container
+                $row.hide();
+                $row.find('input, select').removeAttr('required').attr('data-required-hidden', 'true');
+                $m.find('#quote-logged-in-summary').remove(); // remove if exists
+                
+                var nameStr = details.full_name || (window.auth && window.auth.currentUser ? window.auth.currentUser.displayName : 'User');
+                var emailStr = details.email || (window.auth && window.auth.currentUser ? window.auth.currentUser.email : '');
+                var mobileStr = details.mobile_number || '';
+                
+                var summaryHtml = `
+                <div id="quote-logged-in-summary" style="background: #f4f8fb; border: 1px solid #d3e4f0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: 600; font-size: 13px; color: #015bb5; display: flex; align-items: center; gap: 5px;">
+                            <i class="ri-checkbox-circle-fill"></i> Profile Linked
+                        </span>
+                        <button type="button" id="quote-edit-details-btn" style="background: none; border: none; color: #0177c6; font-size: 12px; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0;">Edit</button>
+                    </div>
+                    <div style="font-size: 13px; color: #444; line-height: 1.5;">
+                        <span style="font-weight: 600; color: #222;">${nameStr}</span> (${emailStr})<br>
+                        ${mobileStr ? '<i class="ri-phone-line" style="vertical-align: middle; margin-right: 4px;"></i>' + mobileStr + '<br>' : ''}
+                        ${details.company_name ? '<i class="ri-building-line" style="vertical-align: middle; margin-right: 4px;"></i>' + details.company_name + '<br>' : ''}
+                        <i class="ri-map-pin-line" style="vertical-align: middle; margin-right: 4px;"></i>${details.city ? details.city + ', ' : ''}Saudi Arabia
+                    </div>
+                </div>
+                `;
+                $row.before(summaryHtml);
+                
+                $('#quote-edit-details-btn').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    $('#quote-logged-in-summary').hide();
+                    $row.show();
+                    $row.find('[data-required-hidden="true"]').attr('required', 'required').removeAttr('data-required-hidden');
+                    
+                    // Add a cancel button to the form header to revert back to summary
+                    var $headerIconContainer = $row.prev().prev().find('.ri-file-text-line').parent();
+                    if ($headerIconContainer.find('#quote-cancel-edit-btn').length === 0) {
+                        $headerIconContainer.html('<button type="button" id="quote-cancel-edit-btn" style="background: none; border: none; color: #666; font-size: 12px; font-weight: 500; text-decoration: underline; cursor: pointer; padding: 0;">Cancel Edit</button>');
+                        $('#quote-cancel-edit-btn').off('click').on('click', function(e) {
+                            e.preventDefault();
+                            $row.hide();
+                            $row.find('input, select').removeAttr('required').attr('data-required-hidden', 'true');
+                            $('#quote-logged-in-summary').show();
+                            $headerIconContainer.html('<i class="ri-file-text-line"></i>');
+                        });
+                    }
+                });
             }
         });
 
@@ -1254,10 +971,10 @@ var QuoteCart = (function ($) {
                         window.turnstileWidgetId = turnstile.render('#turnstile-container', {
                             sitekey: '1x00000000000000000000AA',
                             appearance: 'interaction-only',
-                            callback: function(token) {
+                            callback: function (token) {
                                 console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
                             },
-                            'error-callback': function() {
+                            'error-callback': function () {
                                 console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;');
                             }
                         });
@@ -1286,7 +1003,7 @@ var QuoteCart = (function ($) {
 
                 showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
 
-                
+
                 // Save user details for next time so they don't have to re-enter them
                 var userDetails = {
                     full_name: payload.full_name,
@@ -1313,7 +1030,7 @@ var QuoteCart = (function ($) {
             }
         });
     }
-    
+
     // Expose function for auth.js to call after magic link login
     function submitPendingQuote() {
         var pendingData = localStorage.getItem('pending_quote_request');
@@ -1330,7 +1047,7 @@ var QuoteCart = (function ($) {
 
     function injectAbandonedCartReminder() {
         if ($('#abandoned-cart-toast').length > 0) return;
-        
+
         var toastHtml = `
             <style>
                 .abandoned-cart-toast {
@@ -1430,17 +1147,17 @@ var QuoteCart = (function ($) {
                 <button class="abandoned-cart-btn" id="resume-quote-btn">Resume Quote</button>
             </div>
         `;
-        
+
         $('body').append(toastHtml);
-        
-        $('#close-abandoned-toast').on('click', function() {
+
+        $('#close-abandoned-toast').on('click', function () {
             $('#abandoned-cart-toast').removeClass('show');
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#abandoned-cart-toast').remove();
             }, 500);
         });
-        
-        $('#resume-quote-btn').on('click', function() {
+
+        $('#resume-quote-btn').on('click', function () {
             $('#abandoned-cart-toast').removeClass('show');
             openSidebar();
         });
@@ -1449,30 +1166,30 @@ var QuoteCart = (function ($) {
     function checkAbandonedCart() {
         var now = Date.now();
         var lastActive = localStorage.getItem('cart_last_active_time');
-        
+
         // If there are items in the cart
         if (cart.length > 0) {
             // Check if user has been inactive for more than 30 mins (30 * 60 * 1000)
             var THRESHOLD = 30 * 60 * 1000;
-            
+
             // For testing/demonstration purposes, if lastActive is missing, or if it's over threshold
             if (!lastActive || (now - parseInt(lastActive)) > THRESHOLD) {
                 // Ensure we only show it once per browser session using sessionStorage
                 if (!sessionStorage.getItem('cart_reminder_shown')) {
                     injectAbandonedCartReminder();
-                    
+
                     $('#abandoned-item-count').text(cart.length);
-                    
+
                     // Small delay for smooth slide-up animation after page load
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#abandoned-cart-toast').addClass('show');
                     }, 1500);
-                    
+
                     sessionStorage.setItem('cart_reminder_shown', 'true');
                 }
             }
         }
-        
+
         // Always update the last active time on load
         localStorage.setItem('cart_last_active_time', now);
     }
@@ -1492,49 +1209,8 @@ $(document).ready(function () {
 });
 
 
-// Enforce max 3 items for guests
-$(document).on('click', '#checkout-submit-btn', function(e) {
+// Submit enquiry regardless of item count or login status
+$(document).on('click', '#checkout-submit-btn', function (e) {
     e.preventDefault();
-    var stored = localStorage.getItem('onshore_quote_cart');
-    var cartItems = stored ? JSON.parse(stored) : [];
-    if (!window.isUserLoggedIn && cartItems.length > 3) {
-        
-        // Remove old modal if exists
-        $('#limitErrorModal').remove();
-
-        var modalHtml = `
-        <div class="modal fade" id="limitErrorModal" tabindex="-1" aria-hidden="true" style="z-index: 100005;">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                    <div class="modal-header" style="background: #fff3cd; color: #856404; border-bottom: none; padding: 20px;">
-                        <h5 class="modal-title" style="font-weight: 700; margin: 0; display: flex; align-items: center; gap: 10px;">
-                            <i class="ri-error-warning-fill" style="font-size: 24px;"></i> Registration Required
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="padding: 30px 25px; text-align: center;">
-                        <p style="font-size: 16px; color: #333; margin-bottom: 15px; font-weight: 600;">
-                            For more than 3 items, please log in or register to request a quote.
-                        </p>
-                        <p dir="rtl" style="font-size: 15px; color: #555; margin-bottom: 0; font-weight: 500;">
-                            بخصوص الطلبات التي تحتوي على أكثر من 3 منتجات، يرجى تسجيل الدخول أو التسجيل لطلب عرض سعر.
-                        </p>
-                    </div>
-                    <div class="modal-footer" style="border-top: 1px solid #eee; padding: 15px 25px; display: flex; justify-content: center; background: #fafafa;">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 10px;">Cancel</button>
-                        <a href="login.html" class="btn btn-primary" style="background: #015bb5; border: none; padding: 10px 30px; font-weight: 600; border-radius: 6px;">Login / Register <i class="ri-arrow-right-line"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `;
-        $('body').append(modalHtml);
-        
-        var limitModal = new bootstrap.Modal(document.getElementById('limitErrorModal'));
-        limitModal.show();
-        
-        return;
-    }
-    // Otherwise show the modal
     $('#quoteRequestModal').modal('show');
 });

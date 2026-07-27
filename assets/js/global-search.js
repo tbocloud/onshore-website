@@ -171,12 +171,20 @@
         const resultsContainer = document.getElementById('globalSearchResults');
         const emptyState = document.getElementById('globalSearchEmpty');
 
-        resultsContainer.innerHTML = '';
-
         if (!query) {
+            resultsContainer.innerHTML = '';
             emptyState.style.display = 'none';
             return;
         }
+
+        // Show loading if data hasn't arrived yet
+        if (allProducts.length === 0 && isFetching) {
+            resultsContainer.innerHTML = '<div class="global-search-loading" style="text-align:center;padding:40px;color:#94a3b8;"><i class="ri-loader-4-line ri-spin" style="font-size:24px;display:block;margin-bottom:8px;"></i>Loading products...</div>';
+            emptyState.style.display = 'none';
+            return;
+        }
+
+        resultsContainer.innerHTML = '';
 
         const queryWords = query.split(/\s+/);
         
@@ -233,8 +241,8 @@
             }
 
             let badgeHtml = '';
-            // If logged in, show stock directly in search results!
-            if (window.isUserLoggedIn && item.actual_qty !== undefined) {
+            // If logged in and approved for stock viewing, actual_qty will be returned by the API
+            if (window.isUserLoggedIn && typeof item.actual_qty !== 'undefined' && item.actual_qty !== null) {
                 const stockQty = Math.max(0, parseInt(item.actual_qty, 10));
                 if (stockQty > 0) {
                     badgeHtml = `<span style="font-size: 11px; color: #10b981; font-weight: 700; display: inline-block; margin-left: auto;">${stockQty} in stock</span>`;

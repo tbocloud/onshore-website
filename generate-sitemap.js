@@ -11,7 +11,6 @@ const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
 const excludeFiles = [
     'products copy.html',
     'index2.html',
-    'shop.html', // looks like an old template
     'login.html' // search engines don't need to index login page
 ];
 
@@ -24,7 +23,8 @@ const filePriorities = {
     'about.html': 0.7,
     'contact.html': 0.7,
     'blog.html': 0.7,
-    'career.html': 0.6
+    'career.html': 0.6,
+    'my-quotes.html': 0.5
 };
 
 async function fetchProducts() {
