@@ -345,7 +345,10 @@ function checkCustomerProfile(email) {
             var profile = data.message.profile;
             // Check for missing fields (using custom_company_name)
             if (!profile.custom_company_name || !profile.custom_city_in_ksa || !profile.custom_area_in_ksa || !profile.custom_date_of_birth) {
-                showCompleteRegistrationModal(profile, email);
+                if (!window.justVerifiedQuoteOTP) {
+                    showCompleteRegistrationModal(profile, email);
+                }
+                window.justVerifiedQuoteOTP = false; // Reset for next time
             } else {
                 // Save to local storage for quote cart
                 var existingDetails = JSON.parse(localStorage.getItem('user_quote_details') || "{}");

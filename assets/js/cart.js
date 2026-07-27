@@ -790,6 +790,7 @@ var QuoteCart = (function ($) {
                     if (data.success && data.customToken) {
                         // Sign in to Firebase!
                         if (window.signInWithFirebaseCustomToken) {
+                            window.justVerifiedQuoteOTP = true;
                             window.signInWithFirebaseCustomToken(data.customToken)
                                 .then(() => {
                                     $('#quote-otp-input').prop('disabled', true);
