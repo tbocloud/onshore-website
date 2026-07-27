@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
+const https = require('https');
 
 // Configuration
 const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000&bypass_approval=1';
@@ -63,7 +64,7 @@ const options = {
     }
 };
 
-const req = http.request(API_URL, options, (res) => {
+const req = https.request(API_URL, options, (res) => {
     let data = '';
 
     res.on('data', (chunk) => {
