@@ -150,9 +150,9 @@
                                     <style>
                                         .hero-suggestion-item {
                                             display: block;
-                                            padding: 12px 20px;
+                                            padding: 12px 16px;
                                             color: #334155;
-                                            font-size: 14px;
+                                            font-size: 13px;
                                             font-weight: 500;
                                             text-decoration: none;
                                             border-bottom: 1px solid #f1f5f9;
@@ -164,7 +164,9 @@
                                         .hero-suggestion-item:hover {
                                             background: #f1f5f9;
                                             color: #0177c6;
-                                            padding-left: 25px;
+                                        }
+                                        @media (max-width: 480px) {
+                                            .hero-suggestion-item { padding: 10px 12px; font-size: 12px; }
                                         }
                                     </style>
                                 </div>

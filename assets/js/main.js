@@ -88,8 +88,12 @@
     if (document.getElementById('global-quote-banner')) return;
     var banner = document.createElement('div');
     banner.id = 'global-quote-banner';
-    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:8px 16px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;font-size:12px;line-height:1.4;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;overflow:hidden;';
-    banner.innerHTML = '<span style="white-space:nowrap;"><i class="ri-file-list-3-line"></i> <strong>Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" style="white-space:nowrap;font-size:11px;opacity:0.9;"><strong>اطلب عرض سعر</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:5px 12px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:18px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:11px;line-height:1.3;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
+    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong>Request a quote</strong> &mdash; click <strong>Request Quote</strong>, reply in 24h</span> <span dir="rtl" class="banner-text"><strong>اطلب عرض سعر</strong> &mdash; انقر زر طلب عرض سعر وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse <span dir="rtl">تصفح</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    // mobile: allow text wrapping
+    var sheet = document.createElement('style');
+    sheet.textContent = '@media(max-width:480px){#global-quote-banner .banner-text{white-space:normal;font-size:10px;max-width:100%;}}';
+    document.head.appendChild(sheet);
     document.body.appendChild(banner);
     setTimeout(function() { banner.style.transform = 'translateY(0)'; }, 3000);
 })();
