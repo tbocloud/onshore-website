@@ -590,6 +590,7 @@
 
                     <!-- ═══ LEFT SIDEBAR ═══ -->
                     <aside class="cat-sidebar" id="cat-sidebar">
+                        <span class="sidebar-close-btn" style="display:none;position:absolute;top:8px;right:12px;font-size:22px;color:#94a3b8;cursor:pointer;z-index:10;">&times;</span>
                         <!-- Search removed from sidebar -->
 
                         <!-- Categories -->
@@ -1653,6 +1654,28 @@
             if (e.key === 'Enter') { var term = $(this).val().trim(); if (term) saveRecent(term); }
         });
         renderRecent();
+    });
+    </script>
+
+    <!-- Mobile Filter Toggle -->
+    <script>
+    $(function() {
+        var isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile) {
+            $('#cat-sidebar').hide();
+            $('#mobile-filter-trigger').on('click', function() {
+                $('#cat-sidebar').slideToggle(200).toggleClass('mobile-open');
+                $('#sidebar-backdrop').toggle();
+            });
+            $('#sidebar-backdrop').on('click', function() {
+                $('#cat-sidebar').slideUp(200).removeClass('mobile-open');
+                $(this).hide();
+            });
+            $('.sidebar-close-btn').on('click', function() {
+                $('#cat-sidebar').slideUp(200).removeClass('mobile-open');
+                $('#sidebar-backdrop').hide();
+            });
+        }
     });
     </script>
 
