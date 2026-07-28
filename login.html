@@ -494,5 +494,24 @@
     </div>
 
     <script type="module" src="assets/js/auth.js?v=3.2"></script>
+    <script>
+        // Redirect back to previous page after login
+        var redirectUrl = localStorage.getItem('onshore_login_redirect');
+        if (redirectUrl && window.isUserLoggedIn) {
+            localStorage.removeItem('onshore_login_redirect');
+            window.location.href = redirectUrl;
+        }
+        // Poll for auth state (auth.js is async module)
+        var attempts = 0;
+        var poll = setInterval(function() {
+            attempts++;
+            if (window.isUserLoggedIn && redirectUrl) {
+                clearInterval(poll);
+                localStorage.removeItem('onshore_login_redirect');
+                window.location.href = redirectUrl;
+            }
+            if (attempts > 30) clearInterval(poll);
+        }, 500);
+    </script>
 </body>
 </html>

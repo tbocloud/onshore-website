@@ -1232,3 +1232,15 @@ body.user-approved-pricing .auth-only-price {
     margin-bottom: 20px !important;
   }
 }
+
+/* ─── RTL Arabic support ──────────────────────────────── */
+html[dir="rtl"] .catalog-layout { flex-direction: row-reverse; }
+html[dir="rtl"] .cat-sidebar { text-align: right; }
+html[dir="rtl"] .pc-body { text-align: right; }
+html[dir="rtl"] .pc-actions { flex-direction: column-reverse; }
+html[dir="rtl"] .sidebar-search i { left: auto; right: 28px; }
+html[dir="rtl"] .sidebar-search input { padding-left: 10px; padding-right: 34px; }
+html[dir="rtl"] .cat-main { direction: rtl; }
+html[dir="rtl"] .pc-brand { text-align: right; }
+html[dir="rtl"] .pc-name { text-align: right; }
+html[dir="rtl"] .pc-name-ar { direction: rtl; }

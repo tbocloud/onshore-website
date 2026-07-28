@@ -38,3 +38,17 @@
 - Auth/cart API URLs changed from localhost:8000 to live domain onshore.tbo365.cloud
 - Nav shows/hides "My Quotes" link based on Firebase auth state (injected via main.js)
 - serve.json updated with /my-quotes rewrite
+- Quick-quote slide-in panel: single product → email + phone → OTP (guest) / submit directly (logged in)
+- Product cards: "Request Quote" primary button + "Add to Basket" + "View" secondary row
+- WhatsApp per-product button on quick-quote panel with pre-filled product name
+- Quantity selector (+/-) on quick-quote panel
+- Login redirect: saves current page before navigating to login.html, redirects back after auth
+- Arabic RTL detection (navigator.language === 'ar') sets dir="rtl" on html + CSS grid flip
+- Catalog sidebar: Arabic labels on categories, brands, filters, search placeholder
+- contact.html: generic form replaced with quote CTA (Browse Products + WhatsApp)
+- All API calls now include Authorization header (prevent CAPTCHA on live server)
+- Status popup modal redesigned (green/red icon + Arabic bilingual title/body)
+- Bottom floating banner condensed to single line with bilingual message
+- Hero CTA changed from "SHOP COLLECTION" to "REQUEST QUOTE"
+- Dummy blog post filter (skips lorem/ipsum/dolor/test titles)
+- shop.html deleted (unused duplicate of products.html)

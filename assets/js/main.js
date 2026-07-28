@@ -14,7 +14,7 @@
     }
 })();
 
-// --- NAV ENHANCEMENTS (cart label, profile quotes link) ---
+// --- NAV ENHANCEMENTS (cart label, profile quotes link, contact button) ---
 (function() {
     // Arabic label under cart icon
     var cartTriggers = document.querySelectorAll('.cart-trigger');
@@ -26,6 +26,16 @@
         label.style.cssText = 'display:block;font-size:9px;font-weight:500;opacity:0.8;line-height:1;margin-top:1px;color:inherit;';
         label.textContent = 'استفسار';
         el.appendChild(label);
+    });
+
+    // Replace "Contact Now" with "Request Quote" that opens enquiry sidebar
+    var navMainBtns = document.querySelectorAll('.nav-right-icons .main-btn');
+    navMainBtns.forEach(function(btn) {
+        if (btn.getAttribute('data-quote-fixed')) return;
+        btn.setAttribute('data-quote-fixed', '1');
+        btn.innerHTML = 'Request Quote <i class="ri-arrow-right-line"></i>';
+        btn.href = 'javascript:void(0)';
+        btn.onclick = function(e) { e.preventDefault(); if (typeof QuoteCart !== 'undefined') QuoteCart.openSidebar(); };
     });
 
     // Inject "My Quotes" link in nav-lists for logged-in users
@@ -40,10 +50,16 @@
         quotesLi.appendChild(quotesA);
         loginLink.parentNode.insertBefore(quotesLi, loginLink);
     }
+
+    // Save current page before navigating to login for redirect back
+    if (loginLink) {
+        loginLink.addEventListener('click', function() {
+            try { localStorage.setItem('onshore_login_redirect', window.location.href); } catch(e) {}
+        });
+    }
     try {
         import('https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js').catch(function(){});
     } catch(e) {}
-    // Toggle visibility on auth state
     var checkAuth = function() {
         var ql = document.getElementById('nav-my-quotes-link');
         var ll = document.getElementById('nav-login-link');
@@ -58,13 +74,22 @@
     else document.addEventListener('DOMContentLoaded', checkAuth);
 })();
 
+// --- ARABIC-FIRST DETECTION ---
+(function() {
+    var lang = (navigator.language || '').toLowerCase();
+    if (lang.indexOf('ar') === 0) {
+        document.documentElement.lang = 'ar';
+        document.documentElement.dir = 'rtl';
+    }
+})();
+
 // --- BILINGUAL QUOTE BANNER (injected on every page) ---
 (function() {
     if (document.getElementById('global-quote-banner')) return;
     var banner = document.createElement('div');
     banner.id = 'global-quote-banner';
-    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:10px 16px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:13px;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
-    banner.innerHTML = '<span style="display:flex;align-items:center;gap:6px;"><i class="ri-file-list-3-line" style="font-size:16px;"></i> <strong>Request a quote for any product</strong> — Add items to your enquiry basket and we\'ll respond within 24 hours</span> <span dir="rtl" style="display:flex;align-items:center;gap:6px;font-size:12px;opacity:0.95;"><strong>اطلب عرض سعر لأي منتج</strong> — أضف المنتجات إلى سلة الاستفسارات وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:6px 16px;border-radius:6px;font-weight:700;font-size:12px;text-decoration:none;white-space:nowrap;">Browse Products <span dir="rtl" style="margin-left:4px;">| تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:18px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:8px 16px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;font-size:12px;line-height:1.4;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
+    banner.innerHTML = '<span style="white-space:nowrap;"><i class="ri-file-list-3-line"></i> <strong>Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" style="white-space:nowrap;font-size:11px;opacity:0.9;"><strong>اطلب عرض سعر</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:5px 12px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:18px;opacity:0.7;flex-shrink:0;">&times;</span>';
     document.body.appendChild(banner);
     setTimeout(function() { banner.style.transform = 'translateY(0)'; }, 3000);
 })();
@@ -128,7 +153,7 @@ if (filterButtons.length > 0 && productItems.length > 0) {
 function handleUrlSearch() {
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('search');
-    const productItemsList = document.querySelectorAll('.products .product');
+    const productItemsList = document.querySelectorAll('.pc');
     const searchStatus = document.getElementById('search-status');
     const searchTerm = document.getElementById('search-term');
     const tabPanes = document.querySelectorAll('.products .tab-pane');
@@ -141,27 +166,42 @@ function handleUrlSearch() {
             searchTerm.textContent = searchQuery;
         }
 
+        const heroBanner = document.getElementById('delayed-hero-banner');
+        if (heroBanner) {
+            heroBanner.style.display = 'none';
+        }
+
         // Show all panes during search to find results everywhere
         tabPanes.forEach(pane => {
             pane.style.display = 'block';
             pane.style.opacity = '1';
         });
 
+        let hasVisibleResults = false;
+
         productItemsList.forEach(item => {
-            const name = item.querySelector('.product_name')?.textContent.toLowerCase() || '';
-            const cat = item.querySelector('.product_cat')?.textContent.toLowerCase() || '';
-            const desc = item.querySelector('.product_desc')?.textContent.toLowerCase() || '';
+            const name = item.querySelector('.pc-name')?.textContent.toLowerCase() || '';
+            const brand = item.querySelector('.pc-brand')?.textContent.toLowerCase() || '';
+            const nameAr = item.querySelector('.pc-name-ar')?.textContent.toLowerCase() || '';
+            const cat = (item.getAttribute('data-cat') || '').toLowerCase();
+            const subcat = (item.getAttribute('data-subcat') || '').toLowerCase();
+            const leafcat = (item.getAttribute('data-leafcat') || '').toLowerCase();
             
             const queryWords = query.split(/\s+/);
-            const combinedText = (name + " " + cat + " " + desc).toLowerCase();
+            const combinedText = (name + " " + brand + " " + nameAr + " " + cat + " " + subcat + " " + leafcat).toLowerCase();
             const matchesAll = queryWords.every(word => combinedText.includes(word));
             
             if (matchesAll) {
                 item.style.display = '';
+                hasVisibleResults = true;
             } else {
                 item.style.display = 'none';
             }
         });
+        
+        if (!hasVisibleResults && searchStatus) {
+            searchTerm.textContent = searchQuery + " (No results found)";
+        }
         
         // Hide empty brand groups and filter buttons during global search
         const brandGroups = document.querySelectorAll('.products .brand_group');
@@ -199,7 +239,7 @@ const productPageSearch = document.getElementById('product-page-search');
 if (productPageSearch) {
     productPageSearch.addEventListener('input', function () {
         const query = this.value.toLowerCase();
-        const productItemsList = document.querySelectorAll('.products .product');
+        const productItemsList = document.querySelectorAll('.pc');
         const tabPanes = document.querySelectorAll('.products .tab-pane');
         
         if (query.length > 0) {
@@ -212,12 +252,15 @@ if (productPageSearch) {
             });
 
             productItemsList.forEach(item => {
-                const name = item.querySelector('.product_name')?.textContent.toLowerCase() || '';
-                const cat = item.querySelector('.product_cat')?.textContent.toLowerCase() || '';
-                const desc = item.querySelector('.product_desc')?.textContent.toLowerCase() || '';
+                const name = item.querySelector('.pc-name')?.textContent.toLowerCase() || '';
+                const brand = item.querySelector('.pc-brand')?.textContent.toLowerCase() || '';
+                const nameAr = item.querySelector('.pc-name-ar')?.textContent.toLowerCase() || '';
+                const cat = (item.getAttribute('data-cat') || '').toLowerCase();
+                const subcat = (item.getAttribute('data-subcat') || '').toLowerCase();
+                const leafcat = (item.getAttribute('data-leafcat') || '').toLowerCase();
                 
                 const queryWords = query.split(/\s+/);
-                const combinedText = (name + " " + cat + " " + desc).toLowerCase();
+                const combinedText = (name + " " + brand + " " + nameAr + " " + cat + " " + subcat + " " + leafcat).toLowerCase();
                 const matchesAll = queryWords.every(word => combinedText.includes(word));
                 
                 if (matchesAll) {

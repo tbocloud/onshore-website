@@ -117,48 +117,90 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero_text_content">
-                            <span class="badge_text"><i class="ri-flashlight-fill"></i> Trending: Safety Gear & Lifting
-                                Tools</span>
+                            <span class="badge_text"><i class="ri-flashlight-fill"></i> Trending: Safety Gear &amp; Lifting
+                                Tools <span dir="rtl" style="font-size:11px;color:#0177c6;">| الأكثر طلباً: معدات السلامة والرفع</span></span>
                             <h1 class="main_heading">Best Industrial Equipment Supplier in <span>Saudi Arabia</span>
+                                <span dir="rtl" style="display:block;font-size:24px;font-weight:600;color:#475569;margin-top:6px;">أفضل مورد للمعدات الصناعية في المملكة</span>
                             </h1>
                             <p class="hero_desc">
-                                <strong>Explore our curated collection of certified industrial equipment. Built for
-                                    reliability, designed for performance.</strong><br><br>
-                                <span style="font-size: 15px; opacity: 0.9;">Onshore Technical Supplies Est is known as
-                                    the best industrial equipment supplier in Saudi Arabia, delivering certified
-                                    products and customized industrial solutions across KSA and the GCC. With over 10
-                                    years of experience, we support industries such as construction, manufacturing, and
-                                    marine, earning the trust of professionals who prioritize quality, reliability, and
-                                    performance.</span>
+                                <strong>Request a quote on any product — get a custom response within 24 hours.</strong><br><br>
+                                <span style="font-size: 15px; opacity: 0.9;">Onshore Technical Supplies Est delivers certified
+                                    products and customized industrial solutions across KSA and the GCC. Over 10
+                                    years supporting construction, manufacturing, oil &amp; gas, and marine industries.</span>
+                                <span dir="rtl" style="display:block;margin-top:10px;font-size:14px;color:#4b5563;line-height:1.7;">اطلب عرض سعر لأي منتج واستلم رداً مخصصاً خلال 24 ساعة. نوفر معدات صناعية معتمدة وحلولاً مخصصة في جميع أنحاء المملكة ودول الخليج.</span>
                             </p>
 
-                            <div class="hero_search_bar">
-                                <input type="text" id="hero-search-input"
-                                    placeholder="Search for products (e.g. Welding Machine, PPE)...">
+                            <div class="hero_search_bar" style="position: relative;">
+                                <input type="text" id="hero-search-input" autocomplete="off"
+                                    placeholder="Search welding, lifting, safety equipment... ابحث هنا">
                                 <button id="hero-search-btn"><i class="ri-search-line"></i></button>
+
+                                <!-- Custom Suggestions Dropdown -->
+                                <div id="hero-search-suggestions" style="display: none; position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: #fff; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 1000; overflow: hidden; border: 1px solid #e2e8f0; text-align: left;">
+                                    <div style="padding: 12px 20px; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+                                        Popular Categories <span dir="rtl" style="float: right; font-size: 12px; font-family: 'Tajawal', sans-serif;">الفئات الشائعة</span>
+                                    </div>
+                                    <ul style="list-style: none; margin: 0; padding: 0;">
+                                        <li><a href="products.html#lifting" class="hero-suggestion-item">Rigging & Lifting Tools</a></li>
+                                        <li><a href="products.html#welding" class="hero-suggestion-item">Welding Equipment & Accessories</a></li>
+                                        <li><a href="products.html#ppe" class="hero-suggestion-item">PPE & Safety</a></li>
+                                        <li><a href="products.html#marine" class="hero-suggestion-item">Marine & Projects</a></li>
+                                        <li><a href="products.html" class="hero-suggestion-item" style="color: #0177c6; font-weight: 600; background: #f8fafc;"><i class="ri-search-eye-line" style="margin-right: 5px;"></i> Browse All Products</a></li>
+                                    </ul>
+                                    <style>
+                                        .hero-suggestion-item {
+                                            display: block;
+                                            padding: 12px 20px;
+                                            color: #334155;
+                                            font-size: 14px;
+                                            font-weight: 500;
+                                            text-decoration: none;
+                                            border-bottom: 1px solid #f1f5f9;
+                                            transition: all 0.2s ease;
+                                        }
+                                        .hero-suggestion-item:last-child {
+                                            border-bottom: none;
+                                        }
+                                        .hero-suggestion-item:hover {
+                                            background: #f1f5f9;
+                                            color: #0177c6;
+                                            padding-left: 25px;
+                                        }
+                                    </style>
+                                </div>
                             </div>
 
                             <script>
-                                document.getElementById('hero-search-btn').addEventListener('click', function () {
-                                    const query = document.getElementById('hero-search-input').value.trim();
-                                    if (query) {
-                                        window.location.href = 'products.html?search=' + encodeURIComponent(query);
+                                const searchInput = document.getElementById('hero-search-input');
+                                const suggestionsBox = document.getElementById('hero-search-suggestions');
+
+                                searchInput.addEventListener('focus', function() {
+                                    suggestionsBox.style.display = 'block';
+                                });
+
+                                document.addEventListener('click', function(e) {
+                                    if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                                        suggestionsBox.style.display = 'none';
                                     }
                                 });
-                                document.getElementById('hero-search-input').addEventListener('keypress', function (e) {
+
+                                document.getElementById('hero-search-btn').addEventListener('click', function () {
+                                    const query = searchInput.value.trim();
+                                    if (query) window.location.href = 'products.html?search=' + encodeURIComponent(query);
+                                });
+                                
+                                searchInput.addEventListener('keypress', function (e) {
                                     if (e.key === 'Enter') {
                                         const query = this.value.trim();
-                                        if (query) {
-                                            window.location.href = 'products.html?search=' + encodeURIComponent(query);
-                                        }
+                                        if (query) window.location.href = 'products.html?search=' + encodeURIComponent(query);
                                     }
                                 });
                             </script>
 
                             <div class="hero_cta_group">
-                                <a href="products.html" class="main-btn">SHOP COLLECTION <i
+                                <a href="products.html" class="main-btn">REQUEST QUOTE <i
                                         class="ri-arrow-right-line"></i></a>
-                                <a href="industries.html" class="secondary-btn">Browse Industries</a>
+                                <a href="industries.html" class="secondary-btn">Browse Industries <span dir="rtl" style="font-size:12px;">| القطاعات</span></a>
                             </div>
                         </div>
                     </div>
@@ -173,20 +215,20 @@
                                 <span>Top Rated 2026</span>
                             </div>
 
-                            <div class="floating_product_card card1">
-                                <img src="assets/img/products/p1.webp" alt="">
+                            <a href="products.html?search=safety" class="floating_product_card card1" style="text-decoration:none;color:inherit;">
+                                <img src="assets/img/products/p1.webp" alt="PPE Safety Equipment">
                                 <div>
                                     <h6>PPE Solutions</h6>
                                     <span>Premium Safety</span>
                                 </div>
-                            </div>
-                            <div class="floating_product_card card2">
-                                <img src="assets/img/products/p3.webp" alt="">
+                            </a>
+                            <a href="products.html?search=lifting" class="floating_product_card card2" style="text-decoration:none;color:inherit;">
+                                <img src="assets/img/products/p3.webp" alt="Lifting Equipment">
                                 <div>
                                     <h6>Lifting Equipment</h6>
                                     <span>Certified Gear</span>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="experience_floating">
                                 <h3>10+</h3>
@@ -344,6 +386,39 @@
                             <span style="font-weight: 600; color: #333; font-size: 13px;"><i
                                     class="ri-map-pin-2-fill text-primary mr-1" style="font-size: 14px;"></i> Khamis
                                 Mushait</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="text-center mb-4" style="padding:40px 20px;">
+                <h6 class="sub_head text-primary mb-1 d-block" style="font-size:14px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">How It Works</h6>
+                <h3 style="color:#0f172a;font-weight:700;font-size:28px;margin-bottom:8px;">Request a Quote in 3 Simple Steps <span dir="rtl" style="font-weight:500;font-size:18px;color:#64748b;">| اطلب عرض سعر في 3 خطوات</span></h3>
+                <div class="row g-4 mt-3">
+                    <div class="col-md-4">
+                        <a href="products.html" style="text-decoration:none;color:inherit;">
+                        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px 20px;text-align:center;height:100%;transition:box-shadow 0.2s;cursor:pointer;">
+                            <div style="background:#e8f4fc;color:#0177c6;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:20px;font-weight:800;">1</div>
+
+                            <h5 style="font-weight:700;color:#0f172a;font-size:16px;">Browse Products</h5>
+                            <p style="color:#64748b;font-size:13px;line-height:1.5;">Click <strong>Request Quote</strong> on any product you need <span dir="rtl" style="display:block;margin-top:4px;font-size:12px;color:#94a3b8;">انقر زر طلب عرض سعر على أي منتج تحتاجه</span></p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px 20px;text-align:center;height:100%;">
+                            <div style="background:#e8f4fc;color:#0177c6;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:20px;font-weight:800;">2</div>
+                            <h5 style="font-weight:700;color:#0f172a;font-size:16px;">Enter Your Details</h5>
+                            <p style="color:#64748b;font-size:13px;line-height:1.5;">Fill your email &amp; phone — no account required <span dir="rtl" style="display:block;margin-top:4px;font-size:12px;color:#94a3b8;">أدخل بريدك الإلكتروني ورقم هاتفك — لا حاجة لحساب</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px 20px;text-align:center;height:100%;">
+                            <div style="background:#e8f4fc;color:#0177c6;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:20px;font-weight:800;">3</div>
+                            <h5 style="font-weight:700;color:#0f172a;font-size:16px;">Get Your Quote</h5>
+                            <p style="color:#64748b;font-size:13px;line-height:1.5;">Receive a custom quote within 24 hours <span dir="rtl" style="display:block;margin-top:4px;font-size:12px;color:#94a3b8;">استلم عرض سعر مخصص خلال 24 ساعة</span></p>
                         </div>
                     </div>
                 </div>

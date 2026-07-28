@@ -38,6 +38,7 @@ var QuoteCart = (function ($) {
     var eventsBound = false;
     function init() {
         injectCartSidebar();
+        injectQuickQuotePanel();
         loadCart();
         // Cleanup legacy 'undefined' strings from previous cache
         cart.forEach(function (item) {
@@ -247,20 +248,15 @@ var QuoteCart = (function ($) {
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="quoteStatusModal" tabindex="-1" aria-labelledby="quoteStatusModalLabel" aria-hidden="true" style="z-index: 100001;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content" style="border-radius: 12px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                        <div class="modal-header" style="background-color: #fff; border-bottom: none; padding: 20px 25px 10px;">
-                            <h5 class="modal-title" id="quoteStatusModalLabel" style="font-weight: 700; color: #333;">Request Status</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #ddd; border-radius: 50%; padding: 8px; opacity: 1; background-size: 10px;"></button>
-                        </div>
-                        <div class="modal-body" style="padding: 30px; text-align: center;">
-                            <div id="quote-status-icon" style="font-size: 40px; margin-bottom: 15px; line-height: 1;"></div>
-                            <h6 id="quote-status-title" style="font-weight: 700; margin-bottom: 10px; color: #333;"></h6>
-                            <p id="quote-status-message" style="margin: 0; color: #666;"></p>
-                        </div>
-                        <div class="modal-footer" style="border-top: 1px solid #ddd;">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="background-color: #0275c6; border-color: #0275c6;">OK</button>
+            <div class="modal fade" id="quoteStatusModal" tabindex="-1" aria-hidden="true" style="z-index: 100001;">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content" style="border-radius: 14px; border: none; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                        <div class="modal-body" style="padding: 40px 30px 30px; text-align: center;">
+                            <div id="quote-status-icon" style="font-size: 56px; margin-bottom: 16px; line-height: 1;"></div>
+                            <h5 id="quote-status-title" style="font-weight: 700; color: #0f172a; margin-bottom: 10px; font-size: 18px;"></h5>
+                            <p id="quote-status-message" style="margin: 0 0 20px; color: #64748b; font-size: 14px;"></p>
+                            <p id="quote-status-ar" style="margin: 0 0 20px; color: #94a3b8; font-size: 13px;" dir="rtl"></p>
+                            <button type="button" class="btn" data-bs-dismiss="modal" style="background: #0177c6; color: #fff; border: none; border-radius: 8px; padding: 8px 32px; font-size: 14px; font-weight: 600;">OK <span dir="rtl" style="font-size:12px;">| حسناً</span></button>
                         </div>
                     </div>
                 </div>
@@ -455,18 +451,20 @@ var QuoteCart = (function ($) {
     }
 
     function showStatusPopup(type, message) {
-        var modalElement = document.getElementById('quoteStatusModal');
-        var modalInstance;
-        var title = type === 'success' ? 'Request Submitted' : 'Request Failed';
-        var icon = type === 'success'
-            ? '<i class="ri-checkbox-circle-line" style="color: #198754;"></i>'
-            : '<i class="ri-error-warning-line" style="color: #dc3545;"></i>';
+        var isSuccess = type === 'success';
+        var icon = isSuccess
+            ? '<i class="ri-check-double-fill" style="color: #10b981; font-size: 56px;"></i>'
+            : '<i class="ri-close-circle-fill" style="color: #ef4444; font-size: 56px;"></i>';
+        var title = isSuccess ? 'Quote Submitted! <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| تم الإرسال</span>' : 'Request Failed <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| فشل الطلب</span>';
+        var arMsg = isSuccess ? 'تم إرسال طلب عرض السعر بنجاح. سنرد عليك خلال 24 ساعة.' : 'حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل عبر الواتساب.';
 
-        $('#quote-status-title').text(title);
+        $('#quote-status-title').html(title);
         $('#quote-status-message').text(message);
+        $('#quote-status-ar').text(arMsg);
         $('#quote-status-icon').html(icon);
 
-        modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+        var modalEl = document.getElementById('quoteStatusModal');
+        var modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
         modalInstance.show();
     }
 
@@ -692,7 +690,7 @@ var QuoteCart = (function ($) {
                 // Send email request
                 fetch(API_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': REQUEST_QUOTE_AUTH },
                     body: JSON.stringify({ email: userEmail })
                 })
                     .then(r => r.json())
@@ -776,7 +774,7 @@ var QuoteCart = (function ($) {
 
             fetch(API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': REQUEST_QUOTE_AUTH },
                 body: JSON.stringify({
                     email: userEmail,
                     otp: enteredOTP,
@@ -845,7 +843,7 @@ var QuoteCart = (function ($) {
 
             fetch(API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': REQUEST_QUOTE_AUTH },
                 body: JSON.stringify({ email: userEmail })
             })
                 .then(r => r.json())
@@ -998,11 +996,14 @@ var QuoteCart = (function ($) {
             data: JSON.stringify(payload),
             success: function (response) {
                 var quoteModalInstance = bootstrap.Modal.getInstance(document.getElementById('quoteRequestModal'));
-                if (quoteModalInstance) {
-                    quoteModalInstance.hide();
-                }
+                if (quoteModalInstance) quoteModalInstance.hide();
 
-                showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
+                if ($('#qq-otp-section').is(':visible')) {
+                    $('#qq-otp-section').hide();
+                    $('#qq-success').show();
+                } else {
+                    showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
+                }
 
 
                 // Save user details for next time so they don't have to re-enter them
@@ -1195,12 +1196,196 @@ var QuoteCart = (function ($) {
         localStorage.setItem('cart_last_active_time', now);
     }
 
+    function injectQuickQuotePanel() {
+        if ($('#quick-quote-panel').length > 0) return;
+        var panelHtml = '<div class="quick-quote-overlay" id="quick-quote-overlay"></div>' +
+          '<div id="quick-quote-panel" style="position:fixed;top:0;right:-480px;width:440px;max-width:100vw;height:100vh;background:#fff;z-index:100001;transition:right 0.3s ease;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,0.1);">' +
+            '<div style="padding:18px 20px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">' +
+              '<div style="display:flex;align-items:center;gap:10px;"><div style="background:#0177c6;color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="ri-price-tag-3-line" style="font-size:16px;"></i></div>' +
+              '<h4 style="margin:0;font-size:14px;font-weight:700;color:#0f172a;">REQUEST QUOTE <span dir="rtl" style="font-weight:500;font-size:13px;color:#64748b;">طلب عرض سعر</span></h4></div>' +
+              '<span onclick="QuoteCart.closeQuickQuote()" style="font-size:20px;color:#94a3b8;cursor:pointer;">&times;</span></div>' +
+            '<div id="qq-product-info" style="padding:14px 20px;border-bottom:1px solid #f1f5f9;display:flex;gap:12px;align-items:center;"></div>' +
+            '<div style="flex:1;overflow-y:auto;padding:16px 20px;">' +
+              '<div id="qq-step-form">' +
+                '<div style="margin-bottom:10px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Quantity <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">الكمية</span></label><div style="display:flex;align-items:center;gap:8px;"><button type="button" onclick="var n=parseInt(document.getElementById(\'qq-qty\').value)||1;if(n>1)document.getElementById(\'qq-qty\').value=n-1;" style="width:32px;height:32px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:6px;cursor:pointer;font-size:16px;">-</button><input type="text" id="qq-qty" value="1" readonly style="width:50px;height:32px;text-align:center;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;font-weight:700;"><button type="button" onclick="var n=parseInt(document.getElementById(\'qq-qty\').value)||1;document.getElementById(\'qq-qty\').value=n+1;" style="width:32px;height:32px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:6px;cursor:pointer;font-size:16px;">+</button></div></div>' +
+                '<div id="qq-user-fields">' +
+                '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Email <span style="color:#dc3545;">*</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">البريد الإلكتروني</span></label><input type="email" id="qq-email" class="form-control" placeholder="you@company.com" style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
+                '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Phone <span style="color:#dc3545;">*</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">رقم الجوال</span></label><div style="display:flex;gap:8px;"><select id="qq-country-code" class="form-select" style="max-width:130px;font-size:13px;border-radius:6px;"><option value="966">+966</option><option value="971">+971</option><option value="974">+974</option><option value="973">+973</option><option value="965">+965</option><option value="968">+968</option></select><input type="text" id="qq-phone" class="form-control" placeholder="5XXXXXXXX" style="border-radius:6px;font-size:13px;padding:10px;"></div></div>' +
+                '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Company Name <span style="color:#94a3b8;">(optional)</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">اسم الشركة</span></label><input type="text" id="qq-company" class="form-control" placeholder="Your Company Ltd." style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
+                '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">City <span style="color:#94a3b8;">(optional)</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">المدينة</span></label><input type="text" id="qq-city" class="form-control" placeholder="Dammam" style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
+                '</div>' +
+                '<button id="qq-send-otp-btn" style="width:100%;background:#0177c6;color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;"><i class="ri-send-plane-2-line"></i> Send Verification Code <span dir="rtl" style="font-weight:500;font-size:12px;">| إرسال رمز التحقق</span></button>' +
+                '<a id="qq-whatsapp-btn" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:#25d366;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px;"><i class="fa-brands fa-whatsapp" style="font-size:16px;"></i> WhatsApp Enquire <span dir="rtl" style="font-weight:500;font-size:12px;">| واتساب</span></a>' +
+                '<p id="qq-otp-helper-text" style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px;">We\'ll send a 6-digit code to verify your email <span dir="rtl" style="display:block;margin-top:3px;">سنرسل رمزاً من 6 أرقام للتحقق من بريدك الإلكتروني</span></p>' +
+              '</div>' +
+              '<div id="qq-otp-section" style="display:none;text-align:center;">' +
+                '<i class="ri-mail-check-line" style="font-size:36px;color:#0177c6;margin-bottom:10px;display:block;"></i>' +
+                '<h4 style="font-weight:700;color:#0f172a;margin-bottom:10px;">Verify Your Email <span dir="rtl" style="font-weight:500;font-size:14px;color:#64748b;display:block;">التحقق من البريد الإلكتروني</span></h4>' +
+                '<p style="color:#64748b;font-size:13px;margin-bottom:12px;">We sent a code to <strong id="qq-otp-email"></strong></p>' +
+                '<input type="text" id="qq-otp-input" inputmode="numeric" maxlength="6" placeholder="000000" style="font-size:22px;letter-spacing:8px;text-align:center;width:160px;padding:8px;border:2px solid #ddd;border-radius:8px;margin-bottom:12px;">' +
+                '<button id="qq-verify-btn" style="background:#0177c6;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;display:block;width:100%;">Verify & Submit <span dir="rtl" style="font-weight:500;font-size:12px;">| تحقق وإرسال</span></button>' +
+                '<p id="qq-otp-error" style="color:#dc3545;display:none;margin-top:8px;font-size:12px;"></p>' +
+                '<div style="margin-top:12px;font-size:12px;"><a href="#" id="qq-resend-btn" style="color:#0177c6;">Resend Code</a> <span style="color:#94a3b8;">|</span> <a href="#" id="qq-back-btn" style="color:#64748b;">Change Details</a></div>' +
+              '</div>' +
+              '<div id="qq-success" style="display:none;text-align:center;padding:30px 0;">' +
+                '<i class="ri-check-double-fill" style="font-size:48px;color:#10b981;margin-bottom:12px;display:block;"></i>' +
+                '<h4 style="font-weight:700;color:#0f172a;">Quote Submitted! <span dir="rtl" style="font-weight:500;font-size:14px;color:#64748b;display:block;">تم إرسال العرض!</span></h4>' +
+                '<p style="color:#64748b;font-size:13px;">We\'ll respond within 24 hours <span dir="rtl" style="display:block;margin-top:3px;">سنرد عليك خلال 24 ساعة</span></p>' +
+                '<button onclick="QuoteCart.closeQuickQuote()" style="background:#0177c6;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:16px;">Done <span dir="rtl">| تم</span></button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        $('body').append(panelHtml);
+        $('#quick-quote-overlay').on('click', function() { closeQuickQuote(); });
+        bindQuickQuoteEvents();
+    }
+
+    function bindQuickQuoteEvents() {
+        $('#qq-send-otp-btn').off('click').on('click', function() {
+            var email = $('#qq-email').val().trim();
+            var phone = $('#qq-phone').val().trim();
+            var hasError = false;
+            $('#qq-email').css('border-color', '#e2e8f0');
+            $('#qq-phone').css('border-color', '#e2e8f0');
+            if (!email) { $('#qq-email').css('border-color', '#dc3545'); hasError = true; }
+            if (!phone) { $('#qq-phone').css('border-color', '#dc3545'); hasError = true; }
+            if (hasError) return;
+            var $btn = $(this);
+
+            if (window.isUserLoggedIn) {
+                $btn.text('Submitting...').prop('disabled', true);
+                var qty = parseInt($('#qq-qty').val()) || 1;
+                window._qqItemData.qty = qty;
+                var payload = {
+                    full_name: 'Quick Quote',
+                    email: email,
+                    mobile_number: phone,
+                    mobile_country_code: $('#qq-country-code').val(),
+                    company_name: ($('#qq-company').val() || '').trim(),
+                    city: ($('#qq-city').val() || '').trim(),
+                    country: 'Saudi Arabia',
+                    items: [window._qqItemData]
+                };
+                sendQuoteToBackend(payload, $btn);
+                $('#qq-step-form').hide();
+                $('#qq-success').show();
+                return;
+            }
+
+            $btn.text('Sending...').prop('disabled', true);
+            fetch(API_BASE_URL + '/api/method/onshore.api.send_otp', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': REQUEST_QUOTE_AUTH },
+                body: JSON.stringify({ email: email })
+            }).then(r => r.json()).then(function(d) {
+                d = d.message || d;
+                if (d.success) {
+                    window._qqOtpExpires = d.expires;
+                    window._qqOtpSignature = d.signature;
+                    window._qqEmail = email;
+                    window._qqPhone = phone;
+                    $('#qq-otp-email').text(email);
+                    $('#qq-step-form').hide();
+                    $('#qq-otp-section').show();
+                }
+                $btn.text('Send Verification Code').prop('disabled', false);
+            }).catch(function() { $btn.text('Send Verification Code').prop('disabled', false); });
+        });
+        $('#qq-verify-btn').off('click').on('click', function() {
+            var otp = ($('#qq-otp-input').val() || '').replace(/[٠-٩]/g,function(d){return String.fromCharCode(d.charCodeAt(0)-1632);}).replace(/[^0-9]/g,'');
+            if (otp.length !== 6) { $('#qq-otp-error').show().text('Enter 6-digit code'); return; }
+            var $btn = $(this);
+            $btn.text('Verifying...').prop('disabled', true);
+            fetch(API_BASE_URL + '/api/method/onshore.api.verify_otp', {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': REQUEST_QUOTE_AUTH },
+                body: JSON.stringify({ email: window._qqEmail, otp: otp, expires: window._qqOtpExpires, signature: window._qqOtpSignature })
+            }).then(r => r.json()).then(function(d) {
+                d = d.message || d;
+                if (d.success && d.customToken) {
+                    var qty = parseInt($('#qq-qty').val()) || 1;
+                    window._qqItemData.qty = qty;
+                    var payload = {
+                        full_name: 'Quick Quote',
+                        email: window._qqEmail,
+                        mobile_number: window._qqPhone,
+                        mobile_country_code: $('#qq-country-code').val(),
+                        company_name: ($('#qq-company').val() || '').trim(),
+                        city: ($('#qq-city').val() || '').trim(),
+                        country: 'Saudi Arabia',
+                        items: [window._qqItemData]
+                    };
+                    if (window.signInWithFirebaseCustomToken) {
+                        window.signInWithFirebaseCustomToken(d.customToken).then(function() {
+                            sendQuoteToBackend(payload, $btn);
+                        });
+                    } else {
+                        sendQuoteToBackend(payload, $btn);
+                    }
+                } else {
+                    $('#qq-otp-error').show().text(d.message || 'Invalid code');
+                    $btn.text('Verify & Submit').prop('disabled', false);
+                }
+            }).catch(function() {
+                $('#qq-otp-error').show().text('Connection error');
+                $btn.text('Verify & Submit').prop('disabled', false);
+            });
+        });
+        $('#qq-resend-btn').off('click').on('click', function(e) { e.preventDefault(); $('#qq-send-otp-btn').click(); });
+        $('#qq-back-btn').off('click').on('click', function(e) { e.preventDefault(); $('#qq-otp-section').hide(); $('#qq-step-form').show(); });
+    }
+
+    function requestSingleQuote(itemData) {
+        window._qqItemData = { item_code: itemData.id, item_name: itemData.name, qty: parseInt($('#qq-qty').val()) || 1 };
+        $('#qq-product-info').html(
+            '<img src="' + (itemData.image || '/assets/img/logo.png') + '" style="width:50px;height:50px;object-fit:contain;border:1px solid #e2e8f0;border-radius:6px;flex-shrink:0;" onerror="this.src=\'/assets/img/logo.png\'">' +
+            '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:#0f172a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">' + (itemData.name || 'Product') + '</div>' +
+            (itemData.nameAr ? '<div dir="rtl" style="font-size:12px;color:#64748b;margin-top:2px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">' + itemData.nameAr + '</div>' : '') +
+            (itemData.brand ? '<div style="font-size:11px;color:#0177c6;font-weight:600;margin-top:2px;">' + itemData.brand.toUpperCase() + '</div>' : '') + '</div>'
+        );
+        $('#qq-qty').val(1);
+        var waMsg = encodeURIComponent('Hello, I am interested in: ' + (itemData.name || 'Product'));
+        $('#qq-whatsapp-btn').attr('href', 'https://wa.me/966544580607?text=' + waMsg);
+
+        if (window.isUserLoggedIn) {
+            try {
+                var saved = JSON.parse(localStorage.getItem('user_quote_details') || '{}');
+                if (saved.email) $('#qq-email').val(saved.email);
+                if (saved.mobile_number) $('#qq-phone').val(saved.mobile_number);
+                if (saved.mobile_country_code) $('#qq-country-code').val(saved.mobile_country_code);
+                if (saved.company_name) $('#qq-company').val(saved.company_name);
+                if (saved.city) $('#qq-city').val(saved.city);
+            } catch(e) {}
+            $('#qq-send-otp-btn').html('<i class="ri-send-plane-2-line"></i> Submit Quote <span dir="rtl" style="font-weight:500;font-size:12px;">| إرسال الطلب</span>');
+            $('#qq-user-fields').hide();
+            $('#qq-otp-helper-text').hide();
+        } else {
+            $('#qq-email').val('');
+            $('#qq-phone').val('');
+            $('#qq-send-otp-btn').html('<i class="ri-send-plane-2-line"></i> Send Verification Code <span dir="rtl" style="font-weight:500;font-size:12px;">| إرسال رمز التحقق</span>');
+            $('#qq-user-fields').show();
+            $('#qq-otp-helper-text').show();
+        }
+        $('#qq-step-form').show();
+        $('#qq-otp-section').hide();
+        $('#qq-success').hide();
+        $('#quick-quote-overlay').fadeIn(200);
+        $('#quick-quote-panel').css('right', '0');
+    }
+
+    function closeQuickQuote() {
+        $('#quick-quote-panel').css('right', '-480px');
+        $('#quick-quote-overlay').fadeOut(200);
+    }
+
     return {
         init: init,
         addToCart: addToCart,
         openSidebar: openSidebar,
         closeSidebar: closeSidebar,
-        submitPendingQuote: submitPendingQuote
+        submitPendingQuote: submitPendingQuote,
+        requestSingleQuote: requestSingleQuote,
+        closeQuickQuote: closeQuickQuote,
+        loadCart: loadCart,
+        updateCartCount: updateCartCount
     };
 
 })(jQuery);

@@ -392,6 +392,16 @@ $(document).ready(function () {
             if (typeof window.filterApiCatalog === 'function') {
                 window.filterApiCatalog();
             }
+            if (typeof window.handleUrlSearch === 'function') {
+                window.handleUrlSearch();
+            }
+            
+            if (window.location.hash || window.location.search) {
+                const catalogElement = document.getElementById('catalog-main');
+                if (catalogElement) {
+                    catalogElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
         }, 50);
     }
 
@@ -427,12 +437,15 @@ $(document).ready(function () {
         if (!displayBrand) displayBrand = 'ONSHORE';
 
         const isTopSeller = p.custom_hot_seller === 1;
-        const badgeClass = isTopSeller ? 'hot' : 'stock check-stock-trigger';
-        const badgeText = isTopSeller ? 'Hot Seller' : 'Check Stock';
+        const badgeClass = isTopSeller ? 'hot' : 'quote-badge';
+        const badgeText = isTopSeller ? 'Hot Seller' : 'Request Quote';
 
-        const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;');
-        const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;');
-        const safeName = name.replace(/"/g, '&quot;');
+        const escapedDescEn = (p.custom_commercial_description || '').replace(/"/g, '&quot;').replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
+        const escapedDescAr = (p.custom_commercial_description_in_arabic || '').replace(/"/g, '&quot;').replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
+        const safeName = name.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const safeNameAr = arabicName.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const safeBrand = rawBrandName.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const safeId = (p.name || '').replace(/'/g, "\\'");
         let stockLabel = '';
         let stockLogin = '';
         if (typeof p.stock === 'number') {
@@ -454,7 +467,7 @@ $(document).ready(function () {
             <div class="pc" data-brand="${brandKey}" data-cat="${catKey}" data-subcat="${p.item_group || ''}" data-leafcat="${p.original_item_group || ''}">
                 <div class="pc-img">
                     <div class="pc-img-actions">
-                        <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
+                        <span class="pc-badge ${badgeClass}">${badgeText}</span>
                     </div>
                     <a href="${specsUrl}" target="_blank">
                         <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
@@ -474,22 +487,23 @@ $(document).ready(function () {
                         })()}
                     </div>
                     ${stockLogin || ''}
-                    <div class="pc-actions" style="display: flex; gap: 8px; margin-top: auto;">
-                        <button class="pc-btn-primary add-to-cart-btn" style="flex: 1; padding: 8px 0; border-radius: 6px; font-size: 12px;"
-                            data-id="${p.name || ''}"
-                            data-name="${safeName}"
-                            data-name-ar="${arabicName}"
-                            data-desc-en="${escapedDescEn}"
-                            data-desc-ar="${escapedDescAr}"
-                            data-image="${fullImgUrl}"
-                            data-brand="${rawBrandName}"
-                            title="Add this product to your enquiry basket">
-                            <i class="ri-file-list-3-line"></i> Add <span dir="rtl" style="font-size: 11px; margin-left: 2px;">| أضف</span>
+                    <div class="pc-actions" style="display: flex; flex-direction: column; gap: 6px; margin-top: auto;">
+                        <button class="pc-btn-primary" style="width: 100%; padding: 8px 0; border-radius: 6px; font-size: 12px;"
+                            onclick="QuoteCart.requestSingleQuote({id:'${safeId}',name:'${safeName}',nameAr:'${safeNameAr}',descEn:'${escapedDescEn}',descAr:'${escapedDescAr}',image:'${fullImgUrl}',brand:'${safeBrand}'})"
+                            title="Request a quote for this product">
+                            <i class="ri-price-tag-3-line"></i> Request Quote <span dir="rtl" style="font-size: 11px; margin-left: 2px;">| طلب عرض سعر</span>
                         </button>
-                        <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 8px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; text-decoration: none;"
-                            title="View full product specifications">
-                            <i class="ri-eye-line" style="margin-right: 4px;"></i> View <span dir="rtl" style="font-size: 11px; margin-left: 2px;">| عرض</span>
-                        </a>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="pc-btn-secondary" style="flex: 1; padding: 6px 0; border-radius: 6px; font-size: 11px; cursor: pointer;"
+                                onclick="QuoteCart.addToCart({id:'${safeId}',name:'${safeName}',name_ar:'${safeNameAr}',desc_en:'${escapedDescEn}',desc_ar:'${escapedDescAr}',image:'${fullImgUrl}',brand:'${safeBrand}'});"
+                                title="Add to multi-product enquiry basket">
+                                <i class="ri-shopping-cart-2-line" style="margin-right: 3px;"></i> Add to Basket
+                            </button>
+                            <a class="pc-btn-secondary" href="${specsUrl}" style="flex: 1; padding: 6px 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 11px; text-decoration: none;"
+                                title="View full product specifications">
+                                <i class="ri-eye-line" style="margin-right: 3px;"></i> View
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -593,7 +607,7 @@ $(document).ready(function () {
                     <div class="pc" style="height: 100%;">
                         <div class="pc-img">
                             <div class="pc-img-actions">
-                                <span class="pc-badge ${badgeClass}" ${!isTopSeller ? 'onclick="showStockLoginModal(event)" style="cursor: pointer;"' : ''}>${badgeText}</span>
+                        <span class="pc-badge ${badgeClass}">${badgeText}</span>
 
                             </div>
                             <a href="${specsUrl}" target="_blank">

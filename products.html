@@ -575,12 +575,12 @@
                     </div>
                     <div style="flex:1; min-width:200px; display:flex; flex-direction:column; gap:4px;">
                         <div style="font-size:13px; color:#1e293b; line-height:1.5;">
-                            <strong>Step 1:</strong> Browse products &amp; add to your enquiry basket →
-                            <strong>Step 2:</strong> Submit with your details →
+                            <strong>Step 1:</strong> Browse &amp; click <strong>Request Quote</strong> on any product →
+                            <strong>Step 2:</strong> Enter your email &amp; phone →
                             <strong>Step 3:</strong> Receive a custom quote within 24 hours
                             <span dir="rtl" style="display:block; margin-top:3px; font-size:12px; color:#475569;">
-                            <strong>الخطوة 1:</strong> تصفح المنتجات وأضفها إلى سلة الاستفسارات ←
-                            <strong>الخطوة 2:</strong> أرسل طلبك مع بياناتك ←
+                            <strong>الخطوة 1:</strong> تصفح وانقر على <strong>طلب عرض سعر</strong> على أي منتج ←
+                            <strong>الخطوة 2:</strong> أدخل بريدك الإلكتروني ورقم هاتفك ←
                             <strong>الخطوة 3:</strong> استلم عرض سعر مخصص خلال 24 ساعة
                             </span>
                         </div>
@@ -595,19 +595,19 @@
                         <!-- Categories -->
                         <div class="sidebar-widget">
                             <div class="sidebar-widget-title" data-toggle="widget-categories">
-                                <span>CATEGORIES</span>
+                                <span>CATEGORIES <span dir="rtl" style="font-weight:400;font-size:10px;color:#94a3b8;">التصنيفات</span></span>
                                 <i class="ri-arrow-up-s-line"></i>
                             </div>
                             <ul class="sidebar-cat-list" id="widget-categories">
-                                <li class="active" data-cat="all"><a href="#"><span>All Products</span><span
+                                <li class="active" data-cat="all"><a href="#"><span>All Products <span dir="rtl" style="font-size:10px;color:#94a3b8;">كل المنتجات</span></span><span
                                             class="cat-count" id="count-all">0</span></a></li>
-                                <li data-cat="lifting"><a href="#"><span>Rigging &amp; Lifting</span><span
+                                <li data-cat="lifting"><a href="#"><span>Rigging &amp; Lifting <span dir="rtl" style="font-size:10px;color:#94a3b8;">الرفع والتجهيز</span></span><span
                                             class="cat-count" id="count-lifting">0</span></a></li>
-                                <li data-cat="welding"><a href="#"><span>Welding Equipment</span><span class="cat-count"
+                                <li data-cat="welding"><a href="#"><span>Welding <span dir="rtl" style="font-size:10px;color:#94a3b8;">اللحام</span></span><span class="cat-count"
                                             id="count-welding">0</span></a></li>
-                                <li data-cat="ppe"><a href="#"><span>Personal Protective Equipment</span><span
+                                <li data-cat="ppe"><a href="#"><span>PPE &amp; Safety <span dir="rtl" style="font-size:10px;color:#94a3b8;">السلامة</span></span><span
                                             class="cat-count" id="count-ppe">0</span></a></li>
-                                <li data-cat="marine"><a href="#"><span>Marine &amp; Project Supplies</span><span
+                                <li data-cat="marine"><a href="#"><span>Marine &amp; Projects <span dir="rtl" style="font-size:10px;color:#94a3b8;">البحرية والمشاريع</span></span><span
                                             class="cat-count" id="count-marine">0</span></a></li>
                             </ul>
                         </div>
@@ -615,16 +615,16 @@
                         <!-- Brand — dynamically populated by products-api.js -->
                         <div class="sidebar-widget">
                             <div class="sidebar-widget-title" data-toggle="widget-brands">
-                                <span>BRAND</span>
+                                <span>BRAND <span dir="rtl" style="font-weight:400;font-size:10px;color:#94a3b8;">الماركة</span></span>
                                 <i class="ri-arrow-up-s-line"></i>
                             </div>
                             <div class="sidebar-checkbox-group" id="widget-brands">
                                 <!-- dynamic brand checkboxes injected here -->
                                 <div id="brands-loader" style="padding: 8px 0; color: #94a3b8; font-size: 12px;">
-                                    <i class="ri-loader-4-line"></i> Loading brands...
+                                    <i class="ri-loader-4-line"></i> Loading brands... <span dir="rtl" style="font-size:10px;">جاري التحميل</span>
                                 </div>
                             </div>
-                            <span class="sidebar-clear-link" id="clear-brand-filters">Clear brand filters</span>
+                            <span class="sidebar-clear-link" id="clear-brand-filters">Clear filters <span dir="rtl" style="font-weight:400;font-size:10px;color:#94a3b8;">| مسح التصفية</span></span>
                         </div>
 
                     </aside>
@@ -633,7 +633,7 @@
                     <main class="cat-main">
                         <!-- Mobile filter trigger -->
                         <button class="mobile-filter-trigger" id="mobile-filter-trigger">
-                            <i class="ri-equalizer-line"></i> Filters &amp; Categories
+                            <i class="ri-equalizer-line"></i> Filters &amp; Categories <span dir="rtl" style="font-size:10px;color:#94a3b8;">| التصفية والتصنيفات</span>
                         </button>
 
 
@@ -645,18 +645,19 @@
                                     <div class="main-search-input-group d-flex" style="height: 48px;">
                                         <div class="position-relative flex-grow-1 h-100">
                                             <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
-                                            <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search by product name, SKU, brand or category..." style="border: 1px solid #0177c6; border-right: none; font-size: 15px; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                            <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search products... ابحث عن المنتجات" style="border: 1px solid #0177c6; border-right: none; font-size: 15px; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                                         </div>
                                         <button class="btn text-white px-4 fw-bold h-100" style="background-color: #0177c6; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-top-left-radius: 0; border-bottom-left-radius: 0;">Search</button>
                                     </div>
                                     <div class="popular-searches mt-2 d-flex flex-wrap align-items-center gap-2" style="font-size: 13px;">
-                                        <span class="text-muted fw-semibold me-1">Popular Searches:</span>
+                                        <span class="text-muted fw-semibold me-1">Popular Searches: <span dir="rtl" style="font-size:11px;color:#94a3b8;">البحث الشائع</span></span>
                                         <span class="popular-search-pill">Welding Machine</span>
                                         <span class="popular-search-pill">Chain Block</span>
                                         <span class="popular-search-pill">Grinding Disc</span>
                                         <span class="popular-search-pill">Wire Brush</span>
                                         <span class="popular-search-pill">Cutting Disc</span>
                                     </div>
+                                    <div id="recent-searches-row" class="popular-searches mt-1 d-flex flex-wrap align-items-center gap-2" style="font-size:12px;display:none;"></div>
                                 </div>
                                 <div class="d-flex align-items-center flex-shrink-0 mt-2 mt-lg-0">
                                     <span class="fw-semibold text-dark me-2 text-nowrap">Sort by:</span>
@@ -1625,6 +1626,34 @@
                 }
             }, 4000);
         });
+    </script>
+
+    <!-- Recently Searched + UI Enhancements -->
+    <script>
+    $(function() {
+        var RECENT_KEY = 'onshore_recent_searches';
+        function getRecent() { try { return JSON.parse(localStorage.getItem(RECENT_KEY)||'[]'); } catch(e) { return []; } }
+        function saveRecent(term) {
+            var list = getRecent().filter(function(s) { return s !== term; });
+            list.unshift(term);
+            if (list.length > 5) list.pop();
+            try { localStorage.setItem(RECENT_KEY, JSON.stringify(list)); } catch(e) {}
+        }
+        function renderRecent() {
+            var terms = getRecent();
+            if (terms.length === 0) return;
+            var html = '<span class="text-muted fw-semibold me-1" style="font-size:12px;">Recent: <span dir="rtl" style="font-size:10px;color:#94a3b8;">الأخيرة</span></span>';
+            terms.forEach(function(t) {
+                html += '<span class="popular-search-pill" onclick="$(\'#main-search-input\').val(\'' + t.replace(/'/g, "\\'") + '\').trigger(\'input\')" style="cursor:pointer;">' + t + '</span>';
+            });
+            html += '<span class="popular-search-pill" onclick="localStorage.removeItem(\'' + RECENT_KEY + '\');$(this).parent().remove();" style="cursor:pointer;color:#ef4444;border-color:#fecaca;">Clear</span>';
+            $('#recent-searches-row').html(html).show();
+        }
+        $('#main-search-input').on('keypress', function(e) {
+            if (e.key === 'Enter') { var term = $(this).val().trim(); if (term) saveRecent(term); }
+        });
+        renderRecent();
+    });
     </script>
 
     <!-- Firebase Logic -->

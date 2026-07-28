@@ -552,6 +552,18 @@ header li .mobile-item i {
   position: relative;
 }
 
+.quick-quote-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.4);
+  z-index: 100000;
+}
+
+@media (max-width: 480px) {
+  #quick-quote-panel { width: 100vw !important; right: -100vw !important; }
+}
+
 
 
 

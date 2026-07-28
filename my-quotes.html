@@ -117,7 +117,7 @@
         <div id="quotes-empty" style="display:none;" class="text-center py-5">
           <i class="ri-shopping-bag-line" style="font-size: 48px; color: #ccc; margin-bottom: 15px; display: block;"></i>
           <h5 style="color: #333; font-weight: 600;">No quotes yet <span dir="rtl" style="font-weight: 400; font-size: 16px; color: #64748b;">| لا توجد طلبات بعد</span></h5>
-          <p style="color: #666;">You haven't submitted any quote requests yet.</p>
+          <p style="color: #666;">You haven't submitted any quote requests yet. <br><small style="color: #94a3b8;">If you submitted quotes from a different email, log in with that email to view them.</small></p>
           <a href="products.html" class="main-btn mt-3" style="display: inline-flex;">Start Browsing <i class="ri-arrow-right-line"></i></a>
         </div>
       </div>
@@ -170,7 +170,7 @@
 
 <script>
 $(document).ready(function () {
-  var API_BASE = 'https://onshore.tbo365.cloud';
+  var API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8000' : 'https://onshore.tbo365.cloud';
   var $loader = $('#quotes-loader');
   var $errorDiv = $('#quotes-error');
   var $emptyDiv = $('#quotes-empty');
@@ -181,7 +181,10 @@ $(document).ready(function () {
     $.ajax({
       url: API_BASE + '/api/method/onshore.api.get_customer_quotes?email=' + encodeURIComponent(email),
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'token9897e6ee3838b6c:06d7193075244d6'
+      },
       success: function (res) {
         var data = res.message || res;
         if (data && data.success && data.quotes && data.quotes.length > 0) {
@@ -219,18 +222,21 @@ $(document).ready(function () {
   function checkAuth() {
     var auth = window.__myQuotesAuth;
     if (!auth) { setTimeout(checkAuth, 300); return; }
+    var timer = null;
     window.__myQuotesOnAuth(auth, function(user) {
-      var loginLink = document.getElementById('nav-login-link');
-      var quotesLink = document.getElementById('nav-my-quotes-link');
       if (user) {
+        if (timer) clearTimeout(timer);
+        var loginLink = document.getElementById('nav-login-link');
+        var quotesLink = document.getElementById('nav-my-quotes-link');
         if (loginLink) loginLink.style.display = 'none';
         if (quotesLink) quotesLink.style.display = '';
         loadQuotes(user.email);
       } else {
-        $loader.hide();
-        $errorDiv.show();
-        if (quotesLink) quotesLink.style.display = 'none';
-        if (loginLink) loginLink.style.display = '';
+        // Firebase fires null initially while restoring session — wait 3s before showing error
+        timer = setTimeout(function() {
+          $loader.hide();
+          $errorDiv.show();
+        }, 3000);
       }
     });
   }

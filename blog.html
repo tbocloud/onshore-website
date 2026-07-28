@@ -128,7 +128,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="container">
                 <div class="row  mb-3">
                     <h6 class="sub_head">Latest News</h6>
-                    <h2 class="main_heading">Reliable Welding & Safety <br> Solutions for Every Industry</h2>
+                    <h2 class="main_heading">Our Latest Updates & Insights</h2>
 
                 </div>
                 <div class="grid_row" id="dynamic-latest-news">
@@ -236,11 +236,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="assets/js/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blogs')
+            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blogs', {
+                headers: { 'Authorization': 'token9897e6ee3838b6c:06d7193075244d6' }
+            })
                 .then(response => response.json())
                 .then(data => {
                     if(data.message && data.message.success && data.message.blogs) {
-                        renderBlogs(data.message.blogs);
+                        var real = data.message.blogs.filter(function(b) {
+                            var t = (b.title || '').toLowerCase();
+                            return t.indexOf('lorem') === -1 && t.indexOf('ipsum') === -1 && t.indexOf('dolor') === -1 && t.indexOf('test') === -1;
+                        });
+                        renderBlogs(real);
                     }
                 })
                 .catch(error => console.error('Error fetching blogs:', error));
@@ -264,7 +270,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const moreNewsContainer = document.getElementById('dynamic-more-news');
             
             if(blogs.length === 0) {
-                latestNewsContainer.innerHTML = '<p>No blogs available at the moment.</p>';
+                latestNewsContainer.innerHTML = '<div class="text-center py-5"><i class="ri-article-line" style="font-size:48px;color:#ccc;margin-bottom:15px;display:block;"></i><h5 style="color:#333;">No blog posts yet</h5><p style="color:#94a3b8;">Check back soon for news and updates.</p></div>';
+                if(moreNewsContainer) moreNewsContainer.innerHTML = '';
                 return;
             }
 
