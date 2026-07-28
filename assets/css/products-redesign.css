@@ -194,6 +194,14 @@
   font-weight: 500;
   color: var(--mid);
   user-select: none;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  transition: background var(--ease), color var(--ease);
+}
+
+.sid-check:hover {
+  background: var(--pr-xlight);
+  color: var(--pr);
 }
 
 .sid-check input[type="checkbox"] {

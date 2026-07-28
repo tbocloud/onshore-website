@@ -560,6 +560,9 @@ header li .mobile-item i {
   z-index: 100000;
 }
 
+html[dir="rtl"] [dir="rtl"] { font-size: inherit !important; }
+html[dir="rtl"] body { direction: rtl; }
+
 @media (max-width: 480px) {
   #quick-quote-panel { width: 100vw !important; right: -100vw !important; }
 }
