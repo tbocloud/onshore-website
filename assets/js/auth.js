@@ -78,7 +78,7 @@ function injectLoginModal() {
                                 <div id="view-full-name" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Email Address</label>
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Email</label>
                                 <div id="view-email" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
@@ -415,8 +415,8 @@ function showCompleteRegistrationModal(profile, email) {
             <form id="completeRegistrationForm">
               <div class="row" style="margin: 0 -10px;">
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Full Name <span style="font-weight: normal; color: #777;">الاسم الكامل</span> *</label>
-                      <input type="text" name="full_name" value="${profile.customer_name || ''}" required class="form-control" placeholder="Enter your full name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Email <span style="font-weight: normal; color: #777;">البريد الإلكتروني للشركة</span> *</label>
+                      <input type="text" name="full_name" value="${profile.customer_name || ''}" required class="form-control" placeholder="Enter your company email" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
                       <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span> *</label>
@@ -446,8 +446,8 @@ function showCompleteRegistrationModal(profile, email) {
                       <input type="text" name="area" value="${profile.custom_area_in_ksa || ''}" required class="form-control" placeholder="e.g. Al Olaya" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Date of Birth <span style="font-weight: normal; color: #777;">تاريخ الميلاد</span> *</label>
-                      <input type="date" name="dob" value="${profile.custom_date_of_birth || ''}" required class="form-control" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Date of Birth <span style="font-weight: normal; color: #777;">تاريخ الميلاد</span></label>
+                      <input type="date" name="dob" value="${profile.custom_date_of_birth || ''}" class="form-control" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
               </div>
               <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
@@ -742,7 +742,7 @@ function renderProfileDashboard(user) {
                 </div>
                 <div id="tab-my-orders" class="profile-tab" style="padding: 12px 15px; cursor: pointer; display: flex; align-items: center; gap: 10px; opacity: 0.7; transition: opacity 0.2s;">
                     <i class="ri-shopping-bag-3-line" style="font-size: 18px;"></i>
-                    <span style="font-weight: 500;">My Orders</span>
+                    <span style="font-weight: 500;">My Enquiries</span>
                 </div>
                 
                 <div style="margin-top: auto; padding-top: 20px;">
@@ -777,7 +777,7 @@ function renderProfileDashboard(user) {
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.full_name || '-'}</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Email Address</label>
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Email</label>
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.email || user.email || '-'}</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
@@ -1038,7 +1038,7 @@ function renderProfileDashboard(user) {
             tabs.forEach(t => { t.style.background = 'transparent'; t.style.opacity = '0.7'; });
             this.style.background = 'rgba(255,255,255,0.15)';
             this.style.opacity = '1';
-            if (titleText) titleText.innerHTML = 'My Orders';
+            if (titleText) titleText.innerHTML = 'My Enquiries';
             const currentEditBtn = document.getElementById('edit-profile-btn');
             if (currentEditBtn) currentEditBtn.style.display = 'none';
             if (viewMode) {
