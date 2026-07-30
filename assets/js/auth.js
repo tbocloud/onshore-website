@@ -74,32 +74,28 @@ function injectLoginModal() {
                     <div id="profile-view-mode" style="flex: 1; overflow-y: auto; padding-right: 5px;">
                         <div class="row" style="margin: 0 -10px;">
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Full Name</label>
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Name</label>
                                 <div id="view-full-name" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Email</label>
-                                <div id="view-email" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Mobile Number</label>
-                                <div id="view-mobile" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
                                 <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Name</label>
                                 <div id="view-company" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Email</label>
+                                <div id="view-email" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
+                            </div>
+                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Phone</label>
+                                <div id="view-mobile" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
+                            </div>
+                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
                                 <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">City</label>
                                 <div id="view-city" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Area / Address</label>
-                                <div id="view-area" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Date of Birth</label>
-                                <div id="view-dob" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">City</label>
+                                <div id="view-city" style="font-size: 14px; font-weight: 500; color: #333;">-</div>
                             </div>
                         </div>
                     </div>
@@ -213,12 +209,22 @@ onAuthStateChanged(auth, (user) => {
     // Update global nav link if it exists on ANY page
     const globalNavLinks = document.querySelectorAll('a[href="login.html"]');
     globalNavLinks.forEach(link => {
-        if (user) {
-            link.innerHTML = '<i class="ri-user-smile-fill" style="margin-right: 5px;"></i> My Account';
-            link.classList.add('logged-in-nav');
+        if (link.id === 'tab-login-link') {
+            if (user) {
+                link.innerHTML = '<div class="tab-icon-box"><i class="ri-user-smile-fill"></i></div><span>Profile</span>';
+                link.classList.add('logged-in-nav');
+            } else {
+                link.innerHTML = '<div class="tab-icon-box"><i class="ri-user-fill"></i></div><span>Login</span>';
+                link.classList.remove('logged-in-nav');
+            }
         } else {
-            link.innerHTML = 'Login';
-            link.classList.remove('logged-in-nav');
+            if (user) {
+                link.innerHTML = '<i class="ri-user-smile-fill" style="margin-right: 5px;"></i> My Account';
+                link.classList.add('logged-in-nav');
+            } else {
+                link.innerHTML = 'Login';
+                link.classList.remove('logged-in-nav');
+            }
         }
     });
 
@@ -343,8 +349,8 @@ function checkCustomerProfile(email) {
     }).then(r => r.json()).then(data => {
         if (data && data.message && data.message.success) {
             var profile = data.message.profile;
-            // Check for missing fields (using custom_company_name)
-            if (!profile.custom_company_name || !profile.custom_city_in_ksa || !profile.custom_area_in_ksa || !profile.custom_date_of_birth) {
+            // Check for missing fields (mandatory fields)
+            if (!profile.customer_name || !profile.email_id || !profile.mobile_no) {
                 if (!window.justVerifiedQuoteOTP) {
                     showCompleteRegistrationModal(profile, email);
                 }
@@ -415,15 +421,19 @@ function showCompleteRegistrationModal(profile, email) {
             <form id="completeRegistrationForm">
               <div class="row" style="margin: 0 -10px;">
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Name <span style="font-weight: normal; color: #777;">الاسم</span> *</label>
+                      <input type="text" name="full_name" value="${profile.customer_name || ''}" required class="form-control" placeholder="Enter your name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                  </div>
+                  <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span> <span style="color: #999;">[optional]</span></label>
+                      <input type="text" name="company_name" value="${profile.custom_company_name || ''}" class="form-control" placeholder="Enter your company name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                  </div>
+                  <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
                       <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Email <span style="font-weight: normal; color: #777;">البريد الإلكتروني للشركة</span> *</label>
-                      <input type="text" name="full_name" value="${profile.customer_name || ''}" required class="form-control" placeholder="Enter your company email" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                      <input type="email" name="company_email" value="${profile.email_id || email || ''}" required class="form-control" placeholder="Enter your company email" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span> *</label>
-                      <input type="text" name="company_name" value="${profile.custom_company_name || ''}" required class="form-control" placeholder="Enter your company name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                  </div>
-                  <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Phone <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
                       <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
                           <select name="country_code" class="form-select" style="max-width: 180px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
                               <option data-countryCode="SA" value="966" ${currCountryCode === '966' ? 'selected' : ''}>Saudi Arabia (+966)</option>
@@ -442,12 +452,12 @@ function showCompleteRegistrationModal(profile, email) {
                       <input type="text" name="city" value="${profile.custom_city_in_ksa || ''}" required class="form-control" placeholder="e.g. Riyadh, Dubai, Doha" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
                   <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Area <span style="font-weight: normal; color: #777;">المنطقة</span> *</label>
-                      <input type="text" name="area" value="${profile.custom_area_in_ksa || ''}" required class="form-control" placeholder="e.g. Al Olaya" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Area <span style="font-weight: normal; color: #777;">المنطقة</span> <span style="color: #999;">[optional]</span></label>
+                      <input type="text" name="area" value="${profile.custom_area_in_ksa || ''}" class="form-control" placeholder="e.g. Industrial Area" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
-                  <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Date of Birth <span style="font-weight: normal; color: #777;">تاريخ الميلاد</span></label>
-                      <input type="date" name="dob" value="${profile.custom_date_of_birth || ''}" class="form-control" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                  <div class="col-md-12" style="padding: 0 10px; margin-bottom: 15px;">
+                      <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Designation <span style="font-weight: normal; color: #777;">المسمى الوظيفي</span> <span style="color: #999;">[optional]</span></label>
+                      <input type="text" name="designation" value="${profile.designation || profile.custom_designation || ''}" class="form-control" placeholder="e.g. Purchase Manager" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                   </div>
               </div>
               <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
@@ -521,26 +531,28 @@ function showCompleteRegistrationModal(profile, email) {
         try {
             var data = {
                 customer_name: profile.name,
-                email: email,
+                email: formData.get('company_email') || email,
                 full_name: formData.get('full_name'),
                 company_name: formData.get('company_name'),
                 mobile_number: formData.get('country_code') + formData.get('mobile_number'),
                 whatsapp_number: formData.get('country_code') + formData.get('mobile_number'),
                 city: formData.get('city'),
-                area: formData.get('area'),
-                dob: formData.get('dob')
+                area: formData.get('area') || '',
+                designation: formData.get('designation') || '',
+                dob: ''
             };
             
             // Save to local storage for quote cart
             var userDetails = {
                 full_name: data.full_name,
-                email: profile.email_id || email,
+                email: data.email,
                 mobile_number: data.mobile_number,
                 company_name: data.company_name,
                 country: "Saudi Arabia",
                 city: data.city,
-                area: data.area,
-                dob: data.dob
+                area: formData.get('area') || '',
+                designation: formData.get('designation') || '',
+                dob: ''
             };
             localStorage.setItem('user_quote_details', JSON.stringify(userDetails));
             console.log("Local storage updated", userDetails);
@@ -773,8 +785,12 @@ function renderProfileDashboard(user) {
                     viewMode.innerHTML = `
                         <div class="row" style="margin: 0 -10px;">
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Full Name</label>
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Name</label>
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.full_name || '-'}</div>
+                            </div>
+                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Name</label>
+                                <div style="font-size: 14px; font-weight: 500; color: #333;">${details.company_name || '-'}</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
                                 <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Email</label>
@@ -785,20 +801,8 @@ function renderProfileDashboard(user) {
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.mobile_number || user.phoneNumber || '-'}</div>
                             </div>
                             <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Company Name</label>
-                                <div style="font-size: 14px; font-weight: 500; color: #333;">${details.company_name || '-'}</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
                                 <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">City</label>
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.city || '-'}</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Area / Address</label>
-                                <div style="font-size: 14px; font-weight: 500; color: #333;">${details.area || '-'}</div>
-                            </div>
-                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
-                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Date of Birth</label>
-                                <div style="font-size: 14px; font-weight: 500; color: #333;">${details.dob || '-'}</div>
                             </div>
                         </div>
                     `;

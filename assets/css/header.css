@@ -285,8 +285,20 @@ nav .wrapper {
     border-bottom-right-radius: 20px;
 } */
 
-.wrapper .nav-links {
+  .wrapper .nav-links {
   display: inline-flex;
+
+.nav-right-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-right-icons .main-btn {
+  font-size: 12px;
+  padding: 8px 14px !important;
+  white-space: nowrap;
+  line-height: 1;
+}
   margin-bottom: 0;
   align-items: center;
 }

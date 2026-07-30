@@ -1,23 +1,51 @@
 
 // --- TOP BANNER INJECTION ---
 $(document).ready(function () {
-    if ($('#global-auth-banner').length === 0 && !window.isUserLoggedIn) {
+    var hideBanner = sessionStorage.getItem('onshore_hide_auth_banner');
+    
+    if (!window.isUserLoggedIn && !document.getElementById('global-auth-banner')) {
         var bannerHtml = `
-        <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 999; position: relative;">
+        <div id="global-auth-banner" style="background: #015bb5; color: white; text-align: center; padding: 10px 40px 10px 15px; font-size: 14px; font-family: 'Outfit', sans-serif; z-index: 9999; position: relative; display: ${hideBanner === 'true' ? 'none' : 'block'};">
             <span style="font-weight: 500;">🔔 Register an account to view live stock availability and access exclusive pricing!</span>
             <a href="login.html" style="color: #f1c40f; font-weight: 700; text-decoration: underline; margin-left: 10px;">Login / Register Here</a>
+            <span id="close-auth-banner" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 22px; cursor: pointer; line-height: 1;" title="Close">&times;</span>
+        </div>
+        <div id="reopen-auth-banner" style="position: fixed; top: 120px; right: 0; background: #015bb5; color: #fff; padding: 8px 12px; border-radius: 4px 0 0 4px; z-index: 9999; cursor: pointer; display: ${hideBanner === 'true' ? 'block' : 'none'}; box-shadow: -2px 2px 8px rgba(0,0,0,0.2);" title="Show Register Banner">
+            <i class="ri-notification-3-line"></i>
         </div>
         `;
         $('body').prepend(bannerHtml);
 
-        // Fix alignment: Push the absolute navigation header down ONLY when at the top (not scrolled)
-        setTimeout(function () {
-            var bannerHeight = $('#global-auth-banner').outerHeight();
-            var dynamicStyle = '<style id="banner-offset-style">nav:not(.header-scrolled) { top: ' + bannerHeight + 'px !important; } nav.header-scrolled { top: 0 !important; }</style>';
-            $('head').append(dynamicStyle);
-            // Remove the hardcoded inline style from the previous version
-            $('nav').css('top', '');
-        }, 50);
+        function updateNavOffset() {
+            $('#banner-offset-style').remove();
+            if ($('#global-auth-banner').is(':visible')) {
+                var bannerHeight = $('#global-auth-banner').outerHeight();
+                var dynamicStyle = '<style id="banner-offset-style">nav:not(.header-scrolled) { top: ' + bannerHeight + 'px !important; } nav.header-scrolled { top: 0 !important; }</style>';
+                $('head').append(dynamicStyle);
+                $('nav').css('top', '');
+            } else {
+                $('nav').css('top', ''); // Let header.css handle top: 0
+            }
+        }
+
+        setTimeout(updateNavOffset, 50);
+        $(window).on('resize', updateNavOffset);
+
+        $('body').on('click', '#close-auth-banner', function() {
+            $('#global-auth-banner').slideUp(200, function() {
+                sessionStorage.setItem('onshore_hide_auth_banner', 'true');
+                $('#reopen-auth-banner').fadeIn(200);
+                updateNavOffset();
+            });
+        });
+
+        $('body').on('click', '#reopen-auth-banner', function() {
+            $('#reopen-auth-banner').hide();
+            sessionStorage.setItem('onshore_hide_auth_banner', 'false');
+            $('#global-auth-banner').slideDown(200, function() {
+                updateNavOffset();
+            });
+        });
     }
 });
 // -----------------------------
@@ -325,6 +353,7 @@ var QuoteCart = (function ($) {
             });
         }
         saveCart();
+        if (window.showToast) { window.showToast('Added to enquiry basket', 'أضيف إلى سلة الاستفسارات'); }
         if (!skipSidebar) {
             openSidebar();
         }
@@ -1209,6 +1238,7 @@ var QuoteCart = (function ($) {
               '<div id="qq-step-form">' +
                 '<div style="margin-bottom:10px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Quantity <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">الكمية</span></label><div style="display:flex;align-items:center;gap:8px;"><button type="button" onclick="var n=parseInt(document.getElementById(\'qq-qty\').value)||1;if(n>1)document.getElementById(\'qq-qty\').value=n-1;" style="width:32px;height:32px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:6px;cursor:pointer;font-size:16px;">-</button><input type="text" id="qq-qty" value="1" readonly style="width:50px;height:32px;text-align:center;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;font-weight:700;"><button type="button" onclick="var n=parseInt(document.getElementById(\'qq-qty\').value)||1;document.getElementById(\'qq-qty\').value=n+1;" style="width:32px;height:32px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:6px;cursor:pointer;font-size:16px;">+</button></div></div>' +
                 '<div id="qq-user-fields">' +
+                '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Name <span style="color:#dc3545;">*</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">الاسم</span></label><input type="text" id="qq-name" class="form-control" placeholder="Your Name" style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
                 '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Company Email <span style="color:#dc3545;">*</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">البريد الإلكتروني للشركة</span></label><input type="email" id="qq-email" class="form-control" placeholder="you@company.com" style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
                 '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Phone <span style="color:#dc3545;">*</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">رقم الجوال</span></label><div style="display:flex;gap:8px;"><select id="qq-country-code" class="form-select" style="max-width:180px;font-size:13px;border-radius:6px;"><option value="966">Saudi Arabia (+966)</option><option value="971">UAE (+971)</option><option value="974">Qatar (+974)</option><option value="973">Bahrain (+973)</option><option value="965">Kuwait (+965)</option><option value="968">Oman (+968)</option></select><input type="text" id="qq-phone" class="form-control" placeholder="5XXXXXXXX" style="border-radius:6px;font-size:13px;padding:10px;"></div></div>' +
                 '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">Company Name <span style="color:#94a3b8;">(optional)</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">اسم الشركة</span></label><input type="text" id="qq-company" class="form-control" placeholder="Your Company Ltd." style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
@@ -1242,11 +1272,14 @@ var QuoteCart = (function ($) {
 
     function bindQuickQuoteEvents() {
         $('#qq-send-otp-btn').off('click').on('click', function() {
+            var name = $('#qq-name').val().trim();
             var email = $('#qq-email').val().trim();
             var phone = $('#qq-phone').val().trim();
             var hasError = false;
+            $('#qq-name').css('border-color', '#e2e8f0');
             $('#qq-email').css('border-color', '#e2e8f0');
             $('#qq-phone').css('border-color', '#e2e8f0');
+            if (!name) { $('#qq-name').css('border-color', '#dc3545'); hasError = true; }
             if (!email) { $('#qq-email').css('border-color', '#dc3545'); hasError = true; }
             if (!phone) { $('#qq-phone').css('border-color', '#dc3545'); hasError = true; }
             if (hasError) return;
@@ -1257,7 +1290,7 @@ var QuoteCart = (function ($) {
                 var qty = parseInt($('#qq-qty').val()) || 1;
                 window._qqItemData.qty = qty;
                 var payload = {
-                    full_name: 'Quick Quote',
+                    full_name: name || 'Quick Quote',
                     email: email,
                     mobile_number: phone,
                     mobile_country_code: $('#qq-country-code').val(),
@@ -1283,6 +1316,7 @@ var QuoteCart = (function ($) {
                     window._qqOtpSignature = d.signature;
                     window._qqEmail = email;
                     window._qqPhone = phone;
+                    window._qqName = name;
                     $('#qq-otp-email').text(email);
                     $('#qq-step-form').hide();
                     $('#qq-otp-section').show();
@@ -1304,7 +1338,7 @@ var QuoteCart = (function ($) {
                     var qty = parseInt($('#qq-qty').val()) || 1;
                     window._qqItemData.qty = qty;
                     var payload = {
-                        full_name: 'Quick Quote',
+                        full_name: window._qqName || 'Quick Quote',
                         email: window._qqEmail,
                         mobile_number: window._qqPhone,
                         mobile_country_code: $('#qq-country-code').val(),
@@ -1348,6 +1382,7 @@ var QuoteCart = (function ($) {
         if (window.isUserLoggedIn) {
             try {
                 var saved = JSON.parse(localStorage.getItem('user_quote_details') || '{}');
+                if (saved.full_name) $('#qq-name').val(saved.full_name);
                 if (saved.email) $('#qq-email').val(saved.email);
                 if (saved.mobile_number) $('#qq-phone').val(saved.mobile_number);
                 if (saved.mobile_country_code) $('#qq-country-code').val(saved.mobile_country_code);

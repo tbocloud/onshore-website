@@ -641,34 +641,33 @@
 
                         <!-- Top Search Bar Section -->
                         <div class="top-search-section mb-2 mt-2 mt-lg-0">
-                            <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap flex-lg-nowrap">
-                                <div class="flex-grow-1 position-relative w-100">
-                                    <div class="main-search-input-group d-flex" style="height: 48px;">
-                                        <div class="position-relative flex-grow-1 h-100">
-                                            <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
-                                            <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search products... ابحث عن المنتجات" style="border: 1px solid #0177c6; border-right: none; font-size: 15px; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                        </div>
-                                        <button class="btn text-white px-4 fw-bold h-100" style="background-color: #0177c6; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-top-left-radius: 0; border-bottom-left-radius: 0;">Search</button>
+                            <div class="flex-grow-1 position-relative w-100">
+                                <div class="main-search-input-group d-flex" style="height:48px;">
+                                    <div class="position-relative flex-grow-1 h-100">
+                                        <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
+                                        <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search products... ابحث عن المنتجات" style="border:1px solid #0177c6;border-right:none;font-size:15px;border-radius:6px 0 0 6px;">
                                     </div>
-                                    <div class="popular-searches mt-2 d-flex flex-wrap align-items-center gap-2" style="font-size: 13px;">
-                                        <span class="text-muted fw-semibold me-1">Popular Searches: <span dir="rtl" style="font-size:11px;color:#94a3b8;">البحث الشائع</span></span>
-                                        <span class="popular-search-pill">Welding Machine</span>
-                                        <span class="popular-search-pill">Chain Block</span>
-                                        <span class="popular-search-pill">Grinding Disc</span>
-                                        <span class="popular-search-pill">Wire Brush</span>
-                                        <span class="popular-search-pill">Cutting Disc</span>
-                                    </div>
-                                    <div id="recent-searches-row" class="popular-searches mt-1 d-flex flex-wrap align-items-center gap-2" style="font-size:12px;display:none;"></div>
-                                </div>
-                                <div class="d-flex align-items-center flex-shrink-0 mt-2 mt-lg-0">
-                                    <span class="fw-semibold text-dark me-2 text-nowrap">Sort by:</span>
-                                    <select class="form-select shadow-none" id="cat-sort" style="font-size: 14px; font-weight: 500; border-color: #e2e8f0; width: auto; min-width: 140px;">
-                                        <option value="default">Featured</option>
-                                        <option value="name-asc">Name (A-Z)</option>
-                                        <option value="name-desc">Name (Z-A)</option>
-                                    </select>
+                                    <button class="btn text-white px-4 fw-bold h-100" style="background-color:#0177c6;border-radius:0 6px 6px 0;">Search</button>
                                 </div>
                             </div>
+                            <div class="d-flex align-items-center flex-shrink-0 mt-2" style="gap:8px;">
+                                <span class="text-muted fw-semibold text-nowrap" style="font-size:13px;">Sort:</span>
+                                <select class="form-select shadow-none" id="cat-sort" style="font-size:13px;font-weight:500;width:auto;min-width:120px;">
+                                    <option value="default">Featured</option>
+                                    <option value="name-asc">Name A-Z</option>
+                                    <option value="name-desc">Name Z-A</option>
+                                </select>
+                            </div>
+
+                            <div class="popular-searches mt-2 d-flex flex-wrap align-items-center gap-2" style="font-size:13px;">
+                                <span class="text-muted fw-semibold me-1">Popular Searches: <span dir="rtl" style="font-size:11px;color:#94a3b8;">البحث الشائع</span></span>
+                                <span class="popular-search-pill">Welding Machine</span>
+                                <span class="popular-search-pill">Chain Block</span>
+                                <span class="popular-search-pill">Grinding Disc</span>
+                                <span class="popular-search-pill">Wire Brush</span>
+                                <span class="popular-search-pill">Cutting Disc</span>
+                            </div>
+                            <div id="recent-searches-row" class="popular-searches mt-1 d-flex flex-wrap align-items-center gap-2" style="font-size:12px;display:none;"></div>
                         </div>
 
                         <!-- Catalog header -->
@@ -813,7 +812,7 @@
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/bootstrap.bundle.min.js?v=1.6"></script>
     <script src="assets/js/jquery.min.js?v=1.6"></script>
-    <script src="assets/js/main.js?v=2.5"></script>
+    <script src="assets/js/main.js?v=2.6"></script>
     <script src="assets/js/cart.js?v=3.2"></script>
     <script src="assets/js/products-api.js?v=2.4"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

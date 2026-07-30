@@ -1,0 +1,13 @@
+{
+  "name": "onshore-website",
+  "version": "1.0.0",
+  "description": "Onshore Website - Static HTML Frontend",
+  "main": "index.html",
+  "scripts": {
+    "dev": "ulimit -n 10240 && serve -p 3000",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
