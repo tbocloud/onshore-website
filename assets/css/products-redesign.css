@@ -454,7 +454,7 @@
 .pc-img {
   position: relative;
   padding-top: 75%;
-  background: #f8f9fa;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -491,6 +491,7 @@
   border: none;
   box-shadow: none;
 }
+.pc-badge.quote-badge { display: none !important; }
 .pc-badge.hot { background: #0177c6; color: white; }
 .pc-badge.stock { background: #10b981; color: white; }
 
