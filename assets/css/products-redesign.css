@@ -47,8 +47,8 @@
   width: 240px;
   flex-shrink: 0;
   position: sticky;
-  top: 88px;
-  max-height: calc(100vh - 100px);
+  top: 95px;
+  max-height: calc(100vh - 105px);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
@@ -228,6 +228,14 @@
   cursor: pointer;
   margin: 4px 16px 0;
   text-decoration: underline;
+}
+
+.top-search-section {
+  position: sticky;
+  top: 95px;
+  z-index: 900;
+  background: #f4f6f9;
+  padding: 10px 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1027,8 +1035,8 @@
   
   /* Add to cart mobile override */
   .add-to-cart-btn { font-size: 11px !important; padding: 5px 0 !important; }
-  .pc-btn-primary .pc-btn-icon { display: none; }
-  .pc-btn-secondary .pc-btn-icon { display: none; }
+  .pc-btn-primary i { display: none; }
+  .pc-btn-secondary i { display: none; }
   .pc-actions { gap: 6px; padding-top: 8px; }
   .pc-btn-primary, .pc-btn-secondary { font-size: 10.5px !important; padding: 6px 4px !important; gap: 3px !important; }
   

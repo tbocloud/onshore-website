@@ -58,7 +58,7 @@ body,
 html {
   font-family: var(--primary-font);
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .large-device-only {
