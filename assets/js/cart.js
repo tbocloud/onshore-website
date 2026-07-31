@@ -153,7 +153,7 @@ var QuoteCart = (function ($) {
                             <h5 class="modal-title" id="quoteRequestModalLabel" style="font-weight: 700; color: #333;">REQUEST ENQUIRY <span dir="rtl" style="font-size: 14px; color: #666; font-weight: 500; margin-left: 10px;">| طلب استفسار</span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 1px solid #ddd; border-radius: 50%; padding: 8px; opacity: 1; background-size: 10px;"></button>
                         </div>
-                        <div class="modal-body" style="padding: 30px;">
+                        <div class="modal-body p-3 p-md-4">
                             <!-- Selected Products Section -->
                             <div style="border: 1px solid #eaeaea; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 10px;">
@@ -211,55 +211,57 @@ var QuoteCart = (function ($) {
                                     <label>Leave this field blank</label>
                                     <input type="text" name="hp_field" value="">
                                 </div>
-                                <div class="row" style="margin: 0 -10px;">
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Full Name <span style="font-weight: normal; color: #777;">الاسم الكامل</span> *</label>
-                                        <input type="text" name="full_name" required class="form-control" placeholder="Enter your full name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Email <span style="font-weight: normal; color: #777;">البريد الإلكتروني للشركة</span> *</label>
-                                        <input type="email" name="email" required class="form-control" placeholder="Enter your email address" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span></label>
-                                        <input type="text" name="company_name" class="form-control" placeholder="Enter your company name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Country <span style="font-weight: normal; color: #777;">الدولة</span> *</label>
-                                        <select name="country" id="quote-country-select" class="form-select" required style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                                            <option value="">Select Country</option>
-<option value="Saudi Arabia">Saudi Arabia</option>
-<option value="United Arab Emirates">United Arab Emirates</option>
-<option value="Qatar">Qatar</option>
-<option value="Kuwait">Kuwait</option>
-<option value="Bahrain">Bahrain</option>
-<option value="Oman">Oman</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">City <span style="font-weight: normal; color: #777;">المدينة</span></label>
-                                        <input type="text" name="city" class="form-control" placeholder="Enter your city" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
-                                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
-                                        <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
-                                                <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 180px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
-                                                    <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
-                                                    <option data-countryCode="AE" value="971">UAE (+971)</option>
-                                                    <option data-countryCode="QA" value="974">Qatar (+974)</option>
-                                                    <option data-countryCode="BH" value="973">Bahrain (+973)</option>
-                                                    <option data-countryCode="KW" value="965">Kuwait (+965)</option>
-                                                    <option data-countryCode="OM" value="968">Oman (+968)</option>
-                                                    
-                                                </select>
-                                                <input type="text" name="phone" required class="form-control" placeholder="Enter mobile number" style="font-size: 13px; padding: 10px 12px; border: none; flex-grow: 1;">
+                                <div style="max-height: 45vh; overflow-y: auto; overflow-x: hidden; padding-right: 5px; margin-bottom: 10px;">
+                                    <div class="row" style="margin: 0 -10px;">
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Full Name <span style="font-weight: normal; color: #777;">الاسم الكامل</span> *</label>
+                                            <input type="text" name="full_name" required class="form-control" placeholder="Enter your full name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
                                         </div>
-                                    </div>
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Email <span style="font-weight: normal; color: #777;">البريد الإلكتروني للشركة</span> *</label>
+                                            <input type="email" name="email" required class="form-control" placeholder="Enter your email address" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Company Name <span style="font-weight: normal; color: #777;">اسم الشركة</span></label>
+                                            <input type="text" name="company_name" class="form-control" placeholder="Enter your company name" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Country <span style="font-weight: normal; color: #777;">الدولة</span> *</label>
+                                            <select name="country" id="quote-country-select" class="form-select" required style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                                                <option value="">Select Country</option>
+    <option value="Saudi Arabia">Saudi Arabia</option>
+    <option value="United Arab Emirates">United Arab Emirates</option>
+    <option value="Qatar">Qatar</option>
+    <option value="Kuwait">Kuwait</option>
+    <option value="Bahrain">Bahrain</option>
+    <option value="Oman">Oman</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">City <span style="font-weight: normal; color: #777;">المدينة</span></label>
+                                            <input type="text" name="city" class="form-control" placeholder="Enter your city" style="border-radius: 6px; font-size: 13px; padding: 10px 12px; border: 1px solid #ddd; width: 100%;">
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 10px; margin-bottom: 15px;">
+                                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #333; font-size: 13px;">Mobile Number <span style="font-weight: normal; color: #777;">رقم الجوال</span> *</label>
+                                            <div class="input-group" style="border-radius: 6px; overflow: hidden; border: 1px solid #ddd; display: flex;">
+                                                    <select name="country_code" id="quote-country-code" class="form-select" style="max-width: 180px; font-size: 13px; padding: 10px 12px; border: none; background-color: #f8f9fa; border-right: 1px solid #ddd;">
+                                                        <option data-countryCode="SA" value="966">Saudi Arabia (+966)</option>
+                                                        <option data-countryCode="AE" value="971">UAE (+971)</option>
+                                                        <option data-countryCode="QA" value="974">Qatar (+974)</option>
+                                                        <option data-countryCode="BH" value="973">Bahrain (+973)</option>
+                                                        <option data-countryCode="KW" value="965">Kuwait (+965)</option>
+                                                        <option data-countryCode="OM" value="968">Oman (+968)</option>
+                                                        
+                                                    </select>
+                                                    <input type="text" name="phone" required class="form-control" placeholder="Enter mobile number" style="font-size: 13px; padding: 10px 12px; border: none; flex-grow: 1;">
+                                            </div>
+                                        </div>
 
 
-                                    <!-- Cloudflare Turnstile -->
-                                    <div class="col-md-12" style="margin-bottom: 10px;">
-                                        <div id="turnstile-container"></div>
+                                        <!-- Cloudflare Turnstile -->
+                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                            <div id="turnstile-container"></div>
+                                        </div>
                                     </div>
                                 </div>
                                                                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; padding: 0 10px;">

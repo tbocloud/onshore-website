@@ -343,7 +343,7 @@
 
 @media screen and (max-width:480px){
     #cart-sidebar { width: 100vw; right: -100vw; }
-    #quick-quote-panel { width: 100vw !important; right: -100vw !important; }
+    #quick-quote-panel { width: 100vw !important; }
 
     nav { position: sticky; top: 0; left: 0; right: 0; z-index: 99; padding-top: 8px; padding-bottom: 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     nav .cart-trigger, nav .profile-trigger, nav .nav-search-trigger, nav .btn.menu-btn i, nav .btn.menu-btn { color: #1a1a1a !important; }

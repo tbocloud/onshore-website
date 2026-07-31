@@ -366,7 +366,7 @@ function checkCustomerProfile(email) {
                     country: "Saudi Arabia",
                     city: profile.custom_city_in_ksa || existingDetails.city,
                     area: profile.custom_area_in_ksa || existingDetails.area,
-                    dob: profile.custom_date_of_birth || existingDetails.dob
+                    designation: profile.custom_designation || existingDetails.designation
                 };
                 localStorage.setItem('user_quote_details', JSON.stringify(userDetails));
                 if (window.isUserLoggedIn) {
@@ -804,6 +804,10 @@ function renderProfileDashboard(user) {
                                 <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">City</label>
                                 <div style="font-size: 14px; font-weight: 500; color: #333;">${details.city || '-'}</div>
                             </div>
+                            <div class="col-md-6" style="padding: 0 10px; margin-bottom: 20px;">
+                                <label style="display: block; font-size: 12px; color: #878787; margin-bottom: 5px;">Designation</label>
+                                <div style="font-size: 14px; font-weight: 500; color: #333;" id="view-designation">${details.designation || '-'}</div>
+                            </div>
                         </div>
                     `;
                 }
@@ -1024,7 +1028,7 @@ function renderProfileDashboard(user) {
                                     company_name: profile.custom_company_name,
                                     city: profile.custom_city_in_ksa,
                                     area: profile.custom_area_in_ksa,
-                                    dob: profile.custom_date_of_birth
+                                    designation: profile.custom_designation
                                 };
                                 localStorage.setItem('user_quote_details', JSON.stringify(userDetails));
                             }
@@ -1117,7 +1121,7 @@ function renderProfileDashboard(user) {
             if(document.getElementById('view-company')) document.getElementById('view-company').textContent = details.company_name || '-';
             if(document.getElementById('view-city')) document.getElementById('view-city').textContent = details.city || '-';
             if(document.getElementById('view-area')) document.getElementById('view-area').textContent = details.area || '-';
-            if(document.getElementById('view-dob')) document.getElementById('view-dob').textContent = details.dob || '-';
+            if(document.getElementById('view-designation')) document.getElementById('view-designation').textContent = details.designation || '-';
             
             
             // Set up Edit button to trigger the Complete Registration Modal
@@ -1130,7 +1134,7 @@ function renderProfileDashboard(user) {
                     custom_company_name: details.company_name,
                     custom_city_in_ksa: details.city,
                     custom_area_in_ksa: details.area,
-                    custom_date_of_birth: details.dob
+                    custom_designation: details.designation
                 };
                 
                 const newEditBtn = editBtn.cloneNode(true);
