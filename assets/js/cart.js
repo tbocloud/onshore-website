@@ -18,7 +18,7 @@ $(document).ready(function () {
 
         function updateNavOffset() {
             $('#banner-offset-style').remove();
-            if ($('#global-auth-banner').is(':visible')) {
+            if ($('#global-auth-banner').is(':visible') && $(window).width() > 970) {
                 var bannerHeight = $('#global-auth-banner').outerHeight();
                 var dynamicStyle = '<style id="banner-offset-style">nav:not(.header-scrolled) { top: ' + bannerHeight + 'px !important; } nav.header-scrolled { top: 0 !important; }</style>';
                 $('head').append(dynamicStyle);
