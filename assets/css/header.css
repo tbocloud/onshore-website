@@ -107,6 +107,7 @@ select:focus {
   font-weight: 500;
   letter-spacing: 1px;
 }
+
 .main-btn:hover {
   background: transparent;
   border-color: var(--second-color);
@@ -285,37 +286,61 @@ nav .wrapper {
     border-bottom-right-radius: 20px;
 } */
 
-  .wrapper .nav-links {
+.wrapper .nav-links {
   display: inline-flex;
 
-.nav-right-icons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.nav-right-icons .main-btn {
-  font-size: 12px;
-  padding: 8px 14px !important;
-  white-space: nowrap;
-  line-height: 1;
-}
+  .nav-right-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-right-icons .main-btn {
+    font-size: 12px;
+    padding: 8px 14px !important;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
   margin-bottom: 0;
   align-items: center;
 }
 
 .nav-links li a {
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.15s;
+  text-align: center;
+  min-width: 56px;
   text-decoration: none;
-  padding: 8px 10px;
   text-transform: uppercase;
-  transition: all .4s;
-  font-size: 13px;
   white-space: nowrap;
 }
 
-.nav-links li a:hover {
-  color: var(--green-color);
+.nav-links li a.active {
+  color: var(--primary-color) !important;
 }
+
+nav.nav-dark-links .nav-links li a.active,
+nav.header-scrolled .nav-links li a.active {
+  color: #0177c6 !important;
+}
+
+.nav-links li a:hover,
+nav.nav-dark-links .nav-links li a:hover,
+nav.header-scrolled .nav-links li a:hover,
+.nav-links li a.active:hover {
+  color: #0177c6 !important;
+  background: #f1f5f9;
+}
+
 
 .nav-links .drop-menu {
   background-color: #fff;
@@ -568,15 +593,22 @@ header li .mobile-item i {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,23,42,0.4);
+  background: rgba(15, 23, 42, 0.4);
   z-index: 100000;
 }
 
-html[dir="rtl"] [dir="rtl"] { font-size: inherit !important; }
-html[dir="rtl"] body { direction: rtl; }
+html[dir="rtl"] [dir="rtl"] {
+  font-size: inherit !important;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+}
 
 @media (max-width: 480px) {
-  #quick-quote-panel { width: 100vw !important; }
+  #quick-quote-panel {
+    width: 100vw !important;
+  }
 }
 
 

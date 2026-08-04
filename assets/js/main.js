@@ -1,5 +1,5 @@
 // --- GLOBAL SEARCH INJECTION ---
-(function() {
+(function () {
     if (!document.querySelector('link[href="assets/css/global-search.css"]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
@@ -15,10 +15,10 @@
 })();
 
 // --- NAV ENHANCEMENTS (cart label, profile quotes link, contact button) ---
-(function() {
+(function () {
     // Arabic label under cart icon
     var cartTriggers = document.querySelectorAll('.cart-trigger');
-    cartTriggers.forEach(function(el) {
+    cartTriggers.forEach(function (el) {
         if (el.querySelector('.cart-ar-label')) return;
         var label = document.createElement('span');
         label.className = 'cart-ar-label';
@@ -31,10 +31,22 @@
     // Hide the nav Contact/Request Quote button only on mobile
     if (window.matchMedia('(max-width: 768px)').matches) {
         var navMainBtns = document.querySelectorAll('.nav-right-icons .main-btn');
-        navMainBtns.forEach(function(btn) {
+        navMainBtns.forEach(function (btn) {
             btn.style.display = 'none';
         });
     }
+
+    // Add icons to all nav links (matching by id or text)
+    document.querySelectorAll('.nav-links li a').forEach(function (a) {
+        if (a.querySelector('i')) return;
+        var t = a.textContent.trim().toLowerCase(), icon = '', color = 'inherit';
+        var m = { home: ['ri-home-4-fill', 'inherit'], about: ['ri-information-fill', 'inherit'], industries: ['ri-building-2-fill', 'inherit'], products: ['ri-store-2-fill', 'inherit'], brands: ['ri-award-fill', 'inherit'], news: ['ri-article-fill', 'inherit'], blog: ['ri-article-fill', 'inherit'], career: ['ri-briefcase-fill', 'inherit'], login: ['ri-user-fill', 'inherit'], 'my quotes': ['ri-file-list-3-fill', 'inherit'] };
+        for (var k in m) { if (t.indexOf(k) === 0) { icon = m[k][0]; color = m[k][1]; break; } }
+        if (icon) a.innerHTML = '<i class="' + icon + '" style="color:' + color + ';font-size:18px;"></i><span>' + a.textContent + '</span>';
+    });
+    // Force login icon
+    var ll = document.getElementById('nav-login-link');
+    if (ll && !ll.querySelector('i')) { ll.innerHTML = '<i class="ri-user-fill" style="color:#0177c6;font-size:18px;"></i><span>Login</span>'; }
 
     // Inject "My Quotes" link in nav-lists for logged-in users
     var loginLink = document.getElementById('nav-login-link');
@@ -51,18 +63,18 @@
 
     // Save current page before navigating to login for redirect back
     if (loginLink) {
-        loginLink.addEventListener('click', function() {
-            try { localStorage.setItem('onshore_login_redirect', window.location.href); } catch(e) {}
+        loginLink.addEventListener('click', function () {
+            try { localStorage.setItem('onshore_login_redirect', window.location.href); } catch (e) { }
         });
     }
     try {
-        import('https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js').catch(function(){});
-    } catch(e) {}
-    var checkAuth = function() {
+        import('https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js').catch(function () { });
+    } catch (e) { }
+    var checkAuth = function () {
         var ql = document.getElementById('nav-my-quotes-link');
         var ll = document.getElementById('nav-login-link');
         if (typeof firebase !== 'undefined' && firebase.auth) {
-            firebase.auth().onAuthStateChanged(function(user) {
+            firebase.auth().onAuthStateChanged(function (user) {
                 if (ql) ql.style.display = user ? '' : 'none';
                 if (ll) ll.style.display = user ? 'none' : '';
             });
@@ -73,7 +85,7 @@
 })();
 
 // --- MOBILE BOTTOM TAB BAR (Swiggy-style) ---
-(function() {
+(function () {
     if (document.getElementById('mobile-tab-bar')) return;
     var isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (!isMobile) return;
@@ -84,9 +96,9 @@
     var style = document.createElement('style');
     style.textContent = '#mobile-tab-bar{position:fixed;bottom:0;left:0;right:0;z-index:9997;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-around;align-items:flex-start;padding:8px 4px 6px;padding-bottom:calc(6px + env(safe-area-inset-bottom));}.tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#717171;font-size:10px;font-weight:500;padding:2px 6px;min-width:56px;border-radius:12px;transition:color 0.15s;cursor:pointer;}.tab-icon-box{position:relative;width:40px;height:28px;display:flex;align-items:center;justify-content:center;}.tab-item i{font-size:22px;transition:transform 0.2s;}.tab-item.active i{transform:scale(1.15);}.tab-item.active,.tab-item.active {color:#0177c6;font-weight:600;}.tab-item:active{transform:scale(0.95);}.tab-item.active::after{content:\'\';position:absolute;bottom:-6px;width:18px;height:3px;background:#0177c6;border-radius:3px;}.tab-badge{position:absolute;top:-4px;right:-10px;background:#ef4444;color:#fff;border-radius:10px;font-size:9px;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #fff;}.tab-cart-trigger .tab-icon-box i{font-size:24px;}body{padding-bottom:72px;}@media(max-width:768px){.whatsapp-widget{bottom:80px!important;}}@media(min-width:769px){#mobile-tab-bar{display:none!important;}body{padding-bottom:0;}}';
     document.head.appendChild(style);
-    var updateBadge = function() {
+    var updateBadge = function () {
         var count = 0;
-        try { var cart = JSON.parse(localStorage.getItem('onshore_quote_cart')||'[]'); count = Array.isArray(cart)?cart.length:0; } catch(e) {}
+        try { var cart = JSON.parse(localStorage.getItem('onshore_quote_cart') || '[]'); count = Array.isArray(cart) ? cart.length : 0; } catch (e) { }
         var badge = document.getElementById('tab-cart-count');
         if (badge) { badge.textContent = count; badge.style.display = count > 0 ? '' : 'none'; }
         var stickyBar = document.getElementById('sticky-cart-bar');
@@ -102,36 +114,54 @@
     var scbStyle = document.createElement('style');
     scbStyle.textContent = '#sticky-cart-bar{position:fixed;bottom:58px;left:8px;right:8px;z-index:9996;background:#0177c6;color:#fff;border-radius:14px;padding:10px 16px;transform:translateY(200%);transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 4px 20px rgba(1,119,198,0.35);}.scb-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;}.scb-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;}.scb-count{background:rgba(255,255,255,0.25);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}.scb-btn{background:#fff;color:#0177c6;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;}@media(min-width:769px){#sticky-cart-bar{display:none!important;}}';
     document.head.appendChild(scbStyle);
+})();
 
-    // Highlight active tab
+// --- ACTIVE TAB HIGHLIGHTING ---
+(function () {
     var path = window.location.pathname;
+    if (path === '/' || path === '/index.html') path = '/index.html';
+
+    // Mobile tabs
     var tabs = document.querySelectorAll('#mobile-tab-bar .tab-item');
-    tabs.forEach(function(t) {
+    tabs.forEach(function (t) {
         var href = t.getAttribute('href');
         if (!href) return;
-        if (path === '/' || path === '/index.html') path = '/index.html';
-        if (path.indexOf(href.replace('.html','').replace('./','')) > -1) t.classList.add('active');
-        if (href === './' && (path === '/' || path === '/index.html')) t.classList.add('active');
+        if (href !== './' && path.indexOf(href.replace('.html', '').replace('./', '')) > -1) t.classList.add('active');
+        if (href === './' && path === '/index.html') t.classList.add('active');
+    });
+
+    // Desktop tabs
+    var desktopTabs = document.querySelectorAll('.nav-links li a');
+    desktopTabs.forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        var isActive = false;
+        if (href !== './' && path.indexOf(href.replace('.html', '').replace('./', '')) > -1) isActive = true;
+        if (href === './' && path === '/index.html') isActive = true;
+
+        if (isActive) {
+            a.classList.add('active');
+        }
     });
 })();
 
 // Globally accessible toast
-window.showToast = function(msg, arMsg) {
+window.showToast = function (msg, arMsg) {
     var t = document.createElement('div');
     t.className = 'onshore-toast';
-    t.innerHTML = msg + (arMsg ? ' <span dir="rtl" style="font-size:11px;opacity:0.8;">| '+arMsg+'</span>' : '');
+    t.innerHTML = msg + (arMsg ? ' <span dir="rtl" style="font-size:11px;opacity:0.8;">| ' + arMsg + '</span>' : '');
     document.body.appendChild(t);
-    requestAnimationFrame(function() { t.style.top = '20px'; });
-    setTimeout(function() { t.style.top = '-60px'; setTimeout(function() { t.remove(); }, 300); }, 2500);
+    requestAnimationFrame(function () { t.style.top = '20px'; });
+    setTimeout(function () { t.style.top = '-60px'; setTimeout(function () { t.remove(); }, 300); }, 2500);
 };
-(function() {
+(function () {
     var s = document.createElement('style');
     s.textContent = '.onshore-toast{position:fixed;top:-60px;left:50%;transform:translateX(-50%);z-index:99999;background:#0f172a;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.2);transition:top 0.3s ease;max-width:90vw;text-align:center;}@media(max-width:768px){.onshore-toast{font-size:12px;padding:10px 16px;}}';
     document.head.appendChild(s);
 })();
 
 // --- ARABIC-FIRST DETECTION ---
-(function() {
+(function () {
     var lang = (navigator.language || '').toLowerCase();
     if (lang.indexOf('ar') === 0) {
         document.documentElement.lang = 'ar';
@@ -140,19 +170,19 @@ window.showToast = function(msg, arMsg) {
 })();
 
 // --- BILINGUAL QUOTE BANNER (injected on every page except products) ---
-(function() {
+(function () {
     if (document.getElementById('global-quote-banner')) return;
     if (/products\.html/.test(window.location.pathname)) return;
     var banner = document.createElement('div');
     banner.id = 'global-quote-banner';
     banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:11px;line-height:1.3;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
-    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">To request a quote for any product</strong>, click <strong>Request Quote</strong>. You will receive it within 24 hours.</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
     // mobile: allow text wrapping
     var sheet = document.createElement('style');
     sheet.textContent = '@media(max-width:480px){#global-quote-banner .banner-text{white-space:normal;font-size:10px;max-width:100%;}}';
     document.head.appendChild(sheet);
     document.body.appendChild(banner);
-    setTimeout(function() { banner.style.transform = 'translateY(0)'; }, 3000);
+    setTimeout(function () { banner.style.transform = 'translateY(0)'; }, 3000);
 })();
 // -------------------------------
 
@@ -218,10 +248,10 @@ function handleUrlSearch() {
     const searchStatus = document.getElementById('search-status');
     const searchTerm = document.getElementById('search-term');
     const tabPanes = document.querySelectorAll('.products .tab-pane');
-    
+
     if (searchQuery && productItemsList.length > 0) {
         const query = searchQuery.toLowerCase();
-        
+
         if (searchStatus && searchTerm) {
             searchStatus.style.display = 'flex';
             searchTerm.textContent = searchQuery;
@@ -247,11 +277,11 @@ function handleUrlSearch() {
             const cat = (item.getAttribute('data-cat') || '').toLowerCase();
             const subcat = (item.getAttribute('data-subcat') || '').toLowerCase();
             const leafcat = (item.getAttribute('data-leafcat') || '').toLowerCase();
-            
+
             const queryWords = query.split(/\s+/);
             const combinedText = (name + " " + brand + " " + nameAr + " " + cat + " " + subcat + " " + leafcat).toLowerCase();
             const matchesAll = queryWords.every(word => combinedText.includes(word));
-            
+
             if (matchesAll) {
                 item.style.display = '';
                 hasVisibleResults = true;
@@ -259,11 +289,11 @@ function handleUrlSearch() {
                 item.style.display = 'none';
             }
         });
-        
+
         if (!hasVisibleResults && searchStatus) {
             searchTerm.textContent = searchQuery + " (No results found)";
         }
-        
+
         // Hide empty brand groups and filter buttons during global search
         const brandGroups = document.querySelectorAll('.products .brand_group');
         brandGroups.forEach(group => {
@@ -288,7 +318,7 @@ function handleUrlSearch() {
             window.dispatchEvent(new Event('resize'));
             window.dispatchEvent(new Event('scroll'));
         }, 100);
-        
+
         document.body.classList.add('search-active');
     }
 }
@@ -302,10 +332,10 @@ if (productPageSearch) {
         const query = this.value.toLowerCase();
         const productItemsList = document.querySelectorAll('.pc');
         const tabPanes = document.querySelectorAll('.products .tab-pane');
-        
+
         if (query.length > 0) {
             document.body.classList.add('search-active');
-            
+
             // Show all panes to search globally
             tabPanes.forEach(pane => {
                 pane.style.display = 'block';
@@ -319,11 +349,11 @@ if (productPageSearch) {
                 const cat = (item.getAttribute('data-cat') || '').toLowerCase();
                 const subcat = (item.getAttribute('data-subcat') || '').toLowerCase();
                 const leafcat = (item.getAttribute('data-leafcat') || '').toLowerCase();
-                
+
                 const queryWords = query.split(/\s+/);
                 const combinedText = (name + " " + brand + " " + nameAr + " " + cat + " " + subcat + " " + leafcat).toLowerCase();
                 const matchesAll = queryWords.every(word => combinedText.includes(word));
-                
+
                 if (matchesAll) {
                     item.style.display = '';
                 } else {
@@ -347,7 +377,7 @@ if (productPageSearch) {
             buttons.forEach(btn => btn.classList.remove('active'));
         } else {
             document.body.classList.remove('search-active');
-            
+
             // Restore tab-only view when search is cleared
             tabPanes.forEach(pane => {
                 pane.style.display = '';
@@ -358,15 +388,15 @@ if (productPageSearch) {
             // Restore brand groups and filter buttons
             const brandGroups = document.querySelectorAll('.products .brand_group');
             brandGroups.forEach(group => group.style.display = '');
-            
+
             const brandFilterContainers = document.querySelectorAll('.products .brand_filter_container');
             brandFilterContainers.forEach(container => container.style.display = '');
-            
+
             // Reactivate the first tab (Lifting) or previously active tab
             const liftingTab = document.getElementById('pills-p3-tab');
             if (liftingTab) liftingTab.click();
         }
-        
+
         // Force ScrollReveal to recalculate positions since page height changed
         if (typeof ScrollReveal !== 'undefined') {
             ScrollReveal().sync();

@@ -217,6 +217,14 @@ onAuthStateChanged(auth, (user) => {
                 link.innerHTML = '<div class="tab-icon-box"><i class="ri-user-fill"></i></div><span>Login</span>';
                 link.classList.remove('logged-in-nav');
             }
+        } else if (link.id === 'nav-login-link') {
+            if (user) {
+                link.innerHTML = '<i class="ri-user-smile-fill" style="color:#0177c6;font-size:18px;"></i><span>My Account</span>';
+                link.classList.add('logged-in-nav');
+            } else {
+                link.innerHTML = '<i class="ri-user-fill" style="color:#0177c6;font-size:18px;"></i><span>Login</span>';
+                link.classList.remove('logged-in-nav');
+            }
         } else {
             if (user) {
                 link.innerHTML = '<i class="ri-user-smile-fill" style="margin-right: 5px;"></i> My Account';
