@@ -169,14 +169,13 @@ window.showToast = function (msg, arMsg) {
     }
 })();
 
-// --- BILINGUAL QUOTE BANNER (injected on every page except products) ---
+// --- BILINGUAL QUOTE BANNER (injected on every page) ---
 (function () {
     if (document.getElementById('global-quote-banner')) return;
-    if (/products\.html/.test(window.location.pathname)) return;
     var banner = document.createElement('div');
     banner.id = 'global-quote-banner';
     banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:11px;line-height:1.3;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
-    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">To request a quote for any product</strong>, click <strong>Request Quote</strong>. You will receive it within 24 hours.</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
     // mobile: allow text wrapping
     var sheet = document.createElement('style');
     sheet.textContent = '@media(max-width:480px){#global-quote-banner .banner-text{white-space:normal;font-size:10px;max-width:100%;}}';
@@ -407,3 +406,50 @@ if (productPageSearch) {
 }
 
 
+
+// --- BROWSE PRODUCTS MODAL FOR NEW USERS ---
+(function () {
+    if (localStorage.getItem('leadModalClosed')) return; // Already seen/closed
+
+    // Trigger popup after 5 seconds
+    setTimeout(function() {
+        // Inject modal if it doesn't exist
+        if (!document.getElementById('leadCaptureModal')) {
+            var modalHTML = `
+            <div class="modal fade" id="leadCaptureModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 overflow-hidden" style="border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                  <div class="row g-0">
+                    <div class="col-md-5 d-none d-md-block" style="background: url('assets/img/about-new.webp') center center / cover;"></div>
+                    <div class="col-md-7 p-4 p-md-5">
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h3 class="mb-2" style="color: #0177c6; font-weight: 700;">Looking for Industrial Equipment?</h3>
+                        <p class="text-muted mb-4">Tell us what you need! Get competitive pricing on welding, lifting, and safety supplies in Saudi Arabia.</p>
+                        <div class="mt-4 pt-3 text-center">
+                            <a href="products.html" class="main-btn w-100 mb-3" style="background: #ffddab; color: #0177c6; border:none; padding: 16px !important; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; text-decoration: none;">
+                                Browse All Products <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                            <p style="font-size: 13px; color: #64748b; margin: 0;">Explore our full catalog of premium industrial equipment.</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+            var div = document.createElement('div');
+            div.innerHTML = modalHTML;
+            document.body.appendChild(div.firstElementChild);
+        }
+
+        if (!document.querySelector('.modal.show')) { // Ensure no other modal is open
+            var modalEl = document.getElementById('leadCaptureModal');
+            if (modalEl && typeof bootstrap !== 'undefined') {
+                var leadModal = new bootstrap.Modal(modalEl);
+                leadModal.show();
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    localStorage.setItem('leadModalClosed', 'true');
+                });
+            }
+        }
+    }, 5000);
+})();
