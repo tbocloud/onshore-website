@@ -169,19 +169,75 @@ window.showToast = function (msg, arMsg) {
     }
 })();
 
-// --- BILINGUAL QUOTE BANNER (injected on every page) ---
+// --- BILINGUAL QUOTE & LOGIN BANNER (injected on every page) ---
 (function () {
     if (document.getElementById('global-quote-banner')) return;
     var banner = document.createElement('div');
     banner.id = 'global-quote-banner';
-    banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:11px;line-height:1.3;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transform:translateY(100%);transition:transform 0.4s ease;';
-    banner.innerHTML = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a> <span onclick="this.parentElement.style.transform=\'translateY(100%)\'" style="cursor:pointer;font-size:16px;opacity:0.7;flex-shrink:0;">&times;</span>';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);transform:translateY(-100%);transition:transform 0.4s ease;min-height:36px;';
+    
+    var quoteContent = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, reply in 24h</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a>';
+    var loginContent = '<span class="banner-text"><strong style="font-size:13px;">🔔 Register an account to view live stock availability and access exclusive pricing!</strong></span> <a href="login.html" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;margin-left:10px;">Login / Register Here</a>';
+
+    banner.innerHTML = `
+        <div id="banner-quote" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;font-size:11px;line-height:1.3;transition:opacity 0.4s ease;">${quoteContent}</div>
+        <div id="banner-login" style="display:none;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;font-size:11px;line-height:1.3;transition:opacity 0.4s ease;">${loginContent}</div>
+        <span onclick="this.parentElement.style.transform='translateY(-100%)'; var n=document.querySelector('nav'); if(n) n.style.top='0'; document.body.style.paddingTop='0';" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;opacity:0.7;line-height:1;">&times;</span>
+    `;
+
     // mobile: allow text wrapping
     var sheet = document.createElement('style');
     sheet.textContent = '@media(max-width:480px){#global-quote-banner .banner-text{white-space:normal;font-size:10px;max-width:100%;}}';
     document.head.appendChild(sheet);
     document.body.appendChild(banner);
-    setTimeout(function () { banner.style.transform = 'translateY(0)'; }, 3000);
+    
+    setTimeout(function () { 
+        banner.style.transform = 'translateY(0)';
+        var n = document.querySelector('nav');
+        if (n) {
+            n.style.transition = 'top 0.4s ease';
+            n.style.top = banner.offsetHeight + 'px';
+            document.body.style.transition = 'padding-top 0.4s ease';
+            document.body.style.paddingTop = banner.offsetHeight + 'px';
+            
+            // Handle window resize dynamically adjusting the nav position
+            window.addEventListener('resize', function() {
+                if (banner.style.transform === 'translateY(0px)' || banner.style.transform === 'translateY(0)') {
+                    n.style.top = banner.offsetHeight + 'px';
+                    document.body.style.paddingTop = banner.offsetHeight + 'px';
+                }
+            });
+        }
+        
+        // Setup rotation logic
+        var quoteEl = document.getElementById('banner-quote');
+        var loginEl = document.getElementById('banner-login');
+        var showQuote = true;
+        
+        setInterval(function() {
+            // If they are logged in, just show the quote banner and stop rotating
+            if (window.isUserLoggedIn) {
+                quoteEl.style.display = 'flex';
+                loginEl.style.display = 'none';
+                return;
+            }
+            
+            showQuote = !showQuote;
+            if (showQuote) {
+                loginEl.style.display = 'none';
+                quoteEl.style.display = 'flex';
+            } else {
+                quoteEl.style.display = 'none';
+                loginEl.style.display = 'flex';
+            }
+            
+            // Update nav offset in case height changes during rotation
+            if (n && (banner.style.transform === 'translateY(0px)' || banner.style.transform === 'translateY(0)')) {
+                n.style.top = banner.offsetHeight + 'px';
+            }
+        }, 15000);
+        
+    }, 3000);
 })();
 // -------------------------------
 
@@ -407,9 +463,12 @@ if (productPageSearch) {
 
 
 
-// --- BROWSE PRODUCTS MODAL FOR NEW USERS ---
+// --- BROWSE PRODUCTS MODAL FOR NEW USERS (ONCE PER DAY) ---
 (function () {
-    if (localStorage.getItem('leadModalClosed')) return; // Already seen/closed
+    if (window.location.pathname.indexOf('products.html') !== -1) return; // Do not show on products page
+
+    var closedDate = localStorage.getItem('leadModalClosed');
+    if (closedDate === new Date().toDateString()) return; // Already seen/closed today
 
     // Trigger popup after 5 seconds
     setTimeout(function() {
@@ -447,7 +506,7 @@ if (productPageSearch) {
                 var leadModal = new bootstrap.Modal(modalEl);
                 leadModal.show();
                 modalEl.addEventListener('hidden.bs.modal', function () {
-                    localStorage.setItem('leadModalClosed', 'true');
+                    localStorage.setItem('leadModalClosed', new Date().toDateString());
                 });
             }
         }
