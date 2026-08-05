@@ -182,7 +182,7 @@ window.showToast = function (msg, arMsg) {
     banner.innerHTML = `
         <div id="banner-quote" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;font-size:11px;line-height:1.3;transition:opacity 0.4s ease;">${quoteContent}</div>
         <div id="banner-login" style="display:none;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;font-size:11px;line-height:1.3;transition:opacity 0.4s ease;">${loginContent}</div>
-        <span onclick="this.parentElement.style.transform='translateY(-100%)'; var n=document.querySelector('nav'); if(n) n.style.top='0'; document.body.style.paddingTop='0';" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;opacity:0.7;line-height:1;">&times;</span>
+        <span onclick="this.parentElement.style.transform='translateY(-100%)'; var n=document.querySelector('nav'); if(n) n.style.top='0'; document.body.style.paddingTop='0'; document.documentElement.style.setProperty('--banner-height', '0px'); document.documentElement.style.setProperty('--total-header-height', (n ? n.offsetHeight : 0) + 'px');" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;opacity:0.7;line-height:1;">&times;</span>
     `;
 
     // mobile: allow text wrapping
@@ -199,6 +199,16 @@ window.showToast = function (msg, arMsg) {
             n.style.top = banner.offsetHeight + 'px';
             document.body.style.transition = 'padding-top 0.4s ease';
             document.body.style.paddingTop = banner.offsetHeight + 'px';
+            const updateTotalHeaderHeight = () => {
+                let bannerH = 0;
+                if (banner.style.transform === 'translateY(0px)' || banner.style.transform === 'translateY(0)') {
+                    bannerH = banner.offsetHeight;
+                }
+                document.documentElement.style.setProperty('--banner-height', bannerH + 'px');
+                document.documentElement.style.setProperty('--total-header-height', (bannerH + n.offsetHeight) + 'px');
+            };
+            
+            updateTotalHeaderHeight();
             
             // Handle window resize dynamically adjusting the nav position
             window.addEventListener('resize', function() {
@@ -206,6 +216,7 @@ window.showToast = function (msg, arMsg) {
                     n.style.top = banner.offsetHeight + 'px';
                     document.body.style.paddingTop = banner.offsetHeight + 'px';
                 }
+                updateTotalHeaderHeight();
             });
         }
         
@@ -243,7 +254,15 @@ window.showToast = function (msg, arMsg) {
 
 window.addEventListener("scroll", function () {
     var header = this.document.querySelector("nav");
-    header.classList.toggle("header-scrolled", window.scrollY > 50)
+    if (header) {
+        header.classList.toggle("header-scrolled", window.scrollY > 50);
+        var banner = document.getElementById('global-quote-banner');
+        var bannerH = 0;
+        if (banner && (banner.style.transform === 'translateY(0px)' || banner.style.transform === 'translateY(0)')) {
+            bannerH = banner.offsetHeight;
+        }
+        document.documentElement.style.setProperty('--total-header-height', (bannerH + header.offsetHeight) + 'px');
+    }
 })
 
 /*=============== SHOW MENU ===============*/

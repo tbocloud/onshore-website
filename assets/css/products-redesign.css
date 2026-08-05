@@ -232,7 +232,7 @@
 
 .top-search-section {
   position: sticky;
-  top: 95px;
+  top: var(--total-header-height, 100px);
   z-index: 900;
   background: #f4f6f9;
   padding: 10px 0;
