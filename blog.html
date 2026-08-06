@@ -236,7 +236,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="assets/js/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blogs', {
+            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blogs?website=Onshore', {
                 headers: { 'Authorization': 'token9897e6ee3838b6c:06d7193075244d6' }
             })
                 .then(response => response.json())

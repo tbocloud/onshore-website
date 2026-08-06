@@ -238,7 +238,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 return;
             }
 
-            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blog_detail?route=' + encodeURIComponent(route))
+            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blog_detail?website=Onshore&route=' + encodeURIComponent(route))
                 .then(response => response.json())
                 .then(data => {
                     if(data.message && data.message.success && data.message.blog) {
