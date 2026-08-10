@@ -376,8 +376,22 @@
     .pc { margin-bottom: 6px; }
     .cat-product-grid { gap: 6px; }
 
-    .hero_banner_ecommerce { padding: 100px 0 40px !important; min-height: auto !important; }
-    .hero_banner_ecommerce .hero_image_container { display: none; }
+    .hero_banner_ecommerce .hero_image_container {
+        display: block !important;
+        margin: 20px auto 10px;
+        max-width: 100%;
+        position: relative;
+        text-align: center;
+    }
+    .hero_banner_ecommerce .hero_main_img {
+        width: 100%;
+        max-height: 240px;
+        object-fit: cover;
+        border-radius: 18px !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
+        filter: brightness(0.95) !important;
+        animation: none !important;
+    }
     .hero_text_content { text-align: center; padding: 0 4px; }
     .hero_text_content h1 { font-size: 24px !important; line-height: 1.2; }
     .hero_text_content h1 span[dir="rtl"] { font-size: 16px !important; }
@@ -388,10 +402,25 @@
     .hero_search_bar { max-width: 100%; margin-left: 0; margin-right: 0; }
     .hero_search_bar input { font-size: 14px; padding: 0 16px; }
     .hero_search_bar button { width: 42px; height: 42px; }
-    .hero_cta_group { flex-direction: column; gap: 8px; }
+    .hero_cta_group { flex-direction: column; gap: 8px; margin-top: 16px; }
     .hero_cta_group .main-btn, .hero_cta_group .secondary-btn { width: 100%; justify-content: center; padding: 12px 20px; font-size: 13px; text-align: center; }
     .hero_cta_group .secondary-btn { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 50px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-    .floating_product_card, .floating_badge, .experience_floating { display: none !important; }
+    .floating_product_card, .floating_badge { display: none !important; }
+    .experience_floating {
+        display: flex !important;
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(8px);
+        padding: 6px 12px;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        align-items: center;
+        gap: 6px;
+    }
+    .experience_floating h3 { font-size: 16px !important; margin: 0; color: #0177c6; font-weight: 800; }
+    .experience_floating span { font-size: 9px !important; font-weight: 700; color: #0f172a; line-height: 1.1; letter-spacing: 0.5px; }
     #hero-search-suggestions { max-width: 100vw; }
     #hero-search-suggestions ul { max-height: 50vh; overflow-y: auto; }
 
