@@ -40,7 +40,7 @@
     document.querySelectorAll('.nav-links li a').forEach(function (a) {
         if (a.querySelector('i')) return;
         var t = a.textContent.trim().toLowerCase(), icon = '', color = 'inherit';
-        var m = { home: ['ri-home-4-fill', 'inherit'], about: ['ri-information-fill', 'inherit'], industries: ['ri-building-2-fill', 'inherit'], products: ['ri-store-2-fill', 'inherit'], brands: ['ri-award-fill', 'inherit'], news: ['ri-article-fill', 'inherit'], blog: ['ri-article-fill', 'inherit'], career: ['ri-briefcase-fill', 'inherit'], login: ['ri-user-fill', 'inherit'], 'my quotes': ['ri-file-list-3-fill', 'inherit'] };
+        var m = { home: ['ri-home-4-fill', 'inherit'], about: ['ri-information-fill', 'inherit'], industries: ['ri-building-2-fill', 'inherit'], products: ['ri-store-2-fill', 'inherit'], brands: ['ri-award-fill', 'inherit'], news: ['ri-article-fill', 'inherit'], blog: ['ri-article-fill', 'inherit'], career: ['ri-briefcase-fill', 'inherit'], contact: ['ri-contacts-fill', 'inherit'], login: ['ri-user-fill', 'inherit'], 'my quotes': ['ri-file-list-3-fill', 'inherit'] };
         for (var k in m) { if (t.indexOf(k) === 0) { icon = m[k][0]; color = m[k][1]; break; } }
         if (icon) a.innerHTML = '<i class="' + icon + '" style="color:' + color + ';font-size:18px;"></i><span>' + a.textContent + '</span>';
     });
