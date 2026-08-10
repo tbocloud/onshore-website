@@ -105,6 +105,7 @@
         gap: 6px;
         display: flex;
         align-items: center;
+        margin-left: auto;
     }
     .nav-right-icons .cart-trigger {
         display: flex;
@@ -350,10 +351,11 @@
     nav .wrapper { justify-content: space-between; padding: 0 12px; display: flex; align-items: center; }
     .wrapper .logo { width: 130px; }
     .wrapper .logo img { content: url("../img/logo.png") !important; }
-    .wrapper .btn.menu-btn { display: none !important; }
-    .nav-links { display: none !important; }
-    .nav-right-icons { gap: 0; display: flex; align-items: center; }
-    .nav-right-icons .cart-trigger { margin-right: 0; padding: 8px; }
+    .wrapper .btn.menu-btn { display: block !important; font-size: 24px; cursor: pointer; color: #1a1a1a !important; margin-left: 4px; padding: 4px; }
+    .nav-right-icons { margin-left: auto; gap: 4px; display: flex; align-items: center; }
+    nav .main-btn, .nav-right-icons .main-btn { display: none !important; }
+    .nav-right-icons .cart-trigger { margin-right: 0; padding: 6px 8px; }
+    .nav-search-trigger { padding: 6px 8px; font-size: 20px; cursor: pointer; }
 
     .catalog-layout { flex-direction: column; margin-top: 0 !important; padding-top: 0 !important; }
     .cat-sidebar { width: 100%; position: relative; max-height: none; border-radius: 0; margin-bottom: 0; }
