@@ -1131,54 +1131,8 @@ function renderProfileDashboard(user) {
             if(document.getElementById('view-area')) document.getElementById('view-area').textContent = details.area || '-';
             if(document.getElementById('view-designation')) document.getElementById('view-designation').textContent = details.designation || '-';
             
-            
-            // Set up Edit button to trigger the Complete Registration Modal
-            const editBtn = document.getElementById('edit-profile-btn');
-            if (editBtn) {
-                const profileObj = {
-                    customer_name: details.full_name,
-                    email_id: details.email || user.email,
-                    mobile_no: details.mobile_number,
-                    custom_company_name: details.company_name,
-                    custom_city_in_ksa: details.city,
-                    custom_area_in_ksa: details.area,
-                    custom_designation: details.designation
-                };
-                
-                const newEditBtn = editBtn.cloneNode(true);
-                editBtn.parentNode.replaceChild(newEditBtn, editBtn);
-                
-                newEditBtn.addEventListener('click', () => {
-                    const overlay = document.getElementById('loginModalOverlay');
-                    if (overlay) overlay.classList.remove('active');
-                    const existingModal = document.getElementById('completeRegistrationModal');
-                    if (existingModal) existingModal.remove();
-                    showCompleteRegistrationModal(profileObj, user.email);
-                });
-            }
-            
-            // Set up Fullscreen Toggle
-            const fsBtn = document.getElementById('fullscreen-profile-btn');
-            if (fsBtn) {
-                const newFsBtn = fsBtn.cloneNode(true);
-                fsBtn.parentNode.replaceChild(newFsBtn, fsBtn);
-                newFsBtn.addEventListener('click', () => {
-                    const content = document.querySelector('.login-modal-content');
-                    if (content.style.width === '100vw') {
-                        // Revert
-                        content.style.width = '750px';
-                        content.style.height = '500px';
-                        content.style.borderRadius = '4px';
-                        newFsBtn.innerHTML = '<i class="ri-fullscreen-line"></i>';
-                    } else {
-                        // Fullscreen
-                        content.style.width = '100vw';
-                        content.style.height = '100vh';
-                        content.style.borderRadius = '0';
-                        newFsBtn.innerHTML = '<i class="ri-fullscreen-exit-line"></i>';
-                    }
-                });
-            }
+
+
             
             // Auto click profile info to initialize views properly if empty
             if (document.getElementById('view-full-name').textContent === '-') {
@@ -1193,6 +1147,59 @@ function renderProfileDashboard(user) {
         if(document.getElementById('view-full-name')) document.getElementById('view-full-name').textContent = user.displayName || '-';
         if(document.getElementById('view-email')) document.getElementById('view-email').textContent = user.email || '-';
         if(document.getElementById('view-mobile')) document.getElementById('view-mobile').textContent = user.phoneNumber || '-';
+    }
+
+    // Set up Edit button to trigger the Complete Registration Modal
+    const editBtn = document.getElementById('edit-profile-btn');
+    if (editBtn) {
+        let details = {};
+        const savedData = localStorage.getItem('user_quote_details');
+        if (savedData) {
+            try { details = JSON.parse(savedData); } catch(e){}
+        }
+        const profileObj = {
+            customer_name: details.full_name || user.displayName || '',
+            email_id: details.email || user.email || '',
+            mobile_no: details.mobile_number || user.phoneNumber || '',
+            custom_company_name: details.company_name || '',
+            custom_city_in_ksa: details.city || '',
+            custom_area_in_ksa: details.area || '',
+            custom_designation: details.designation || ''
+        };
+        
+        const newEditBtn = editBtn.cloneNode(true);
+        editBtn.parentNode.replaceChild(newEditBtn, editBtn);
+        
+        newEditBtn.addEventListener('click', () => {
+            const overlay = document.getElementById('loginModalOverlay');
+            if (overlay) overlay.classList.remove('active');
+            const existingModal = document.getElementById('completeRegistrationModal');
+            if (existingModal) existingModal.remove();
+            showCompleteRegistrationModal(profileObj, user.email);
+        });
+    }
+
+    // Set up Fullscreen Toggle
+    const fsBtn = document.getElementById('fullscreen-profile-btn');
+    if (fsBtn) {
+        const newFsBtn = fsBtn.cloneNode(true);
+        fsBtn.parentNode.replaceChild(newFsBtn, fsBtn);
+        newFsBtn.addEventListener('click', () => {
+            const content = document.querySelector('.login-modal-content');
+            if (content.style.width === '100vw') {
+                // Revert
+                content.style.width = '750px';
+                content.style.height = '500px';
+                content.style.borderRadius = '4px';
+                newFsBtn.innerHTML = '<i class="ri-fullscreen-line"></i>';
+            } else {
+                // Fullscreen
+                content.style.width = '100vw';
+                content.style.height = '100vh';
+                content.style.borderRadius = '0';
+                newFsBtn.innerHTML = '<i class="ri-fullscreen-exit-line"></i>';
+            }
+        });
     }
 }
 

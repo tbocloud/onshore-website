@@ -322,13 +322,13 @@
     .blog_wrapper .multiple_blogs .blog{
         margin-bottom: 24px;
     }
-    .hero_banner_ecommerce { padding: 100px 0 40px; min-height: auto; }
+    .hero_banner_ecommerce { padding: 20px 0 40px; min-height: auto; }
     .hero_banner_ecommerce .col-lg-6 { width: 100%; }
     .hero_banner_ecommerce .hero_text_content { text-align: center; }
     .hero_banner_ecommerce .hero_desc { max-width: 100%; }
     .hero_banner_ecommerce .hero_search_bar { max-width: 100% !important; margin-left: 0; margin-right: 0; border-radius: 12px; }
     .hero_banner_ecommerce .hero_cta_group { justify-content: center; }
-    .hero_banner_ecommerce .hero_image_container { margin-top: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .hero_banner_ecommerce .hero_image_container { margin-top: 0; margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
     .hero_banner_ecommerce .hero_main_img { max-height: 300px; object-fit: contain; }
     .hero_banner_ecommerce .floating_product_card.card2 { display: none; }
     .hero_banner_ecommerce .floating_badge.top_badge { display: none; }
