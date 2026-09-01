@@ -357,8 +357,9 @@ function checkCustomerProfile(email) {
     }).then(r => r.json()).then(data => {
         if (data && data.message && data.message.success) {
             var profile = data.message.profile;
+            var mobile = (profile.whatsapp_number || profile.mobile_no || '').trim();
             // Check for missing fields (mandatory fields)
-            if (!profile.customer_name || !profile.email_id || !profile.mobile_no) {
+            if (!profile.customer_name || !profile.email_id || !mobile) {
                 if (!window.justVerifiedQuoteOTP) {
                     showCompleteRegistrationModal(profile, email);
                 }
@@ -369,7 +370,7 @@ function checkCustomerProfile(email) {
                 var userDetails = {
                     full_name: profile.customer_name || existingDetails.full_name,
                     email: profile.email_id || existingDetails.email,
-                    mobile_number: profile.whatsapp_number || profile.mobile_no || existingDetails.mobile_number || (typeof auth !== 'undefined' && auth.currentUser ? auth.currentUser.phoneNumber : ""),
+                    mobile_number: mobile || existingDetails.mobile_number || (typeof auth !== 'undefined' && auth.currentUser ? auth.currentUser.phoneNumber : ""),
                     company_name: profile.custom_company_name || existingDetails.company_name,
                     country: "Saudi Arabia",
                     city: profile.custom_city_in_ksa || existingDetails.city,
@@ -386,10 +387,11 @@ function checkCustomerProfile(email) {
 }
 
 function showCompleteRegistrationModal(profile, email) {
-    if (document.getElementById('completeRegistrationModal')) {
-        var myModal = bootstrap.Modal.getInstance(document.getElementById('completeRegistrationModal')) || new bootstrap.Modal(document.getElementById('completeRegistrationModal'));
-        myModal.show();
-        return;
+    var existingModalEl = document.getElementById('completeRegistrationModal');
+    if (existingModalEl) {
+        var existingModal = bootstrap.Modal.getInstance(existingModalEl);
+        if (existingModal) existingModal.dispose();
+        existingModalEl.remove();
     }
     
     let rawMobile = profile.whatsapp_number || profile.mobile_no || '';
@@ -537,13 +539,15 @@ function showCompleteRegistrationModal(profile, email) {
         $btn.text('Saving...').prop('disabled', true);
         
         try {
+            var fullNumber = (formData.get('country_code') || '') + mobileNumber;
             var data = {
-                customer_name: profile.name,
+                customer_name: profile.name || profile.customer_name,
                 email: formData.get('company_email') || email,
                 full_name: formData.get('full_name'),
                 company_name: formData.get('company_name'),
-                mobile_number: formData.get('country_code') + formData.get('mobile_number'),
-                whatsapp_number: formData.get('country_code') + formData.get('mobile_number'),
+                mobile_number: fullNumber,
+                whatsapp_number: fullNumber,
+                mobile_no: fullNumber,
                 city: formData.get('city'),
                 area: formData.get('area') || '',
                 designation: formData.get('designation') || '',
@@ -554,7 +558,7 @@ function showCompleteRegistrationModal(profile, email) {
             var userDetails = {
                 full_name: data.full_name,
                 email: data.email,
-                mobile_number: data.mobile_number,
+                mobile_number: fullNumber,
                 company_name: data.company_name,
                 country: "Saudi Arabia",
                 city: data.city,
@@ -578,8 +582,11 @@ function showCompleteRegistrationModal(profile, email) {
         }).then(r => r.json()).then(res => {
             if (res && res.message && res.message.success) {
                 alert('Profile updated successfully!');
-                var myModal = bootstrap.Modal.getInstance(document.getElementById('completeRegistrationModal'));
-                if (myModal) myModal.hide();
+                var myModalEl = document.getElementById('completeRegistrationModal');
+                if (myModalEl) {
+                    var myModal = bootstrap.Modal.getInstance(myModalEl);
+                    if (myModal) myModal.hide();
+                }
                 if (window.isUserLoggedIn && typeof renderProfileDashboard === 'function' && typeof auth !== 'undefined') {
                     try { renderProfileDashboard(auth.currentUser); } catch(e) { console.error("Error rendering dashboard:", e); }
                 }
@@ -1032,7 +1039,7 @@ function renderProfileDashboard(user) {
                                 let userDetails = {
                                     full_name: profile.customer_name,
                                     email: profile.email_id,
-                                    mobile_number: profile.mobile_no,
+                                    mobile_number: profile.whatsapp_number || profile.mobile_no || '',
                                     company_name: profile.custom_company_name,
                                     city: profile.custom_city_in_ksa,
                                     area: profile.custom_area_in_ksa,
@@ -1161,6 +1168,7 @@ function renderProfileDashboard(user) {
             customer_name: details.full_name || user.displayName || '',
             email_id: details.email || user.email || '',
             mobile_no: details.mobile_number || user.phoneNumber || '',
+            whatsapp_number: details.mobile_number || user.phoneNumber || '',
             custom_company_name: details.company_name || '',
             custom_city_in_ksa: details.city || '',
             custom_area_in_ksa: details.area || '',
