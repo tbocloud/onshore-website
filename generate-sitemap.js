@@ -20,6 +20,7 @@ const filePriorities = {
     'products.html': 0.9,
     'industries.html': 0.8,
     'brands.html': 0.8,
+    'brands/europull-lifting-equipment-saudi-arabia.html': 0.8,
     'about.html': 0.7,
     'contact.html': 0.7,
     'blog.html': 0.7,

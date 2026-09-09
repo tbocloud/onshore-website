@@ -26,7 +26,13 @@
   </url>
   <url>
     <loc>https://www.onshoretechnical.com/brands.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.onshoretechnical.com/brands/europull-lifting-equipment-saudi-arabia.html</loc>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

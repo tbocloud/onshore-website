@@ -9,6 +9,7 @@
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/industries", "destination": "/industries.html" },
     { "source": "/my-quotes", "destination": "/my-quotes.html" },
+    { "source": "/brands/europull-lifting-equipment-saudi-arabia", "destination": "/brands/europull-lifting-equipment-saudi-arabia/index.html" },
     { "source": "/product-specifications", "destination": "/product-specifications.html" },
     { "source": "/product/**", "destination": "/product-specifications.html" }
   ]
