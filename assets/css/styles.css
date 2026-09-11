@@ -2409,3 +2409,231 @@ nav.header-scrolled .cart-trigger {
         z-index: 10;
     }
 }
+
+/* ======================================================
+   BRANDS DIRECTORY (EDITORIAL SHOWCASE)
+   ====================================================== */
+.brand_directory_section {
+    padding: 70px 0 90px;
+    background: #ffffff;
+}
+
+.brand_filter_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 45px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.brand_filter_nav .filter-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.brand_filter_nav .filter-btn:hover,
+.brand_filter_nav .filter-btn.active {
+    background: #0177c6;
+    border-color: #0177c6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(1, 119, 198, 0.25);
+}
+
+.brand_entry {
+    padding: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.brand_logo_card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px 20px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.brand_entry:hover .brand_logo_card {
+    border-color: #0177c6;
+    box-shadow: 0 8px 24px rgba(1, 119, 198, 0.08);
+}
+
+.brand_logo_img {
+    max-height: 105px;
+    max-width: 92%;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.brand_entry:hover .brand_logo_img {
+    transform: scale(1.04);
+}
+
+.brand_action_btns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.btn_brand_action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+    width: 100%;
+}
+
+.btn_brand_primary {
+    background: #0177c6;
+    color: #ffffff !important;
+    border: 1px solid #0177c6;
+}
+
+.btn_brand_primary:hover {
+    background: #015c9a;
+    border-color: #015c9a;
+    box-shadow: 0 4px 12px rgba(1, 119, 198, 0.3);
+}
+
+.btn_brand_outline {
+    background: #ffffff;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1;
+}
+
+.btn_brand_outline:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a !important;
+}
+
+.brand_info_col {
+    padding-left: 20px;
+}
+
+.brand_header_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.brand_title_text {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.brand_category_tag {
+    display: inline-block;
+    background: #eff6ff;
+    color: #0177c6;
+    border: 1px solid #bfdbfe;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.brand_narrative {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: #475569;
+    margin-bottom: 16px;
+}
+
+.brand_services_highlight {
+    background: #f0f9ff;
+    border-left: 4px solid #0177c6;
+    border-radius: 4px;
+    padding: 12px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #0c4a6e;
+    margin-bottom: 16px;
+}
+
+.brand_spec_item {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #334155;
+    margin-bottom: 14px;
+}
+
+.brand_spec_item strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.brand_spec_item:last-child {
+    margin-bottom: 0;
+}
+
+.brand_divider_line {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #cbd5e1 15%, #cbd5e1 85%, transparent);
+    margin: 45px 0;
+}
+
+@media (max-width: 991px) {
+    .brand_info_col {
+        padding-left: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .brand_logo_card {
+        max-width: 260px;
+        margin: 0 auto;
+        height: 140px;
+    }
+    .brand_action_btns {
+        max-width: 260px;
+        margin: 14px auto 24px auto;
+        flex-direction: row;
+    }
+    .btn_brand_action {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .brand_info_col {
+        padding-left: 15px;
+        padding-top: 10px;
+    }
+    .brand_title_text {
+        font-size: 20px;
+    }
+    .brand_divider_line {
+        margin: 35px 0;
+    }
+}
+
