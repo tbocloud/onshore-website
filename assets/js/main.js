@@ -482,52 +482,123 @@ if (productPageSearch) {
 
 
 
-// --- BROWSE PRODUCTS MODAL FOR NEW USERS (ONCE PER DAY) ---
+// --- NON-INTRUSIVE FLOATING LEAD PROMPT (BOTTOM-LEFT, 7-DAY DISMISSAL) ---
 (function () {
     if (window.location.pathname.indexOf('products.html') !== -1) return; // Do not show on products page
 
-    var closedDate = localStorage.getItem('leadModalClosed');
-    if (closedDate === new Date().toDateString()) return; // Already seen/closed today
+    // Check 7-day dismissal
+    var dismissedUntil = localStorage.getItem('leadToastDismissedUntil');
+    if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) return;
 
-    // Trigger popup after 5 seconds
-    setTimeout(function() {
-        // Inject modal if it doesn't exist
-        if (!document.getElementById('leadCaptureModal')) {
-            var modalHTML = `
-            <div class="modal fade" id="leadCaptureModal" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content border-0 overflow-hidden" style="border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
-                  <div class="row g-0">
-                    <div class="col-md-5 d-none d-md-block" style="background: url('assets/img/about-new.webp') center center / cover;"></div>
-                    <div class="col-md-7 p-4 p-md-5">
-                        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <h3 class="mb-2" style="color: #0177c6; font-weight: 700;">Looking for Industrial Equipment?</h3>
-                        <p class="text-muted mb-4">Tell us what you need! Get competitive pricing on welding, lifting, and safety supplies in Saudi Arabia.</p>
-                        <div class="mt-4 pt-3 text-center">
-                            <a href="products.html" class="main-btn w-100 mb-3" style="background: #ffddab; color: #0177c6; border:none; padding: 16px !important; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; text-decoration: none;">
-                                Browse All Products <i class="ri-arrow-right-line ms-2"></i>
-                            </a>
-                            <p style="font-size: 13px; color: #64748b; margin: 0;">Explore our full catalog of premium industrial equipment.</p>
-                        </div>
-                    </div>
-                  </div>
-                </div>
+    // Check legacy daily dismissal
+    if (localStorage.getItem('leadModalClosed') === new Date().toDateString()) return;
+
+    var hasTriggered = false;
+
+    function createAndShowToast() {
+        if (hasTriggered) return;
+        hasTriggered = true;
+
+        if (document.getElementById('leadFloatingToast')) return;
+
+        var toastHTML = `
+        <div id="leadFloatingToast" class="lead-floating-toast" role="dialog" aria-label="Explore Industrial Equipment">
+          <div class="lft-inner">
+            <button type="button" class="lft-close" id="lftCloseBtn" aria-label="Dismiss">&times;</button>
+            <div class="lft-header">
+              <div class="lft-icon">
+                <i class="ri-compass-3-line"></i>
               </div>
-            </div>`;
-            var div = document.createElement('div');
-            div.innerHTML = modalHTML;
-            document.body.appendChild(div.firstElementChild);
+              <div class="lft-title-wrap">
+                <span class="lft-badge">Direct Supply</span>
+                <h4 class="lft-title">Looking for Equipment?</h4>
+              </div>
+            </div>
+            <p class="lft-desc">Get competitive pricing & certified specs on welding, lifting, and safety gear in Saudi Arabia.</p>
+            <div class="lft-actions">
+              <a href="products.html" class="lft-btn-primary" id="lftBrowseBtn">
+                Browse Catalog <i class="ri-arrow-right-line"></i>
+              </a>
+              <a href="contact.html" class="lft-btn-secondary" id="lftQuoteBtn">
+                Request Quote
+              </a>
+            </div>
+          </div>
+        </div>`;
+
+        var container = document.createElement('div');
+        container.innerHTML = toastHTML;
+        var toastEl = container.firstElementChild;
+        document.body.appendChild(toastEl);
+
+        // Allow DOM paint before adding active class for animation
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                if (toastEl) toastEl.classList.add('active');
+            }, 50);
+        });
+
+        function dismissToast(days) {
+            var expire = Date.now() + (days || 7) * 24 * 60 * 60 * 1000;
+            localStorage.setItem('leadToastDismissedUntil', expire.toString());
+            if (toastEl) toastEl.classList.remove('active');
+            setTimeout(function() {
+                if (toastEl && toastEl.parentNode) {
+                    toastEl.parentNode.removeChild(toastEl);
+                }
+            }, 400);
         }
 
-        if (!document.querySelector('.modal.show')) { // Ensure no other modal is open
-            var modalEl = document.getElementById('leadCaptureModal');
-            if (modalEl && typeof bootstrap !== 'undefined') {
-                var leadModal = new bootstrap.Modal(modalEl);
-                leadModal.show();
-                modalEl.addEventListener('hidden.bs.modal', function () {
-                    localStorage.setItem('leadModalClosed', new Date().toDateString());
-                });
-            }
+        var closeBtn = document.getElementById('lftCloseBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                dismissToast(7);
+            });
         }
-    }, 5000);
+
+        var browseBtn = document.getElementById('lftBrowseBtn');
+        if (browseBtn) {
+            browseBtn.addEventListener('click', function() {
+                dismissToast(7);
+            });
+        }
+
+        var quoteBtn = document.getElementById('lftQuoteBtn');
+        if (quoteBtn) {
+            quoteBtn.addEventListener('click', function() {
+                dismissToast(7);
+            });
+        }
+
+        // Mobile touch swipe-to-dismiss (swipe up)
+        var touchStartY = 0;
+        toastEl.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        toastEl.addEventListener('touchend', function(e) {
+            var touchEndY = e.changedTouches[0].clientY;
+            if (touchStartY - touchEndY > 30) {
+                dismissToast(7);
+            }
+        }, { passive: true });
+    }
+
+    // Trigger on scroll (> 400px or > 30% page height)
+    function onScrollCheck() {
+        var scrollPos = window.scrollY || window.pageYOffset || 0;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollPos > 400 || (docHeight > 0 && scrollPos / docHeight > 0.3)) {
+            window.removeEventListener('scroll', onScrollCheck);
+            createAndShowToast();
+        }
+    }
+    window.addEventListener('scroll', onScrollCheck, { passive: true });
+
+    // Or trigger after calm 15-second dwell time
+    setTimeout(function() {
+        window.removeEventListener('scroll', onScrollCheck);
+        createAndShowToast();
+    }, 15000);
 })();

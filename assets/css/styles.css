@@ -2637,3 +2637,238 @@ nav.header-scrolled .cart-trigger {
     }
 }
 
+/* ==============================================
+   NON-INTRUSIVE BOTTOM-LEFT FLOATING LEAD CARD
+   ============================================== */
+.lead-floating-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 360px;
+    max-width: calc(100vw - 48px);
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16), 0 4px 12px rgba(1, 119, 198, 0.08);
+    border: 1px solid rgba(1, 119, 198, 0.18);
+    z-index: 9995;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(24px) scale(0.96);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+    font-family: inherit;
+}
+
+.lead-floating-toast.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.lft-inner {
+    padding: 20px 20px 18px 20px;
+    position: relative;
+}
+
+.lft-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.lft-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.lft-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.lft-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0177c6 0%, #005a96 100%);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(1, 119, 198, 0.28);
+}
+
+.lft-title-wrap {
+    padding-right: 20px;
+}
+
+.lft-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #0177c6;
+    background: rgba(1, 119, 198, 0.08);
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+}
+
+.lft-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.25;
+}
+
+.lft-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #475569;
+    margin: 0 0 14px 0;
+}
+
+.lft-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.lft-btn-primary {
+    flex: 1;
+    background: #0177c6;
+    color: #ffffff !important;
+    text-align: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.lft-btn-primary:hover {
+    background: #005f9e;
+    transform: translateY(-1px);
+    color: #ffffff !important;
+}
+
+.lft-btn-secondary {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.lft-btn-secondary:hover {
+    background: #f1f5f9;
+    color: #0f172a !important;
+}
+
+@media (max-width: 768px) {
+    .lead-floating-toast {
+        /* On mobile, float right under the top sticky header as a native-feeling notification */
+        top: calc(var(--total-header-height, 65px) + 10px);
+        bottom: auto;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: calc(100vw - 24px);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16), 0 2px 8px rgba(1, 119, 198, 0.1);
+        border: 1px solid rgba(1, 119, 198, 0.22);
+        transform: translateY(-20px) scale(0.97);
+    }
+
+    .lead-floating-toast.active {
+        transform: translateY(0) scale(1);
+    }
+
+    .lft-inner {
+        padding: 14px 14px 12px;
+    }
+
+    .lft-header {
+        margin-bottom: 6px;
+        gap: 10px;
+    }
+
+    .lft-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 19px;
+        border-radius: 10px;
+    }
+
+    .lft-title {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .lft-badge {
+        font-size: 10px;
+        padding: 1px 6px;
+        margin-bottom: 2px;
+    }
+
+    .lft-desc {
+        font-size: 12px;
+        line-height: 1.45;
+        margin: 0 0 10px 0;
+    }
+
+    .lft-actions {
+        gap: 8px;
+    }
+
+    .lft-btn-primary {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 7px;
+    }
+
+    .lft-btn-secondary {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 7px;
+    }
+
+    .lft-close {
+        top: 10px;
+        right: 10px;
+        width: 26px;
+        height: 26px;
+        font-size: 16px;
+    }
+}
+
