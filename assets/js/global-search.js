@@ -196,10 +196,9 @@
             "wire": ["brush", "rope"]
         };
 
-        // Filter products
+        // Filter products (all products searchable by all customers)
         const matches = allProducts.filter(item => {
             const name = (item.item_name || '').toLowerCase();
-            const brand = (item.brand || '').toLowerCase();
             const cat = (item.item_group || '').toLowerCase();
             const desc = (item.description || '').toLowerCase();
             
@@ -241,8 +240,22 @@
             }
 
             let badgeHtml = '';
-            // If logged in and approved for stock viewing, actual_qty will be returned by the API
-            if (window.isUserLoggedIn && typeof item.actual_qty !== 'undefined' && item.actual_qty !== null) {
+            // Check brand stock permission for current customer
+            let canSeeBrandStock = window.isUserLoggedIn && localStorage.getItem('user_approved_for_stock') === '1';
+            const brandMode = localStorage.getItem('onshore_brand_mode');
+            if (brandMode === 'Restricted Brands') {
+                canSeeBrandStock = false;
+                const permsRaw = localStorage.getItem('onshore_brand_permissions');
+                if (permsRaw) {
+                    try {
+                        const perms = JSON.parse(permsRaw);
+                        const b = (brand || '').trim().toUpperCase();
+                        canSeeBrandStock = !!(perms[b] && perms[b].stock);
+                    } catch(e) {}
+                }
+            }
+
+            if (canSeeBrandStock && typeof item.actual_qty !== 'undefined' && item.actual_qty !== null) {
                 const stockQty = Math.max(0, parseInt(item.actual_qty, 10));
                 if (stockQty > 0) {
                     badgeHtml = `<span style="font-size: 11px; color: #10b981; font-weight: 700; display: inline-block; margin-left: auto;">${stockQty} in stock</span>`;

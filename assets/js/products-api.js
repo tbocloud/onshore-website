@@ -22,9 +22,66 @@ $(document).ready(function () {
         'geotex': 'geotex', 'weldman': 'weldman', 'sakura': 'sakura', 'orkon': 'orkon'
     };
 
+    let globalCatalogProducts = [];
+
+    function isUserAuthenticated() {
+        if (typeof window.isUserLoggedIn !== 'undefined' && window.isUserLoggedIn) return true;
+        return !!localStorage.getItem('onshore_session_token') || !!localStorage.getItem('user_approved_for_stock') || !!localStorage.getItem('user_approved_for_pricing') || !!localStorage.getItem('onshore_brand_permissions');
+    }
+
+    function getBrandPermission(rawBrand) {
+        const permsRaw = localStorage.getItem('onshore_brand_permissions');
+        if (!permsRaw) return null;
+        try {
+            const perms = JSON.parse(permsRaw);
+            const target = (rawBrand || '').trim().toUpperCase();
+            if (perms[target]) return perms[target];
+            for (const key of Object.keys(perms)) {
+                if (key.trim().toUpperCase() === target) {
+                    return perms[key];
+                }
+            }
+        } catch(e) {}
+        return null;
+    }
+
+    function isBrandPriceAllowed(rawBrand) {
+        if (!isUserAuthenticated()) return false;
+        if (localStorage.getItem('user_approved_for_pricing') !== '1') return false;
+
+        const brandMode = localStorage.getItem('onshore_brand_mode');
+        if (brandMode === 'Restricted Brands') {
+            const perm = getBrandPermission(rawBrand);
+            return !!(perm && perm.price);
+        }
+        return true;
+    }
+
+    function isBrandStockAllowed(rawBrand) {
+        if (!isUserAuthenticated()) return false;
+        if (localStorage.getItem('user_approved_for_stock') !== '1') return false;
+
+        const brandMode = localStorage.getItem('onshore_brand_mode');
+        if (brandMode === 'Restricted Brands') {
+            const perm = getBrandPermission(rawBrand);
+            return !!(perm && perm.stock);
+        }
+        return true;
+    }
+
     function init() {
         fetchProducts();
     }
+
+    window.addEventListener('onshore_auth_synced', () => {
+        if (globalCatalogProducts && globalCatalogProducts.length > 0) {
+            renderCatalog(globalCatalogProducts);
+            renderFeaturedProducts(globalCatalogProducts);
+            if (typeof window.filterApiCatalog === 'function') {
+                window.filterApiCatalog();
+            }
+        }
+    });
 
     async function fetchProducts() {
         const loader = $('#products-loader');
@@ -49,6 +106,7 @@ $(document).ready(function () {
                     if (cachedData) {
                         allItems = JSON.parse(cachedData);
                         if (allItems && allItems.length > 0) {
+                            globalCatalogProducts = allItems;
                             renderCatalog(allItems);
                             renderFeaturedProducts(allItems);
                             loader.hide(); // Hide the loader when serving from cache!
@@ -89,7 +147,7 @@ $(document).ready(function () {
             }
 
             // Render the catalog directly
-
+            globalCatalogProducts = allItems;
             renderCatalog(allItems);
             renderFeaturedProducts(allItems);
 
@@ -446,21 +504,33 @@ $(document).ready(function () {
         const safeNameAr = arabicName.replace(/"/g, '&quot;').replace(/'/g, "\\'");
         const safeBrand = rawBrandName.replace(/"/g, '&quot;').replace(/'/g, "\\'");
         const safeId = (p.name || '').replace(/'/g, "\\'");
-        let stockLabel = '';
+        const authenticated = isUserAuthenticated();
+        const canSeeStock = isBrandStockAllowed(rawBrandName);
+        const canSeePrice = isBrandPriceAllowed(rawBrandName);
+
         let stockLogin = '';
-        if (typeof p.stock === 'number') {
+        if (canSeeStock && typeof p.stock === 'number') {
             const baseStock = p.stock || 0;
             const salesOrder = p.sales_order || 0;
             let calc = (baseStock - salesOrder) * 0.8;
             if (calc > 0 && calc < 1) calc = calc >= 0.4 ? 1 : 0;
             else calc = Math.round(calc);
             calc = Math.max(0, calc);
-            stockLabel = calc > 0
-                ? `<span style="font-size: 11px; color: #10b981; font-weight: 600;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>In Stock</span>`
-                : `<span style="font-size: 11px; color: #ef4444; font-weight: 600;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 3px;"></i>Out of Stock</span>`;
-            stockLogin = `<div class="auth-only-stock" style="display:none; font-size:12px; font-weight:600; margin-top:5px;">${calc > 0 ? `<span style="color:#10b981">${calc} units in stock</span>` : `<span style="color:#ef4444">Out of stock</span>`}</div>`;
+            stockLogin = `<div class="auth-only-stock brand-stock-allowed" style="display:block !important; font-size:12px; font-weight:600; margin-top:5px;">${calc > 0 ? `<span style="color:#10b981">${calc} units in stock</span>` : `<span style="color:#ef4444">Out of stock</span>`}</div>`;
+        } else if (authenticated) {
+            stockLogin = `
+                <div class="auth-only-stock" style="display:none; font-size:12px; font-weight:600; margin-top:5px;"></div>
+                <div class="pc-badge restricted-brand-stock" style="display:inline-block !important; margin-top:5px; cursor:default;" title="Distributor pricing not configured for this brand">
+                    <span style="font-size: 11px; color: #64748b; font-weight: 600;"><i class="ri-lock-line" style="vertical-align: middle; margin-right: 3px;"></i>Price &amp; stock on request</span>
+                </div>
+            `;
         } else {
-            stockLabel = `<span style="font-size: 11px; color: #64748b; font-weight: 600;"><i class="ri-information-line" style="vertical-align: middle; margin-right: 3px;"></i>Login for stock &amp; price</span>`;
+            stockLogin = `
+                <div class="auth-only-stock" style="display:none; font-size:12px; font-weight:600; margin-top:5px;"></div>
+                <div class="pc-badge check-stock-trigger" style="display:inline-block !important; margin-top:5px; cursor:pointer;" onclick="window.showStockLoginModal(event)">
+                    <span style="font-size: 11px; color: #64748b; font-weight: 600;"><i class="ri-information-line" style="vertical-align: middle; margin-right: 3px;"></i>Login for stock &amp; price</span>
+                </div>
+            `;
         }
 
         return `
@@ -477,15 +547,19 @@ $(document).ready(function () {
                     <span class="pc-brand">${displayBrand}</span>
                     <a href="${specsUrl}" class="pc-name" target="_blank" title="${safeName}">${safeName}</a>
                     ${arabicName ? `<div dir="rtl" class="pc-name-ar" style="font-size: 13px; color: #666; font-weight: 600; margin-top: -4px; margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${arabicName}</div>` : ''}
-                    <div class="auth-only-price" style="display: none; font-size: 15px; margin-bottom: 6px;">
-                        ${(() => {
-                            if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
-                                const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
-                                return `<span style="color: #388e3c; font-weight: 600; margin-right: 6px; font-size: 14px;">↓${discount}%</span><span style="text-decoration: line-through; color: #878787; font-weight: 400; margin-right: 6px; font-size: 13px;">SAR ${p.original_price.toFixed(2)}</span><span style="color: #212121; font-weight: 800;">SAR ${p.price.toFixed(2)}</span>`;
-                            }
-                            return `<span style="color: #111827; font-weight: 800;">SAR ${typeof p.price === 'number' ? p.price.toFixed(2) : '0.00'}</span>`;
-                        })()}
-                    </div>
+                    ${(() => {
+                        if (!canSeePrice || typeof p.price !== 'number') {
+                            return '<div class="auth-only-price" style="display: none; font-size: 15px; margin-bottom: 6px;"></div>';
+                        }
+                        let priceContent = '';
+                        if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
+                            const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
+                            priceContent = `<span style="color: #388e3c; font-weight: 600; margin-right: 6px; font-size: 14px;">↓${discount}%</span><span style="text-decoration: line-through; color: #878787; font-weight: 400; margin-right: 6px; font-size: 13px;">SAR ${p.original_price.toFixed(2)}</span><span style="color: #212121; font-weight: 800;">SAR ${p.price.toFixed(2)}</span>`;
+                        } else {
+                            priceContent = `<span style="color: #111827; font-weight: 800;">SAR ${p.price.toFixed(2)}</span>`;
+                        }
+                        return `<div class="auth-only-price brand-price-allowed" style="display: block !important; font-size: 15px; margin-bottom: 6px;">${priceContent}</div>`;
+                    })()}
                     ${stockLogin || ''}
                     <div class="pc-actions" style="display: flex; flex-direction: column; gap: 6px; margin-top: auto;">
                         <button class="pc-btn-primary" style="width: 100%; padding: 8px 0; border-radius: 6px; font-size: 12px;"

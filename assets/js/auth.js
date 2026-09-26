@@ -245,17 +245,27 @@ onAuthStateChanged(auth, (user) => {
 
     if (user) {
         document.body.classList.add('user-logged-in');
-        if (localStorage.getItem('user_approved_for_stock') === '1') {
-            document.body.classList.add('user-approved-stock');
-        }
-        if (localStorage.getItem('user_approved_for_pricing') === '1') {
-            document.body.classList.add('user-approved-pricing');
+        const isRestrictedMode = localStorage.getItem('onshore_brand_mode') === 'Restricted Brands';
+        if (isRestrictedMode) {
+            document.body.classList.add('user-restricted-brands');
+            document.body.classList.remove('user-approved-stock', 'user-approved-pricing');
+        } else {
+            document.body.classList.remove('user-restricted-brands');
+            if (localStorage.getItem('user_approved_for_stock') === '1') {
+                document.body.classList.add('user-approved-stock');
+            }
+            if (localStorage.getItem('user_approved_for_pricing') === '1') {
+                document.body.classList.add('user-approved-pricing');
+            }
         }
         // Hide global auth banner if present
         var banner = document.getElementById('global-auth-banner');
         if (banner) banner.remove();
         var bannerStyle = document.getElementById('banner-offset-style');
         if (bannerStyle) bannerStyle.remove();
+        try {
+            window.dispatchEvent(new CustomEvent('onshore_auth_synced'));
+        } catch(e) {}
     } else {
         document.body.classList.remove('user-logged-in');
         document.body.classList.remove('user-approved-stock');
@@ -319,6 +329,7 @@ onAuthStateChanged(auth, (user) => {
 // ─── ERPNext Sync Helper ──────────────────────────────────────────────
 function syncFirebaseUserToFrappe(user) {
     if (!user || !user.email) return Promise.resolve();
+    const existingToken = localStorage.getItem('onshore_session_token');
     return fetch(API_BASE_URL + '/api/method/onshore.api.login_or_register_customer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -326,7 +337,8 @@ function syncFirebaseUserToFrappe(user) {
             email: user.email,
             firebase_uid: user.uid,
             full_name: user.displayName || "User",
-            phone: user.phoneNumber || ""
+            phone: user.phoneNumber || "",
+            session_token: existingToken || null
         })
     }).then(r => r.json()).then(data => {
         console.log("Synced to ERPNext", data);
@@ -345,8 +357,158 @@ function syncFirebaseUserToFrappe(user) {
             localStorage.removeItem('user_approved_for_pricing');
             document.body.classList.remove('user-approved-pricing');
         }
+        if (res && res.brand_access_mode) {
+            localStorage.setItem('onshore_brand_mode', res.brand_access_mode);
+            if (res.brand_permissions && typeof res.brand_permissions === 'object') {
+                localStorage.setItem('onshore_brand_permissions', JSON.stringify(res.brand_permissions));
+            } else {
+                localStorage.removeItem('onshore_brand_permissions');
+            }
+            if (res.allowed_brands && Array.isArray(res.allowed_brands)) {
+                localStorage.setItem('onshore_allowed_brands', JSON.stringify(res.allowed_brands.map(b => (b || '').toUpperCase())));
+            } else {
+                localStorage.removeItem('onshore_allowed_brands');
+            }
+        } else {
+            localStorage.removeItem('onshore_brand_mode');
+            localStorage.removeItem('onshore_brand_permissions');
+            localStorage.removeItem('onshore_allowed_brands');
+        }
+
+        if (res && res.brand_access_mode === 'Restricted Brands') {
+            document.body.classList.add('user-restricted-brands');
+            document.body.classList.remove('user-approved-stock', 'user-approved-pricing');
+        } else {
+            document.body.classList.remove('user-restricted-brands');
+            if (res && res.approved_for_stock) document.body.classList.add('user-approved-stock');
+            else document.body.classList.remove('user-approved-stock');
+            if (res && res.approved_for_pricing) document.body.classList.add('user-approved-pricing');
+            else document.body.classList.remove('user-approved-pricing');
+        }
+        if (res && res.session_token) {
+            localStorage.setItem('onshore_session_token', res.session_token);
+        }
+        startActiveSessionMonitor(user.email);
         checkCustomerProfile(user.email);
+        try {
+            window.dispatchEvent(new CustomEvent('onshore_auth_synced', { detail: res }));
+        } catch(e) {}
     }).catch(e => console.error(e));
+}
+
+
+// ─── Single Active Session Monitor (Option A: Kickout on Concurrent Login) ───────
+let sessionCheckInterval = null;
+
+function startActiveSessionMonitor(email) {
+    if (!email) return;
+    if (sessionCheckInterval) clearInterval(sessionCheckInterval);
+
+    function verifySession() {
+        const token = localStorage.getItem('onshore_session_token');
+        if (!token) return;
+
+        fetch(API_BASE_URL + '/api/method/onshore.api.validate_active_session?email=' + encodeURIComponent(email) + '&session_token=' + encodeURIComponent(token), {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(r => r.json())
+        .then(data => {
+            const res = data.message || data;
+            if (res && res.kickout) {
+                handleSessionKickout(res.message);
+            }
+        })
+        .catch(err => {
+            // Silently ignore network hiccups
+        });
+    }
+
+    // Check every 30 seconds
+    sessionCheckInterval = setInterval(verifySession, 30000);
+
+    // Also verify immediately when user switches back to this tab
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            verifySession();
+        }
+    });
+}
+
+function handleSessionKickout(message) {
+    if (sessionCheckInterval) {
+        clearInterval(sessionCheckInterval);
+        sessionCheckInterval = null;
+    }
+
+    // 1. Immediately wipe privileged stock/price state
+    localStorage.removeItem('onshore_session_token');
+    localStorage.removeItem('user_approved_for_stock');
+    localStorage.removeItem('user_approved_for_pricing');
+    localStorage.removeItem('user_quote_details');
+    localStorage.removeItem('onshore_brand_mode');
+    localStorage.removeItem('onshore_brand_permissions');
+    localStorage.removeItem('onshore_allowed_brands');
+    document.body.classList.remove('user-restricted-brands');
+    document.body.classList.remove('user-logged-in', 'user-approved-stock', 'user-approved-pricing');
+
+    // 2. Sign out of Firebase
+    try {
+        signOut(auth);
+    } catch(e) {}
+
+    // 3. Show prominent Kickout Alert Modal
+    showKickoutModal(message);
+}
+
+function showKickoutModal(message) {
+    const existing = document.getElementById('sessionKickoutModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'sessionKickoutModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999999;
+        font-family: inherit;
+        animation: fadeIn 0.25s ease-out;
+    `;
+
+    modal.innerHTML = `
+        <div style="background: #ffffff; border-radius: 16px; padding: 36px 30px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #f1f5f9;">
+            <div style="width: 68px; height: 68px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #dc2626;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <h3 style="margin: 0 0 10px 0; font-size: 21px; font-weight: 700; color: #0f172a;">Session Terminated</h3>
+            <p style="margin: 0 0 24px 0; font-size: 14.5px; line-height: 1.6; color: #64748b;">
+                ${message || 'You have been logged out because your account was accessed from another device or location.'}
+            </p>
+            <button id="btn-kickout-relogin" style="width: 100%; background: #0f172a; color: #ffffff; border: none; border-radius: 8px; padding: 13px 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s ease;">
+                Log In Again
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('btn-kickout-relogin').addEventListener('click', () => {
+        modal.remove();
+        window.location.reload();
+    });
 }
 
 function checkCustomerProfile(email) {
@@ -728,6 +890,10 @@ if (logoutBtn) {
                 localStorage.removeItem('onshore_quote_cart'); 
                 localStorage.removeItem('recently_viewed_products'); 
                 localStorage.removeItem('user_quote_details'); 
+                localStorage.removeItem('onshore_session_token');
+                localStorage.removeItem('onshore_brand_mode');
+                localStorage.removeItem('onshore_allowed_brands');
+                if (sessionCheckInterval) { clearInterval(sessionCheckInterval); sessionCheckInterval = null; }
             } catch(e) {}
             if (typeof QuoteCart !== 'undefined') { QuoteCart.init(); }
             showAlert("Logged out successfully!", "success");

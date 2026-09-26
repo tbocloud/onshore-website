@@ -218,6 +218,43 @@ $(document).ready(function () {
 
         const brandName = p.custom_brand_name || p.brand || 'General';
         $('#spec-brand').text(brandName);
+
+        function isBrandPriceAllowed(rawBrand) {
+            if (!window.isUserLoggedIn && !localStorage.getItem('onshore_session_token')) return false;
+            if (localStorage.getItem('user_approved_for_pricing') !== '1') return false;
+
+            const bMode = localStorage.getItem('onshore_brand_mode');
+            if (bMode === 'Restricted Brands') {
+                const permsRaw = localStorage.getItem('onshore_brand_permissions');
+                if (!permsRaw) return false;
+                try {
+                    const perms = JSON.parse(permsRaw);
+                    const b = (rawBrand || '').trim().toUpperCase();
+                    return !!(perms[b] && perms[b].price);
+                } catch(e) { return false; }
+            }
+            return true;
+        }
+
+        function isBrandStockAllowed(rawBrand) {
+            if (!window.isUserLoggedIn && !localStorage.getItem('onshore_session_token')) return false;
+            if (localStorage.getItem('user_approved_for_stock') !== '1') return false;
+
+            const bMode = localStorage.getItem('onshore_brand_mode');
+            if (bMode === 'Restricted Brands') {
+                const permsRaw = localStorage.getItem('onshore_brand_permissions');
+                if (!permsRaw) return false;
+                try {
+                    const perms = JSON.parse(permsRaw);
+                    const b = (rawBrand || '').trim().toUpperCase();
+                    return !!(perms[b] && perms[b].stock);
+                } catch(e) { return false; }
+            }
+            return true;
+        }
+
+        const canSeePrice = isBrandPriceAllowed(brandName);
+        const canSeeStock = isBrandStockAllowed(brandName);
         
         // Hide the subtitle since it duplicates the main title
         $('#spec-subtitle').hide();
@@ -234,12 +271,12 @@ $(document).ready(function () {
 
         // Render Price for logged in and pricing approved users
         $('#spec-price-info').remove();
-        if (typeof p.price === 'number') {
+        if (canSeePrice && typeof p.price === 'number') {
             let priceHtml = '';
             if (p.custom_is_clearance_sale && p.custom_clearance_price && p.original_price && p.original_price > p.price) {
                 const discount = Math.round(((p.original_price - p.price) / p.original_price) * 100);
                 priceHtml = `
-                    <div class="mt-3 mb-2 auth-only-price" id="spec-price-info" style="display: none; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
+                    <div class="mt-3 mb-2 auth-only-price brand-price-allowed" id="spec-price-info" style="display: block !important; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
                         <span style="background: #dcfce7; color: #15803d; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 4px; vertical-align: middle; margin-right: 8px;">SAVE ${discount}%</span>
                         <span style="text-decoration: line-through; color: #94a3b8; font-size: 18px; font-weight: 500; margin-right: 8px;">SAR ${p.original_price.toFixed(2)}</span>
                         <span>SAR ${p.price.toFixed(2)}</span>
@@ -247,7 +284,7 @@ $(document).ready(function () {
                 `;
             } else {
                 priceHtml = `
-                    <div class="mt-3 mb-2 auth-only-price" id="spec-price-info" style="display: none; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
+                    <div class="mt-3 mb-2 auth-only-price brand-price-allowed" id="spec-price-info" style="display: block !important; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.2;">
                         <span>SAR ${p.price.toFixed(2)}</span>
                     </div>
                 `;
@@ -262,13 +299,13 @@ $(document).ready(function () {
 
         // Render Stock for logged in users
         $('#spec-stock-info').remove();
-        if (typeof p.stock === 'number') {
+        if (canSeeStock && typeof p.stock === 'number') {
             const calculatedStock = Math.round(p.stock * 0.7);
             let stockHtml = '';
             if (calculatedStock > 0) {
-                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #10b981; font-weight: 700; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1fae5; width: fit-content;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>${calculatedStock} units in stock</div>`;
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock brand-stock-allowed" id="spec-stock-info" style="display: block !important; font-size: 14px; color: #10b981; font-weight: 700; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #d1fae5; width: fit-content;"><i class="ri-checkbox-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>${calculatedStock} units in stock</div>`;
             } else {
-                stockHtml = `<div class="mt-2 mb-3 auth-only-stock" id="spec-stock-info" style="display: none; font-size: 14px; color: #ef4444; font-weight: 700; background: #fef2f2; padding: 6px 12px; border-radius: 6px; border: 1px solid #fee2e2; width: fit-content;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>Out of stock</div>`;
+                stockHtml = `<div class="mt-2 mb-3 auth-only-stock brand-stock-allowed" id="spec-stock-info" style="display: block !important; font-size: 14px; color: #ef4444; font-weight: 700; background: #fef2f2; padding: 6px 12px; border-radius: 6px; border: 1px solid #fee2e2; width: fit-content;"><i class="ri-close-circle-fill" style="vertical-align: middle; margin-right: 5px;"></i>Out of stock</div>`;
             }
             
             if ($('#spec-price-info').length) {
