@@ -723,15 +723,30 @@ body.search-active .nav-pills {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px 36px;
 }
 
 .brands .flex_row .item {
-  width: 180px;
+  width: 130px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
 }
 
 .brands .flex_row .item img {
-  width: 100%;
-  object-fit: cover;
+  max-height: 38px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brands .flex_row .item:hover img {
+  transform: translateY(-2px);
 }
 
 

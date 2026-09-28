@@ -377,15 +377,15 @@ $(document).ready(function () {
                         </div>
                     `;
                 });
-                $('#product-gallery-thumbs').html(thumbsHtml).show();
+                $('#thumbnail-grid, #product-gallery-thumbs').html(thumbsHtml).show();
                 bindGalleryEvents();
             } else {
-                $('#product-gallery-thumbs').hide();
+                $('#thumbnail-grid, #product-gallery-thumbs').hide();
             }
         } else {
             // No images found
             $('#main-image-display').html(`<img src="/assets/img/logo.png" class="img-fluid" id="current-main-img" alt="${safeName}">`);
-            $('#product-gallery-thumbs').hide();
+            $('#thumbnail-grid, #product-gallery-thumbs').hide();
         }
 
         // 3. Specifications Table
