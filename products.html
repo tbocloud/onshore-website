@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" href="assets/css/header.css?v=2.9">
     <link rel="stylesheet" href="assets/css/styles.css?v=2.4">
-    <link rel="stylesheet" href="assets/css/products-redesign.css?v=2.4">
+    <link rel="stylesheet" href="assets/css/products-redesign.css?v=2.6">
     <link rel="stylesheet" href="assets/css/responsive.css?v=2.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -570,23 +570,14 @@
 
         <section id="catalog-main" style="background:#f4f6f9; padding: 0;">
             <div class="container pt-3">
-                <!-- B2B Quote Process Banner -->
-                <div style="background:linear-gradient(135deg,#f0f7ff,#e2effa); border:1px solid #cde3f5; border-radius:12px; padding:16px 20px; margin-bottom:16px; font-family:'Outfit',sans-serif; display:flex; flex-wrap:wrap; align-items:center; gap:12px;">
-                    <div style="display:flex; align-items:center; gap:8px; background:#0177c6; color:#fff; border-radius:8px; padding:6px 14px; font-size:13px; font-weight:700; white-space:nowrap;">
-                        <i class="ri-price-tag-3-line"></i> B2B QUOTES <span dir="rtl" style="font-weight:500; font-size:12px;">| عروض أسعار</span>
-                    </div>
-                    <div style="flex:1; min-width:200px; display:flex; flex-direction:column; gap:4px;">
-                        <div style="font-size:13px; color:#1e293b; line-height:1.5;">
-                            <strong>Step 1:</strong> Browse &amp; click <strong>Request Quote</strong> on any product →
-                            <strong>Step 2:</strong> Enter your email &amp; phone →
-                            <strong>Step 3:</strong> Receive a custom quote within 24 hours
-                            <span dir="rtl" style="display:block; margin-top:3px; font-size:12px; color:#475569;">
-                            <strong>الخطوة 1:</strong> تصفح وانقر على <strong>طلب عرض سعر</strong> على أي منتج ←
-                            <strong>الخطوة 2:</strong> أدخل بريدك الإلكتروني ورقم هاتفك ←
-                            <strong>الخطوة 3:</strong> استلم عرض سعر مخصص خلال 24 ساعة
-                            </span>
-                        </div>
-                    </div>
+                <!-- B2B Quote Process: three numbered steps -->
+                <div class="quote-steps" aria-label="How to get a quote">
+                    <div class="qs-badge"><i class="ri-price-tag-3-line"></i> <span>How to get a quote</span> <span dir="rtl" class="qs-badge-ar">كيف تحصل على عرض سعر</span></div>
+                    <ol class="qs-list">
+                        <li><span class="qs-num">1</span><div><strong>Click Request Quote</strong><small>on any product</small><small dir="rtl">انقر على طلب عرض سعر</small></div></li>
+                        <li><span class="qs-num">2</span><div><strong>Enter email &amp; phone</strong><small>no account needed</small><small dir="rtl">أدخل بريدك ورقم هاتفك</small></div></li>
+                        <li><span class="qs-num">3</span><div><strong>Get your quote</strong><small>within 24 hours</small><small dir="rtl">استلم العرض خلال 24 ساعة</small></div></li>
+                    </ol>
                 </div>
                 <div class="catalog-layout">
 
@@ -630,38 +621,32 @@
                             <span class="sidebar-clear-link" id="clear-brand-filters">Clear filters <span dir="rtl" style="font-weight:400;font-size:10px;color:#94a3b8;">| مسح التصفية</span></span>
                         </div>
 
+                        <!-- Mobile only: close the panel and see results -->
+                        <div class="sidebar-apply">
+                            <button type="button" id="sidebar-apply-btn">Show <span id="sidebar-apply-count">0</span> products <span dir="rtl">| عرض النتائج</span></button>
+                        </div>
+
                     </aside>
 
                     <!-- ═══ MAIN CATALOG ═══ -->
                     <main class="cat-main">
-                        <!-- Mobile filter trigger -->
-                        <button class="mobile-filter-trigger" id="mobile-filter-trigger">
-                            <i class="ri-equalizer-line"></i> Filters &amp; Categories <span dir="rtl" style="font-size:10px;color:#94a3b8;">| التصفية والتصنيفات</span>
-                        </button>
 
 
 
-                        <!-- Top Search Bar Section -->
+                        <!-- Top Search Bar Section (only the search box stays sticky) -->
                         <div class="top-search-section mb-2 mt-2 mt-lg-0">
-                            <div class="flex-grow-1 position-relative w-100">
-                                <div class="main-search-input-group d-flex" style="height:48px;">
-                                    <div class="position-relative flex-grow-1 h-100">
-                                        <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
-                                        <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search products... ابحث عن المنتجات" style="border:1px solid #0177c6;border-right:none;font-size:15px;border-radius:6px 0 0 6px;">
-                                    </div>
-                                    <button class="btn text-white px-4 fw-bold h-100" style="background-color:#0177c6;border-radius:0 6px 6px 0;">Search</button>
+                            <form class="main-search-input-group d-flex" id="main-search-form" role="search" style="height:48px;">
+                                <div class="position-relative flex-grow-1 h-100">
+                                    <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
+                                    <input type="text" id="main-search-input" class="form-control ps-5 h-100 shadow-none" placeholder="Search by product name, brand or size (e.g. 6X3)... ابحث عن المنتجات" autocomplete="off" aria-label="Search products" style="border:1px solid #0177c6;border-right:none;font-size:15px;border-radius:6px 0 0 6px;padding-right:40px;">
+                                    <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search" title="Clear search"><i class="ri-close-circle-fill"></i></button>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center flex-shrink-0 mt-2" style="gap:8px;">
-                                <span class="text-muted fw-semibold text-nowrap" style="font-size:13px;">Sort:</span>
-                                <select class="form-select shadow-none" id="cat-sort" style="font-size:13px;font-weight:500;width:auto;min-width:120px;">
-                                    <option value="default">Featured</option>
-                                    <option value="name-asc">Name A-Z</option>
-                                    <option value="name-desc">Name Z-A</option>
-                                </select>
-                            </div>
+                                <button type="submit" id="main-search-btn" class="btn text-white px-4 fw-bold h-100" style="background-color:#0177c6;border-radius:0 6px 6px 0;">Search</button>
+                            </form>
+                        </div>
 
-                            <div class="popular-searches mt-2 d-flex flex-wrap align-items-center gap-2" style="font-size:13px;">
+                        <div class="search-helpers mb-2">
+                            <div class="popular-searches d-flex flex-wrap align-items-center gap-2" style="font-size:13px;">
                                 <span class="text-muted fw-semibold me-1">Popular Searches: <span dir="rtl" style="font-size:11px;color:#94a3b8;">البحث الشائع</span></span>
                                 <span class="popular-search-pill">Welding Machine</span>
                                 <span class="popular-search-pill">Chain Block</span>
@@ -672,11 +657,29 @@
                             <div id="recent-searches-row" class="popular-searches mt-1 d-flex flex-wrap align-items-center gap-2" style="font-size:12px;display:none;"></div>
                         </div>
 
-                        <!-- Catalog header -->
-                        <div class="cat-header pb-1 mb-2" style="border-bottom: 2px solid #f1f5f9; display: block;">
-                            <h2 id="catalog-title" style="font-size: 22px; font-weight: 800; color: #1e293b; margin-bottom: 6px; font-family: 'Montserrat', sans-serif;">All Products</h2>
-                            <p id="catalog-count" style="margin: 0; color: #64748b; font-size: 14px;">Showing <span id="visible-count">0</span> results</p>
+                        <!-- Catalog header: title + count on the left, sort on the right -->
+                        <div class="cat-header results-header">
+                            <div class="cat-header-left">
+                                <h2 id="catalog-title">All Products</h2>
+                                <p id="catalog-count">Showing <span id="visible-count">0</span> results</p>
+                            </div>
+                            <div class="cat-sort-wrap">
+                                <!-- Mobile filter trigger (hidden on desktop, where the sidebar is always visible) -->
+                                <button type="button" class="mobile-filter-trigger" id="mobile-filter-trigger">
+                                    <i class="ri-equalizer-line"></i> Filters <span dir="rtl" class="mft-ar">التصفية</span>
+                                    <span class="mft-count" style="display:none;">0</span>
+                                </button>
+                                <label for="cat-sort" class="text-muted fw-semibold text-nowrap">Sort:</label>
+                                <select class="form-select shadow-none" id="cat-sort">
+                                    <option value="default">Featured</option>
+                                    <option value="name-asc">Name A-Z</option>
+                                    <option value="name-desc">Name Z-A</option>
+                                </select>
+                            </div>
                         </div>
+
+                        <!-- Results overview: which brands matched, with jump links -->
+                        <div id="results-overview" class="results-overview" style="display:none;"></div>
 
                         <!-- Active filter pills -->
                         <div class="active-filter-pills" id="active-pills" style="display:none;"></div>
@@ -694,21 +697,34 @@
                             <i class="ri-search-line"></i>
                             <h5>No Products Found <span dir="rtl" style="font-weight:400; font-size:14px; color:#64748b;">| لا توجد منتجات</span></h5>
                             <p>Try adjusting your filters or search term. <span dir="rtl" style="display:block; margin-top:4px; font-size:13px; color:#94a3b8;">حاول تعديل التصفية أو مصطلح البحث.</span></p>
+                            <div class="no-results-actions">
+                                <button type="button" class="nr-btn nr-btn-primary" id="nr-reset-all"><i class="ri-refresh-line"></i> Show all products</button>
+                                <a class="nr-btn" href="https://wa.me/966544580607?text=Hello,%20I%20am%20looking%20for%20a%20product%20I%20could%20not%20find%20on%20your%20website" target="_blank" rel="noopener noreferrer"><i class="ri-whatsapp-line"></i> Ask us on WhatsApp</a>
+                            </div>
                         </div>
 
                         <!-- API Loading State -->
-                        <div class="text-center py-5" id="products-loader">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="mt-3" style="font-family: 'Outfit', sans-serif; color: #64748b;">Fetching products
-                                from catalog... <span dir="rtl" style="display:block; margin-top:4px; font-size:12px; color:#94a3b8;">جاري تحميل المنتجات من الكتالوج</span></p>
+                        <div id="products-loader" class="skeleton-grid" aria-busy="true" aria-label="Loading products">
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <div class="sk-card"><div class="sk-img"></div><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w70"></div><div class="sk-btn"></div></div>
+                            <span class="visually-hidden">Loading products... جاري تحميل المنتجات</span>
                         </div>
 
                         <!-- Dynamic catalog sections injected here -->
                         <div id="dynamic-products-container">
                             <!-- products-api.js will inject .cat-section elements here -->
                         </div>
+
+                        <!-- Floating hint: more results further down -->
+                        <button type="button" id="more-results-fab" class="more-results-fab" aria-hidden="true" tabindex="-1">
+                            <i class="ri-arrow-down-line"></i> <span id="more-results-text"></span>
+                        </button>
 
                         <!-- Catalog Pagination -->
                         <div id="catalog-pagination" class="pagination-container mt-4"></div>
@@ -816,7 +832,7 @@
     <script src="assets/js/jquery.min.js?v=1.6"></script>
     <script src="assets/js/main.js?v=3.0"></script>
     <script src="assets/js/cart.js?v=3.3"></script>
-    <script src="assets/js/products-api.js?v=3.6"></script>
+    <script src="assets/js/products-api.js?v=3.8"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 
@@ -901,114 +917,117 @@
                 $backdrop.on('click', function () { toggleMobileSidebar(false); });
             }
 
+            // Search helpers (synonyms + light stemming) shared by filtering and highlighting
+            const searchSynonyms = {
+                "cutter": ["cutting", "disc", "blade"],
+                "weld": ["welding", "machine", "electrode", "torch"],
+                "drill": ["drilling", "bit"],
+                "grind": ["grinding", "wheel", "abrasive"],
+                "wire": ["brush", "rope"]
+            };
+
+            function wordMatches(word, text) {
+                if (text.includes(word)) return true;
+                if (searchSynonyms[word] && searchSynonyms[word].some(syn => text.includes(syn))) return true;
+                // Basic stemming (e.g. "cutters" matches "cutter")
+                if (word.endsWith('s') && text.includes(word.slice(0, -1))) return true;
+                if (word.endsWith('er') && text.includes(word.slice(0, -2))) return true;
+                if (word.endsWith('ing') && text.includes(word.slice(0, -3))) return true;
+                return false;
+            }
+
+            function escapeHtml(str) {
+                return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            }
+
+            // Wrap the typed words in <mark> inside a product name so users see why it matched
+            function highlightName($card, queryWords) {
+                const $name = $card.find('.pc-name');
+                if (!$name.length) return;
+                let original = $name.data('orig');
+                if (original === undefined) {
+                    original = $name.text();
+                    $name.data('orig', original);
+                }
+                const words = queryWords.filter(w => w.length >= 2);
+                if (!words.length) {
+                    if ($name.data('hl')) { $name.text(original).data('hl', false); }
+                    return;
+                }
+                const pattern = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+                const parts = original.split(pattern);
+                $name.html(parts.map((part, i) => i % 2 ? `<mark class="pc-hl">${escapeHtml(part)}</mark>` : escapeHtml(part)).join('')).data('hl', true);
+            }
+
             // Main Filter function
             function filterCatalog() {
                 const query = $searchVal.length && $searchVal.val() ? $searchVal.val().toLowerCase().trim() : '';
+                const queryWords = query ? query.split(/\s+/) : [];
+                $('#search-clear-btn').toggleClass('show', query !== '');
                 const activeCat = $('#widget-categories > li.active').attr('data-cat') || 'all';
                 const activeSubcat = window.activeSubcat || 'all';
+                const activeLeafcat = window.activeLeafcat || 'all';
 
-                // Checked brands array (dynamic from products-api.js)
+                // Checked brands (none checked = all brands)
                 const checkedBrands = [];
                 $('.api-brand-cb:checked').each(function () {
                     checkedBrands.push($(this).val());
                 });
+                const totalBrandsCount = $('.api-brand-cb').length;
+                const brandFilterOn = checkedBrands.length > 0 && checkedBrands.length < totalBrandsCount;
 
                 const matchingCards = [];
+                // Live sidebar counts: each facet counts what the *other* active filters allow
+                const brandCounts = {};
+                const catCounts = { all: 0 };
 
-                // Loop through each product card in the catalog grid (ignore banner)
                 $('#dynamic-products-container .pc').each(function () {
                     const $card = $(this);
-                    const name = $card.find('.pc-name').text().toLowerCase();
-                    const arabicName = $card.find('.pc-arabic').text().toLowerCase();
+                    const $name = $card.find('.pc-name');
+                    const name = ($name.data('orig') !== undefined ? $name.data('orig') : $name.text()).toLowerCase();
+                    const arabicName = $card.find('.pc-name-ar').text().toLowerCase();
                     const brand = $card.attr('data-brand') || '';
                     const cat = $card.attr('data-cat') || '';
+                    const subcat = ($card.attr('data-subcat') || '').trim().toLowerCase().replace(/\s+/g, '-');
+                    const leafcat = ($card.attr('data-leafcat') || '').trim().toLowerCase().replace(/\s+/g, '-');
 
-                    const rawSubcat = $card.attr('data-subcat') || '';
-                    const subcat = rawSubcat.trim().toLowerCase().replace(/\s+/g, '-');
-                    
-                    const rawLeafcat = $card.attr('data-leafcat') || '';
-                    const leafcat = rawLeafcat.trim().toLowerCase().replace(/\s+/g, '-');
+                    const combinedText = name + ' ' + arabicName + ' ' + brand + ' ' + cat;
+                    const queryOk = queryWords.every(word => wordMatches(word, combinedText));
+                    const catOk = (activeCat === 'all' || cat === activeCat)
+                        && (activeSubcat === 'all' || subcat === activeSubcat)
+                        && (activeLeafcat === 'all' || leafcat === activeLeafcat);
+                    const brandOk = !brandFilterOn || checkedBrands.includes(brand);
 
-                    let isVisible = true;
-
-                    // 1. Search Query Filter
-                    if (query !== '') {
-                        const searchSynonyms = {
-                            "cutter": ["cutting", "disc", "blade"],
-                            "weld": ["welding", "machine", "electrode", "torch"],
-                            "drill": ["drilling", "bit"],
-                            "grind": ["grinding", "wheel", "abrasive"],
-                            "wire": ["brush", "rope"]
-                        };
-
-                        const queryWords = query.split(/\s+/);
-                        const combinedText = (name + " " + arabicName + " " + brand + " " + cat).toLowerCase();
-                        
-                        const matchesAll = queryWords.every(word => {
-                            if (combinedText.includes(word)) return true;
-                            // Check synonyms
-                            if (searchSynonyms[word]) {
-                                return searchSynonyms[word].some(syn => combinedText.includes(syn));
-                            }
-                            // Basic stemming (e.g. if they type "cutters", match "cutter")
-                            if (word.endsWith('s') && combinedText.includes(word.slice(0, -1))) return true;
-                            if (word.endsWith('er') && combinedText.includes(word.slice(0, -2))) return true;
-                            if (word.endsWith('ing') && combinedText.includes(word.slice(0, -3))) return true;
-                            return false;
-                        });
-
-                        if (!matchesAll) {
-                            isVisible = false;
-                        }
+                    if (queryOk && catOk) brandCounts[brand] = (brandCounts[brand] || 0) + 1;
+                    if (queryOk && brandOk) {
+                        catCounts.all++;
+                        catCounts[cat] = (catCounts[cat] || 0) + 1;
+                        catCounts[cat + '|' + subcat] = (catCounts[cat + '|' + subcat] || 0) + 1;
+                        catCounts[cat + '|' + subcat + '|' + leafcat] = (catCounts[cat + '|' + subcat + '|' + leafcat] || 0) + 1;
                     }
 
-                    // 2. Category Filter
-                    if (activeCat !== 'all' && cat !== activeCat) {
-                        isVisible = false;
-                    }
-
-                    // 3. Subcategory Filter
-                    if (activeSubcat !== 'all' && subcat !== activeSubcat) {
-                        isVisible = false;
-                    }
-
-                    // 3.5. Leaf Category Filter
-                    if (window.activeLeafcat && window.activeLeafcat !== 'all' && leafcat !== window.activeLeafcat) {
-                        isVisible = false;
-                    }
-
-                    // 4. Brand Filter
-                    const totalBrandsCount = $('.api-brand-cb').length;
-                    if (checkedBrands.length > 0 && checkedBrands.length < totalBrandsCount && !checkedBrands.includes(brand)) {
-                        isVisible = false;
-                    }
-
-                    // Collect matching cards, hide non-matching
-                    if (isVisible) {
+                    if (queryOk && catOk && brandOk) {
                         matchingCards.push($card);
                     } else {
                         $card.addClass('hidden').hide();
                     }
                 });
 
+                updateSidebarCounts(brandCounts, catCounts);
+
                 const totalFilteredCount = matchingCards.length;
                 const itemsPerPage = window.itemsPerPage || 12;
-                const totalPages = Math.ceil(totalFilteredCount / itemsPerPage);
+                const totalPages = Math.max(1, Math.ceil(totalFilteredCount / itemsPerPage));
 
-                // Adjust window.currentPage if out of bounds
-                if (window.currentPage > totalPages && totalPages > 0) {
-                    window.currentPage = totalPages;
-                } else if (totalFilteredCount === 0) {
-                    window.currentPage = 1;
-                }
-
-                // Show cards for active page, hide others
-                const startIdx = (window.currentPage - 1) * itemsPerPage;
-                const endIdx = window.currentPage * itemsPerPage;
+                // "Load more": window.currentPage = how many batches are loaded
+                if (window.currentPage > totalPages) window.currentPage = totalPages;
+                if (window.currentPage < 1) window.currentPage = 1;
+                const shownCount = Math.min(window.currentPage * itemsPerPage, totalFilteredCount);
 
                 matchingCards.forEach((card, idx) => {
-                    if (idx >= startIdx && idx < endIdx) {
+                    if (idx < shownCount) {
                         card.removeClass('hidden').show();
+                        highlightName(card, queryWords);
                     } else {
                         card.addClass('hidden').hide();
                     }
@@ -1022,6 +1041,7 @@
                     const $header = $(`.brand-subheader[data-brand-group="${brandGridVal}"]`);
 
                     if (visibleInGrid > 0) {
+                        $header.find('.brand-count').text(visibleInGrid + (visibleInGrid === 1 ? ' product' : ' products'));
                         $grid.show();
                         $header.show();
                     } else {
@@ -1033,49 +1053,76 @@
                 // Show/hide category section headers
                 $('.cat-section').each(function () {
                     const $sec = $(this);
-                    const visibleInSec = $sec.find('.pc:not(.hidden)').length;
-                    if (visibleInSec > 0) {
-                        $sec.show();
-                    } else {
-                        $sec.hide();
-                    }
+                    $sec.toggle($sec.find('.pc:not(.hidden)').length > 0);
                 });
 
-                // Premium update count label showing range
                 if (totalFilteredCount > 0) {
-                    const pageStart = startIdx + 1;
-                    const pageEnd = Math.min(endIdx, totalFilteredCount);
-                    $('#catalog-count').html(`Showing <span id="visible-count">${pageStart}-${pageEnd}</span> of <span>${totalFilteredCount}</span> results`);
+                    $('#catalog-count').html(`Showing <span id="visible-count">${shownCount}</span> of <strong>${totalFilteredCount}</strong> ${totalFilteredCount === 1 ? 'product' : 'products'}`);
                 } else {
-                    $('#catalog-count').html(`Showing <span id="visible-count">0</span> results`);
+                    $('#catalog-count').html(`Showing <span id="visible-count">0</span> products`);
                 }
 
-                // Show/hide No Results message
                 if (totalFilteredCount === 0) {
                     $noResults.fadeIn(300);
                 } else {
                     $noResults.hide();
                 }
 
-                // Render dynamic pagination buttons
-                renderPagination(totalFilteredCount);
-
-                // Manage active filter pills/search status bar
+                $('#sidebar-apply-count').text(totalFilteredCount);
+                renderPagination(totalFilteredCount, shownCount);
+                updateResultsOverview(brandCounts, totalFilteredCount);
                 updateFilterPills(query, checkedBrands, activeCat, activeSubcat);
+            }
+
+            // Reflect current search/filters in the sidebar numbers, dimming options with no matches
+            function updateSidebarCounts(brandCounts, catCounts) {
+                $('.api-brand-cb').each(function () {
+                    const n = brandCounts[$(this).val()] || 0;
+                    const $label = $(this).closest('label');
+                    $label.find('.check-count').text(n);
+                    $label.toggleClass('is-empty', n === 0 && !this.checked);
+                });
+
+                $('#count-all').text(catCounts.all);
+                $('#widget-categories > li[data-cat]').each(function () {
+                    const cat = $(this).attr('data-cat');
+                    if (cat === 'all') return;
+                    const n = catCounts[cat] || 0;
+                    $(this).children('a').find('.cat-count').text(n);
+                    $(this).toggleClass('is-empty', n === 0);
+                    $(this).find('li[data-subcat]').each(function () {
+                        const sub = $(this).attr('data-subcat');
+                        const subN = catCounts[cat + '|' + sub] || 0;
+                        $(this).children('a').find('.cat-count').text(subN);
+                        $(this).toggleClass('is-empty', subN === 0);
+                        $(this).find('li[data-leafcat]').each(function () {
+                            const leafN = catCounts[cat + '|' + sub + '|' + $(this).attr('data-leafcat')] || 0;
+                            $(this).children('a').find('.cat-count').text(leafN);
+                            $(this).toggleClass('is-empty', leafN === 0);
+                        });
+                    });
+                });
             }
 
             // Update search status / pills
             function updateFilterPills(query, checkedBrands, activeCat, activeSubcat) {
-                // Search status bar
-                if (query !== '') {
-                    $searchTerm.text(query);
-                    $searchStatus.fadeIn(200);
-                } else {
-                    $searchStatus.hide();
-                }
+                // Search is shown as a pill in the same row as the other filters
+                $searchStatus.hide();
 
                 // Active pills container
                 let pillsHtml = '';
+                let activeCount = 0;
+
+                if (query !== '') {
+                    activeCount++;
+                    pillsHtml += `
+                        <div class="filter-pill filter-pill-search">
+                            <i class="ri-search-line"></i> "${escapeHtml(query)}"
+                            <button class="pill-remove" data-remove-type="search" aria-label="Clear search"><i class="ri-close-line"></i></button>
+                        </div>
+                    `;
+                }
+                if (activeCat !== 'all') activeCount++;
 
                 if (window.activeLeafcat && window.activeLeafcat !== 'all') {
                     const parentLi = $('#widget-categories > li.active');
@@ -1117,6 +1164,7 @@
                 // If some but not all brands are unchecked, show pills for active ones
                 const totalBrandsCount = $('.api-brand-cb').length;
                 if (checkedBrands.length > 0 && checkedBrands.length < totalBrandsCount) {
+                    activeCount += checkedBrands.length;
                     checkedBrands.forEach(b => {
                         const displayName = b.toUpperCase();
                         pillsHtml += `
@@ -1128,140 +1176,197 @@
                     });
                 }
 
+                if (activeCount >= 2) {
+                    pillsHtml += `<button type="button" class="filter-clear-all" id="clear-all-filters">Clear all <span dir="rtl">| مسح الكل</span></button>`;
+                }
+
                 if (pillsHtml !== '') {
-                    $activePills.html(pillsHtml).fadeIn(200);
+                    $activePills.html(pillsHtml).show();
                 } else {
                     $activePills.hide().html('');
                 }
+
+                // Badge on the mobile "Filters" button so users know filters are applied
+                const filterCount = activeCount - (query !== '' ? 1 : 0);
+                $('#mobile-filter-trigger .mft-count').text(filterCount).toggle(filterCount > 0);
             }
 
-            // Render Pagination Navigation
-            function renderPagination(totalVisible) {
+            $(document).on('click', '#clear-all-filters', function () {
+                $('#nr-reset-all').trigger('click');
+            });
+
+            // "Load more" footer: progress + button (keeps brand groups together instead of splitting them across pages)
+            function renderPagination(totalVisible, shownCount) {
                 const $pagContainer = $('#catalog-pagination');
                 if (!$pagContainer.length) return;
-
-                const itemsPerPage = window.itemsPerPage || 12;
-                const totalPages = Math.ceil(totalVisible / itemsPerPage);
-                const currentPage = window.currentPage || 1;
-
                 $pagContainer.empty();
 
-                if (totalPages <= 1) {
+                if (!totalVisible) {
                     $pagContainer.hide();
                     return;
                 }
 
-                $pagContainer.show();
+                const itemsPerPage = window.itemsPerPage || 12;
+                const remaining = totalVisible - shownCount;
+                const pct = Math.round((shownCount / totalVisible) * 100);
 
-                const $nav = $('<nav aria-label="Product Catalog Pagination" class="pagination-nav"></nav>');
-                const $ul = $('<ul class="pagination-list"></ul>');
-
-                // 1. Prev Button
-                const $prevLi = $('<li class="pagination-item"></li>');
-                const $prevBtn = $(`<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled aria-disabled="true"' : ''} aria-label="Previous page"><i class="ri-arrow-left-s-line"></i> Prev</button>`);
-                if (currentPage > 1) {
-                    $prevBtn.on('click', function () {
-                        window.currentPage = currentPage - 1;
-                        filterCatalog();
-                        scrollToCatalogTop();
-                    });
+                let html = `<div class="load-more-wrap">
+                    <p class="lm-text">You've viewed <strong>${shownCount}</strong> of <strong>${totalVisible}</strong> products <span dir="rtl">| عرضت ${shownCount} من ${totalVisible}</span></p>
+                    <div class="lm-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${totalVisible}" aria-valuenow="${shownCount}"><span style="width:${pct}%"></span></div>`;
+                if (remaining > 0) {
+                    const nextBatch = Math.min(itemsPerPage, remaining);
+                    html += `<button type="button" class="lm-btn" id="load-more-btn"><i class="ri-add-line"></i> Load ${nextBatch} more products <span dir="rtl">| عرض المزيد</span></button>`;
+                } else if (totalVisible > itemsPerPage) {
+                    html += `<p class="lm-done"><i class="ri-checkbox-circle-line"></i> You've seen all matching products</p>`;
                 }
-                $prevLi.append($prevBtn);
-                $ul.append($prevLi);
+                if (shownCount > itemsPerPage) {
+                    html += `<button type="button" class="lm-top" id="back-to-top-btn"><i class="ri-arrow-up-line"></i> Back to top</button>`;
+                }
+                html += `</div>`;
+                $pagContainer.html(html).show();
+            }
 
-                // 2. Page numbers with smart truncation
-                const maxVisiblePages = 5; // e.g. [1] [2] [3] [4] [5]
-                let startPage = 1;
-                let endPage = totalPages;
+            $(document).on('click', '#load-more-btn', function () {
+                const itemsPerPage = window.itemsPerPage || 12;
+                const firstNewIdx = window.currentPage * itemsPerPage;
+                window.currentPage += 1;
+                filterCatalog();
+                // Move keyboard focus to the first newly loaded product for accessibility
+                const $first = $('#dynamic-products-container .pc:not(.hidden)').eq(firstNewIdx);
+                $first.find('.pc-name').trigger('focus', { preventScroll: true });
+            });
 
-                if (totalPages > maxVisiblePages) {
-                    const half = Math.floor(maxVisiblePages / 2);
-                    if (currentPage <= half + 1) {
-                        startPage = 1;
-                        endPage = maxVisiblePages;
-                    } else if (currentPage >= totalPages - half) {
-                        startPage = totalPages - maxVisiblePages + 1;
-                        endPage = totalPages;
-                    } else {
-                        startPage = currentPage - half;
-                        endPage = currentPage + half;
+            $(document).on('click', '#back-to-top-btn', function () {
+                scrollToCatalogTop();
+            });
+
+            // Height of the sticky site header + sticky search bar, so scroll targets are not hidden under them
+            function getStickyOffset() {
+                const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--total-header-height'), 10) || 100;
+                const searchH = $('.top-search-section').outerHeight() || 0;
+                return headerH + searchH + 12;
+            }
+
+            // Native smooth scroll: jQuery animate fights the site-wide `scroll-behavior: smooth` and overshoots
+            // The header changes layout once the page scrolls (mobile), so re-aim once the first scroll settles
+            let scrollFixTimer = null;
+            function scrollToElement($el) {
+                if (!$el || !$el.length) return;
+                const targetTop = () => Math.max(0, $el.offset().top - getStickyOffset());
+                window.scrollTo({ top: targetTop(), behavior: 'smooth' });
+                clearTimeout(scrollFixTimer);
+                scrollFixTimer = setTimeout(function () {
+                    if (Math.abs(window.scrollY - targetTop()) > 4) {
+                        window.scrollTo({ top: targetTop(), behavior: 'smooth' });
                     }
-                }
-
-                // First page indicator & ellipsis if needed
-                if (startPage > 1) {
-                    const $firstLi = $('<li class="pagination-item"></li>');
-                    const $firstBtn = $(`<button class="page-btn">1</button>`);
-                    $firstBtn.on('click', function () {
-                        window.currentPage = 1;
-                        filterCatalog();
-                        scrollToCatalogTop();
-                    });
-                    $firstLi.append($firstBtn);
-                    $ul.append($firstLi);
-
-                    if (startPage > 2) {
-                        $ul.append('<li class="pagination-item pagination-ellipsis"><span>&hellip;</span></li>');
-                    }
-                }
-
-                // Page Number Buttons
-                for (let i = startPage; i <= endPage; i++) {
-                    const $pageLi = $('<li class="pagination-item"></li>');
-                    const isActive = i === currentPage;
-                    const $pageBtn = $(`<button class="page-btn ${isActive ? 'active' : ''}" ${isActive ? 'aria-current="page"' : ''}>${i}</button>`);
-
-                    if (!isActive) {
-                        $pageBtn.on('click', function () {
-                            window.currentPage = i;
-                            filterCatalog();
-                            scrollToCatalogTop();
-                        });
-                    }
-                    $pageLi.append($pageBtn);
-                    $ul.append($pageLi);
-                }
-
-                // Last page indicator & ellipsis if needed
-                if (endPage < totalPages) {
-                    if (endPage < totalPages - 1) {
-                        $ul.append('<li class="pagination-item pagination-ellipsis"><span>&hellip;</span></li>');
-                    }
-
-                    const $lastLi = $('<li class="pagination-item"></li>');
-                    const $lastBtn = $(`<button class="page-btn">${totalPages}</button>`);
-                    $lastBtn.on('click', function () {
-                        window.currentPage = totalPages;
-                        filterCatalog();
-                        scrollToCatalogTop();
-                    });
-                    $lastLi.append($lastBtn);
-                    $ul.append($lastLi);
-                }
-
-                // 3. Next Button
-                const $nextLi = $('<li class="pagination-item"></li>');
-                const $nextBtn = $(`<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled aria-disabled="true"' : ''} aria-label="Next page">Next <i class="ri-arrow-right-s-line"></i></button>`);
-                if (currentPage < totalPages) {
-                    $nextBtn.on('click', function () {
-                        window.currentPage = currentPage + 1;
-                        filterCatalog();
-                        scrollToCatalogTop();
-                    });
-                }
-                $nextLi.append($nextBtn);
-                $ul.append($nextLi);
-
-                $nav.append($ul);
-                $pagContainer.append($nav);
+                }, 650);
             }
 
             // Scroll helper
             function scrollToCatalogTop() {
-                $('html, body').animate({
-                    scrollTop: $(".cat-main").offset().top - 120
-                }, 400);
+                scrollToElement($('.results-header'));
             }
+
+            // Brand quick-filter chips: every brand that matches the search/category, with counts (synced with sidebar checkboxes)
+            function updateResultsOverview(brandCounts, totalFilteredCount) {
+                const $overview = $('#results-overview');
+                const brands = [];
+                $('.api-brand-cb').each(function () {
+                    const key = $(this).val();
+                    const n = brandCounts[key] || 0;
+                    if (n > 0 || this.checked) {
+                        brands.push({ key: key, label: $.trim($(this).closest('label').contents().filter(function () { return this.nodeType === 3; }).text()), count: n, active: this.checked });
+                    }
+                });
+
+                if (totalFilteredCount === 0 && !brands.some(b => b.active)) {
+                    $overview.hide().empty();
+                    updateMoreResultsFab();
+                    return;
+                }
+
+                const anyActive = brands.some(b => b.active);
+                const allCount = brands.reduce((sum, b) => sum + b.count, 0);
+                let html = '<div class="ro-head">';
+                if (brands.length > 1) {
+                    html += `<span class="ro-title"><i class="ri-stack-line"></i> Available in <strong>${brands.length} brands</strong> — tap a brand to show only its products</span>`;
+                    html += '<span dir="rtl" class="ro-title-ar">اضغط على الماركة لعرض منتجاتها فقط</span>';
+                } else if (brands.length === 1) {
+                    html += `<span class="ro-title"><i class="ri-stack-line"></i> All results are from <strong>${brands[0].label}</strong></span>`;
+                }
+                html += '</div>';
+
+                if (brands.length > 1) {
+                    html += '<div class="ro-chips" role="group" aria-label="Filter by brand">';
+                    html += `<button type="button" class="ro-chip${anyActive ? '' : ' on-page'}" data-brand="" aria-pressed="${!anyActive}">All brands <span class="ro-chip-count">${allCount}</span></button>`;
+                    brands.forEach(b => {
+                        html += `<button type="button" class="ro-chip${b.active ? ' on-page' : ''}" data-brand="${b.key}" aria-pressed="${b.active}">${b.label} <span class="ro-chip-count">${b.count}</span></button>`;
+                    });
+                    html += '</div>';
+                }
+
+                $overview.html(html).toggle(brands.length > 0);
+                updateMoreResultsFab();
+            }
+
+            $(document).on('click', '.ro-chip', function () {
+                // Chips behave like tabs: one brand at a time (the sidebar checkboxes allow multi-select)
+                const key = $(this).data('brand');
+                const wasOnlyActive = key && $(this).hasClass('on-page') && $('.api-brand-cb:checked').length === 1;
+                $('.api-brand-cb').prop('checked', false);
+                if (key && !wasOnlyActive) {
+                    $(`.api-brand-cb[value="${key}"]`).prop('checked', true);
+                }
+                window.currentPage = 1;
+                filterCatalog();
+                scrollToCatalogTop();
+            });
+
+            // Floating "N more products below" button — visible while matching cards are still below the fold
+            const $moreFab = $('#more-results-fab');
+            function updateMoreResultsFab() {
+                if (!$moreFab.length) return;
+                const viewportBottom = window.innerHeight;
+                // Only relevant once the user is looking at the results, not while on the hero banner
+                const $resultsHeader = $('.results-header');
+                const catalogInView = $resultsHeader.length && $resultsHeader[0].getBoundingClientRect().top < viewportBottom * 0.5;
+                let below = 0;
+                let $next = null;
+                $('#dynamic-products-container .pc:not(.hidden)').each(function () {
+                    const rect = this.getBoundingClientRect();
+                    if (rect.height > 0 && rect.top > viewportBottom - 40) {
+                        below++;
+                        if (!$next) $next = $(this);
+                    }
+                });
+                if (catalogInView && below > 0) {
+                    const isNarrow = window.innerWidth < 768;
+                    $('#more-results-text').text(isNarrow ? `${below} more below` : `${below} more ${below === 1 ? 'product' : 'products'} below — scroll down`);
+                    $moreFab.data('next', $next).addClass('show').attr('aria-hidden', 'false').attr('tabindex', '0');
+                } else {
+                    $moreFab.removeClass('show').attr('aria-hidden', 'true').attr('tabindex', '-1');
+                }
+            }
+
+            $moreFab.on('click', function () {
+                const $next = $moreFab.data('next');
+                if (!$next) return;
+                // Prefer jumping to the brand heading that the next card belongs to
+                const key = $next.closest('.cat-product-grid').attr('data-brand-grid');
+                const $header = $(`.brand-subheader[data-brand-group="${key}"]`);
+                const headerBelow = $header.length && $header[0].getBoundingClientRect().top > window.innerHeight * 0.3;
+                scrollToElement(headerBelow ? $header : $next);
+            });
+
+            let fabTicking = false;
+            $(window).on('scroll resize', function () {
+                if (fabTicking) return;
+                fabTicking = true;
+                requestAnimationFrame(function () {
+                    updateMoreResultsFab();
+                    fabTicking = false;
+                });
+            });
 
             // Handle Pill Removal
             $(document).on('click', '.pill-remove', function (e) {
@@ -1361,17 +1466,76 @@
             }
 
             // Bind Events
-            // Listen to search changes
+            // Listen to search changes (debounced so typing stays smooth with 350+ cards)
+            let searchTimer = null;
+            function syncClearBtn() {
+                $('#search-clear-btn').toggleClass('show', $searchVal.val().length > 0);
+            }
             $searchVal.on('input', function () {
-                window.currentPage = 1; // reset page on search
+                syncClearBtn();
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(function () {
+                    window.currentPage = 1; // reset page on search
+                    filterCatalog();
+                }, 180);
+            });
+
+            // Search button / Enter: apply now and bring the results into view
+            $('#main-search-form').on('submit', function (e) {
+                e.preventDefault();
+                clearTimeout(searchTimer);
+                window.currentPage = 1;
                 filterCatalog();
+                $searchVal.blur();
+                scrollToCatalogTop();
+            });
+
+            $('#search-clear-btn').on('click', function () {
+                $searchVal.val('').trigger('input').focus();
+                const url = new URL(window.location);
+                if (url.searchParams.has('search')) {
+                    url.searchParams.delete('search');
+                    window.history.replaceState({}, '', url);
+                }
+            });
+
+            // Keyboard: "/" jumps to search, Esc clears it
+            $(document).on('keydown', function (e) {
+                if (e.key === '/' && !$(e.target).is('input, textarea, select, [contenteditable]')) {
+                    e.preventDefault();
+                    $searchVal.trigger('focus');
+                }
+            });
+            $searchVal.on('keydown', function (e) {
+                if (e.key === 'Escape' && $searchVal.val()) {
+                    $('#search-clear-btn').trigger('click');
+                }
+            });
+
+            // "Show all products" from the empty state resets every filter
+            $('#nr-reset-all').on('click', function () {
+                $searchVal.val('');
+                syncClearBtn();
+                window.activeSubcat = 'all';
+                window.activeLeafcat = 'all';
+                window.location.hash = '';
+                $('#widget-categories li').removeClass('active');
+                $('#widget-categories > li[data-cat="all"]').addClass('active');
+                $('#widget-categories .sidebar-subcat-list').slideUp(250);
+                $('#catalog-title').text('All Products');
+                $('.api-brand-cb').prop('checked', false);
+                window.currentPage = 1;
+                filterCatalog();
+                scrollToCatalogTop();
             });
 
             // Popular searches click event
             $('.popular-search-pill').on('click', function() {
                 $searchVal.val($(this).text());
+                syncClearBtn();
                 window.currentPage = 1;
                 filterCatalog();
+                scrollToCatalogTop();
             });
 
             // Parent Category click handler (delegated because it is dynamic)
@@ -1408,9 +1572,7 @@
                 toggleMobileSidebar(false);
 
                 // Smooth scroll to top of main catalog content
-                $('html, body').animate({
-                    scrollTop: $(".cat-main").offset().top - 120
-                }, 500);
+                scrollToCatalogTop();
             });
 
             // Subcategory click handler (delegated)
@@ -1449,9 +1611,7 @@
                 toggleMobileSidebar(false);
 
                 // Smooth scroll to top of main catalog content
-                $('html, body').animate({
-                    scrollTop: $(".cat-main").offset().top - 120
-                }, 500);
+                scrollToCatalogTop();
             });
 
             // Leafcategory click handler
@@ -1487,9 +1647,7 @@
                 toggleMobileSidebar(false);
 
                 // Smooth scroll to top of main catalog content
-                $('html, body').animate({
-                    scrollTop: $(".cat-main").offset().top - 120
-                }, 500);
+                scrollToCatalogTop();
             });
 
             // Dynamic brand checkboxes change delegation
@@ -1501,7 +1659,7 @@
             if ($clearBrands.length) {
                 $clearBrands.on('click', function () {
                     window.currentPage = 1; // Reset to page 1
-                    $('.api-brand-cb').prop('checked', true);
+                    $('.api-brand-cb').prop('checked', false);
                     filterCatalog();
                 });
             }
@@ -1509,6 +1667,7 @@
             if ($sortSelect.length) {
                 $sortSelect.on('change', function () {
                     sortCatalog();
+                    filterCatalog();
                 });
             }
 
@@ -1529,6 +1688,7 @@
 
             // Expose globally so products-api.js can run it after loading products
             window.filterApiCatalog = filterCatalog;
+            window.scrollToCatalogTop = scrollToCatalogTop;
             window.activeSubcat = window.activeSubcat || 'all';
             window.activeLeafcat = window.activeLeafcat || 'all';
         });
@@ -1623,6 +1783,9 @@
                     // If localStorage is blocked (like in some Incognito modes), always show it
                 }
                 
+                // On phones the popup covers the product list, so only open it automatically on larger screens
+                if (window.matchMedia('(max-width: 768px)').matches) shouldOpen = false;
+
                 if (shouldOpen && waPopup && !waPopup.classList.contains('active')) {
                     waPopup.classList.add('active');
                 }
@@ -1671,6 +1834,10 @@
             $('#sidebar-backdrop').on('click', function() {
                 $('#cat-sidebar').slideUp(200).removeClass('mobile-open');
                 $(this).hide();
+            });
+            $('#sidebar-apply-btn').on('click', function() {
+                $('.sidebar-close-btn').trigger('click');
+                if (typeof window.scrollToCatalogTop === 'function') window.scrollToCatalogTop();
             });
             $('.sidebar-close-btn').on('click', function() {
                 $('#cat-sidebar').slideUp(200).removeClass('mobile-open');

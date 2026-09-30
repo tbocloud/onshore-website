@@ -299,6 +299,7 @@ $(document).ready(function () {
                 // Brand sub-header
                 sectionHtml += `<div class="brand-subheader" data-brand-group="${brandKey}-${catKey}">`;
                 sectionHtml += `<span class="brand-pill-label ${brandColorClass}">${brandData.display}</span>`;
+                sectionHtml += `<span class="brand-count"></span>`;
                 sectionHtml += `<div class="brand-divider"></div>`;
                 sectionHtml += `</div>`;
 
@@ -390,9 +391,9 @@ $(document).ready(function () {
             const brand = allBrands[brandKey];
             brandsContainer.append(`
                 <label class="sid-check">
-                    <input type="checkbox" class="api-brand-cb" value="${brandKey}" checked>
+                    <input type="checkbox" class="api-brand-cb" value="${brandKey}">
                     ${brand.display}
-                    <span class="check-count">(${brand.count})</span>
+                    <span class="check-count">${brand.count}</span>
                 </label>
             `);
         });
