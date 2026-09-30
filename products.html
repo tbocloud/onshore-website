@@ -127,7 +127,7 @@
 
         
 
-        <div id="delayed-hero-banner" class="page_banner_container" style="background: #000; position: relative;">
+        <div id="delayed-hero-banner" class="page_banner_container hero-compact" style="background: #000; position: relative;">
             
             <!-- Close Button for Banner -->
             <button onclick="dismissHeroBanner()" class="btn" style="position: absolute; top: 100px; right: 15px; z-index: 100; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
@@ -137,61 +137,6 @@
             <!-- Slide 1: Multi-Sector Industrial Supplies -->
             <div class="banner_slide active-slide"
                 style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url(assets/img/herosection_new_opt.png); background-size: cover; background-position: center; padding: 85px 0 25px 0; display: block;">
-
-                <!-- Top Promotional Banner -->
-                <div class="container mb-4" style="position: relative; z-index: 10;">
-                    
-                    <!-- Desktop Banner (Original Exact Layout) -->
-                    <div class="top-promo-banner d-none d-lg-block"
-                        style="background-color: #0b1120; color: white; border: 1px solid #1a2639; border-radius: 12px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                        <div class="d-flex align-items-center justify-content-center w-100" style="min-height: 80px;">
-
-                            <!-- Main Offer Text -->
-                            <div class="d-flex align-items-center px-5 border-end border-secondary h-100 py-3">
-                                <div class="me-3 text-warning"
-                                    style="font-size: 12px; font-weight: 700; line-height: 1.1; text-align: right; letter-spacing: 1px;">
-                                    UP<br>TO</div>
-                                <div style="font-size: 42px; font-weight: 800; color: #ffc107; line-height: 1; letter-spacing: -1px;"
-                                    class="me-3">10%<span
-                                        style="font-size: 18px; letter-spacing: 0; margin-left: 5px;">OFF</span></div>
-                                <div
-                                    style="font-size: 14px; font-weight: 600; line-height: 1.2; letter-spacing: 0.2px;">
-                                    Lifting & Welding<br>Equipment</div>
-                            </div>
-
-                            <!-- Promo Code Box -->
-                            <div class="px-5 border-end border-secondary h-100 py-3 text-center">
-                                <span
-                                    style="font-size: 11px; color: #a0aec0; display: block; margin-bottom: 2px; font-weight: 600; letter-spacing: 0.5px;">Use
-                                    Code</span>
-                                <div style="font-weight: 800; color: #ffc107; font-size: 18px; letter-spacing: 1.5px;">
-                                    ONSHORE10
-                                </div>
-                            </div>
-
-                            <!-- Button -->
-                            <div class="px-5 border-end border-secondary h-100 py-3 d-flex align-items-center">
-                                <a href="#catalog-main"
-                                    onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;"
-                                    class="btn bg-white text-dark fw-bold px-4 py-2"
-                                    style="font-size: 14px; border-radius: 4px; box-shadow: 0 4px 10px rgba(255,255,255,0.1);">Shop
-                                    Now</a>
-                            </div>
-
-                            <!-- Image -->
-                            <div class="ms-4" style="height: 80px; width: 120px; position: relative;">
-                                <div
-                                    style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 100%;">
-                                    <img src="assets/img/special/hook.png"
-                                        style="height: 85px; width: 100%; object-fit: contain; filter: drop-shadow(-5px 5px 15px rgba(0,0,0,0.8));"
-                                        alt="Equipment Offer">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Banner Removed -->
-                </div>
 
                 <div class="container" style="position: relative; z-index: 2;">
                     <div class="row align-items-center">
@@ -315,6 +260,14 @@
                         </div>
                         
                         <div class="col-lg-7 col-12 mt-4 mt-lg-0">
+                <!-- Promo strip (compact, sits above the categories so it doesn't add its own row) -->
+                <a href="#catalog-main" class="hero-promo d-none d-lg-flex"
+                    onclick="document.getElementById('catalog-main').scrollIntoView({ behavior: 'smooth', block: 'start' }); return false;">
+                    <span class="hp-offer"><span class="hp-upto">UP<br>TO</span><span class="hp-pct">10%<small>OFF</small></span><span class="hp-what">Lifting &amp; Welding<br>Equipment</span></span>
+                    <span class="hp-code"><small>Use Code</small><strong>ONSHORE10</strong></span>
+                    <span class="hp-btn">Shop Now <i class="ri-arrow-right-line"></i></span>
+                    <img src="assets/img/special/hook.png" alt="Equipment Offer" class="hp-img">
+                </a>
 <!-- Shop by Category Section -->
                 <div class="shop-by-category-section mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
