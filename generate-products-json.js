@@ -4,11 +4,11 @@ const http = require('http');
 const https = require('https');
 
 // Configuration
-const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000&bypass_approval=1';
+const API_URL = 'https://onshore.tbocloud.in/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000&bypass_approval=1';
 const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6'; // Make sure this works locally or is ignored
 const DATA_DIR = path.join(__dirname, 'assets', 'data');
 const IMG_DIR = path.join(__dirname, 'assets', 'img', 'products');
-const BASE_URL = 'https://onshore.tbo365.cloud';
+const BASE_URL = 'https://onshore.tbocloud.in';
 
 // Ensure directories exist
 if (!fs.existsSync(DATA_DIR)) {

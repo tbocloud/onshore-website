@@ -4,7 +4,7 @@ const https = require('https');
 
 // Configuration
 const DOMAIN = 'https://www.onshoretechnical.com';
-const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=500';
+const API_URL = 'https://onshore.tbocloud.in/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=500';
 const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
 
 // Excluded files

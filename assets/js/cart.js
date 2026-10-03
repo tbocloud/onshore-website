@@ -10,7 +10,7 @@ var QuoteCart = (function ($) {
     "use strict";
 
     var STORAGE_KEY = 'onshore_quote_cart';
-    var API_BASE_URL = 'https://onshore.tbo365.cloud';
+    var API_BASE_URL = 'https://onshore.tbocloud.in';
     var REQUEST_QUOTE_URL = API_BASE_URL + '/api/method/onshore.api.create_request_quote';
     var REQUEST_QUOTE_AUTH = 'token9897e6ee3838b6c:06d7193075244d6';
     var cart = [];

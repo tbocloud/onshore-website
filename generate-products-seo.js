@@ -4,7 +4,7 @@ const https = require('https');
 
 // Configuration
 const DOMAIN = 'https://www.onshoretechnical.com';
-const API_URL = 'https://onshore.tbo365.cloud/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000';
+const API_URL = 'https://onshore.tbocloud.in/api/method/onshore.api.get_item_details?limit_start=0&limit_page_length=5000';
 const API_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
 const OUTPUT_DIR = path.join(__dirname, 'product');
 
@@ -93,7 +93,7 @@ async function buildStaticProducts() {
         if (!imgPath && p.attachments && p.attachments.length > 0) {
             imgPath = p.attachments[0].file_url;
         }
-        const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `https://onshore.tbo365.cloud${imgPath}`) : `${DOMAIN}/assets/img/logo.png`;
+        const fullImgUrl = imgPath ? (imgPath.startsWith('http') ? imgPath : `https://onshore.tbocloud.in${imgPath}`) : `${DOMAIN}/assets/img/logo.png`;
 
         const canonicalUrl = `${DOMAIN}/product/${slug}.html`;
 

@@ -16,7 +16,7 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-const API_BASE_URL = 'https://onshore.tbo365.cloud';
+const API_BASE_URL = 'https://onshore.tbocloud.in';
 
 // Expose custom token sign-in for cart.js
 window.signInWithFirebaseCustomToken = function (token) {

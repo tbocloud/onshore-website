@@ -2,7 +2,7 @@
 
 ## Architecture
 - **Frontend:** Static HTML/CSS/JS hosted on S3 + CloudFront
-- **Backend:** Frappe/ERPNext at `onshore.tbo365.cloud` (API)
+- **Backend:** Frappe/ERPNext at `onshore.tbocloud.in` (API)
 - **Auth:** Firebase (custom token via OTP) + ERPNext Customer sync
 - **CI/CD:** GitHub Actions → generate JSON + SEO pages → `aws s3 sync` → CloudFront invalidation
 - **Fonts:** Montserrat + Rajdhani (header), Outfit (products catalog)
@@ -35,7 +35,7 @@
 - "Add to Cart" renamed to "Add to Quote / أضف لعرض السعر" across catalog and product cards
 - Arabic text (dir=rtl) added to hero, search, filters, no-results, loading, and error states
 - my-quotes.html page added — full quote history for logged-in users
-- Auth/cart API URLs changed from localhost:8000 to live domain onshore.tbo365.cloud
+- Auth/cart API URLs changed from localhost:8000 to live domain onshore.tbocloud.in
 - Nav shows/hides "My Quotes" link based on Firebase auth state (injected via main.js)
 - serve.json updated with /my-quotes rewrite
 - Quick-quote slide-in panel: single product → email + phone → OTP (guest) / submit directly (logged in)

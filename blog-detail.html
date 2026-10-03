@@ -229,7 +229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/bootstrap.bundle.min.js?v=1.6"></script>
     <script src="assets/js/jquery.min.js?v=1.6"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js?v=4.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -240,7 +240,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 return;
             }
 
-            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blog_detail?website=Onshore&route=' + encodeURIComponent(route))
+            fetch('https://onshore.tbocloud.in/api/method/onshore.api.get_blog_detail?website=Onshore&route=' + encodeURIComponent(route))
                 .then(response => response.json())
                 .then(data => {
                     if(data.message && data.message.success && data.message.blog) {
@@ -260,7 +260,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.getElementById('banner-title').innerText = blog.title;
             document.getElementById('breadcrumb-title').innerText = blog.title;
             
-            const img = blog.meta_image ? `https://onshore.tbo365.cloud${blog.meta_image}` : 'assets/img/blogs/placeholder.jpg';
+            const img = blog.meta_image ? `https://onshore.tbocloud.in${blog.meta_image}` : 'assets/img/blogs/placeholder.jpg';
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             const dateStr = blog.published_on ? new Date(blog.published_on).toLocaleDateString('en-US', options) : '';
             
@@ -291,7 +291,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.getElementById('blog-content-container').innerHTML = html;
         }
     </script>
-    <script src="assets/js/cart.js?v=3.2"></script>
+    <script src="assets/js/cart.js?v=4.0"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 
@@ -536,7 +536,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
 
     <!-- Firebase Logic -->
-    <script type="module" src="assets/js/auth.js?v=3.2"></script>
+    <script type="module" src="assets/js/auth.js?v=4.0"></script>
 </body>
 
 

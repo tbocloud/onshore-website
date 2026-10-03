@@ -1,7 +1,7 @@
 $(document).ready(function () {
     "use strict";
 
-    const BASE_URL = 'https://onshore.tbo365.cloud';
+    const BASE_URL = 'https://onshore.tbocloud.in';
     const API_URL = `${BASE_URL}/api/method/onshore.api.get_published_items_summary`;
     const AUTH_TOKEN = 'token9897e6ee3838b6c:06d7193075244d6';
 

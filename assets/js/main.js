@@ -8,7 +8,7 @@
     }
     if (!document.querySelector('script[src^="assets/js/global-search.js"]')) {
         const script = document.createElement('script');
-        script.src = 'assets/js/global-search.js?v=1.6';
+        script.src = 'assets/js/global-search.js?v=2.0';
         script.defer = true;
         document.body.appendChild(script);
     }

@@ -235,10 +235,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/bootstrap.bundle.min.js?v=1.6"></script>
     <script src="assets/js/jquery.min.js?v=1.6"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js?v=4.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://onshore.tbo365.cloud/api/method/onshore.api.get_blogs?website=Onshore', {
+            fetch('https://onshore.tbocloud.in/api/method/onshore.api.get_blogs?website=Onshore', {
                 headers: { 'Authorization': 'token9897e6ee3838b6c:06d7193075244d6' }
             })
                 .then(response => response.json())
@@ -282,7 +282,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             
             // 1st blog (Single big)
             const b1 = blogs[0];
-            const img1 = b1.meta_image ? `https://onshore.tbo365.cloud${b1.meta_image}` : 'assets/img/blogs/placeholder.jpg';
+            const img1 = b1.meta_image ? `https://onshore.tbocloud.in${b1.meta_image}` : 'assets/img/blogs/placeholder.jpg';
             latestHtml += `
                 <div class="single_blog">
                     <div class="blog_image blog_item">
@@ -304,7 +304,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 latestHtml += `<div class="multiple_blogs">`;
                 for(let i = 1; i < Math.min(4, blogs.length); i++) {
                     const b = blogs[i];
-                    const img = b.meta_image ? `https://onshore.tbo365.cloud${b.meta_image}` : 'assets/img/blogs/placeholder.jpg';
+                    const img = b.meta_image ? `https://onshore.tbocloud.in${b.meta_image}` : 'assets/img/blogs/placeholder.jpg';
                     latestHtml += `
                         <div class="blog">
                             <div class="blog_img">
@@ -331,7 +331,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 let moreHtml = '';
                 for(let i = 4; i < blogs.length; i++) {
                     const b = blogs[i];
-                    const img = b.meta_image ? `https://onshore.tbo365.cloud${b.meta_image}` : 'assets/img/blogs/placeholder.jpg';
+                    const img = b.meta_image ? `https://onshore.tbocloud.in${b.meta_image}` : 'assets/img/blogs/placeholder.jpg';
                     moreHtml += `
                         <div>
                             <div class="blox_box">
@@ -355,7 +355,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         }
     </script>
-    <script src="assets/js/cart.js?v=3.2"></script>
+    <script src="assets/js/cart.js?v=4.0"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 
@@ -619,7 +619,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
 
     <!-- Firebase Logic -->
-    <script type="module" src="assets/js/auth.js?v=3.2"></script>
+    <script type="module" src="assets/js/auth.js?v=4.0"></script>
 </body>
 
 
