@@ -53,7 +53,7 @@
     if (loginLink && !document.getElementById('nav-my-quotes-link')) {
         var quotesLi = document.createElement('li');
         var quotesA = document.createElement('a');
-        quotesA.href = 'my-quotes.html';
+        quotesA.href = '/my-quotes.html';
         quotesA.id = 'nav-my-quotes-link';
         quotesA.textContent = 'My Quotes';
         quotesA.style.display = 'none';
@@ -91,7 +91,7 @@
     if (!isMobile) return;
     var bar = document.createElement('div');
     bar.id = 'mobile-tab-bar';
-    bar.innerHTML = '<a href="./" class="tab-item"><div class="tab-icon-box"><i class="ri-home-4-fill"></i></div><span>Home</span></a><a href="products.html" class="tab-item"><div class="tab-icon-box"><i class="ri-apps-2-line"></i></div><span>Products</span></a><div class="tab-item tab-cart-trigger" onclick="if(typeof QuoteCart!==\'undefined\')QuoteCart.openSidebar()"><div class="tab-icon-box"><i class="ri-shopping-basket-2-line"></i><b class="tab-badge" id="tab-cart-count">0</b></div><span>Cart</span></div><a href="my-quotes.html" class="tab-item"><div class="tab-icon-box"><i class="ri-file-list-3-line"></i></div><span>Quotes</span></a><a href="login.html" class="tab-item" id="tab-login-link"><div class="tab-icon-box"><i class="ri-user-fill"></i></div><span>Login</span></a>';
+    bar.innerHTML = '<a href="/" class="tab-item"><div class="tab-icon-box"><i class="ri-home-4-fill"></i></div><span>Home</span></a><a href="/products.html" class="tab-item"><div class="tab-icon-box"><i class="ri-apps-2-line"></i></div><span>Products</span></a><div class="tab-item tab-cart-trigger" onclick="if(typeof QuoteCart!==\'undefined\')QuoteCart.openSidebar()"><div class="tab-icon-box"><i class="ri-shopping-basket-2-line"></i><b class="tab-badge" id="tab-cart-count">0</b></div><span>Cart</span></div><a href="/my-quotes.html" class="tab-item"><div class="tab-icon-box"><i class="ri-file-list-3-line"></i></div><span>Quotes</span></a><a href="/login.html" class="tab-item" id="tab-login-link"><div class="tab-icon-box"><i class="ri-user-fill"></i></div><span>Login</span></a>';
     document.body.appendChild(bar);
     var style = document.createElement('style');
     style.textContent = '#mobile-tab-bar{position:fixed;bottom:0;left:0;right:0;z-index:9997;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-around;align-items:flex-start;padding:8px 4px 6px;padding-bottom:calc(6px + env(safe-area-inset-bottom));}.tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:#717171;font-size:10px;font-weight:500;padding:2px 6px;min-width:56px;border-radius:12px;transition:color 0.15s;cursor:pointer;}.tab-icon-box{position:relative;width:40px;height:28px;display:flex;align-items:center;justify-content:center;}.tab-item i{font-size:22px;transition:transform 0.2s;}.tab-item.active i{transform:scale(1.15);}.tab-item.active,.tab-item.active {color:#0177c6;font-weight:600;}.tab-item:active{transform:scale(0.95);}.tab-item.active::after{content:\'\';position:absolute;bottom:-6px;width:18px;height:3px;background:#0177c6;border-radius:3px;}.tab-badge{position:absolute;top:-4px;right:-10px;background:#ef4444;color:#fff;border-radius:10px;font-size:9px;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #fff;}.tab-cart-trigger .tab-icon-box i{font-size:24px;}body{padding-bottom:72px;}@media(max-width:768px){.whatsapp-widget{bottom:80px!important;}}@media(min-width:769px){#mobile-tab-bar{display:none!important;}body{padding-bottom:0;}}';
@@ -176,8 +176,8 @@ window.showToast = function (msg, arMsg) {
     banner.id = 'global-quote-banner';
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0177c6,#015fa3);color:#fff;padding:6px 10px;font-family:"Outfit",sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);transform:translateY(-100%);transition:transform 0.4s ease;min-height:36px;';
     
-    var quoteContent = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, get reply within 24 hours</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a>';
-    var loginContent = '<span class="banner-text"><strong style="font-size:13px;">🔔 Register an account to view live stock availability and access exclusive pricing!</strong></span> <a href="login.html" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;margin-left:10px;">Login / Register Here</a>';
+    var quoteContent = '<span class="banner-text"><i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; click <strong>Request Quote</strong>, enter details, get reply within 24 hours</span> <span dir="rtl" class="banner-text"><strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; انقر زر طلب عرض سعر، أدخل بياناتك وسنرد خلال 24 ساعة</span> <a href="/products.html#catalog-main" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Browse Products <span dir="rtl">تصفح المنتجات</span></a>';
+    var loginContent = '<span class="banner-text"><strong style="font-size:13px;">🔔 Register an account to view live stock availability and access exclusive pricing!</strong></span> <a href="/login.html" style="background:#ffc107;color:#0f172a;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px;text-decoration:none;white-space:nowrap;flex-shrink:0;margin-left:10px;">Login / Register Here</a>';
 
     banner.innerHTML = `
         <div id="banner-quote" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;font-size:11px;line-height:1.3;transition:opacity 0.4s ease;">${quoteContent}</div>
@@ -516,10 +516,10 @@ if (productPageSearch) {
             </div>
             <p class="lft-desc">Get competitive pricing & certified specs on welding, lifting, and safety gear in Saudi Arabia.</p>
             <div class="lft-actions">
-              <a href="products.html" class="lft-btn-primary" id="lftBrowseBtn">
+              <a href="/products.html" class="lft-btn-primary" id="lftBrowseBtn">
                 Browse Catalog <i class="ri-arrow-right-line"></i>
               </a>
-              <a href="contact.html" class="lft-btn-secondary" id="lftQuoteBtn">
+              <a href="/contact.html" class="lft-btn-secondary" id="lftQuoteBtn">
                 Request Quote
               </a>
             </div>

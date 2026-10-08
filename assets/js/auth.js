@@ -189,7 +189,7 @@ function setLoading(buttonId, isLoading) {
 
 // ─── Intercept Navigation Links ───────────────────────────────────────
 document.addEventListener('click', (e) => {
-    const loginLink = e.target.closest('a[href="login.html"]');
+    const loginLink = e.target.closest('a[href="login.html"], a[href="/login.html"]');
     if (loginLink) {
         e.preventDefault();
         if (window.isUserLoggedIn) {
@@ -207,7 +207,7 @@ onAuthStateChanged(auth, (user) => {
     window.isUserLoggedIn = !!user;
 
     // Update global nav link if it exists on ANY page
-    const globalNavLinks = document.querySelectorAll('a[href="login.html"]');
+    const globalNavLinks = document.querySelectorAll('a[href="login.html"], a[href="/login.html"]');
     globalNavLinks.forEach(link => {
         if (link.id === 'tab-login-link') {
             if (user) {
@@ -939,7 +939,7 @@ function renderProfileDashboard(user) {
                 </div>
                 
                 <div style="margin-top: auto; padding-top: 20px;">
-                    <a href="contact.html" style="display: block; width: 100%; text-align: center; background: #fb641b; color: white; padding: 12px; border-radius: 6px; font-weight: 600; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background 0.3s;">
+                    <a href="/contact.html" style="display: block; width: 100%; text-align: center; background: #fb641b; color: white; padding: 12px; border-radius: 6px; font-weight: 600; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background 0.3s;">
                         Contact Now <i class="ri-arrow-right-line"></i>
                     </a>
                 </div>

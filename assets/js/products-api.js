@@ -652,7 +652,7 @@ $(document).ready(function () {
             // Status badge
             const isTopSeller = p.custom_hot_seller === 1;
             const badgeText = isTopSeller ? '<i class="ri-fire-fill"></i> Hot Seller' : '<i class="ri-checkbox-circle-fill"></i> Check Stock';
-            const specsUrl = `product-specifications.html?item=${encodeURIComponent(p.name)}`;
+            const specsUrl = `/product-specifications.html?item=${encodeURIComponent(p.name)}`;
             const badgeClass = isTopSeller ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success';
             
             let publicStockDisplay = '';
@@ -734,7 +734,7 @@ $(document).ready(function () {
                             <i class="ri-user-shared-line" style="font-size: 54px; color: #0177c6; margin-bottom: 15px; display: block;"></i>
                             <h4 style="font-family: 'Outfit', sans-serif; color: #333; margin-bottom: 10px; font-size: 22px; font-weight: 700;">Check Stock Availability</h4>
                             <p style="color: #666; font-size: 15px; margin-bottom: 25px; line-height: 1.5;">To view live inventory and stock availability for this product, please log in to your account.</p>
-                            <a href="login.html" class="btn w-100" style="background: #0177c6; color: white; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; transition: background 0.3s ease;">Login Now</a>
+                            <a href="/login.html" class="btn w-100" style="background: #0177c6; color: white; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; transition: background 0.3s ease;">Login Now</a>
                         </div>
                     </div>
                 </div>
