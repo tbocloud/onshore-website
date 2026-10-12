@@ -474,7 +474,7 @@ $(document).ready(function () {
             imgPath = p.attachments[0].file_url;
         }
         
-        let fullImgUrl = 'assets/img/logo.png';
+        let fullImgUrl = '/assets/img/logo.png';
         if (imgPath) {
             if (imgPath.startsWith('http') || imgPath.startsWith('/assets/')) {
                 fullImgUrl = imgPath;
@@ -541,7 +541,7 @@ $(document).ready(function () {
                         <span class="pc-badge ${badgeClass}">${badgeText}</span>
                     </div>
                     <a href="${specsUrl}" target="_blank">
-                        <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                        <img src="${fullImgUrl}" alt="${safeName}" onerror="this.src='/assets/img/logo.png'" loading="lazy" decoding="async">
                     </a>
                 </div>
                 <div class="pc-body">
@@ -629,7 +629,7 @@ $(document).ready(function () {
             if (!imgPath && p.attachments && p.attachments.length > 0) {
                 imgPath = p.attachments[0].file_url;
             }
-            let fullImgUrl = 'assets/img/logo.png';
+            let fullImgUrl = '/assets/img/logo.png';
             if (imgPath) {
                 if (imgPath.startsWith('http') || imgPath.startsWith('/assets/')) {
                     fullImgUrl = imgPath;
@@ -686,7 +686,7 @@ $(document).ready(function () {
 
                             </div>
                             <a href="${specsUrl}" target="_blank">
-                                <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='assets/img/logo.png'" loading="lazy" decoding="async">
+                                <img src="${fullImgUrl}" alt="${escapedName}" onerror="this.src='/assets/img/logo.png'" loading="lazy" decoding="async">
                             </a>
                         </div>
                         <div class="pc-body">

@@ -37,7 +37,7 @@ function injectLoginModal() {
                     <p>To get the item stock, please register your email.<br><span dir="rtl" style="font-size: 13px; font-weight: 500; display: block; margin-top: 5px; opacity: 0.9;">لمعرفة حالة المخزون، يرجى تسجيل بريدك الإلكتروني.</span></p>
                 </div>
                 <div class="login-modal-img">
-                    <img src="assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
+                    <img src="/assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
                 </div>
             </div>
             <div class="login-modal-right">
@@ -317,7 +317,7 @@ onAuthStateChanged(auth, (user) => {
                     <p>To get the item stock, please register your email.<br><span dir="rtl" style="font-size: 13px; font-weight: 500; display: block; margin-top: 5px; opacity: 0.9;">لمعرفة حالة المخزون، يرجى تسجيل بريدك الإلكتروني.</span></p>
                 </div>
                 <div class="login-modal-img">
-                    <img src="assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
+                    <img src="/assets/img/white-logo.png" style="width: 150px; opacity: 0.9;" alt="Onshore Logo">
                 </div>
             `;
         }

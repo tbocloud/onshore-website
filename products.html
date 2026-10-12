@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" href="assets/css/header.css?v=2.9">
     <link rel="stylesheet" href="assets/css/styles.css?v=2.4">
-    <link rel="stylesheet" href="assets/css/products-redesign.css?v=2.6">
+    <link rel="stylesheet" href="assets/css/products-redesign.css?v=2.9">
     <link rel="stylesheet" href="assets/css/responsive.css?v=2.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -58,7 +58,7 @@
     </script>
 </head>
 
-<body>
+<body class="hide-whatsapp">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XPVJ758" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -525,10 +525,12 @@
             <div class="container pt-3">
                 <!-- B2B Quote Process: three numbered steps -->
                 <div class="quote-steps" aria-label="How to get a quote">
-                    <div class="qs-badge"><i class="ri-price-tag-3-line"></i> <span>How to get a quote</span> <span dir="rtl" class="qs-badge-ar">كيف تحصل على عرض سعر</span></div>
+                    <div class="qs-badge qs-guest"><i class="ri-price-tag-3-line"></i> <span>How to get a quote</span> <span dir="rtl" class="qs-badge-ar">كيف تحصل على عرض سعر</span></div>
+                    <div class="qs-badge qs-member"><i class="ri-user-smile-line"></i> <span>You're logged in</span> <span dir="rtl" class="qs-badge-ar">أنت مسجل الدخول</span></div>
                     <ol class="qs-list">
                         <li><span class="qs-num">1</span><div><strong>Click Request Quote</strong><small>on any product</small><small dir="rtl">انقر على طلب عرض سعر</small></div></li>
-                        <li><span class="qs-num">2</span><div><strong>Enter email &amp; phone</strong><small>no account needed</small><small dir="rtl">أدخل بريدك ورقم هاتفك</small></div></li>
+                        <li class="qs-guest"><span class="qs-num">2</span><div><strong>Verify your email</strong><small>creates your account &mdash; details saved for next time</small><small dir="rtl">تحقق من بريدك &mdash; يُنشأ حسابك وتُحفظ بياناتك</small></div></li>
+                        <li class="qs-member"><span class="qs-num">2</span><div><strong>Click Submit</strong><small>your details are already saved</small><small dir="rtl">بياناتك محفوظة &mdash; فقط اضغط إرسال</small></div></li>
                         <li><span class="qs-num">3</span><div><strong>Get your quote</strong><small>within 24 hours</small><small dir="rtl">استلم العرض خلال 24 ساعة</small></div></li>
                     </ol>
                 </div>
@@ -652,7 +654,7 @@
                             <p>Try adjusting your filters or search term. <span dir="rtl" style="display:block; margin-top:4px; font-size:13px; color:#94a3b8;">حاول تعديل التصفية أو مصطلح البحث.</span></p>
                             <div class="no-results-actions">
                                 <button type="button" class="nr-btn nr-btn-primary" id="nr-reset-all"><i class="ri-refresh-line"></i> Show all products</button>
-                                <a class="nr-btn" href="https://wa.me/966544580607?text=Hello,%20I%20am%20looking%20for%20a%20product%20I%20could%20not%20find%20on%20your%20website" target="_blank" rel="noopener noreferrer"><i class="ri-whatsapp-line"></i> Ask us on WhatsApp</a>
+                                <a class="nr-btn nr-whatsapp" href="https://wa.me/966544580607?text=Hello,%20I%20am%20looking%20for%20a%20product%20I%20could%20not%20find%20on%20your%20website" target="_blank" rel="noopener noreferrer"><i class="ri-whatsapp-line"></i> Ask us on WhatsApp</a>
                             </div>
                         </div>
 
@@ -783,9 +785,9 @@
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/bootstrap.bundle.min.js?v=1.6"></script>
     <script src="assets/js/jquery.min.js?v=1.6"></script>
-    <script src="assets/js/main.js?v=4.1"></script>
-    <script src="assets/js/cart.js?v=4.0"></script>
-    <script src="assets/js/products-api.js?v=4.1"></script>
+    <script src="assets/js/main.js?v=4.7"></script>
+    <script src="assets/js/cart.js?v=4.4"></script>
+    <script src="assets/js/products-api.js?v=4.7"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 
@@ -1801,7 +1803,7 @@
     </script>
 
     <!-- Firebase Logic -->
-    <script type="module" src="assets/js/auth.js?v=4.1"></script>
+    <script type="module" src="assets/js/auth.js?v=4.7"></script>
 </body>
 
 

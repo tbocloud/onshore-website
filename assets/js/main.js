@@ -1,14 +1,14 @@
 // --- GLOBAL SEARCH INJECTION ---
 (function () {
-    if (!document.querySelector('link[href="assets/css/global-search.css"]')) {
+    if (!document.querySelector('link[href*="assets/css/global-search.css"]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'assets/css/global-search.css';
+        link.href = '/assets/css/global-search.css';
         document.head.appendChild(link);
     }
-    if (!document.querySelector('script[src^="assets/js/global-search.js"]')) {
+    if (!document.querySelector('script[src*="assets/js/global-search.js"]')) {
         const script = document.createElement('script');
-        script.src = 'assets/js/global-search.js?v=2.0';
+        script.src = '/assets/js/global-search.js?v=2.2';
         script.defer = true;
         document.body.appendChild(script);
     }
@@ -224,10 +224,24 @@ window.showToast = function (msg, arMsg) {
         var quoteEl = document.getElementById('banner-quote');
         var loginEl = document.getElementById('banner-login');
         var showQuote = true;
+
+        // Logged-in customers don't re-enter details, so don't tell them to
+        function applyMemberQuoteText() {
+            if (!window.isUserLoggedIn || quoteEl.dataset.member) return;
+            var texts = quoteEl.querySelectorAll('.banner-text');
+            if (texts[0]) texts[0].innerHTML = '<i class="ri-file-list-3-line"></i> <strong style="font-size:12px;">Request a quote for any product</strong> &mdash; your details are saved, just click <strong>Request Quote</strong> &amp; get a reply within 24 hours';
+            if (texts[1]) texts[1].innerHTML = '<strong style="font-size:12px;">اطلب عرض سعر لاي منتج</strong> &mdash; بياناتك محفوظة، فقط انقر طلب عرض سعر وسنرد خلال 24 ساعة';
+            quoteEl.dataset.member = '1';
+            quoteEl.style.display = 'flex';
+            loginEl.style.display = 'none';
+        }
+        applyMemberQuoteText();
+        window.addEventListener('onshore_auth_synced', applyMemberQuoteText);
         
         setInterval(function() {
             // If they are logged in, just show the quote banner and stop rotating
             if (window.isUserLoggedIn) {
+                applyMemberQuoteText();
                 quoteEl.style.display = 'flex';
                 loginEl.style.display = 'none';
                 return;

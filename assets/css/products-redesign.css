@@ -1811,3 +1811,13 @@ mark.pc-hl {
 @media (min-width: 992px) and (max-width: 1199px) {
   .hp-img, .hp-what { display: none; }
 }
+
+/* ─── WhatsApp switched off on products + product detail pages (body.hide-whatsapp) ─── */
+body.hide-whatsapp .whatsapp-widget,
+body.hide-whatsapp .nr-whatsapp { display: none !important; }
+
+/* Quote steps: guests see sign-up wording, logged-in customers see the 1-click version */
+.quote-steps .qs-member { display: none !important; }
+body.user-logged-in .quote-steps .qs-guest { display: none !important; }
+body.user-logged-in .quote-steps .qs-badge.qs-member { display: flex !important; }
+body.user-logged-in .quote-steps li.qs-member { display: flex !important; }

@@ -234,7 +234,7 @@
 
             let imageUrl = item.image;
             if (!imageUrl || imageUrl.includes('.pdf') || imageUrl.includes('.xlsx')) {
-                imageUrl = 'assets/img/placeholder.jpg';
+                imageUrl = '/assets/img/logo.png';
             } else if (!imageUrl.startsWith('http')) {
                 imageUrl = `${BASE_URL}${imageUrl}`;
             }
@@ -269,7 +269,7 @@
             html += `
             <a href="${url}" class="global-search-result-item">
                 <div class="global-search-item-img">
-                    <img src="${imageUrl}" alt="${name}" onerror="this.src='assets/img/placeholder.jpg'">
+                    <img src="${imageUrl}" alt="${name}" onerror="this.src='/assets/img/logo.png'">
                 </div>
                 <div class="global-search-item-info">
                     <div class="global-search-item-title">${name}</div>

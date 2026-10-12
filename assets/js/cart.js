@@ -1198,7 +1198,6 @@ var QuoteCart = (function ($) {
                 '<div style="margin-bottom:14px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;">City <span style="color:#94a3b8;">(optional)</span> <span dir="rtl" style="font-weight:400;font-size:11px;color:#94a3b8;">المدينة</span></label><input type="text" id="qq-city" class="form-control" placeholder="Dammam" style="border-radius:6px;font-size:13px;padding:10px;"></div>' +
                 '</div>' +
                 '<button id="qq-send-otp-btn" style="width:100%;background:#0177c6;color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;"><i class="ri-send-plane-2-line"></i> Send Verification Code <span dir="rtl" style="font-weight:500;font-size:12px;">| إرسال رمز التحقق</span></button>' +
-                '<a id="qq-whatsapp-btn" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:#25d366;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px;"><i class="fa-brands fa-whatsapp" style="font-size:16px;"></i> WhatsApp Enquire <span dir="rtl" style="font-weight:500;font-size:12px;">| واتساب</span></a>' +
                 '<p id="qq-otp-helper-text" style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px;">We\'ll send a 6-digit code to verify your email <span dir="rtl" style="display:block;margin-top:3px;">سنرسل رمزاً من 6 أرقام للتحقق من بريدك الإلكتروني</span></p>' +
               '</div>' +
               '<div id="qq-otp-section" style="display:none;text-align:center;">' +
@@ -1329,8 +1328,6 @@ var QuoteCart = (function ($) {
             (itemData.brand ? '<div style="font-size:11px;color:#0177c6;font-weight:600;margin-top:2px;">' + itemData.brand.toUpperCase() + '</div>' : '') + '</div>'
         );
         $('#qq-qty').val(1);
-        var waMsg = encodeURIComponent('Hello, I am interested in: ' + (itemData.name || 'Product'));
-        $('#qq-whatsapp-btn').attr('href', 'https://wa.me/966544580607?text=' + waMsg);
 
         if (window.isUserLoggedIn) {
             try {
