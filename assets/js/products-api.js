@@ -382,6 +382,9 @@ $(document).ready(function () {
             `);
         });
 
+        // Shop by Category cards in the hero use the real categories + counts
+        if (typeof window.buildShopByCategory === 'function') window.buildShopByCategory();
+
         // ─── Populate sidebar brand checkboxes ───
         const brandsContainer = $('#widget-brands');
         brandsContainer.empty();

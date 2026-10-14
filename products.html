@@ -290,54 +290,28 @@
                                 .cat-scroll-btn-left:hover { background: #f8fafc; color: #0177c6; }
                             </style>
                             
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('abrasives', 'Abrasives'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/orkon-disc-cutting-14c-s-350x3x254mm-56cd14cs.png" alt="Abrasives" onerror="this.src='assets/img/logo.png'">
-                                </div>
+                            <!-- Filled from the live catalogue by buildShopByCategory() (real categories + live counts) -->
+                            <a href="#" class="cat-card-new" data-cat="welding" onclick="shopByCategoryClick(this); return false;">
+                                <div class="cat-card-img-wrap"><img src="assets/img/products/techweld-welding-machine-industrial-heavy-dut-model-techarc-400-30wm-mma-ta400-ksa.jpg" alt="Welding Equipment" onerror="this.src='assets/img/logo.png'"></div>
+                                <div class="cat-card-title">Welding Equipment <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">معدات اللحام</span></div>
+                                <div class="cat-card-count">&nbsp;</div>
+                            </a>
+                            <a href="#" class="cat-card-new" data-cat="lifting" onclick="shopByCategoryClick(this); return false;">
+                                <div class="cat-card-img-wrap"><img src="assets/img/products/europull-electric-chain-block-model-epc01-01s-3phase-415v-wremote-and-pendant-cable-length-5-meter-load-limiter-15ecb-1tx6m-ssdhl.png" alt="Rigging &amp; Lifting" onerror="this.src='assets/img/logo.png'"></div>
+                                <div class="cat-card-title">Rigging &amp; Lifting <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">أدوات الرفع</span></div>
+                                <div class="cat-card-count">&nbsp;</div>
+                            </a>
+                            <a href="#" class="cat-card-new" data-cat="abrasives" onclick="shopByCategoryClick(this); return false;">
+                                <div class="cat-card-img-wrap"><img src="assets/img/products/orkon-disc-cutting-14c-s-350x3x254mm-56cd14cs.png" alt="Abrasives" onerror="this.src='assets/img/logo.png'"></div>
                                 <div class="cat-card-title">Abrasives <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">مواد كاشطة</span></div>
-                                <div class="cat-card-count">120+ Products</div>
+                                <div class="cat-card-count">&nbsp;</div>
                             </a>
-                            
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('cutting-tools', 'Cutting Tools'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/techweld-0-1-101-cutting-tip-30tip-0.jpg" alt="Cutting Tools" onerror="this.src='assets/img/logo.png'">
-                                </div>
-                                <div class="cat-card-title">Cutting Tools <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">أدوات القطع</span></div>
-                                <div class="cat-card-count">95+ Products</div>
+                            <a href="#" class="cat-card-new" data-cat="ppe" onclick="shopByCategoryClick(this); return false;">
+                                <div class="cat-card-img-wrap"><img src="assets/img/products/techweld-model-gx-600s-auto-welding-helmet-wgrind-light-reactv-30autohelmet.jpg" alt="Safety &amp; PPE" onerror="this.src='assets/img/logo.png'"></div>
+                                <div class="cat-card-title">Safety &amp; PPE <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">معدات السلامة</span></div>
+                                <div class="cat-card-count">&nbsp;</div>
                             </a>
-
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('welding', 'Welding'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/techweld-welding-machine-industrial-heavy-dut-model-techarc-400-30wm-mma-ta400-ksa.jpg" alt="Welding" onerror="this.src='assets/img/logo.png'">
-                                </div>
-                                <div class="cat-card-title">Welding <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">معدات اللحام</span></div>
-                                <div class="cat-card-count">80+ Products</div>
-                            </a>
-
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('lifting', 'Lifting'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/europull-electric-chain-block-model-epc01-01s-3phase-415v-wremote-and-pendant-cable-length-5-meter-load-limiter-15ecb-1tx6m-ssdhl.png" alt="Lifting & Rigging" onerror="this.src='assets/img/logo.png'">
-                                </div>
-                                <div class="cat-card-title">Lifting & Rigging <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">أدوات الرفع</span></div>
-                                <div class="cat-card-count">65+ Products</div>
-                            </a>
-
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('power-tools', 'Power Tools'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/techweld-awp26v-12-2-4mtr-tig-torch-air-cooled-wcover-30awp-26v-12-2.png" alt="Power Tools" onerror="this.src='assets/img/logo.png'">
-                                </div>
-                                <div class="cat-card-title">Power Tools <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">أدوات كهربائية</span></div>
-                                <div class="cat-card-count">110+ Products</div>
-                            </a>
-
-                            <a href="#" class="cat-card-new" onclick="applyCategoryFilter('ppe', 'Safety'); return false;">
-                                <div class="cat-card-img-wrap">
-                                    <img src="assets/img/products/techweld-model-gx-600s-auto-welding-helmet-wgrind-light-reactv-30autohelmet.jpg" alt="Safety & PPE" onerror="this.src='assets/img/logo.png'">
-                                </div>
-                                <div class="cat-card-title">Safety & PPE <span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">معدات السلامة</span></div>
-                                <div class="cat-card-count">90+ Products</div>
-                            </a>
-                        </div>
+</div>
                         <div class="cat-scroll-btn-left d-none d-md-flex" onclick="document.getElementById('category-scroll-wrapper').scrollBy({left: -200, behavior: 'smooth'})">
                             <i class="ri-arrow-left-s-line" style="font-size: 24px;"></i>
                         </div>
@@ -380,6 +354,52 @@
                 var catalogElement = document.getElementById('catalog-main');
                 if (catalogElement) {
                     catalogElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            // ─── Shop by Category: real categories + biggest subcategories, with live counts ───
+            var SBC_ARABIC = { 'slings': 'الأحزمة والحبال', 'lifting-accessories': 'ملحقات الرفع', 'hoists': 'الروافع', 'welding-accessories': 'ملحقات اللحام', 'discs': 'أقراص القطع والجلخ', 'gas-equipment': 'معدات الغاز', 'welding-consumables': 'مستهلكات اللحام', 'power-brushes': 'فرش كهربائية' };
+            function buildShopByCategory() {
+                var $wrap = $('#category-scroll-wrapper');
+                var $cards = $('#dynamic-products-container .pc');
+                if (!$wrap.length || !$cards.length) return;
+                var norm = function (v) { return (v || '').trim().toLowerCase().replace(/\s+/g, '-'); };
+
+                // Category cards (static markup): fill exact counts, hide any category that has no products
+                $wrap.find('.cat-card-new[data-cat]').each(function () {
+                    var n = $cards.filter('[data-cat="' + $(this).data('cat') + '"]').length;
+                    $(this).toggle(n > 0).find('.cat-card-count').text(n + (n === 1 ? ' Product' : ' Products'));
+                });
+
+                // Subcategory cards: the 5 biggest subcategories, each with a real product photo
+                $wrap.find('.cat-card-new[data-subcat]').remove();
+                var subs = [];
+                $('#widget-categories li[data-cat] li[data-subcat]').each(function () {
+                    var cat = $(this).closest('#widget-categories > li').data('cat');
+                    var key = $(this).data('subcat');
+                    var $inSub = $cards.filter(function () { return $(this).attr('data-cat') === cat && norm($(this).attr('data-subcat')) === key; });
+                    if ($inSub.length) subs.push({ cat: cat, key: key, label: $.trim($(this).find('> a > span:first-child').text()), count: $inSub.length, img: $inSub.first().find('.pc-img img').attr('src') });
+                });
+                subs.sort(function (a, b) { return b.count - a.count; }).slice(0, 5).forEach(function (sc) {
+                    var ar = SBC_ARABIC[sc.key] ? '<span dir="rtl" style="display: block; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">' + SBC_ARABIC[sc.key] + '</span>' : '';
+                    var $a = $('<a href="#" class="cat-card-new" onclick="shopByCategoryClick(this); return false;"></a>').attr('data-parent', sc.cat).attr('data-subcat', sc.key);
+                    $a.append($('<div class="cat-card-img-wrap"></div>').append($('<img>').attr({ src: sc.img || 'assets/img/logo.png', alt: sc.label, onerror: "this.src='assets/img/logo.png'" })));
+                    $a.append($('<div class="cat-card-title"></div>').text(sc.label).append(ar));
+                    $a.append($('<div class="cat-card-count"></div>').text(sc.count + ' Products'));
+                    $wrap.append($a);
+                });
+            }
+            window.buildShopByCategory = buildShopByCategory;
+
+            function shopByCategoryClick(el) {
+                // Start from a clean slate so an old search doesn't hide the category
+                var $search = $('#main-search-input');
+                if ($search.val()) { $search.val(''); $('#search-clear-btn').removeClass('show'); }
+                var $el = $(el);
+                if ($el.data('subcat')) {
+                    $('#widget-categories > li[data-cat="' + $el.data('parent') + '"] li[data-subcat="' + $el.data('subcat') + '"] > a').trigger('click');
+                } else {
+                    $('#widget-categories > li[data-cat="' + $el.data('cat') + '"] > a').trigger('click');
                 }
             }
 
@@ -787,7 +807,7 @@
     <script src="assets/js/jquery.min.js?v=1.6"></script>
     <script src="assets/js/main.js?v=4.7"></script>
     <script src="assets/js/cart.js?v=5.1"></script>
-    <script src="assets/js/products-api.js?v=4.7"></script>
+    <script src="assets/js/products-api.js?v=4.8"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 
