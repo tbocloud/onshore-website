@@ -209,11 +209,10 @@ var QuoteCart = (function ($) {
                                         </div>
 
 
-                                        <!-- Cloudflare Turnstile -->
-                                        <div class="col-md-12" style="margin-bottom: 10px;">
-                                            <div id="turnstile-container"></div>
-                                        </div>
                                     </div>
+                                    <!-- Cloudflare Turnstile: kept outside the field .row, which is hidden for
+                                         logged-in customers ("Profile Linked"); Turnstile won't run in a hidden box -->
+                                    <div id="turnstile-container" style="margin-bottom: 10px;"></div>
                                 </div>
                                                                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; padding: 0 10px;">
                                     <button type="button" class="btn" data-bs-dismiss="modal" style="background-color: white; color: #6c757d; border: 1px solid #6c757d; border-radius: 6px; padding: 8px 20px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
@@ -588,9 +587,22 @@ var QuoteCart = (function ($) {
             }
 
             // Anti-Spam: Turnstile Check
-            var turnstileResponse = $form.find('[name="cf-turnstile-response"]').val();
+            var turnstileResponse = getTurnstileToken($form);
             if (!turnstileResponse) {
-                showStatusPopup('error', 'Please complete the human verification (CAPTCHA).');
+                // No token yet: wait for the security check, then submit automatically
+                if ($form.data('waitingForCaptcha')) return;
+                $form.data('waitingForCaptcha', true);
+                var btnHtml = $btn.html();
+                $btn.prop('disabled', true).text('Verifying...');
+                waitForTurnstileToken($form, 10000, function (token) {
+                    $form.data('waitingForCaptcha', false);
+                    $btn.prop('disabled', false).html(btnHtml);
+                    if (token) {
+                        $form.trigger('submit');
+                    } else {
+                        showStatusPopup('error', 'The security check could not complete. Please refresh the page and try again. If you use an ad-blocker, allow this site.');
+                    }
+                });
                 return;
             }
 
@@ -942,29 +954,87 @@ var QuoteCart = (function ($) {
         $(document).off('shown.bs.modal', '#quoteRequestModal').on('shown.bs.modal', '#quoteRequestModal', function () {
             closeSidebar();
             renderModalCartSpace();
-            // Explicitly render Turnstile after modal is fully visible
-            if (window.turnstile) {
-                try {
-                    if (window.turnstileWidgetId !== undefined) {
-                        turnstile.reset(window.turnstileWidgetId);
-                    } else {
-                        $('#turnstile-container').empty();
-                        window.turnstileWidgetId = turnstile.render('#turnstile-container', {
-                            sitekey: '1x00000000000000000000AA',
-                            appearance: 'interaction-only',
-                            callback: function (token) {
-                                console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
-                            },
-                            'error-callback': function () {
-                                console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;');
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error('Turnstile render failed:', e);
-                }
-            }
+            // Explicitly render Turnstile after modal is fully visible.
+            // The widget script is loaded here on demand: most pages that can open this form
+            // (home, contact, every /product/ page...) don't include it, and without it no token is
+            // ever created, so every enquiry failed with "Please complete the human verification".
+            ensureTurnstileLoaded(renderTurnstile);
         });
+    }
+
+    // Render (or reset) the Turnstile widget in the enquiry form
+    function renderTurnstile() {
+        try {
+            var hasLiveWidget = window.turnstileWidgetId !== undefined && $('#turnstile-container iframe').length > 0;
+            if (hasLiveWidget) {
+                turnstile.reset(window.turnstileWidgetId);
+                return;
+            }
+            if (window.turnstileWidgetId !== undefined) {
+                try { turnstile.remove(window.turnstileWidgetId); } catch (e) { }
+            }
+            $('#turnstile-container').empty();
+            window.turnstileWidgetId = turnstile.render('#turnstile-container', {
+                sitekey: '1x00000000000000000000AA',
+                appearance: 'interaction-only',
+                callback: function (token) {
+                    console.log('%c✅ Security Check: Success (Token Generated)', 'color: #28a745; font-weight: bold;');
+                },
+                'error-callback': function (code) {
+                    console.error('%c❌ Security Check: Failed', 'color: #dc3545; font-weight: bold;', code);
+                }
+            });
+        } catch (e) {
+            console.error('Turnstile render failed:', e);
+        }
+    }
+
+    function getTurnstileToken($form) {
+        var token = $form.find('[name="cf-turnstile-response"]').val();
+        if (!token && window.turnstile && window.turnstileWidgetId !== undefined) {
+            try { token = turnstile.getResponse(window.turnstileWidgetId); } catch (e) { }
+        }
+        return token || '';
+    }
+
+    // Wait (up to timeoutMs) for a Turnstile token, re-creating the widget if it's missing
+    function waitForTurnstileToken($form, timeoutMs, done) {
+        // The timer starts now, so a blocked/unreachable Turnstile still ends with a clear message
+        var started = Date.now();
+        var poll = setInterval(function () {
+            var token = getTurnstileToken($form);
+            if (token || Date.now() - started > timeoutMs) {
+                clearInterval(poll);
+                done(token);
+            }
+        }, 250);
+        ensureTurnstileLoaded(function () {
+            if ($('#turnstile-container iframe').length === 0) renderTurnstile();
+        });
+    }
+
+    // Load Cloudflare Turnstile once, on any page, then run the callback
+    var turnstileCallbacks = null;
+    function ensureTurnstileLoaded(cb) {
+        if (window.turnstile) { cb(); return; }
+        if (turnstileCallbacks) { turnstileCallbacks.push(cb); return; }
+        turnstileCallbacks = [cb];
+        var existing = document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]');
+        var script = existing || document.createElement('script');
+        var done = function () {
+            var waitForApi = setInterval(function () {
+                if (!window.turnstile) return;
+                clearInterval(waitForApi);
+                var cbs = turnstileCallbacks; turnstileCallbacks = null;
+                cbs.forEach(function (fn) { fn(); });
+            }, 50);
+        };
+        if (existing) { done(); return; }
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true;
+        script.onload = done;
+        script.onerror = function () { console.error('Could not load Turnstile'); turnstileCallbacks = null; script.remove(); };
+        document.head.appendChild(script);
     }
 
     function sendQuoteToBackend(payload, $btn) {
