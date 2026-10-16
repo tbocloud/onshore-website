@@ -436,8 +436,8 @@ var QuoteCart = (function ($) {
         var icon = isSuccess
             ? '<i class="ri-check-double-fill" style="color: #10b981; font-size: 56px;"></i>'
             : '<i class="ri-close-circle-fill" style="color: #ef4444; font-size: 56px;"></i>';
-        var title = isSuccess ? 'Quote Submitted! <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| تم الإرسال</span>' : 'Request Failed <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| فشل الطلب</span>';
-        var arMsg = isSuccess ? 'تم إرسال طلب عرض السعر بنجاح. سنرد عليك خلال 24 ساعة.' : 'حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل عبر الواتساب.';
+        var title = isSuccess ? 'Quote Request Received! <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| تم استلام طلب عرض السعر</span>' : 'Request Failed <span dir="rtl" style="font-weight:500;font-size:15px;color:#64748b;">| فشل الطلب</span>';
+        var arMsg = isSuccess ? 'شكراً لك! تم إرسال طلب عرض السعر بنجاح. سنتواصل معك خلال 24 ساعة.' : 'حدث خطأ. يرجى المحاولة مرة أخرى أو التواصل عبر الواتساب.';
 
         $('#quote-status-title').html(title);
         $('#quote-status-message').text(message);
@@ -1054,7 +1054,7 @@ var QuoteCart = (function ($) {
                     $('#qq-otp-section').hide();
                     $('#qq-success').show();
                 } else {
-                    showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully.');
+                    showStatusPopup('success', 'Thank you! Your quote request has been submitted successfully. We will get back to you within 24 hours.');
                 }
 
 
@@ -1281,8 +1281,8 @@ var QuoteCart = (function ($) {
               '</div>' +
               '<div id="qq-success" style="display:none;text-align:center;padding:30px 0;">' +
                 '<i class="ri-check-double-fill" style="font-size:48px;color:#10b981;margin-bottom:12px;display:block;"></i>' +
-                '<h4 style="font-weight:700;color:#0f172a;">Quote Submitted! <span dir="rtl" style="font-weight:500;font-size:14px;color:#64748b;display:block;">تم إرسال العرض!</span></h4>' +
-                '<p style="color:#64748b;font-size:13px;">We\'ll respond within 24 hours <span dir="rtl" style="display:block;margin-top:3px;">سنرد عليك خلال 24 ساعة</span></p>' +
+                '<h4 style="font-weight:700;color:#0f172a;">Quote Request Received! <span dir="rtl" style="font-weight:500;font-size:14px;color:#64748b;display:block;">تم استلام طلب عرض السعر!</span></h4>' +
+                '<p style="color:#64748b;font-size:13px;">Thank you! Your quote request has been submitted successfully. We will get back to you within 24 hours. <span dir="rtl" style="display:block;margin-top:3px;">شكراً لك! تم إرسال طلب عرض السعر بنجاح. سنتواصل معك خلال 24 ساعة.</span></p>' +
                 '<button onclick="QuoteCart.closeQuickQuote()" style="background:#0177c6;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:16px;">Done <span dir="rtl">| تم</span></button>' +
               '</div>' +
             '</div>' +
